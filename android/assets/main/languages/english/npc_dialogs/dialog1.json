@@ -1,0 +1,37 @@
+{
+  "conversations":{
+    1: {
+      "id": "1",
+      "dialog": " Hello, my name is Nigga. Can u kys?"
+    },
+    2: {
+      "id": "2",
+      "dialog": "Ok"
+    },
+    3: {
+      "id": "3",
+      "dialog": "Oh... u so rude... Ok"
+    }
+  },
+  "associatedChoices": {
+    1: [
+      {
+        "class": "com.mygdx.game.dialogs.ConversationChoice",
+        "sourceId": "1",
+        "destinationId": "2",
+        "choicePhrase": "Yes, sure",
+        "conversationCommandEvent": "ACCEPT_QUEST"
+      },
+
+      {
+        "class": "com.mygdx.game.dialogs.ConversationChoice",
+        "sourceId": "1",
+        "destinationId": "3",
+        "choicePhrase": "Nope, fuck off at me",
+        "conversationCommandEvent": "EXIT_CONVERSATION"
+      }
+    ]
+
+  },
+  "currentConversationID": "1"
+}

@@ -1,0 +1,34 @@
+{
+direction: RIGHT
+position: {
+	x: 1743.3472
+	y: 277.2272
+}
+currentMap: ANTIKVA
+playerQuests: []
+inventory: [
+	{
+		numberItemsAtLocation: 1
+		itemTypeAtLocation: ARMOR04
+		itemNameProperty: Player_Inventory
+	}
+	{
+		locationIndex: 1
+		numberItemsAtLocation: 1
+		itemTypeAtLocation: BOOTS03
+		itemNameProperty: Player_Inventory
+	}
+	{
+		locationIndex: 2
+		numberItemsAtLocation: 1
+		itemTypeAtLocation: HELMET05
+		itemNameProperty: Player_Inventory
+	}
+	{
+		locationIndex: 3
+		numberItemsAtLocation: 5
+		itemTypeAtLocation: POTIONS01
+		itemNameProperty: Player_Inventory
+	}
+]
+}

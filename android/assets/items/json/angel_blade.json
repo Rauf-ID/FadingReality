@@ -1,0 +1,12 @@
+{
+	"type": 3,
+	"desc":"A sword that will\n give you cunts",
+	"iconSize": 46,
+	"durability": 500,
+	"numOfStyles": 1,
+	"knockback": 30,
+	"minDamage": 82,
+	"maxDamage": 94,
+	"critChance": 33,
+	"hitRange": 36,
+}

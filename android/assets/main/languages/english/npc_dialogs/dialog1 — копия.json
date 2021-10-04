@@ -1,0 +1,45 @@
+{
+  "conversations":{
+    "1": {
+      "id": "1",
+      "dialog": " Hello, my name is Nigga. Can u kys?"
+    },
+    "2": {
+      "id": "2",
+      "dialog": "Ok"
+    },
+    "3": {
+      "id": "3",
+      "dialog": " Ok"
+    }
+  },
+  "associatedChoices": {
+    "1": [
+      {
+        "class": "com.mygdx.game.dialogs.ConversationChoice",
+        "sourceId": "1",
+        "destinationId": "2",
+        "choicePhrase": "Next",
+        "conversationCommandEvent": "NONE"
+      }
+    ],
+    "2": [
+      {
+        "class": "com.mygdx.game.dialogs.ConversationChoice",
+        "sourceId": "2",
+        "destinationId": "2",
+        "choicePhrase": "accept quest1",
+        "conversationCommandEvent": "ACCEPT_QUEST"
+      },
+      {
+        "class": "com.mygdx.game.dialogs.ConversationChoice",
+        "sourceId": "2",
+        "destinationId": "3",
+        "choicePhrase": "FUCK GO BACK",
+        "conversationCommandEvent": "NONE"
+      }
+    ]
+
+  },
+  "currentConversationID": "1"
+}

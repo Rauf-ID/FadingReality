@@ -1,0 +1,62 @@
+{
+	"questTitle": "The first step",
+	"questID": 1,
+	"nextQuest":"first",
+	"goldReward": 100,
+	"xpReward": 100,
+	"isQuestComplete": "false",
+	"questTasks": [
+		{
+			"id": 1,
+			"taskPhrase": "Talk to the Recruiter",
+			"isTaskComplete": "false",
+			"conversation": "conversation001",
+			"NPSName": "Billie",
+			"questType": TALK,
+			"questTaskProperty": {
+				"targetLocationX": 650,	
+				"targetLocationY": 625
+			}
+		},
+		{
+			"id":2,
+			"taskPhrase": "Talk to the Merchant",
+			"isTaskComplete": "false",
+			"conversation": "conversation001",
+			"NPSName": "Jo",
+			"questType": TALK,
+			"questTaskProperty": {
+				"targetLocationX": 500,	
+				"targetLocationY": 630
+			}
+		},
+		{
+			"id":3,
+			"taskPhrase": "Talk to the Overseer",
+			"isTaskComplete": "false",
+			"conversation": "conversation001",
+			"NPSName": "Mitt",
+			"questType": TALK,
+			"questTaskProperty": {
+				"targetLocationX": 400,	
+				"targetLocationY": 630
+			}
+		},
+		{
+			"id": 4,
+			"taskPhrase": "Search Block of Ice",
+			"isTaskComplete": "false",
+			"questType": SEARCH,
+			"questTaskProperty": {
+				"targetName":"block_of_ice",
+				"targetSearchCount":"2",
+				"targetLocation":[{
+					"x":10, "y":20
+				}, {
+					"x":100, "y":20
+				}]
+			}
+		}
+	]
+	
+}
