@@ -40,15 +40,11 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public Vector3 mouseCoordinates;
 
     protected float health = 100;
-    protected int tCoins = 0;
 
     public Vector2 currentEntityPosition;
     protected Array<Entity> tempEntities;
     protected Vector2 runVelocity, runVelocityD;
     protected Vector2 walkVelocity, walkVelocityD;
-
-    protected boolean featherBool = false;
-    protected float animationTime = 0f;
 
     public boolean boolGunActive=false;
     public boolean boolPissPiss=false;
@@ -266,11 +262,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                         }
                     }
                 }
-//                if(NonameGame.resourceManager.playerAnimationWalkRight.isAnimationFinished(frameTime)){
-//                    currentState = Entity.State.IDLE;
-//                    System.out.println("123");
-//                    featherBool=false;
-//                }
                 break;
             case WEAPON_ATTACK:
                 if (mouseDirection == Entity.MouseDirection.UP) {
