@@ -6,7 +6,7 @@
 
 Fading Reality is an adrenaline action RPG with twisted plot. The main character Aviss must understand himself and break through the crowds of enemies after which he may be able to solve the mysteries of the capital of the Earth - Babylon. Aviss will be able to neutralize the numerical superiority with the help of anomalous rudiments, his trained body and unbending willpower.
 
-**[More on Twitter](https://twitter.com/octomoonstudio).**
+**[More on Twitter](https://twitter.com/octomoonstudio)**
 
 
 **WHAT TECHNOLOGIES ARE USED??**
