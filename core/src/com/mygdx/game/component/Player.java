@@ -319,6 +319,7 @@ public class Player extends Component {
                                 } else {
                                     currentDirection = Entity.Direction.DOWN;
                                     currentEntityPosition.y -= walkVelocity.y;
+                                    System.out.println("Hello");
                                 }
 
                             } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
