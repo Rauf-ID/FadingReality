@@ -1,5 +1,7 @@
 package com.mygdx.game.entity;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.game.inventory.InventoryItem.ItemTypeID;
@@ -26,10 +28,12 @@ public class EntityConfig {
     private String questConfigPath;
     private String currentQuestID;
     private String itemTypeID;
+    private Array<AnimationConfig> animationConfig;
     private int attackRangeBoxWidth, attackRangeBoxHeight;
     private ObjectMap<String, String> entityProperties;
 
     EntityConfig() {
+        animationConfig = new Array<AnimationConfig>();
         inventory = new Array<ItemTypeID>();
         entityProperties = new ObjectMap<String, String>();
     }
@@ -45,6 +49,9 @@ public class EntityConfig {
 
         attackRangeBoxWidth = config.getAttackRadiusBoxWidth();
         attackRangeBoxHeight = config.getAttackRadiusBoxHeight();
+
+        animationConfig = new Array<AnimationConfig>();
+        animationConfig.addAll(config.getAnimationConfig());
 
         inventory = new Array<ItemTypeID>();
         inventory.addAll(config.getInventory());
@@ -131,6 +138,58 @@ public class EntityConfig {
 
     public String getItemTypeID() {
         return itemTypeID;
+    }
+
+    public Array<AnimationConfig> getAnimationConfig() {
+        return animationConfig;
+    }
+
+    public void addAnimationConfig(AnimationConfig animationConfig) {
+        this.animationConfig.add(animationConfig);
+    }
+
+    static public class AnimationConfig{
+
+        private float frameDuration = 1.0f;
+        private Entity.State animationType;
+        private String texturePaths;
+        private TextureAtlas atlas;
+
+        public AnimationConfig(){
+            animationType = Entity.State.IDLE;
+        }
+
+        public float getFrameDuration() {
+            return frameDuration;
+        }
+
+        public void setFrameDuration(float frameDuration) {
+            this.frameDuration = frameDuration;
+        }
+
+        public String getTexturePaths() {
+            return texturePaths;
+        }
+
+        public void setTexturePaths(String texturePaths) {
+            this.texturePaths = texturePaths;
+        }
+
+        public Entity.State getAnimationType() {
+            return animationType;
+        }
+
+        public void setAnimationType(Entity.State animationType) {
+            this.animationType = animationType;
+        }
+
+        public TextureAtlas getAtlas() {
+            return atlas;
+        }
+
+        public void setAtlas(TextureAtlas atlas) {
+            this.atlas = atlas;
+        }
     }
 
 }
