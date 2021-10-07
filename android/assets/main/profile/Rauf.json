@@ -1,8 +1,9 @@
 {
+state: IDLE
 direction: RIGHT
 position: {
-	x: 1743.3472
-	y: 277.2272
+	x: 1481.5319
+	y: 341.10297
 }
 currentMap: ANTIKVA
 playerQuests: []

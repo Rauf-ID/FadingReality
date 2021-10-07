@@ -2,10 +2,14 @@ package com.mygdx.game.component;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
+import com.mygdx.game.FadingReality;
 import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
@@ -68,6 +72,19 @@ public class Enemy extends Component {
 //                chaseRangeBox.set(currentEntityPosition.x-(entityConfig.getAttackRadiusBoxWidth()/2)+(boundingBox.width/2), currentEntityPosition.y-(entityConfig.getAttackRadiusBoxHeight()/2)+(boundingBox.height/2), entityConfig.getAttackRadiusBoxWidth(), entityConfig.getAttackRadiusBoxHeight());
             } else if (string[0].equalsIgnoreCase(MESSAGE.ACTIVATE_ANIM_MECHAN.toString())) {
                 activateAnimMechan = json.fromJson(Boolean.class, string[1]);
+            }  else if (string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
+                EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
+                Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
+
+                for( EntityConfig.AnimationConfig animationConfig : animationConfigs ) {
+                    float frameDuration = animationConfig.getFrameDuration();
+                    Entity.AnimationType animationType = animationConfig.getAnimationType();
+
+                    Animation<TextureRegion> animation = null;
+//                    animation = loadAnimantion(frameDuration, );
+
+                }
+
             }
         }
     }

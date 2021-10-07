@@ -121,20 +121,20 @@ public class PlayerConfig {
         return minDamage;
     }
 
-    public Entity.Direction getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Entity.Direction direction) {
-        this.direction = direction;
+    public void setState(Entity.State state) {
+        this.state = state;
     }
 
     public Entity.State getState() {
         return state;
     }
 
-    public void setState(Entity.State state) {
-        this.state = state;
+    public void setDirection(Entity.Direction direction) {
+        this.direction = direction;
+    }
+
+    public Entity.Direction getDirection() {
+        return direction;
     }
 
     public Vector2 getPosition() {

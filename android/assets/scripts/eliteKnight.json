@@ -9,5 +9,12 @@ currentQuestID : ""
 itemTypeID: NONE
 attackRangeBoxWidth: 512
 attackRangeBoxHeight: 512
+animationConfig: [
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE_RIGHT
+	    texturePaths: ""
+	}
+]
 },
 ]

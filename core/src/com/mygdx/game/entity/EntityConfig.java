@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.game.inventory.InventoryItem.ItemTypeID;
+import com.mygdx.game.tools.managers.ResourceManager;
 
 import java.awt.Rectangle;
 
@@ -151,20 +152,36 @@ public class EntityConfig {
     static public class AnimationConfig{
 
         private float frameDuration = 1.0f;
-        private Entity.State animationType;
+        private Entity.AnimationType animationType;
         private String texturePaths;
-        private TextureAtlas atlas;
+        private ResourceManager.Atlas atlas;
 
         public AnimationConfig(){
-            animationType = Entity.State.IDLE;
+            animationType = Entity.AnimationType.IDLE_RIGHT;
         }
 
         public float getFrameDuration() {
             return frameDuration;
         }
 
+        public ResourceManager.Atlas getAtlas() {
+            return atlas;
+        }
+
+        public void setAtlas(ResourceManager.Atlas atlas) {
+            this.atlas = atlas;
+        }
+
         public void setFrameDuration(float frameDuration) {
             this.frameDuration = frameDuration;
+        }
+
+        public Entity.AnimationType getAnimationType() {
+            return animationType;
+        }
+
+        public void setAnimationType(Entity.AnimationType animationType) {
+            this.animationType = animationType;
         }
 
         public String getTexturePaths() {
@@ -175,21 +192,6 @@ public class EntityConfig {
             this.texturePaths = texturePaths;
         }
 
-        public Entity.State getAnimationType() {
-            return animationType;
-        }
-
-        public void setAnimationType(Entity.State animationType) {
-            this.animationType = animationType;
-        }
-
-        public TextureAtlas getAtlas() {
-            return atlas;
-        }
-
-        public void setAtlas(TextureAtlas atlas) {
-            this.atlas = atlas;
-        }
     }
 
 }

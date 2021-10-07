@@ -269,6 +269,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable())); // Inventory
                 profileManager.getPlayerConfig().setPosition(player.getCurrentPosition());  // XY position
                 profileManager.getPlayerConfig().setDirection(player.getCurrentDirection());  // Direction
+                profileManager.getPlayerConfig().setState(player.getCurrentState());  // State
                 break;
 
             case CLEAR_CURRENT_PROFILE:

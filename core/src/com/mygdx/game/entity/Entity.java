@@ -76,7 +76,20 @@ public class Entity implements Comparable<Entity> {
         HURT_AMELIA,
         DETENTION,
         AMELIA_BAT_SIT
+    }
 
+    public static enum AnimationType {
+        IDLE_RIGHT,
+        IDLE_LEFT,
+        IDLE_UP,
+        IDLE_DOWN,
+        IDLE2_RIGHT,
+        IDLE2_LEFT,
+        RUN_RIGHT,
+        RUN_LEFT,
+        ATTACK_RIGHT,
+        ATTACK_LEFT,
+        IDLE,
     }
 
     private static final int MAX_COMPONENTS = 5;
@@ -241,7 +254,7 @@ public class Entity implements Comparable<Entity> {
         Entity entity = EntityFactory.getEntity(EntityFactory.EntityType.ENEMY);
         entity.setEntityConfig(entityConfig);
 
-//        entity.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(new Vector2(0,0)));
+        entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
         entity.sendMessage(Message.MESSAGE.INIT_STATE, json.toJson(entity.getEntityConfig().getState()));
         entity.sendMessage(Message.MESSAGE.INIT_DIRECTION, json.toJson(entity.getEntityConfig().getDirection()));
 

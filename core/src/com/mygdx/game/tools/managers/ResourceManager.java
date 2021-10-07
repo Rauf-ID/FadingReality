@@ -9,14 +9,20 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.mygdx.game.entity.Entity;
 
 public class ResourceManager {
+
+    public static enum Atlas {
+        ATLAS,
+        ATLAS_ELITE_KNIGHT,
+    }
 
     public AssetManager assetManager;
 
     // public Json json;
 
-    public static TextureAtlas ATLAS, ATLAS_SECURITY_MECHANISM, ATLAS_POLICE, ATLAS_ELITE_KNIGHT, ATLAS_ISB, ATLAS_AMELIA, ATLAS_KING, ATLAS_EARTHLINGS, ATLAS_MAP_OBJECTS;
+    public TextureAtlas ATLAS, ATLAS_SECURITY_MECHANISM, ATLAS_POLICE, ATLAS_ELITE_KNIGHT, ATLAS_ISB, ATLAS_AMELIA, ATLAS_KING, ATLAS_EARTHLINGS, ATLAS_MAP_OBJECTS;
 
     public static Skin SKIN;
     public World world;

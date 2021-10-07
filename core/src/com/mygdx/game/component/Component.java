@@ -3,8 +3,10 @@ package com.mygdx.game.component;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -168,6 +170,20 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                         currentFrame = FadingReality.resourceManager.playerAnimIdleRight.getKeyFrame(stateTime, true);
                     }
                 }
+
+
+
+                if (currentDirection == Entity.Direction.UP) {
+                    currentFrame = FadingReality.resourceManager.playerAnimIdleUp.getKeyFrame(stateTime, true);
+                } else if(currentDirection == Entity.Direction.DOWN) {
+                    currentFrame = FadingReality.resourceManager.playerAnimIdleDown.getKeyFrame(stateTime, true);
+                } else if(currentDirection == Entity.Direction.LEFT) {
+                    currentFrame = FadingReality.resourceManager.playerAnimIdleLeft.getKeyFrame(stateTime, true);
+                } else if(currentDirection == Entity.Direction.RIGHT) {
+                    currentFrame = FadingReality.resourceManager.playerAnimIdleRight.getKeyFrame(stateTime, true);
+                }
+
+
                 break;
             case WALK:
                 if (entityName.equals(EntityFactory.EntityName.TOWN_FOL.toString())) {
@@ -340,6 +356,10 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 break;
         }
 
+    }
+
+    protected Animation<Sprite> loadAnimantion(float frameDuration, TextureAtlas atlas, Entity.AnimationType animationType) {
+        return new Animation<Sprite>(frameDuration, atlas.createSprites(animationType.toString()));
     }
 
     protected void setCurrentPosition(Entity entity){
