@@ -534,70 +534,70 @@ RUN_DOWN
   orig: 128, 128
   offset: 0, 0
   index: 10
-WEAPON_RIGHT
+RANGED_ATTACK_RIGHT
   rotate: false
   xy: 0, 1024
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 1
-WEAPON_RIGHT
+RANGED_ATTACK_RIGHT
   rotate: false
   xy: 128, 1024
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 2
-WEAPON_RIGHT
+RANGED_ATTACK_RIGHT
   rotate: false
   xy: 256, 1024
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 3
-WEAPON_RIGHT
+RANGED_ATTACK_RIGHT
   rotate: false
   xy: 384, 1024
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 4
-WEAPON_LEFT
+RANGED_ATTACK_LEFT
   rotate: false
   xy: 0, 1152
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 1
-WEAPON_LEFT
+RANGED_ATTACK_LEFT
   rotate: false
   xy: 128, 1152
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 2
-WEAPON_LEFT
+RANGED_ATTACK_LEFT
   rotate: false
   xy: 256, 1152
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 3
-WEAPON_LEFT
+RANGED_ATTACK_LEFT
   rotate: false
   xy: 384, 1152
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 4
-WEAPON_UP
+RANGED_ATTACK_UP
   rotate: false
   xy: 0, 1280
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 1
-WEAPON_DOWN
+RANGED_ATTACK_DOWN
   rotate: false
   xy: 0, 1408
   size: 128, 128
@@ -660,413 +660,413 @@ RIFLE_LEFT
   orig: 38, 13
   offset: 0, 0
   index: 4
-ATTACK_RIGHT
+MELEE_ATTACK_RIGHT
   rotate: false
   xy: 0, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 1
-ATTACK_RIGHT
+MELEE_ATTACK_RIGHT
   rotate: false
   xy: 128, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 2
-ATTACK_RIGHT
+MELEE_ATTACK_RIGHT
   rotate: false
   xy: 256, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 3
-ATTACK_RIGHT
+MELEE_ATTACK_RIGHT
   rotate: false
   xy: 384, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 4
-ATTACK_RIGHT
+MELEE_ATTACK_RIGHT
   rotate: false
   xy: 512, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 5
-ATTACK_RIGHT
+MELEE_ATTACK_RIGHT
   rotate: false
   xy: 640, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 6
-ATTACK_RIGHT
+MELEE_ATTACK_RIGHT
   rotate: false
   xy: 768, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 7
-ATTACK_RIGHT
+MELEE_ATTACK_RIGHT
   rotate: false
   xy: 896, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 8
-ATTACK_RIGHT
+MELEE_ATTACK_RIGHT
   rotate: false
   xy: 1024, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 9
-ATTACK_RIGHT
+MELEE_ATTACK_RIGHT
   rotate: false
   xy: 1152, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 10
-ATTACK_RIGHT
+MELEE_ATTACK_RIGHT
   rotate: false
   xy: 1280, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 11
-ATTACK_RIGHT_2
+MELEE_ATTACK_RIGHT_2
   rotate: false
   xy: 1408, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 12
-ATTACK_RIGHT_2
+MELEE_ATTACK_RIGHT_2
   rotate: false
   xy: 1536, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 13
-ATTACK_RIGHT
+MELEE_ATTACK_RIGHT
   rotate: false
   xy: 1664, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 14
-ATTACK_RIGHT_2
+MELEE_ATTACK_RIGHT_2
   rotate: false
   xy: 1792, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 15
-ATTACK_RIGHT_2
+MELEE_ATTACK_RIGHT_2
   rotate: false
   xy: 1920, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 16
-ATTACK_RIGHT_2
+MELEE_ATTACK_RIGHT_2
   rotate: false
   xy: 2048, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 17
-ATTACK_RIGHT_2
+MELEE_ATTACK_RIGHT_2
   rotate: false
   xy: 2176, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 18
-ATTACK_RIGHT_2
+MELEE_ATTACK_RIGHT_2
   rotate: false
   xy: 2304, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 19
-ATTACK_RIGHT_2
+MELEE_ATTACK_RIGHT_2
   rotate: false
   xy: 2432, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 20
-ATTACK_RIGHT_2
+MELEE_ATTACK_RIGHT_2
   rotate: false
   xy: 2560, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 21
-ATTACK_RIGHT_2
+MELEE_ATTACK_RIGHT_2
   rotate: false
   xy: 2688, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 22
-ATTACK_RIGHT_2
+MELEE_ATTACK_RIGHT_2
   rotate: false
   xy: 2816, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 23
-ATTACK_RIGHT_2
+MELEE_ATTACK_RIGHT_2
   rotate: false
   xy: 2944, 2048
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 24
-ATTACK_LEFT
+MELEE_ATTACK_LEFT
   rotate: false
   xy: 0, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 1
-ATTACK_LEFT
+MELEE_ATTACK_LEFT
   rotate: false
   xy: 128, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 2
-ATTACK_LEFT
+MELEE_ATTACK_LEFT
   rotate: false
   xy: 256, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 3
-ATTACK_LEFT
+MELEE_ATTACK_LEFT
   rotate: false
   xy: 384, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 4
-ATTACK_LEFT
+MELEE_ATTACK_LEFT
   rotate: false
   xy: 512, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 5
-ATTACK_LEFT
+MELEE_ATTACK_LEFT
   rotate: false
   xy: 640, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 6
-ATTACK_LEFT
+MELEE_ATTACK_LEFT
   rotate: false
   xy: 768, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 7
-ATTACK_LEFT
+MELEE_ATTACK_LEFT
   rotate: false
   xy: 896, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 8
-ATTACK_LEFT
+MELEE_ATTACK_LEFT
   rotate: false
   xy: 1024, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 9
-ATTACK_LEFT
+MELEE_ATTACK_LEFT
   rotate: false
   xy: 1152, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 10
-ATTACK_LEFT
+MELEE_ATTACK_LEFT
   rotate: false
   xy: 1280, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 11
-ATTACK_LEFT_2
+MELEE_ATTACK_LEFT_2
   rotate: false
   xy: 1408, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 12
-ATTACK_LEFT_2
+MELEE_ATTACK_LEFT_2
   rotate: false
   xy: 1536, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 13
-ATTACK_LEFT_2
+MELEE_ATTACK_LEFT_2
   rotate: false
   xy: 1664, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 14
-ATTACK_LEFT_2
+MELEE_ATTACK_LEFT_2
   rotate: false
   xy: 1792, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 15
-ATTACK_LEFT_2
+MELEE_ATTACK_LEFT_2
   rotate: false
   xy: 1920, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 16
-ATTACK_LEFT_2
+MELEE_ATTACK_LEFT_2
   rotate: false
   xy: 2048, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 17
-ATTACK_LEFT_2
+MELEE_ATTACK_LEFT_2
   rotate: false
   xy: 2176, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 18
-ATTACK_LEFT_2
+MELEE_ATTACK_LEFT_2
   rotate: false
   xy: 2304, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 19
-ATTACK_LEFT_2
+MELEE_ATTACK_LEFT_2
   rotate: false
   xy: 2432, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 20
-ATTACK_LEFT_2
+MELEE_ATTACK_LEFT_2
   rotate: false
   xy: 2560, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 21
-ATTACK_LEFT_2
+MELEE_ATTACK_LEFT_2
   rotate: false
   xy: 2688, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 22
-ATTACK_LEFT_2
+MELEE_ATTACK_LEFT_2
   rotate: false
   xy: 2816, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 23
-ATTACK_LEFT_2
+MELEE_ATTACK_LEFT_2
   rotate: false
   xy: 2944, 2176
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 24
-ATTACK_UP
+MELEE_ATTACK_UP
   rotate: false
   xy: 0, 2304
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 1
-ATTACK_UP
+MELEE_ATTACK_UP
   rotate: false
   xy: 128, 2304
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 2
-ATTACK_UP
+MELEE_ATTACK_UP
   rotate: false
   xy: 256, 2304
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 3
-ATTACK_UP
+MELEE_ATTACK_UP
   rotate: false
   xy: 384, 2304
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 4
-ATTACK_UP
+MELEE_ATTACK_UP
   rotate: false
   xy: 512, 2304
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 5
-ATTACK_UP
+MELEE_ATTACK_UP
   rotate: false
   xy: 640, 2304
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 6
-ATTACK_UP
+MELEE_ATTACK_UP
   rotate: false
   xy: 768, 2304
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 7
-ATTACK_UP
+MELEE_ATTACK_UP
   rotate: false
   xy: 896, 2304
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 8
-ATTACK_UP
+MELEE_ATTACK_UP
   rotate: false
   xy: 1024, 2304
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 9
-ATTACK_UP
+MELEE_ATTACK_UP
   rotate: false
   xy: 1152, 2304
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: 10
-ATTACK_UP
+MELEE_ATTACK_UP
   rotate: false
   xy: 1280, 2304
   size: 128, 128

@@ -18,9 +18,9 @@ public class Mehan extends Map {
 
         json = new Json();
 
-        Entity townfolk1 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.TOWN_FOL);
-        initSpecialEntityPosition(townfolk1, new Vector2(641,530), Entity.Direction.DOWN);
-        mapEntities.add(townfolk1);
+//        Entity townfolk1 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.TOWN_FOL);
+//        initSpecialEntityPosition(townfolk1, new Vector2(641,530), Entity.Direction.DOWN);
+//        mapEntities.add(townfolk1);
 
     }
 

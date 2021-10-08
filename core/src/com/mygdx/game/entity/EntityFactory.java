@@ -3,6 +3,7 @@ package com.mygdx.game.entity;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.mygdx.game.component.Component;
 import com.mygdx.game.component.Enemy;
 import com.mygdx.game.component.MapObject;
 import com.mygdx.game.component.NPC;
@@ -72,6 +73,7 @@ public class EntityFactory {
             case PLAYER:
                 entity = new Entity(new Player());
                 entity.setEntityConfig(Entity.getEntityConfig(EntityFactory.PLAYER_CONFIG));
+                entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
                 return entity;
             case NPC:
                 entity = new Entity(new NPC());

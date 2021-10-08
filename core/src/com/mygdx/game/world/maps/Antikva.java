@@ -18,27 +18,17 @@ public class Antikva extends Map {
 
         json = new Json();
 
-
-//        Entity townfolk1 = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.TOWN_FOLK1);
-//        initSpecialEntityPosition(townfolk1, new Vector2(-65,150));
-//        mapEntities.add(townfolk1);
+//        Entity eliteKnight1 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.ELITE_KNIGHT);
+//        initSpecialEntityPosition(eliteKnight1, new Vector2(1530,400), Entity.Direction.RIGHT);
+//        mapEntities.add(eliteKnight1);
 //
-//        Entity townfolk2 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.TOWN_FOLK1);
-//        initSpecialEntityPosition(townfolk2, new Vector2(50,150));
-//        mapEntities.add(townfolk2);
-
-
-        Entity eliteKnight1 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.ELITE_KNIGHT);
-        initSpecialEntityPosition(eliteKnight1, new Vector2(1530,400), Entity.Direction.RIGHT);
-        mapEntities.add(eliteKnight1);
-
-        Entity eliteKnight2 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.ELITE_KNIGHT);
-        initSpecialEntityPosition(eliteKnight2, new Vector2(1480,300), Entity.Direction.RIGHT);
-        mapEntities.add(eliteKnight2);
-
-        Entity eliteKnight3 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.ELITE_KNIGHT);
-        initSpecialEntityPosition(eliteKnight3, new Vector2(1430,200), Entity.Direction.RIGHT);
-        mapEntities.add(eliteKnight3);
+//        Entity eliteKnight2 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.ELITE_KNIGHT);
+//        initSpecialEntityPosition(eliteKnight2, new Vector2(1480,300), Entity.Direction.RIGHT);
+//        mapEntities.add(eliteKnight2);
+//
+//        Entity eliteKnight3 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.ELITE_KNIGHT);
+//        initSpecialEntityPosition(eliteKnight3, new Vector2(1430,200), Entity.Direction.RIGHT);
+//        mapEntities.add(eliteKnight3);
 
     }
 

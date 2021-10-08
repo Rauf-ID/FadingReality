@@ -18,13 +18,13 @@ public class DistrictTimulo extends Map {
 
         json = new Json();
 
-        Entity townfolk2 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.TOWN_FOLK2);
-        initSpecialEntityPosition(townfolk2, new Vector2(940,1100), Entity.Direction.LEFT);
-        mapEntities.add(townfolk2);
-
-        Entity townfolk3 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.TOWN_FOLK2);
-        initSpecialEntityPosition(townfolk3, new Vector2(720,1070), Entity.Direction.RIGHT);
-        mapEntities.add(townfolk3);
+//        Entity townfolk2 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.TOWN_FOLK2);
+//        initSpecialEntityPosition(townfolk2, new Vector2(940,1100), Entity.Direction.LEFT);
+//        mapEntities.add(townfolk2);
+//
+//        Entity townfolk3 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.TOWN_FOLK2);
+//        initSpecialEntityPosition(townfolk3, new Vector2(720,1070), Entity.Direction.RIGHT);
+//        mapEntities.add(townfolk3);
 
     }
 

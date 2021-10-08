@@ -13,7 +13,50 @@ animationConfig: [
 	{
 	    frameDuration: 0.2
 	    animationType: IDLE_RIGHT
-	    texturePaths: ""
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE_LEFT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE2_RIGHT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE2_LEFT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.14
+	    animationType: RUN_RIGHT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.14
+	    animationType: RUN_LEFT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.03
+	    animationType: MELEE_ATTACK_RIGHT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.03
+	    animationType: MELEE_ATTACK_LEFT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
 	}
 ]
 },

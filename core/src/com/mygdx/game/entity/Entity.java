@@ -56,7 +56,7 @@ public class Entity implements Comparable<Entity> {
         WALK_SHADOW,
         RUNING,
         MELEE_ATTACK,
-        WEAPON_ATTACK,
+        RANGED_ATTACK,
         DASH,
         USE_RUDIMENT,
         SWORD__ATTACK,
@@ -79,16 +79,19 @@ public class Entity implements Comparable<Entity> {
     }
 
     public static enum AnimationType {
-        IDLE_RIGHT,
-        IDLE_LEFT,
-        IDLE_UP,
-        IDLE_DOWN,
+        IDLE_RIGHT, IDLE_LEFT, IDLE_UP, IDLE_DOWN,
+        WALK_RIGHT, WALK_LEFT, WALK_UP, WALK_DOWN,
+        RUN_RIGHT, RUN_LEFT, RUN_UP, RUN_DOWN,
+        MELEE_ATTACK_RIGHT, MELEE_ATTACK_LEFT, MELEE_ATTACK_UP, MELEE_ATTACK_DOWN,
+        MELEE_ATTACK_RIGHT_2, MELEE_ATTACK_LEFT_2, MELEE_ATTACK_UP_2, MELEE_ATTACK_DOWN_2,
+        RANGED_ATTACK_RIGHT, RANGED_ATTACK_LEFT, RANGED_ATTACK_UP, RANGED_ATTACK_DOWN,
+        RIFLE_RIGHT, RIFLE_LEFT, RIFLE_UP, RIFLE_DOWN,
+        DASH_RIGHT, DASH_LEFT, DASH_UP, DASH_DOWN,
         IDLE2_RIGHT,
         IDLE2_LEFT,
-        RUN_RIGHT,
-        RUN_LEFT,
-        ATTACK_RIGHT,
-        ATTACK_LEFT,
+        BAR_DRINK,
+        HURT_AMELIA,
+        USE_RUDIMENT_1,
         IDLE,
     }
 

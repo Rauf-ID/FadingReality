@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -21,9 +22,11 @@ import com.mygdx.game.FadingReality;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.observer.ComponentSubject;
+import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.world.MapManager;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public abstract class Component extends ComponentSubject implements Message, InputProcessor {
 
@@ -97,6 +100,9 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected int sheeshTime = 35;
     public boolean activateAnimMechan = false;
 
+    protected Hashtable<Entity.AnimationType, Animation<Sprite>> animations;
+
+
 
     Component() {
         json = new Json();
@@ -125,6 +131,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         swordRangeBox = new Rectangle();
         chaseRangeBox = new Rectangle();
         attackRangeBox = new Rectangle();
+
+        animations = new Hashtable<>();
     }
 
     protected void updateAnimations(float delta){
@@ -137,98 +145,74 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
         switch (currentState) {
             case IDLE:
-                if (entityName.equals(EntityFactory.EntityName.TOWN_FOLK2.toString())) {
-                    if(currentDirection == Entity.Direction.LEFT) {
-                        currentFrame = FadingReality.resourceManager.roninAnimIdleLeft.getKeyFrame(stateTime, true);
-                    } else if(currentDirection == Entity.Direction.RIGHT) {
-                        currentFrame = FadingReality.resourceManager.roninAnimIdleRight.getKeyFrame(stateTime, true);
-                    }
-                } else if(entityName.equals(EntityFactory.EntityName.TOWN_FOLK3.toString()) || entityName.equals(EntityFactory.EntityName.TOWN_FOLK4.toString())) {
-                    if(currentDirection == Entity.Direction.LEFT) {
-                        currentFrame = FadingReality.resourceManager.policeAnimIdleLeft.getKeyFrame(stateTime, true);
-                    } else if(currentDirection == Entity.Direction.RIGHT) {
-                        currentFrame = FadingReality.resourceManager.policeAnimIdleRight.getKeyFrame(stateTime, true);
-                    }
-                } else if(entityName.equals(EntityFactory.EntityName.ELITE_KNIGHT.toString())) {
-                    if(currentDirection == Entity.Direction.LEFT) {
-                        currentFrame = FadingReality.resourceManager.eliteKnightAnimIdleLeft.getKeyFrame(stateTime, true);
-                    } else if(currentDirection == Entity.Direction.RIGHT) {
-                        currentFrame = FadingReality.resourceManager.eliteKnightAnimIdleRight.getKeyFrame(stateTime, true);
-                    }
-                } else if (entityName.equals(EntityFactory.EntityName.TOWN_FOL.toString())) {
-                    if(currentDirection == Entity.Direction.DOWN) {
-                        currentFrame = FadingReality.resourceManager.securityMechanismAnimIdle.getKeyFrame(stateTime, true);
-                    }
-                } else {
-                    if (currentDirection == Entity.Direction.UP) {
-                        currentFrame = FadingReality.resourceManager.playerAnimIdleUp.getKeyFrame(stateTime, true);
-                    } else if(currentDirection == Entity.Direction.DOWN) {
-                        currentFrame = FadingReality.resourceManager.playerAnimIdleDown.getKeyFrame(stateTime, true);
-                    } else if(currentDirection == Entity.Direction.LEFT) {
-                        currentFrame = FadingReality.resourceManager.playerAnimIdleLeft.getKeyFrame(stateTime, true);
-                    } else if(currentDirection == Entity.Direction.RIGHT) {
-                        currentFrame = FadingReality.resourceManager.playerAnimIdleRight.getKeyFrame(stateTime, true);
-                    }
-                }
-
-
-
                 if (currentDirection == Entity.Direction.UP) {
-                    currentFrame = FadingReality.resourceManager.playerAnimIdleUp.getKeyFrame(stateTime, true);
+                    currentFrame = animations.get(Entity.AnimationType.IDLE_UP).getKeyFrame(stateTime);
                 } else if(currentDirection == Entity.Direction.DOWN) {
-                    currentFrame = FadingReality.resourceManager.playerAnimIdleDown.getKeyFrame(stateTime, true);
+                    currentFrame = animations.get(Entity.AnimationType.IDLE_DOWN).getKeyFrame(stateTime);
                 } else if(currentDirection == Entity.Direction.LEFT) {
-                    currentFrame = FadingReality.resourceManager.playerAnimIdleLeft.getKeyFrame(stateTime, true);
+                    currentFrame = animations.get(Entity.AnimationType.IDLE_LEFT).getKeyFrame(stateTime);
                 } else if(currentDirection == Entity.Direction.RIGHT) {
-                    currentFrame = FadingReality.resourceManager.playerAnimIdleRight.getKeyFrame(stateTime, true);
+                    currentFrame = animations.get(Entity.AnimationType.IDLE_RIGHT).getKeyFrame(stateTime);
                 }
-
-
                 break;
             case WALK:
-                if (entityName.equals(EntityFactory.EntityName.TOWN_FOL.toString())) {
-                    if(currentDirection == Entity.Direction.DOWN) {
-                        currentFrame = FadingReality.resourceManager.securityMechanismAnimWalkDown.getKeyFrame(stateTime, true);
+                if (currentDirection == Entity.Direction.UP) {
+                    currentFrame = animations.get(Entity.AnimationType.WALK_UP).getKeyFrame(stateTime);
+                } else if(currentDirection == Entity.Direction.DOWN) {
+                    currentFrame = animations.get(Entity.AnimationType.WALK_DOWN).getKeyFrame(stateTime);
+                } else if(currentDirection == Entity.Direction.LEFT) {
+                    currentFrame = animations.get(Entity.AnimationType.WALK_LEFT).getKeyFrame(stateTime);
+                } else if(currentDirection == Entity.Direction.RIGHT) {
+                    currentFrame = animations.get(Entity.AnimationType.WALK_RIGHT).getKeyFrame(stateTime);
+                }
+                break;
+            case RUN:
+                if (currentDirection == Entity.Direction.UP) {
+                    currentFrame = animations.get(Entity.AnimationType.RUN_UP).getKeyFrame(stateTime);
+                } else if(currentDirection == Entity.Direction.DOWN) {
+                    currentFrame = animations.get(Entity.AnimationType.RUN_DOWN).getKeyFrame(stateTime);
+                } else if(currentDirection == Entity.Direction.LEFT) {
+                    currentFrame = animations.get(Entity.AnimationType.RUN_LEFT).getKeyFrame(stateTime);
+                } else if(currentDirection == Entity.Direction.RIGHT) {
+                    currentFrame = animations.get(Entity.AnimationType.RUN_RIGHT).getKeyFrame(stateTime);
+                }
+                break;
+            case MELEE_ATTACK:
+                if (attackId==0) {
+                    if (mouseDirection == Entity.MouseDirection.UP) {
+                        currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_UP).getKeyFrame(atkTime);
+                    } else if(mouseDirection == Entity.MouseDirection.DOWN) {
+                        currentFrame = animations.get(Entity.AnimationType.RUN_DOWN).getKeyFrame(atkTime);
+                    } else if(mouseDirection == Entity.MouseDirection.LEFT) {
+                        currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_LEFT).getKeyFrame(atkTime);
+                    } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
+                        currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_RIGHT).getKeyFrame(atkTime);
                     }
                 } else {
-                    if (currentDirection == Entity.Direction.UP) {
-                        currentFrame = FadingReality.resourceManager.playerAnimRunUp.getKeyFrame(stateTime, true);
-                    } else if(currentDirection == Entity.Direction.DOWN) {
-                        currentFrame = FadingReality.resourceManager.playerAnimRunDown.getKeyFrame(stateTime, true);
-                    } else if(currentDirection == Entity.Direction.LEFT) {
-                        currentFrame = FadingReality.resourceManager.playerAnimWalkLeft.getKeyFrame(stateTime, true);
-                    } else if(currentDirection == Entity.Direction.RIGHT) {
-                        currentFrame = FadingReality.resourceManager.playerAnimWalkRight.getKeyFrame(stateTime, true);
+                    if (mouseDirection == Entity.MouseDirection.UP) {
+                        currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_UP).getKeyFrame(atkTime);
+                    } else if(mouseDirection == Entity.MouseDirection.DOWN) {
+                        currentFrame = animations.get(Entity.AnimationType.RUN_DOWN).getKeyFrame(atkTime);
+                    } else if(mouseDirection == Entity.MouseDirection.LEFT) {
+                        currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_LEFT_2).getKeyFrame(atkTime);
+                    } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
+                        currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_RIGHT_2).getKeyFrame(atkTime);
                     }
+                }
+                break;
+            case RANGED_ATTACK:
+                if (mouseDirection == Entity.MouseDirection.UP) {
+                    currentFrame = animations.get(Entity.AnimationType.RANGED_ATTACK_RIGHT).getKeyFrame(stateTime);
+                } else if(mouseDirection == Entity.MouseDirection.DOWN) {
+                    currentFrame = animations.get(Entity.AnimationType.RANGED_ATTACK_RIGHT).getKeyFrame(stateTime);
+                } else if(mouseDirection == Entity.MouseDirection.LEFT) {
+                    currentFrame = animations.get(Entity.AnimationType.RANGED_ATTACK_LEFT).getKeyFrame(stateTime);
+                } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
+                    currentFrame = animations.get(Entity.AnimationType.RANGED_ATTACK_RIGHT).getKeyFrame(stateTime);
                 }
                 break;
             case WALK_SHADOW:
                 currentFrame = FadingReality.resourceManager.securityMechanismAnimWalkDownShadow.getKeyFrame(stateTime, true);
-                break;
-            case RUN:
-                if (entityName.equals(EntityFactory.EntityName.TOWN_FOLK2.toString())) {
-                    if(currentDirection == Entity.Direction.LEFT) {
-                        currentFrame = FadingReality.resourceManager.roninAnimRunLeft.getKeyFrame(stateTime, true);
-                    } else if(currentDirection == Entity.Direction.RIGHT) {
-                        currentFrame = FadingReality.resourceManager.roninAnimRunRight.getKeyFrame(stateTime, true);
-                    }
-                } else if(entityName.equals(EntityFactory.EntityName.ELITE_KNIGHT.toString())) {
-                    if(currentDirection == Entity.Direction.LEFT) {
-                        currentFrame = FadingReality.resourceManager.eliteKnightAnimRunLeft.getKeyFrame(stateTime, true);
-                    } else if(currentDirection == Entity.Direction.RIGHT) {
-                        currentFrame = FadingReality.resourceManager.eliteKnightAnimRunRight.getKeyFrame(stateTime, true);
-                    }
-                } else {
-                    if (currentDirection == Entity.Direction.UP) {
-                        currentFrame = FadingReality.resourceManager.playerAnimRunUp.getKeyFrame(stateTime, true);
-                    } else if(currentDirection == Entity.Direction.DOWN) {
-                        currentFrame = FadingReality.resourceManager.playerAnimRunDown.getKeyFrame(stateTime, true);
-                    } else if(currentDirection == Entity.Direction.LEFT) {
-                        currentFrame = FadingReality.resourceManager.playerAnimRunLeft.getKeyFrame(stateTime, true);
-                    } else if(currentDirection == Entity.Direction.RIGHT) {
-                        currentFrame = FadingReality.resourceManager.playerAnimRunRight.getKeyFrame(stateTime, true);
-                    }
-                }
                 break;
             case DASH:
                 if (mouseDirection == Entity.MouseDirection.UP) {
@@ -239,55 +223,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                     currentFrame = FadingReality.resourceManager.playerAnimRunLeft.getKeyFrame(stateTime, true);
                 } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
                     currentFrame = FadingReality.resourceManager.playerAnimDashRight.getKeyFrame(stateTime, true);
-                }
-                break;
-            case MELEE_ATTACK:
-                if (entityName.equals(EntityFactory.EntityName.TOWN_FOLK2.toString())) {
-                    if(currentDirection == Entity.Direction.RIGHT) {
-                        currentFrame = FadingReality.resourceManager.roninAnimAttackRight.getKeyFrame(atkTime, true);
-                    } else if(currentDirection == Entity.Direction.LEFT) {
-                        currentFrame = FadingReality.resourceManager.roninAnimAttackLeft.getKeyFrame(atkTime, true);
-                    }
-                } else if (entityName.equals(EntityFactory.EntityName.ELITE_KNIGHT.toString())) {
-                    if(currentDirection == Entity.Direction.RIGHT) {
-                        currentFrame = FadingReality.resourceManager.eliteKnightAnimAttackRight.getKeyFrame(atkTime, true);
-                    } else if(currentDirection == Entity.Direction.LEFT) {
-                        currentFrame = FadingReality.resourceManager.eliteKnightAnimAttackLeft.getKeyFrame(atkTime, true);
-                    }
-                }
-                else {
-                    if (attackId==0) {
-                        if (mouseDirection == Entity.MouseDirection.UP) {
-                            currentFrame = FadingReality.resourceManager.playerAnimAttackUp.getKeyFrame(atkTime, true);
-                        } else if(mouseDirection == Entity.MouseDirection.DOWN) {
-                            currentFrame = FadingReality.resourceManager.playerAnimRunDown.getKeyFrame(atkTime, true);
-                        } else if(mouseDirection == Entity.MouseDirection.LEFT) {
-                            currentFrame = FadingReality.resourceManager.playerAnimAttackLeft.getKeyFrame(atkTime, true);
-                        } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
-                            currentFrame = FadingReality.resourceManager.playerAnimAttackRight.getKeyFrame(atkTime, true);
-                        }
-                    } else {
-                        if (mouseDirection == Entity.MouseDirection.UP) {
-                            currentFrame = FadingReality.resourceManager.playerAnimAttackUp.getKeyFrame(atkTime, true);
-                        } else if(mouseDirection == Entity.MouseDirection.DOWN) {
-                            currentFrame = FadingReality.resourceManager.playerAnimRunDown.getKeyFrame(atkTime, true);
-                        } else if(mouseDirection == Entity.MouseDirection.LEFT) {
-                            currentFrame = FadingReality.resourceManager.playerAnimAttackLeft2.getKeyFrame(atkTime, true);
-                        } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
-                            currentFrame = FadingReality.resourceManager.playerAnimAttackRight2.getKeyFrame(atkTime, true);
-                        }
-                    }
-                }
-                break;
-            case WEAPON_ATTACK:
-                if (mouseDirection == Entity.MouseDirection.UP) {
-                    currentFrame = FadingReality.resourceManager.playerAnimGunUp.getKeyFrame(stateTime, true);
-                } else if(mouseDirection == Entity.MouseDirection.DOWN) {
-                    currentFrame = FadingReality.resourceManager.playerAnimGunDown.getKeyFrame(stateTime, true);
-                } else if(mouseDirection == Entity.MouseDirection.LEFT) {
-                    currentFrame = FadingReality.resourceManager.playerAnimGunLeft.getKeyFrame(stateTime, true);
-                } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
-                    currentFrame = FadingReality.resourceManager.playerAnimGunRight.getKeyFrame(stateTime, true);
                 }
                 break;
             case DEAD:
@@ -358,8 +293,12 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     }
 
-    protected Animation<Sprite> loadAnimantion(float frameDuration, TextureAtlas atlas, Entity.AnimationType animationType) {
-        return new Animation<Sprite>(frameDuration, atlas.createSprites(animationType.toString()));
+    protected Animation<Sprite> loadAnimation(float frameDuration, ResourceManager.AtlasType atlasType, Entity.AnimationType animationType, Animation.PlayMode playMode) {
+        TextureAtlas atlas = FadingReality.resourceManager.getAtlas(atlasType);
+        Animation<Sprite> animation = new Animation<Sprite>(frameDuration, atlas.createSprites(animationType.toString()));
+        System.out.println(animation);
+        animation.setPlayMode(playMode);
+        return animation;
     }
 
     protected void setCurrentPosition(Entity entity){

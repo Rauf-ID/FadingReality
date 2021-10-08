@@ -3,16 +3,20 @@ package com.mygdx.game.component;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.tools.Rumble;
+import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.world.MapManager;
 
 
@@ -59,6 +63,22 @@ public class Player extends Component {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 entityName = entityConfig.getEntityID();
 //                System.out.println(entityName);
+            }  else if (string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
+                EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
+                Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
+
+                if (animationConfigs.size == 0) return;
+
+                for( EntityConfig.AnimationConfig animationConfig : animationConfigs ) {
+                    float frameDuration = animationConfig.getFrameDuration();
+                    ResourceManager.AtlasType atlasType = animationConfig.getAtlasType();
+                    Entity.AnimationType animationType = animationConfig.getAnimationType();
+                    Animation.PlayMode playMode = animationConfig.getPlayMode();
+
+                    Animation<Sprite> animation = null;
+                    animation = loadAnimation(frameDuration, atlasType, animationType, playMode);
+                    animations.put(animationType, animation);
+                }
             }
         }
 
@@ -468,7 +488,7 @@ public class Player extends Component {
 
                             //WEAPON ATTACK ACTIVE
                             if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                currentState = Entity.State.WEAPON_ATTACK;
+                                currentState = Entity.State.RANGED_ATTACK;
                                 boolPissPiss = true;
                                 boolGunActive = true;
                             }
@@ -476,7 +496,7 @@ public class Player extends Component {
                             //WEAPON ATTACK
                             if (dogShitRight) {
                                 state = State.ATTACK;
-                                currentState = Entity.State.WEAPON_ATTACK;
+                                currentState = Entity.State.RANGED_ATTACK;
                                 dogShitRight = false;
                                 boolPissPiss = true;
                                 boolGunActive = true;

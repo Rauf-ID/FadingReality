@@ -1,5 +1,6 @@
 package com.mygdx.game.entity;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.game.inventory.InventoryItem.ItemTypeID;
@@ -145,31 +146,25 @@ public class EntityConfig {
         this.animationConfig.add(animationConfig);
     }
 
-    static public class AnimationConfig{
+    static public class AnimationConfig {
 
         private float frameDuration = 1.0f;
         private Entity.AnimationType animationType;
-        private String texturePaths;
         private ResourceManager.AtlasType atlasType;
+        private Animation.PlayMode playMode;
 
         public AnimationConfig(){
             animationType = Entity.AnimationType.IDLE_RIGHT;
-        }
-
-        public float getFrameDuration() {
-            return frameDuration;
-        }
-
-        public ResourceManager.AtlasType getAtlasType() {
-            return atlasType;
-        }
-
-        public void setAtlasType(ResourceManager.AtlasType atlasType) {
-            this.atlasType = atlasType;
+            atlasType = ResourceManager.AtlasType.NONE;
+            playMode = Animation.PlayMode.LOOP;
         }
 
         public void setFrameDuration(float frameDuration) {
             this.frameDuration = frameDuration;
+        }
+
+        public float getFrameDuration() {
+            return frameDuration;
         }
 
         public Entity.AnimationType getAnimationType() {
@@ -180,12 +175,20 @@ public class EntityConfig {
             this.animationType = animationType;
         }
 
-        public String getTexturePaths() {
-            return texturePaths;
+        public ResourceManager.AtlasType getAtlasType() {
+            return atlasType;
         }
 
-        public void setTexturePaths(String texturePaths) {
-            this.texturePaths = texturePaths;
+        public void setAtlasType(ResourceManager.AtlasType atlasType) {
+            this.atlasType = atlasType;
+        }
+
+        public void setPlayMode(Animation.PlayMode playMode) {
+            this.playMode = playMode;
+        }
+
+        public Animation.PlayMode getPlayMode() {
+            return playMode;
         }
 
     }

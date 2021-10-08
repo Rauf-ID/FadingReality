@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -15,7 +16,10 @@ import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.tools.Rumble;
+import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.world.MapManager;
+
+import java.util.Hashtable;
 
 public class Enemy extends Component {
 
@@ -76,15 +80,18 @@ public class Enemy extends Component {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
 
+                if (animationConfigs.size == 0) return;
+
                 for( EntityConfig.AnimationConfig animationConfig : animationConfigs ) {
                     float frameDuration = animationConfig.getFrameDuration();
+                    ResourceManager.AtlasType atlasType = animationConfig.getAtlasType();
                     Entity.AnimationType animationType = animationConfig.getAnimationType();
+                    Animation.PlayMode playMode = animationConfig.getPlayMode();
 
-                    Animation<TextureRegion> animation = null;
-//                    animation = loadAnimantion(frameDuration, );
-
+                    Animation<Sprite> animation = null;
+                    animation = loadAnimation(frameDuration, atlasType, animationType, playMode);
+                    animations.put(animationType, animation);
                 }
-
             }
         }
     }

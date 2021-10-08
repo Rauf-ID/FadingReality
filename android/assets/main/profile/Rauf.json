@@ -1,11 +1,11 @@
 {
 state: IDLE
-direction: DOWN
+direction: RIGHT
 position: {
-	x: 833.6885
-	y: 915.8255
+	x: 1597.3207
+	y: 237.13351
 }
-currentMap: TIMULO
+currentMap: ANTIKVA
 playerQuests: []
 inventory: [
 	{

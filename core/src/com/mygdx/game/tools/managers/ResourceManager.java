@@ -27,7 +27,8 @@ public class ResourceManager {
         ATLAS_EARTHLINGS,
         ATLAS_ELITE_KNIGHT,
         ATLAS_SECURITY_MECHANISM,
-        ATLAS_MAP_OBJECTS
+        ATLAS_MAP_OBJECTS,
+        NONE
     }
 
     public AssetManager assetManager;
@@ -202,18 +203,18 @@ public class ResourceManager {
         playerAnimRunLeft = new Animation<Sprite>(0.06f, ATLAS.createSprites("RUN_LEFT"));
         playerAnimRunUp = new Animation<Sprite>(0.06f, ATLAS.createSprites("RUN_UP"));
         playerAnimRunDown = new Animation<Sprite>(0.06f, ATLAS.createSprites("RUN_DOWN"));
-        playerAnimGunRight = new Animation<Sprite>(0.09f, ATLAS.createSprites("WEAPON_RIGHT"));
-        playerAnimGunLeft = new Animation<Sprite>(0.09f, ATLAS.createSprites("WEAPON_LEFT"));
-        playerAnimGunUp = new Animation<Sprite>(0.06f, ATLAS.createSprites("WEAPON_UP"));
-        playerAnimGunDown = new Animation<Sprite>(0.06f, ATLAS.createSprites("WEAPON_DOWN"));
+        playerAnimGunRight = new Animation<Sprite>(0.09f, ATLAS.createSprites("RANGED_ATTACK_RIGHT"));
+        playerAnimGunLeft = new Animation<Sprite>(0.09f, ATLAS.createSprites("RANGED_ATTACK_LEFT"));
+        playerAnimGunUp = new Animation<Sprite>(0.06f, ATLAS.createSprites("RANGED_ATTACK_UP"));
+        playerAnimGunDown = new Animation<Sprite>(0.06f, ATLAS.createSprites("RANGED_ATTACK_DOWN"));
         playerRifleAnimRight = new Animation<Sprite>(0.06f, ATLAS.createSprites("RIFLE_RIGHT"));
         playerRifleAnimLeft = new Animation<Sprite>(0.06f, ATLAS.createSprites("RIFLE_LEFT"));
-        playerAnimAttackRight = new Animation<Sprite>(0.05f, ATLAS.createSprites("ATTACK_RIGHT")); //11
-        playerAnimAttackLeft = new Animation<Sprite>(0.05f, ATLAS.createSprites("ATTACK_LEFT")); //11
-        playerAnimAttackUp = new Animation<Sprite>(0.05f, ATLAS.createSprites("ATTACK_UP")); //11
-        playerAnimAttackDown = new Animation<Sprite>(0.05f, ATLAS.createSprites("ATTACK_DOWN")); //11
-        playerAnimAttackLeft2 = new Animation<Sprite>(0.05f, ATLAS.createSprites("ATTACK_LEFT_2")); //13
-        playerAnimAttackRight2 = new Animation<Sprite>(0.05f, ATLAS.createSprites("ATTACK_RIGHT_2")); //13
+        playerAnimAttackRight = new Animation<Sprite>(0.05f, ATLAS.createSprites("MELEE_ATTACK_RIGHT")); //11
+        playerAnimAttackLeft = new Animation<Sprite>(0.05f, ATLAS.createSprites("MELEE_ATTACK_LEFT")); //11
+        playerAnimAttackUp = new Animation<Sprite>(0.05f, ATLAS.createSprites("MELEE_ATTACK_UP")); //11
+        playerAnimAttackDown = new Animation<Sprite>(0.05f, ATLAS.createSprites("MELEE_ATTACK_DOWN")); //11
+        playerAnimAttackRight2 = new Animation<Sprite>(0.05f, ATLAS.createSprites("MELEE_ATTACK_RIGHT_2")); //13
+        playerAnimAttackLeft2 = new Animation<Sprite>(0.05f, ATLAS.createSprites("MELEE_ATTACK_LEFT_2")); //13
         playerAnimDashRight = new Animation<Sprite>(0.045f, ATLAS.createSprites("DASH_RIGHT"));
         playerAnimBarDrink = new Animation<Sprite>(0.12f, ATLAS.createSprites("BAR_DRINK"));
         playerAnimHurtAmelia = new Animation<Sprite>(0.14f, ATLAS.createSprites("HURT_AMELIA"));
@@ -324,14 +325,21 @@ public class ResourceManager {
 
     }
 
-    static public TextureAtlas getAtlas(AtlasType atlasType) {
+    public TextureAtlas getAtlas(AtlasType atlasType) {
         TextureAtlas textureAtlas = null;
 
         switch(atlasType) {
             case ATLAS:
                 textureAtlas = atlasTable.get(atlasType);
                 if( textureAtlas == null ){
-                    textureAtlas = new TextureAtlas();
+                    textureAtlas = assetManager.get("main/entities/player/newPlayer.atlas", TextureAtlas.class);
+                    atlasTable.put(atlasType, textureAtlas);
+                }
+                break;
+            case ATLAS_ELITE_KNIGHT:
+                textureAtlas = atlasTable.get(atlasType);
+                if( textureAtlas == null ){
+                    textureAtlas = assetManager.get("main/entities/enemies/eliteKnight/eliteKnight.atlas", TextureAtlas.class);
                     atlasTable.put(atlasType, textureAtlas);
                 }
                 break;

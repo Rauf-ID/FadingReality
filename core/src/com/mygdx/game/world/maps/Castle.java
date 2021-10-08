@@ -18,17 +18,17 @@ public class Castle extends Map {
 
         json = new Json();
 
-        Entity townfolk1 = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.TOWN_FOLK5);
-        initSpecialEntityPosition(townfolk1, new Vector2(606,876), Entity.Direction.RIGHT);
-        mapEntities.add(townfolk1);
-
-        Entity eliteKnight1 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.ELITE_KNIGHT);
-        initSpecialEntityPosition(eliteKnight1, new Vector2(500,835), Entity.Direction.RIGHT);
-        mapEntities.add(eliteKnight1);
-
-        Entity eliteKnight2 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.ELITE_KNIGHT);
-        initSpecialEntityPosition(eliteKnight2, new Vector2(718,835), Entity.Direction.LEFT);
-        mapEntities.add(eliteKnight2);
+//        Entity townfolk1 = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.TOWN_FOLK5);
+//        initSpecialEntityPosition(townfolk1, new Vector2(606,876), Entity.Direction.RIGHT);
+//        mapEntities.add(townfolk1);
+//
+//        Entity eliteKnight1 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.ELITE_KNIGHT);
+//        initSpecialEntityPosition(eliteKnight1, new Vector2(500,835), Entity.Direction.RIGHT);
+//        mapEntities.add(eliteKnight1);
+//
+//        Entity eliteKnight2 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.ELITE_KNIGHT);
+//        initSpecialEntityPosition(eliteKnight2, new Vector2(718,835), Entity.Direction.LEFT);
+//        mapEntities.add(eliteKnight2);
 
 
     }
