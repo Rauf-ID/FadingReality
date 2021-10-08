@@ -1,5 +1,5 @@
 name=items
-filename=items.atlas
+filename=items.atlasType
 input=..\..\..\..\..\work\item_sprites
 output=
 

@@ -10,12 +10,24 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.mygdx.game.entity.Entity;
+import com.mygdx.game.world.Map;
+import com.mygdx.game.world.MapFactory;
+import com.mygdx.game.world.maps.TestMap;
+
+import java.util.Hashtable;
 
 public class ResourceManager {
 
-    public static enum Atlas {
+    public enum AtlasType {
         ATLAS,
+        ATLAS_ISB,
+        ATLAS_KING,
+        ATLAS_AMELIA,
+        ATLAS_POLICE,
+        ATLAS_EARTHLINGS,
         ATLAS_ELITE_KNIGHT,
+        ATLAS_SECURITY_MECHANISM,
+        ATLAS_MAP_OBJECTS
     }
 
     public AssetManager assetManager;
@@ -23,6 +35,9 @@ public class ResourceManager {
     // public Json json;
 
     public TextureAtlas ATLAS, ATLAS_SECURITY_MECHANISM, ATLAS_POLICE, ATLAS_ELITE_KNIGHT, ATLAS_ISB, ATLAS_AMELIA, ATLAS_KING, ATLAS_EARTHLINGS, ATLAS_MAP_OBJECTS;
+    private static Hashtable<AtlasType, TextureAtlas> atlasTable = new Hashtable<AtlasType, TextureAtlas>();
+
+
 
     public static Skin SKIN;
     public World world;
@@ -307,6 +322,22 @@ public class ResourceManager {
         textureTCoinLogo = new Texture(Gdx.files.internal("tCoinLogo.png"));
         textureMenuBackground = new Texture(Gdx.files.internal("MenuBackground.png"));
 
+    }
+
+    static public TextureAtlas getAtlas(AtlasType atlasType) {
+        TextureAtlas textureAtlas = null;
+
+        switch(atlasType) {
+            case ATLAS:
+                textureAtlas = atlasTable.get(atlasType);
+                if( textureAtlas == null ){
+                    textureAtlas = new TextureAtlas();
+                    atlasTable.put(atlasType, textureAtlas);
+                }
+                break;
+        }
+
+        return textureAtlas;
     }
 
     public void setLanguage(String language) {

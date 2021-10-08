@@ -1,13 +1,9 @@
 package com.mygdx.game.entity;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.mygdx.game.inventory.InventoryItem.ItemTypeID;
 import com.mygdx.game.tools.managers.ResourceManager;
-
-import java.awt.Rectangle;
 
 public class EntityConfig {
 
@@ -154,7 +150,7 @@ public class EntityConfig {
         private float frameDuration = 1.0f;
         private Entity.AnimationType animationType;
         private String texturePaths;
-        private ResourceManager.Atlas atlas;
+        private ResourceManager.AtlasType atlasType;
 
         public AnimationConfig(){
             animationType = Entity.AnimationType.IDLE_RIGHT;
@@ -164,12 +160,12 @@ public class EntityConfig {
             return frameDuration;
         }
 
-        public ResourceManager.Atlas getAtlas() {
-            return atlas;
+        public ResourceManager.AtlasType getAtlasType() {
+            return atlasType;
         }
 
-        public void setAtlas(ResourceManager.Atlas atlas) {
-            this.atlas = atlas;
+        public void setAtlasType(ResourceManager.AtlasType atlasType) {
+            this.atlasType = atlasType;
         }
 
         public void setFrameDuration(float frameDuration) {
