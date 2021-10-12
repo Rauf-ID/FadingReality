@@ -214,7 +214,6 @@ public class Enemy extends Component {
 
         switch (state) {
             case NORMAL:
-
                 if (health > 0) {
                     if (attackRangeBox.overlaps(playerBoundingBox)) {   // ATTACK
                         long time = System.currentTimeMillis();

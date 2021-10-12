@@ -16,6 +16,7 @@ import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.tools.Rumble;
+import com.mygdx.game.tools.managers.ControlManager;
 import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.world.MapManager;
 
@@ -32,14 +33,14 @@ public class Player extends Component {
     private boolean dogShitLeft = false;
     private boolean dogShitRight = false;
 
-    protected Vector2 previousPosition;
-
+    private Vector2 previousPosition;
 
     public Player(){
         initBoundingBox();
         initEntityRangeBox();
         state = State.NORMAL;
         previousPosition = new Vector2(0,0);
+        controlManager = new ControlManager();
     }
 
     @Override
@@ -96,18 +97,15 @@ public class Player extends Component {
             previousPosition = currentEntityPosition.cpy();
         }
 
-
         activeDash(delta);
         activeSwordAttackMove(delta);
         activeGotHit(delta);
         setSwordRangeBox(new Vector2(10000,10000), 0,0);
 
-
         tempEntities.clear();
         tempEntities.addAll(mapManager.getCurrentMapEntities());
         tempEntities.addAll(mapManager.getCurrentMapQuestEntities());
 
-        //
         for( Entity mapEntity : tempEntities ) {
             Rectangle entitySwordRangeBox = mapEntity.getCurrentSwordRangeBox();
             if (entitySwordRangeBox.overlaps(entityRangeBox)) {
@@ -130,11 +128,8 @@ public class Player extends Component {
         }
 
 
-//        scriptChase();
-
         //INPUT
         input(entity);
-
 
         //PHYSICS
         camera = mapManager.getCamera();
@@ -194,8 +189,6 @@ public class Player extends Component {
         if(dashing) {
             if(Gdx.graphics.getFrameId() % (int) ((Gdx.graphics.getFramesPerSecond()*.02f)+1) == 0) {  //def .05f
                 dashShadow.add(new Vector3(currentEntityPosition.x, currentEntityPosition.y, 1));
-//                System.out.println(anInt1);
-//                System.out.println(dashShadow);
                 anInt1++;
             }
             dashTime += delta;
@@ -205,7 +198,6 @@ public class Player extends Component {
             dashing = false;
             anInt1 = 1;
         }
-
 
         //GRAPHICS
         updateAnimations(delta);
@@ -230,7 +222,6 @@ public class Player extends Component {
 
         batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
         batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y);
-//        gateMehan.draw(batch, delta);
 
         batch.end();
     }
@@ -446,7 +437,7 @@ public class Player extends Component {
                                 }, 1.1f);
                             }
 
-                            //SWORD ATTACK
+                            //MELEE ATTACK
                             if (dogShitLeft) {
                                 dogShitLeft = false;
 
@@ -486,7 +477,7 @@ public class Player extends Component {
 
                             }
 
-                            //WEAPON ATTACK ACTIVE
+                            //RANGED ATTACK ACTIVE
                             if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                                 currentState = Entity.State.RANGED_ATTACK;
                                 boolPissPiss = true;
@@ -510,8 +501,6 @@ public class Player extends Component {
                                 }, 0.35f);
                             }
                         }
-
-
                     } else {
                         stateTime=0f;
                         state = State.DEAD;
@@ -528,27 +517,6 @@ public class Player extends Component {
                 break;
         }
 
-    }
-
-    private void scriptChase() {
-        Vector2 point = new Vector2(720,1070);
-
-        if (point.x > currentEntityPosition.x) {
-            currentState = Entity.State.RUN;
-            currentDirection = Entity.Direction.RIGHT;
-            currentEntityPosition.x+=1.5f;
-        }
-        if (point.x < currentEntityPosition.x){
-            currentState = Entity.State.RUN;
-            currentDirection = Entity.Direction.LEFT;
-            currentEntityPosition.x-=1.5f;
-        }
-        if (point.y > currentEntityPosition.y) {
-            currentEntityPosition.y+=1.5f;
-        }
-        if (point.y < currentEntityPosition.y) {
-            currentEntityPosition.y-=1.5f;
-        }
     }
 
     private boolean updatePortalLayerActivation(MapManager mapMgr, float delta){

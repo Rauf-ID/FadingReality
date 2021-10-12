@@ -22,6 +22,7 @@ import com.mygdx.game.FadingReality;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.observer.ComponentSubject;
+import com.mygdx.game.tools.managers.ControlManager;
 import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.world.MapManager;
 
@@ -102,6 +103,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     protected Hashtable<Entity.AnimationType, Animation<Sprite>> animations;
 
+    protected ControlManager controlManager;
 
 
     Component() {
@@ -133,6 +135,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         attackRangeBox = new Rectangle();
 
         animations = new Hashtable<>();
+
+        controlManager = new ControlManager();
     }
 
     protected void updateAnimations(float delta){
@@ -157,9 +161,9 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 break;
             case WALK:
                 if (currentDirection == Entity.Direction.UP) {
-                    currentFrame = animations.get(Entity.AnimationType.WALK_UP).getKeyFrame(stateTime);
+                    currentFrame = animations.get(Entity.AnimationType.RUN_UP).getKeyFrame(stateTime); // Correct in the future
                 } else if(currentDirection == Entity.Direction.DOWN) {
-                    currentFrame = animations.get(Entity.AnimationType.WALK_DOWN).getKeyFrame(stateTime);
+                    currentFrame = animations.get(Entity.AnimationType.RUN_DOWN).getKeyFrame(stateTime);  // Correct in the future
                 } else if(currentDirection == Entity.Direction.LEFT) {
                     currentFrame = animations.get(Entity.AnimationType.WALK_LEFT).getKeyFrame(stateTime);
                 } else if(currentDirection == Entity.Direction.RIGHT) {
@@ -182,7 +186,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                     if (mouseDirection == Entity.MouseDirection.UP) {
                         currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_UP).getKeyFrame(atkTime);
                     } else if(mouseDirection == Entity.MouseDirection.DOWN) {
-                        currentFrame = animations.get(Entity.AnimationType.RUN_DOWN).getKeyFrame(atkTime);
+                        currentFrame = animations.get(Entity.AnimationType.RUN_DOWN).getKeyFrame(atkTime); // Correct in the future
                     } else if(mouseDirection == Entity.MouseDirection.LEFT) {
                         currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_LEFT).getKeyFrame(atkTime);
                     } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
@@ -190,9 +194,9 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                     }
                 } else {
                     if (mouseDirection == Entity.MouseDirection.UP) {
-                        currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_UP).getKeyFrame(atkTime);
+                        currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_UP).getKeyFrame(atkTime); // Correct in the future
                     } else if(mouseDirection == Entity.MouseDirection.DOWN) {
-                        currentFrame = animations.get(Entity.AnimationType.RUN_DOWN).getKeyFrame(atkTime);
+                        currentFrame = animations.get(Entity.AnimationType.RUN_DOWN).getKeyFrame(atkTime); // Correct in the future
                     } else if(mouseDirection == Entity.MouseDirection.LEFT) {
                         currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_LEFT_2).getKeyFrame(atkTime);
                     } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
