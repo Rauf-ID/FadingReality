@@ -135,7 +135,7 @@ public class Enemy extends Component {
             }, 0.3f);
 
             PlayerHUD.toastShort("Player HIT");
-
+            //
 
             Rumble.rumble(5, .1f, 0, Rumble.State.SWORD);
 //            Rumble.rumble(5, .1f, 0, Rumble.State.GUN);
