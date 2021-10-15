@@ -220,11 +220,11 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 break;
             case DASH:
                 if (mouseDirection == Entity.MouseDirection.UP) {
-                    currentFrame = FadingReality.resourceManager.playerAnimRunUp.getKeyFrame(stateTime, true);
+                    currentFrame = animations.get(Entity.AnimationType.RUN_UP).getKeyFrame(stateTime); // Correct in the future
                 } else if(mouseDirection == Entity.MouseDirection.DOWN) {
-                    currentFrame = FadingReality.resourceManager.playerAnimRunDown.getKeyFrame(stateTime, true);
+                    currentFrame = animations.get(Entity.AnimationType.RUN_DOWN).getKeyFrame(stateTime); // Correct in the future
                 } else if(mouseDirection == Entity.MouseDirection.LEFT) {
-                    currentFrame = FadingReality.resourceManager.playerAnimRunLeft.getKeyFrame(stateTime, true);
+                    currentFrame = animations.get(Entity.AnimationType.RUN_LEFT).getKeyFrame(stateTime); // Correct in the future
                 } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
                     currentFrame = FadingReality.resourceManager.playerAnimDashRight.getKeyFrame(stateTime, true);
                 }

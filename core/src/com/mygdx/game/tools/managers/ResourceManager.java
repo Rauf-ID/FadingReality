@@ -181,16 +181,6 @@ public class ResourceManager {
         ATLAS_EARTHLINGS = assetManager.get("main/entities/npc/earthlings/earthlings.atlas", TextureAtlas.class);
         ATLAS_MAP_OBJECTS = assetManager.get("maps/mapObjects.atlas", TextureAtlas.class);
 
-        playerAnimIdleRight = new Animation<Sprite>(0.2f, ATLAS.createSprites("IDLE_RIGHT"));
-        playerAnimIdleLeft = new Animation<Sprite>(0.2f, ATLAS.createSprites("IDLE_LEFT"));
-        playerAnimIdleUp = new Animation<Sprite>(0.2f, ATLAS.createSprites("IDLE_UP"));
-        playerAnimIdleDown = new Animation<Sprite>(0.06f, ATLAS.createSprites("IDLE_DOWN"));
-        playerAnimWalkRight = new Animation<Sprite>(0.14f, ATLAS.createSprites("WALK_RIGHT"));
-        playerAnimWalkLeft = new Animation<Sprite>(0.14f, ATLAS.createSprites("WALK_LEFT"));
-        playerAnimRunRight = new Animation<Sprite>(0.06f, ATLAS.createSprites("RUN_RIGHT"));
-        playerAnimRunLeft = new Animation<Sprite>(0.06f, ATLAS.createSprites("RUN_LEFT"));
-        playerAnimRunUp = new Animation<Sprite>(0.06f, ATLAS.createSprites("RUN_UP"));
-        playerAnimRunDown = new Animation<Sprite>(0.06f, ATLAS.createSprites("RUN_DOWN"));
         playerAnimGunRight = new Animation<Sprite>(0.09f, ATLAS.createSprites("RANGED_ATTACK_RIGHT"));
         playerAnimGunLeft = new Animation<Sprite>(0.09f, ATLAS.createSprites("RANGED_ATTACK_LEFT"));
         playerAnimGunUp = new Animation<Sprite>(0.06f, ATLAS.createSprites("RANGED_ATTACK_UP"));
