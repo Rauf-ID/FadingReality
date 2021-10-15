@@ -46,18 +46,6 @@ public class ResourceManager {
 
 
     //Animation
-    public Animation<Sprite> playerAnimIdleRight;
-    public Animation<Sprite> playerAnimIdleLeft;
-    public Animation<Sprite> playerAnimIdleUp;
-    public Animation<Sprite> playerAnimIdleDown;
-    public Animation<Sprite> playerAnimRunRight;
-    public Animation<Sprite> playerAnimRunLeft;
-    public Animation<Sprite> playerAnimRunUp;
-    public Animation<Sprite> playerAnimRunDown;
-    public Animation<Sprite> playerAnimWalkRight;
-    public Animation<Sprite> playerAnimWalkLeft;
-    public Animation<Sprite> playerAnimWalkUp;
-    public Animation<Sprite> playerAnimWalkDown;
     public Animation<Sprite> playerAnimGunRight;
     public Animation<Sprite> playerAnimGunLeft;
     public Animation<Sprite> playerAnimGunUp;
