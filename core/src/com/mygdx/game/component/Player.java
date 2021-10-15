@@ -25,7 +25,7 @@ public class Player extends Component {
 
     protected enum State {
         NORMAL,
-        ATTACK,
+        FREEZ,
         DEAD,
     }
 
@@ -112,21 +112,18 @@ public class Player extends Component {
                 stateTime=0f;
                 playerGotHit(delta);
                 health-=25;
-                state = State.ATTACK;
+                state = State.FREEZ;
                 currentState = Entity.State.TAKING_DAMAGE;
 
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
                         state = State.NORMAL;
-                    }
-                }, 0.3f);
-
+                    }}, 0.3f);
                 Rumble.rumble(5, .1f, 0, Rumble.State.SWORD);
                 PlayerHUD.toastShort("Enemy HIT");
             }
         }
-
 
         //INPUT
         input(entity);
@@ -229,294 +226,279 @@ public class Player extends Component {
     private void input(Entity entity) {
 
         switch (state) {
-                case NORMAL:
-                    if (true) {
-                        if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
-                            Gdx.app.exit();
-                        } else if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
-                            PlayerHUD.toastShort("Pressed T");
-                            entity.sendMessage(MESSAGE.INTERACTION_WITH_ENTITY);
-                        }
-
-                        if (!PlayerHUD.browserUI.isVisible()) {
-                            if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-                                PlayerHUD.toastShort("Pressed TAB");
-                                pdaActive = !pdaActive;
-                            }
-                        }
-
-                        if (!PlayerHUD.pdaui.isVisible() && !PlayerHUD.browserUI.isVisible()) {
-
-                            if (Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
-                                currentState = Entity.State.RUN;
-                                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                                    currentDirection = Entity.Direction.RIGHT;
-                                    currentEntityPosition.y += runVelocityD.y;
-                                    currentEntityPosition.x += runVelocityD.x;
-                                } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                                    currentDirection = Entity.Direction.LEFT;
-                                    currentEntityPosition.y += runVelocityD.y;
-                                    currentEntityPosition.x -= runVelocityD.x;
-                                } else {
-                                    currentDirection = Entity.Direction.UP;
-                                    currentEntityPosition.y += runVelocity.y;
-                                }
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.S) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
-                                currentState = Entity.State.RUN;
-                                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                                    currentDirection = Entity.Direction.RIGHT;
-                                    currentEntityPosition.y -= runVelocityD.y;
-                                    currentEntityPosition.x += runVelocityD.x;
-                                } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                                    currentDirection = Entity.Direction.LEFT;
-                                    currentEntityPosition.y -= runVelocityD.y;
-                                    currentEntityPosition.x -= runVelocityD.x;
-                                } else {
-                                    currentDirection = Entity.Direction.DOWN;
-                                    currentEntityPosition.y -= runVelocity.y;
-                                }
-
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
-                                currentState = Entity.State.RUN;
-                                currentDirection = Entity.Direction.LEFT;
-                                if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                                    currentEntityPosition.x -= runVelocityD.x;
-                                    currentEntityPosition.y += runVelocityD.y;
-                                } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                                    currentEntityPosition.x -= runVelocityD.x;
-                                    currentEntityPosition.y -= runVelocityD.y;
-                                } else {
-                                    currentEntityPosition.x -= runVelocity.x;
-                                }
-
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.D) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
-                                currentState = Entity.State.RUN;
-                                currentDirection = Entity.Direction.RIGHT;
-                                if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                                    currentEntityPosition.x += runVelocityD.x;
-                                    currentEntityPosition.y += runVelocityD.y;
-                                } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                                    currentEntityPosition.x += runVelocityD.x;
-                                    currentEntityPosition.y -= runVelocityD.y;
-                                } else {
-                                    currentEntityPosition.x += runVelocity.x;
-                                }
-                            }
-
-                            else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                                currentState = Entity.State.WALK;
-                                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                                    currentDirection = Entity.Direction.RIGHT;
-                                    currentEntityPosition.y += walkVelocityD.y;
-                                    currentEntityPosition.x += walkVelocityD.x;
-                                } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                                    currentDirection = Entity.Direction.LEFT;
-                                    currentEntityPosition.y += walkVelocityD.y;
-                                    currentEntityPosition.x -= walkVelocityD.x;
-                                } else {
-                                    currentDirection = Entity.Direction.UP;
-                                    currentEntityPosition.y += walkVelocity.y;
-                                }
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                                currentState = Entity.State.WALK;
-                                if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                                    currentDirection = Entity.Direction.RIGHT;
-                                    currentEntityPosition.y -= walkVelocityD.y;
-                                    currentEntityPosition.x += walkVelocityD.x;
-                                } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                                    currentDirection = Entity.Direction.LEFT;
-                                    currentEntityPosition.y -= walkVelocityD.y;
-                                    currentEntityPosition.x -= walkVelocityD.x;
-                                } else {
-                                    currentDirection = Entity.Direction.DOWN;
-                                    currentEntityPosition.y -= walkVelocity.y;
-                                }
-
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                                currentState = Entity.State.WALK;
-                                currentDirection = Entity.Direction.LEFT;
-                                if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                                    currentEntityPosition.x -= walkVelocityD.x;
-                                    currentEntityPosition.y += walkVelocityD.y;
-                                } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                                    currentEntityPosition.x -= walkVelocityD.x;
-                                    currentEntityPosition.y -= walkVelocityD.y;
-                                } else {
-                                    currentEntityPosition.x -= walkVelocity.x;
-
-                                }
-
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                                currentState = Entity.State.WALK;
-                                currentDirection = Entity.Direction.RIGHT;
-                                if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                                    currentEntityPosition.x += walkVelocityD.x;
-                                    currentEntityPosition.y += walkVelocityD.y;
-                                } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                                    currentEntityPosition.x += walkVelocityD.x;
-                                    currentEntityPosition.y -= walkVelocityD.y;
-                                } else {
-                                    currentEntityPosition.x += walkVelocity.x;
-                                }
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.C)) {
-                                camera.zoom-=0.0005;
-                            }
-
-                           else {
-                                currentState = Entity.State.IDLE;
-                                boolPissPiss = false;
-                                boolGunActive = false;
-                            }
-
-
-                           if (Gdx.input.isKeyJustPressed(Input.Keys.COMMA)) {
-                               stateTime=0f;
-                               state = State.ATTACK;
-                               currentState = Entity.State.BAR_DRINK;
-
-                               Timer.schedule(new Timer.Task() {
-                                    @Override
-                                    public void run() {
-                                        state = State.NORMAL;
-                                    }}, 2f);
-                           }
-
-                            if (Gdx.input.isKeyJustPressed(Input.Keys.PERIOD)) {
-                                stateTime=0f;
-                                state = State.ATTACK;
-                                currentState = Entity.State.HURT_AMELIA;
-
-                                Timer.schedule(new Timer.Task() {
-                                    @Override
-                                    public void run() {
-                                        state = State.NORMAL;
-                                    }}, 10f);
-                            }
-
-                            //DASH
-                            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-                                stateTime=0f;
-                                state = State.ATTACK;
-                                currentState = Entity.State.DASH;
-                                getMouseDirection();
-                                doDash();
-
-                                dashing = true;
-
-                                Timer.schedule(new Timer.Task() {
-                                    @Override
-                                    public void run() {
-                                        state = State.NORMAL;
-                                    }
-                                }, 0.38f);
-                            }
-
-                            //RUDIMENT
-                            if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
-                                currentEntityPosition.x -= 64;
-                                currentEntityPosition.y -= 64;
-                                stateTime = 0f;
-                                state = State.ATTACK;
-                                currentState = Entity.State.USE_RUDIMENT;
-                                PlayerHUD.toastShort("Use Rudiment");
-
-                                Timer.schedule(new Timer.Task() {
-                                    @Override
-                                    public void run() {
-                                        Rumble.rumble(15f, 0.1f, -1, Rumble.State.SWORD);
-                                    }
-                                }, 0.5f);
-
-                                Timer.schedule(new Timer.Task() {
-                                    @Override
-                                    public void run() {
-                                        currentEntityPosition.x += 64;
-                                        currentEntityPosition.y += 64;
-                                        state = State.NORMAL;
-                                    }
-                                }, 1.1f);
-                            }
-
-                            //MELEE ATTACK
-                            if (dogShitLeft) {
-                                dogShitLeft = false;
-
-                                currentTime = System.currentTimeMillis();
-                                if ((currentTime - timeSinceLastAttack) < comboTimer) {
-                                    if (attackId == 1)
-                                        attackId = 0;
-                                    else {
-                                        attackId++;
-                                    }
-                                } else {
-                                    attackId = 0;
-                                }
-                                System.out.println("LMB: Attack " + attackId);
-                                timeSinceLastAttack = System.currentTimeMillis();
-
-                                atkTime = 0f;
-                                state = State.ATTACK;
-                                currentState = Entity.State.MELEE_ATTACK;
-                                getMouseDirection();
-                                doSwordAttackMove();
-
-                                if (attackId == 0) {
-                                    frameAttack = 0.55f;
-                                } else {
-                                    frameAttack = 0.65f;
-                                }
-
-                                Timer.schedule(new Timer.Task() {
-                                    @Override
-                                    public void run() {
-                                        state = State.NORMAL;
-                                    }
-                                }, frameAttack); //0.44
-
-                                updateSwordRangeBox(64,64);
-
-                            }
-
-                            //RANGED ATTACK ACTIVE
-                            if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-                                currentState = Entity.State.RANGED_ATTACK;
-                                boolPissPiss = true;
-                                boolGunActive = true;
-                            }
-
-                            //WEAPON ATTACK
-                            if (dogShitRight) {
-                                state = State.ATTACK;
-                                currentState = Entity.State.RANGED_ATTACK;
-                                dogShitRight = false;
-                                boolPissPiss = true;
-                                boolGunActive = true;
-
-                                Timer.schedule(new Timer.Task() {
-                                    @Override
-                                    public void run() {
-                                        state = State.NORMAL;
-                                        boolGunActive = false;
-                                    }
-                                }, 0.35f);
-                            }
-                        }
-                    } else {
-                        stateTime=0f;
-                        state = State.DEAD;
-                        currentState = Entity.State.DEAD;
+            case NORMAL:
+                if (true) {
+                    if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
+                        Gdx.app.exit();
+                    } else if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
+                        PlayerHUD.toastShort("Pressed T");
+                        entity.sendMessage(MESSAGE.INTERACTION_WITH_ENTITY);
                     }
+
+                    if (!PlayerHUD.browserUI.isVisible()) {
+                        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+                            PlayerHUD.toastShort("Pressed TAB");
+                            pdaActive = !pdaActive;
+                        }
+                    }
+
+                    if (!PlayerHUD.pdaui.isVisible() && !PlayerHUD.browserUI.isVisible()) {
+
+                        if (Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
+                            currentState = Entity.State.RUN;
+                            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                                currentDirection = Entity.Direction.RIGHT;
+                                currentEntityPosition.y += runVelocityD.y;
+                                currentEntityPosition.x += runVelocityD.x;
+                            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                                currentDirection = Entity.Direction.LEFT;
+                                currentEntityPosition.y += runVelocityD.y;
+                                currentEntityPosition.x -= runVelocityD.x;
+                            } else {
+                                currentDirection = Entity.Direction.UP;
+                                currentEntityPosition.y += runVelocity.y;
+                            }
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
+                            currentState = Entity.State.RUN;
+                            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                                currentDirection = Entity.Direction.RIGHT;
+                                currentEntityPosition.y -= runVelocityD.y;
+                                currentEntityPosition.x += runVelocityD.x;
+                            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                                currentDirection = Entity.Direction.LEFT;
+                                currentEntityPosition.y -= runVelocityD.y;
+                                currentEntityPosition.x -= runVelocityD.x;
+                            } else {
+                                currentDirection = Entity.Direction.DOWN;
+                                currentEntityPosition.y -= runVelocity.y;
+                            }
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
+                            currentState = Entity.State.RUN;
+                            currentDirection = Entity.Direction.LEFT;
+                            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                                currentEntityPosition.x -= runVelocityD.x;
+                                currentEntityPosition.y += runVelocityD.y;
+                            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                                currentEntityPosition.x -= runVelocityD.x;
+                                currentEntityPosition.y -= runVelocityD.y;
+                            } else {
+                                currentEntityPosition.x -= runVelocity.x;
+                            }
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
+                            currentState = Entity.State.RUN;
+                            currentDirection = Entity.Direction.RIGHT;
+                            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                                currentEntityPosition.x += runVelocityD.x;
+                                currentEntityPosition.y += runVelocityD.y;
+                            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                                currentEntityPosition.x += runVelocityD.x;
+                                currentEntityPosition.y -= runVelocityD.y;
+                            } else {
+                                currentEntityPosition.x += runVelocity.x;
+                            }
+
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                            currentState = Entity.State.WALK;
+                            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                                currentDirection = Entity.Direction.RIGHT;
+                                currentEntityPosition.y += walkVelocityD.y;
+                                currentEntityPosition.x += walkVelocityD.x;
+                            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                                currentDirection = Entity.Direction.LEFT;
+                                currentEntityPosition.y += walkVelocityD.y;
+                                currentEntityPosition.x -= walkVelocityD.x;
+                            } else {
+                                currentDirection = Entity.Direction.UP;
+                                currentEntityPosition.y += walkVelocity.y;
+                            }
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                            currentState = Entity.State.WALK;
+                            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                                currentDirection = Entity.Direction.RIGHT;
+                                currentEntityPosition.y -= walkVelocityD.y;
+                                currentEntityPosition.x += walkVelocityD.x;
+                            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                                currentDirection = Entity.Direction.LEFT;
+                                currentEntityPosition.y -= walkVelocityD.y;
+                                currentEntityPosition.x -= walkVelocityD.x;
+                            } else {
+                                currentDirection = Entity.Direction.DOWN;
+                                currentEntityPosition.y -= walkVelocity.y;
+                            }
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                            currentState = Entity.State.WALK;
+                            currentDirection = Entity.Direction.LEFT;
+                            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                                currentEntityPosition.x -= walkVelocityD.x;
+                                currentEntityPosition.y += walkVelocityD.y;
+                            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                                currentEntityPosition.x -= walkVelocityD.x;
+                                currentEntityPosition.y -= walkVelocityD.y;
+                            } else {
+                                currentEntityPosition.x -= walkVelocity.x;
+                            }
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                            currentState = Entity.State.WALK;
+                            currentDirection = Entity.Direction.RIGHT;
+                            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                                currentEntityPosition.x += walkVelocityD.x;
+                                currentEntityPosition.y += walkVelocityD.y;
+                            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                                currentEntityPosition.x += walkVelocityD.x;
+                                currentEntityPosition.y -= walkVelocityD.y;
+                            } else {
+                                currentEntityPosition.x += walkVelocity.x;
+                            }
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.C)) {
+                            camera.zoom -= 0.0005;
+                        } else {
+                            currentState = Entity.State.IDLE;
+                            boolPissPiss = false;
+                            boolGunActive = false;
+                        }
+
+                        if (Gdx.input.isKeyJustPressed(Input.Keys.COMMA)) {
+                            stateTime = 0f;
+                            state = State.FREEZ;
+                            currentState = Entity.State.BAR_DRINK;
+
+                            Timer.schedule(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    state = State.NORMAL;
+                                }}, 2f);
+                        }
+
+                        if (Gdx.input.isKeyJustPressed(Input.Keys.PERIOD)) {
+                            stateTime = 0f;
+                            state = State.FREEZ;
+                            currentState = Entity.State.HURT_AMELIA;
+
+                            Timer.schedule(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    state = State.NORMAL;
+                                }}, 10f);
+                        }
+
+                        //DASH
+                        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+                            stateTime = 0f;
+                            state = State.FREEZ;
+                            currentState = Entity.State.DASH;
+                            getMouseDirection();
+                            doDash();
+
+                            dashing = true;
+
+                            Timer.schedule(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    state = State.NORMAL;
+                                }}, 0.38f);
+                        }
+
+                        //RUDIMENT
+                        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+                            currentEntityPosition.x -= 64;
+                            currentEntityPosition.y -= 64;
+                            stateTime = 0f;
+                            state = State.FREEZ;
+                            currentState = Entity.State.USE_RUDIMENT;
+                            PlayerHUD.toastShort("Use Rudiment");
+
+                            Timer.schedule(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    Rumble.rumble(15f, 0.1f, -1, Rumble.State.SWORD);
+                                }}, 0.5f);
+
+                            Timer.schedule(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    currentEntityPosition.x += 64;
+                                    currentEntityPosition.y += 64;
+                                    state = State.NORMAL;
+                                }}, 1.1f);
+                        }
+
+                        //MELEE ATTACK
+                        if (dogShitLeft) {
+                            dogShitLeft = false;
+
+                            currentTime = System.currentTimeMillis();
+                            if ((currentTime - timeSinceLastAttack) < comboTimer) {
+                                if (attackId == 1)
+                                    attackId = 0;
+                                else {
+                                    attackId++;
+                                }
+                            } else {
+                                attackId = 0;
+                            }
+                            System.out.println("LMB: Attack " + attackId);
+                            timeSinceLastAttack = System.currentTimeMillis();
+
+                            atkTime = 0f;
+                            state = State.FREEZ;
+                            currentState = Entity.State.MELEE_ATTACK;
+                            getMouseDirection();
+                            doSwordAttackMove();
+
+                            if (attackId == 0) {
+                                frameAttack = 0.55f;
+                            } else {
+                                frameAttack = 0.65f;
+                            }
+
+                            Timer.schedule(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    state = State.NORMAL;
+                                }
+                            }, frameAttack); //0.44
+
+                            updateSwordRangeBox(64, 64);
+                        }
+
+                        //RANGED ATTACK ACTIVE
+                        if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                            currentState = Entity.State.RANGED_ATTACK;
+                            boolPissPiss = true;
+                            boolGunActive = true;
+                        }
+
+                        //RANGED ATTACK
+                        if (dogShitRight) {
+                            state = State.FREEZ;
+                            currentState = Entity.State.RANGED_ATTACK;
+                            dogShitRight = false;
+                            boolPissPiss = true;
+                            boolGunActive = true;
+
+                            Timer.schedule(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    state = State.NORMAL;
+                                    boolGunActive = false;
+                                }}, 0.35f);
+                        }
+                    }
+                } else {
+                    stateTime = 0f;
+                    state = State.DEAD;
+                    currentState = Entity.State.DEAD;
+                }
                 break;
-            case ATTACK:
+            case FREEZ:
                 if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
-                    stateTime=0f;
+                    stateTime = 0f;
                     state = State.NORMAL;
                 }
-               break;
+                break;
             case DEAD:
                 break;
         }
-
     }
 
     private boolean updatePortalLayerActivation(MapManager mapMgr, float delta){

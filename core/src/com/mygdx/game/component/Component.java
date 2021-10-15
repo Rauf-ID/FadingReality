@@ -31,24 +31,24 @@ import java.util.Hashtable;
 
 public abstract class Component extends ComponentSubject implements Message, InputProcessor {
 
+    public Entity.State currentState = null;
+    public Entity.Direction currentDirection = null;
+    private Entity.MouseDirection mouseDirection = null;
+
     protected Json json;
+    public float atkTime = 0f;
     protected float stateTime = 0f;
     protected float policeLookedAround = 0f;
-    public float atkTime = 0f;
     protected Sprite currentFrame = null;
     protected Sprite currentFrame2 = null;
     protected ShapeRenderer shapeRenderer;
-
-    public Entity.State currentState = null;
-    public Entity.Direction currentDirection = null;
-    protected Entity.MouseDirection mouseDirection = null;
 
     public Vector3 mouseCoordinates;
 
     protected float health = 100;
 
-    public Vector2 currentEntityPosition;
     protected Array<Entity> tempEntities;
+    public Vector2 currentEntityPosition;
     protected Vector2 runVelocity, runVelocityD;
     protected Vector2 walkVelocity, walkVelocityD;
 
@@ -411,17 +411,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
         angle = MathUtils.atan2(targetPosition.y, targetPosition.x) - MathUtils.atan2(shipPosition.y, shipPosition.x);
 
-
-//        Vector2 fromShipToTarget = new Vector2(targetPosition).sub(shipPosition);
-//        angle = fromShipToTarget.angle();
-
-
-//        angle = (float) Math.toDegrees(Math.atan2(targetX - entityX, targetY - entityY));
-//
-//        angle = angle < 0 ? angle += 360: angle;
-
-//        angle-=90;
-
         return angle;
     }
 
@@ -543,7 +532,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         }
     }
 
-
     protected Entity.MouseDirection getMouseDirection() {
 
         float screenX = Gdx.input.getX();
@@ -601,8 +589,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
         return mouseDirection;
     }
-
-
 
 
 
