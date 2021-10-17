@@ -1,4 +1,4 @@
-package com.mygdx.game.component;
+package com.mygdx.game.component.oldVersion;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -21,7 +21,7 @@ import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.world.MapManager;
 
 
-public class Player extends Component {
+public class oldPlayer extends oldComponent {
 
     protected enum State {
         NORMAL,
@@ -31,10 +31,11 @@ public class Player extends Component {
 
     private State state;
     private boolean dogShitLeft = false;
+    private boolean dogShitRight = false;
 
     private Vector2 previousPosition;
 
-    public Player(){
+    public oldPlayer(){
         initBoundingBox();
         initEntityRangeBox();
         state = State.NORMAL;
@@ -62,6 +63,7 @@ public class Player extends Component {
             } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 entityName = entityConfig.getEntityID();
+//                System.out.println(entityName);
             }  else if (string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
@@ -347,10 +349,36 @@ public class Player extends Component {
                             } else {
                                 currentEntityPosition.x += walkVelocity.x;
                             }
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.C)) {
+                            camera.zoom -= 0.0005;
                         } else {
                             currentState = Entity.State.IDLE;
                             boolPissPiss = false;
                             boolGunActive = false;
+                        }
+
+                        if (Gdx.input.isKeyJustPressed(Input.Keys.COMMA)) {
+                            stateTime = 0f;
+                            state = State.FREEZ;
+                            currentState = Entity.State.BAR_DRINK;
+
+                            Timer.schedule(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    state = State.NORMAL;
+                                }}, 2f);
+                        }
+
+                        if (Gdx.input.isKeyJustPressed(Input.Keys.PERIOD)) {
+                            stateTime = 0f;
+                            state = State.FREEZ;
+                            currentState = Entity.State.HURT_AMELIA;
+
+                            Timer.schedule(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    state = State.NORMAL;
+                                }}, 10f);
                         }
 
                         //DASH
@@ -433,11 +461,27 @@ public class Player extends Component {
                             updateSwordRangeBox(64, 64);
                         }
 
-                        //RANGED ATTACK
+                        //RANGED ATTACK ACTIVE
                         if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
                             currentState = Entity.State.RANGED_ATTACK;
                             boolPissPiss = true;
                             boolGunActive = true;
+                        }
+
+                        //RANGED ATTACK
+                        if (dogShitRight) {
+                            state = State.FREEZ;
+                            currentState = Entity.State.RANGED_ATTACK;
+                            dogShitRight = false;
+                            boolPissPiss = true;
+                            boolGunActive = true;
+
+                            Timer.schedule(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    state = State.NORMAL;
+                                    boolGunActive = false;
+                                }}, 0.35f);
                         }
                     }
                 } else {
@@ -476,6 +520,12 @@ public class Player extends Component {
         if (button == Input.Buttons.LEFT){
             dogShitLeft=true;
         }
+        if(button == Input.Buttons.RIGHT) {
+//            dogShitRight=true;
+//            boolPissPiss=true;
+//            boolGunActive=true;
+        }
+
         return true;
     }
 

@@ -1,8 +1,10 @@
 package com.mygdx.game.UI;
 
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -21,6 +23,7 @@ import com.mygdx.game.inventory.InventorySlotSource;
 import com.mygdx.game.inventory.InventorySlotTarget;
 import com.mygdx.game.inventory.InventorySlotTooltip;
 import com.mygdx.game.inventory.InventoryItem.ItemTypeID;
+import com.mygdx.game.inventory.InventoryItem.ItemUseType;
 import com.mygdx.game.inventory.InventorySlotTooltipListener;
 import com.mygdx.game.tools.Utility;
 
@@ -30,13 +33,15 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     public static final String PLAYER_INVENTORY = "Player_Inventory";
     public static final String STORE_INVENTORY = "Store_Inventory";
     public final static int numSlots = 50;
-    private final static int slotWidth = 100;
-    private final static int slotHeight = 100;
+    private final static int slotWidth = 64; // should be 100
+    private final static int slotHeight = 64;
     private final static int lengthSlotRow = 10;
 
     private Array<InventoryObserver> observers;
 
     private Table inventorySlotTable;
+    private Table playerSlotsTable;
+    private Table equipSlots;
     private DragAndDrop dragAndDrop;
     private Array<Actor> inventoryActors;
     private InventorySlotTooltip inventorySlotTooltip;
@@ -49,9 +54,39 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
 
         inventorySlotTable = new Table();
         inventorySlotTable.setName("Inventory_Slot_Table");
+
+        playerSlotsTable = new Table();
+        playerSlotsTable.setBackground(new Image(new NinePatch(Utility.STATUSUI.createPatch("dialog"))).getDrawable());
+
+        equipSlots = new Table();
+        equipSlots.setName("Equipment_Slot_Table");
+        equipSlots.defaults().space(10);
+
         dragAndDrop = new DragAndDrop();
         inventoryActors = new Array<Actor>();
         inventorySlotTooltip = new InventorySlotTooltip(Utility.STATUSUI_SKIN);
+
+        InventorySlot leftArmSlot = new InventorySlot(
+                ItemUseType.WEAPON_ONEHAND.getValue() |
+                        ItemUseType.WEAPON_TWOHAND.getValue() |
+                        ItemUseType.ARMOR_SHIELD.getValue() |
+                        ItemUseType.WAND_ONEHAND.getValue() |
+                        ItemUseType.WAND_TWOHAND.getValue(),
+                new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_weapon"))
+        );
+
+        InventorySlot chestSlot = new InventorySlot(
+                ItemUseType.ARMOR_CHEST.getValue(),
+                new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_chest")));
+
+        leftArmSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
+        chestSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
+
+        leftArmSlot.addObserver(this);
+        chestSlot.addObserver(this);
+
+        dragAndDrop.addTarget(new InventorySlotTarget(leftArmSlot));
+        dragAndDrop.addTarget(new InventorySlotTarget(chestSlot));
 
         //layout
         for(int i = 1; i <= numSlots; i++){
@@ -84,9 +119,13 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
 
         }
 
+        equipSlots.add(leftArmSlot).size(slotWidth, slotHeight);
+        equipSlots.add(chestSlot).size(slotWidth, slotHeight);
 
+        playerSlotsTable.add(equipSlots);
         inventoryActors.add(inventorySlotTooltip);
 
+        this.add(playerSlotsTable).padBottom(20);
         this.row();
         this.add(inventorySlotTable).colspan(2);
         this.row();

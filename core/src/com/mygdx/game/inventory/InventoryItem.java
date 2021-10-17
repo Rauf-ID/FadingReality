@@ -58,13 +58,14 @@ public class InventoryItem extends Image {
         POTIONS01,POTIONS02,POTIONS03,
         SCROLL01,SCROLL02,SCROLL03,
         HERB001,BABY001,HORNS001,FUR001,
+        PISTOL_ALG,
         NONE
         ;
     }
 
-    private int itemAttributes; // просто хуйня
-    private int itemUseTypeValue; // просто хуйня
-    private int itemValue; // просто хуйня
+    private int itemAttributes; // nothing
+    private int itemUseTypeValue; // nothing
+    private int itemValue; // nothing
     private int itemUseType;
     private ItemTypeID itemTypeID;
     private String itemShortDescription;

@@ -179,16 +179,16 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         this.addActor(conversationUI);
         this.addActor(questUI);
         this.addActor(pdaui);
-//        this.addActor(delatLabel);
-//        this.addActor(FPSLabel);
-//        this.addActor(timeLabel);
-//        this.addActor(stateLabel);
-//        this.addActor(countAmmoLabel);
-//        this.addActor(mouseCoordinatesLabel);
-//        this.addActor(labelMapName);
-//        this.addActor(cameraZoomLabel);
-//        this.addActor(labelPlayerPosition);
-//        this.addActor(healthBar);
+        this.addActor(delatLabel);
+        this.addActor(FPSLabel);
+        this.addActor(timeLabel);
+        this.addActor(stateLabel);
+        this.addActor(countAmmoLabel);
+        this.addActor(mouseCoordinatesLabel);
+        this.addActor(labelMapName);
+        this.addActor(cameraZoomLabel);
+        this.addActor(labelPlayerPosition);
+        this.addActor(healthBar);
         this.addActor(browserUI);
 //        this.addActor(image);
 

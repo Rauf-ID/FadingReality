@@ -1,4 +1,4 @@
-package com.mygdx.game.component;
+package com.mygdx.game.component.oldVersion;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -19,18 +19,18 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.FadingReality;
+import com.mygdx.game.component.Message;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.observer.ComponentSubject;
 import com.mygdx.game.tools.managers.ControlManager;
 import com.mygdx.game.tools.managers.ResourceManager;
-import com.mygdx.game.tools.managers.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-public abstract class Component extends ComponentSubject implements Message, InputProcessor {
+public abstract class oldComponent extends ComponentSubject implements Message, InputProcessor {
 
     public Entity.State currentState = null;
     public Entity.Direction currentDirection = null;
@@ -105,10 +105,9 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected Hashtable<Entity.AnimationType, Animation<Sprite>> animations;
 
     protected ControlManager controlManager;
-    protected WeaponSystem weaponSystem;
 
 
-    Component() {
+    oldComponent() {
         json = new Json();
         shapeRenderer = new ShapeRenderer();
 
@@ -139,7 +138,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         animations = new Hashtable<>();
 
         controlManager = new ControlManager();
-        weaponSystem = new WeaponSystem();
     }
 
     protected void updateAnimations(float delta){

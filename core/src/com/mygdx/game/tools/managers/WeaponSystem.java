@@ -2,18 +2,21 @@ package com.mygdx.game.tools.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.entity.Entity;
+import com.mygdx.game.inventory.InventoryItem;
 import com.mygdx.game.tools.Gun;
 import com.mygdx.game.tools.Rumble;
 import com.mygdx.game.tools.SimpleBullet;
 
-public class WeaponManager {
+public class WeaponSystem {
 
     private Gun gun;
     private float shootTimer = 0f;
     private static final float SHOOT_WAIT_TIMER = 0.3f;
     private float angle;
 
-    public WeaponManager() {
+    private InventoryItem.ItemTypeID itemTypeID;
+
+    public WeaponSystem() {
         gun = new Gun(1, 0,0);
         gun.addAmmo(30000);
     }
@@ -46,14 +49,11 @@ public class WeaponManager {
     public void updateAngleCenterToMouse() {
         float screenX = Gdx.input.getX();
         float screenY = Gdx.input.getY();
-
         int screenWidth = Gdx.graphics.getWidth();
         int screenHeight = Gdx.graphics.getHeight();
 
         angle = (float) Math.toDegrees(Math.atan2(screenX - (screenWidth/2), screenY - (screenHeight/2)));
-
         angle = angle < 0 ? angle += 360: angle;
-
         angle-=90;
     }
 
