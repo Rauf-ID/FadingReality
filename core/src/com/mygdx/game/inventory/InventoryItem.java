@@ -66,7 +66,7 @@ public class InventoryItem extends Image {
     private int itemAttributes; // nothing
     private int itemUseTypeValue; // nothing
     private int itemValue; // nothing
-    private int itemUseType;
+    private int itemUseType; // for Enum ItemUseType
     private ItemTypeID itemTypeID;
     private String itemShortDescription;
 
