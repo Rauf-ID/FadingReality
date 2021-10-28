@@ -229,6 +229,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 if( firstTime ){
                     System.out.println("NEW PROFILE");
                     InventoryUI.clearInventoryItems(inventoryUI.getInventorySlotTable());
+                    InventoryUI.clearInventoryItems(inventoryUI.getEquipSlotTable());
 
                     questUI.setQuests(new Array<QuestGraph>());
 
@@ -253,6 +254,11 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     Array<InventoryItemLocation> inventory = profileManager.getPlayerConfig().getInventory();
                     InventoryUI.populateInventory(inventoryUI.getInventorySlotTable(), inventory, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
 
+                    Array<InventoryItemLocation> equipment = profileManager.getPlayerConfig().getEquipment();
+                    if( equipment != null && equipment.size > 0 ){
+                        InventoryUI.populateInventory(inventoryUI.getEquipSlotTable(), equipment, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
+                    }
+
                     Array<QuestGraph> quests = profileManager.getPlayerConfig().getPlayerQuests();
                     questUI.setQuests(quests);
 
@@ -267,6 +273,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 System.out.println("SAVING");
                 profileManager.getPlayerConfig().setPlayerQuests(questUI.getQuests());  // Quests
                 profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable())); // Inventory
+                profileManager.getPlayerConfig().setEquipment(InventoryUI.getInventory(inventoryUI.getEquipSlotTable())); // Equipment
                 profileManager.getPlayerConfig().setPosition(player.getCurrentPosition());  // XY position
                 profileManager.getPlayerConfig().setDirection(player.getCurrentDirection());  // Direction
                 profileManager.getPlayerConfig().setState(player.getCurrentState());  // State

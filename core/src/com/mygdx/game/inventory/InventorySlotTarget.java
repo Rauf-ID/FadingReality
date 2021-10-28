@@ -31,14 +31,14 @@ public class InventorySlotTarget extends Target {
             return;
         }
 
-        //First, does the slot accept the source item type?
-        if( !targetSlot.doesAcceptItemUseType(sourceActor.getItemUseType()))  {
-            //Put item back where it came from, slot doesn't accept item
+        // Принимает ли слот тип предмета?
+        if(!targetSlot.doesAcceptItemUseType(sourceActor.getItemUseType())) {
+            // Вернуть предмет туда, откуда он был
             sourceSlot.add(sourceActor);
             return;
         }
 
-        if( !targetSlot.hasItem() ){
+        if( !targetSlot.hasItem() ){ // Если предмета в слоте нет, то добавить его
             targetSlot.add(sourceActor);
         }else{
             //If the same item and stackable, add

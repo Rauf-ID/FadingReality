@@ -221,8 +221,8 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         return actor;
     }
 
-    public boolean doesAcceptItemUseType(int itemUseType){
-        if( filterItemType == 0 ){
+    public boolean doesAcceptItemUseType(int itemUseType) {
+        if( filterItemType == 0 ) {
             return true;
         }else {
             return ((filterItemType & itemUseType) == itemUseType);
@@ -231,8 +231,7 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
 
     static public void swapSlots(InventorySlot inventorySlotSource, InventorySlot inventorySlotTarget, InventoryItem dragActor){
         //check if items can accept each other, otherwise, no swap
-        if( !inventorySlotTarget.doesAcceptItemUseType(dragActor.getItemUseType()) ||
-                !inventorySlotSource.doesAcceptItemUseType(inventorySlotTarget.getTopInventoryItem().getItemUseType())) {
+        if( !inventorySlotTarget.doesAcceptItemUseType(dragActor.getItemUseType()) || !inventorySlotSource.doesAcceptItemUseType(inventorySlotTarget.getTopInventoryItem().getItemUseType())) {
             inventorySlotSource.add(dragActor);
             return;
         }

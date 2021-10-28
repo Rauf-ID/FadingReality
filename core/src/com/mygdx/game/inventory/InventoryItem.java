@@ -151,7 +151,7 @@ public class InventoryItem extends Image {
         return ((itemAttributes & ItemAttribute.CONSUMABLE.getValue()) == ItemAttribute.CONSUMABLE.getValue());
     }
 
-    public boolean isSameItemType(InventoryItem candidateInventoryItem){
+    public boolean isSameItemType(InventoryItem candidateInventoryItem){ //Если два предмета одного типа
         return itemTypeID == candidateInventoryItem.getItemTypeID();
     }
 

@@ -6,7 +6,7 @@ public class InventoryItemLocation {
     private int locationIndex; // расположение в иневентаре
     private int numberItemsAtLocation; // колл. едениц предмета
     private String itemTypeAtLocation; // тип предмета
-    private String itemNameProperty; // херня
+    private String itemNameProperty; // ничего особенного
 
     public InventoryItemLocation(){
     }

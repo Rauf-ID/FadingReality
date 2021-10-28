@@ -15,6 +15,7 @@ public class PlayerConfig {
     private MapFactory.MapType currentMap;
     private Array<QuestGraph> playerQuests;
     private Array<InventoryItemLocation> inventory;
+    private Array<InventoryItemLocation> equipment;
     private int hp;
     private int money;
 
@@ -49,6 +50,7 @@ public class PlayerConfig {
     public void setCurrentMap(MapFactory.MapType currentMap) {
         this.currentMap = currentMap;
     }
+
     public MapFactory.MapType getCurrentMap() {
         return currentMap;
     }
@@ -56,25 +58,35 @@ public class PlayerConfig {
     public void setInventory(Array<InventoryItemLocation> inventory) {
         this.inventory = inventory;
     }
+
     public Array<InventoryItemLocation> getInventory() {
         return inventory;
+    }
+
+    public void setEquipment(Array<InventoryItemLocation> equipment) {
+        this.equipment = equipment;
+    }
+
+    public Array<InventoryItemLocation> getEquipment() {
+        return equipment;
     }
 
     public void setPlayerQuests(Array<QuestGraph> playerQuests) {
         this.playerQuests = playerQuests;
     }
+
     public Array<QuestGraph> getPlayerQuests() {
         return playerQuests;
     }
 
-    public void setMoney(int money) {
-        this.money = money;
-    }
+    public void setMoney(int money) {}
+
     public int getMoney() { return money; }
 
     public void setExp(int exp) {
         this.exp = exp;
     }
+
     public int getExp() {
         return exp;
     }
@@ -82,6 +94,7 @@ public class PlayerConfig {
     public void setMaxExp(int maxExp) {
         this.maxExp = maxExp;
     }
+
     public int getMaxExp() {
         return maxExp;
     }
@@ -89,6 +102,7 @@ public class PlayerConfig {
     public int getHp() {
         return hp;
     }
+
     public void setHp(int hp) {
         this.hp = hp;
     }
@@ -96,6 +110,7 @@ public class PlayerConfig {
     public void setMaxHp(int maxHp) {
         this.maxHp = maxHp;
     }
+
     public int getMaxHp() {
         return maxHp;
     }
@@ -103,6 +118,7 @@ public class PlayerConfig {
     public void setLevel(int level) {
         this.level = level;
     }
+
     public int getLevel() {
         return level;
     }
@@ -110,6 +126,7 @@ public class PlayerConfig {
     public void setMaxDamage(int maxDamage) {
         this.maxDamage = maxDamage;
     }
+
     public int getMaxDamage() {
         return maxDamage;
     }
@@ -117,6 +134,7 @@ public class PlayerConfig {
     public void setMinDamage(int minDamage) {
         this.minDamage = minDamage;
     }
+
     public int getMinDamage() {
         return minDamage;
     }

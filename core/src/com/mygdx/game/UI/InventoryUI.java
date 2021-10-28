@@ -216,6 +216,10 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         return inventoryActors;
     }
 
+    public Table getEquipSlotTable() {
+        return equipSlots;
+    }
+
 
 
     @Override
