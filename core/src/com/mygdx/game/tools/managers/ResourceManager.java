@@ -158,7 +158,7 @@ public class ResourceManager {
         SKIN = new Skin(Gdx.files.internal("uiskin.json"));
         world = new World(new Vector2(0,0), false);
         language = "main/languages/english";
-
+        
         assetManager = new AssetManager();
         assetManager.load("main/entities/player/newPlayer.atlas", TextureAtlas.class);
         assetManager.load("main/entities/bosses/securityMechanism/securityMechanism.atlas", TextureAtlas.class);

@@ -1,43 +1,42 @@
 [
 {
-	itemAttributes: 2
-	itemUseType: 512
-	itemUseTypeValue: 10
 	itemTypeID: ARMOR04
-	itemShortDescription: Sucks my bolls
+	itemShortDescription: That Armor
+	itemUseType: ARMOR_CHEST
+	itemAttributes: [EQUIPPABLE]
+	itemUseTypeValue: 10
 	itemValue: 25
 },
 {
-	itemAttributes: 2
-	itemUseType: 1024
-	itemUseTypeValue: 10 
 	itemTypeID: BOOTS03
-	itemShortDescription: Nigga
+	itemShortDescription: That Boots
+	itemUseType: ARMOR_FEET
+	itemAttributes: [EQUIPPABLE]
+	itemUseTypeValue: 10 
 	itemValue: 25
 },
 {
-	itemAttributes: 2
-	itemUseType: 256
-	itemUseTypeValue: 10 
 	itemTypeID: HELMET05
-	itemShortDescription: GAY
-	itemValue: 25
-},
-{
-	itemAttributes: 2
-	itemUseType: 8
-	itemUseTypeValue: 709090
-	itemTypeID: PISTOL_ALG
-	itemShortDescription: ALG (Antony Light Gun)
-	itemValue: 25
-},
-{
-	itemAttributes: 5
-	itemUseType: 2
+	itemShortDescription: That helmet
+	itemUseType: ARMOR_HELMET
+	itemAttributes: [EQUIPPABLE]
 	itemUseTypeValue: 10 
+	itemValue: 25
+},
+{
 	itemTypeID: POTIONS01
-	itemShortDescription: FAG
+	itemShortDescription: That potions
+	itemUseType: ITEM_RESTORE_HEALTH
+	itemAttributes: [CONSUMABLE, STACKABLE]
+	itemUseTypeValue: 10 
 	itemValue: 10
 },
-
+{
+	itemTypeID: PISTOL_ALG
+	itemShortDescription: ALG (Antony Light Gun)	
+	itemUseType: WEAPON_ONEHAND
+	itemAttributes: [EQUIPPABLE, ITEM_INSIDE]
+	itemUseTypeValue: 709090
+	itemValue: 25
+}
 ]

@@ -303,7 +303,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected Animation<Sprite> loadAnimation(float frameDuration, ResourceManager.AtlasType atlasType, Entity.AnimationType animationType, Animation.PlayMode playMode) {
         TextureAtlas atlas = FadingReality.resourceManager.getAtlas(atlasType);
         Animation<Sprite> animation = new Animation<Sprite>(frameDuration, atlas.createSprites(animationType.toString()));
-        System.out.println(animation);
         animation.setPlayMode(playMode);
         return animation;
     }

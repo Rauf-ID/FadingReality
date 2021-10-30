@@ -38,10 +38,12 @@ public class InventorySlotTooltip extends Window {
             StringBuilder string = new StringBuilder();
             InventoryItem item = inventorySlot.getTopInventoryItem();
             string.append(item.getItemShortDescription());
-            if( item.isInventoryItemOffensive() ){
+            if(item.isInventoryItemOffensive()){
                 string.append(System.getProperty("line.separator"));
                 string.append(String.format("Attack Points: %s", item.getItemUseTypeValue()));
-            }else if( item.isInventoryItemDefensive() ){
+                string.append(System.getProperty("line.separator"));
+                string.append(String.format("Bullets: %s", item.getNumberItemsInside()));
+            } else if(item.isInventoryItemDefensive()){
                 string.append(System.getProperty("line.separator"));
                 string.append(String.format("Defense Points: %s", item.getItemUseTypeValue()));
             }

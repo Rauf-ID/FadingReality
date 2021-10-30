@@ -66,26 +66,16 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         inventoryActors = new Array<Actor>();
         inventorySlotTooltip = new InventorySlotTooltip(Utility.STATUSUI_SKIN);
 
-        InventorySlot leftArmSlot = new InventorySlot(
-                ItemUseType.WEAPON_ONEHAND.getValue() |
-                        ItemUseType.WEAPON_TWOHAND.getValue() |
-                        ItemUseType.ARMOR_SHIELD.getValue() |
-                        ItemUseType.WAND_ONEHAND.getValue() |
-                        ItemUseType.WAND_TWOHAND.getValue(),
-                new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_weapon"))
-        );
+        InventorySlot weaponSlot = new InventorySlot(ItemUseType.WEAPON_ONEHAND, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_weapon")));
+        InventorySlot chestSlot = new InventorySlot(ItemUseType.ARMOR_CHEST, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_chest")));
 
-        InventorySlot chestSlot = new InventorySlot(
-                ItemUseType.ARMOR_CHEST.getValue(),
-                new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_chest")));
-
-        leftArmSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
+        weaponSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
         chestSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
 
-        leftArmSlot.addObserver(this);
+        weaponSlot.addObserver(this);
         chestSlot.addObserver(this);
 
-        dragAndDrop.addTarget(new InventorySlotTarget(leftArmSlot));
+        dragAndDrop.addTarget(new InventorySlotTarget(weaponSlot));
         dragAndDrop.addTarget(new InventorySlotTarget(chestSlot));
 
         //layout
@@ -105,6 +95,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
                                                   if(slot.hasItem()){
                                                       InventoryItem item = slot.getTopInventoryItem();
                                                       if(item.isConsumable()){
+                                                          System.out.println("Used");
                                                           InventoryUI.this.notify(item, InventoryObserver.InventoryEvent.ITEM_CONSUMED);
                                                           slot.remove(item);
                                                       }
@@ -118,7 +109,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
 
         }
 
-        equipSlots.add(leftArmSlot).size(slotWidth, slotHeight);
+        equipSlots.add(weaponSlot).size(slotWidth, slotHeight);
         equipSlots.add(chestSlot).size(slotWidth, slotHeight);
 
         playerSlotsTable.add(equipSlots);
@@ -139,7 +130,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
             ItemTypeID itemTypeID = ItemTypeID.valueOf(itemLocation.getItemTypeAtLocation());
             InventorySlot inventorySlot = (InventorySlot) cells.get(itemLocation.getLocationIndex()).getActor();
 
-            for( int index = 0; index < itemLocation.getNumberItemsAtLocation(); index++ ){ // каждую ед. предмета добавляем в слот
+            for(int index = 0; index < itemLocation.getNumberItemsAtLocation(); index++ ){ // каждую ед. предмета добавляем в слот
                 InventoryItem item = InventoryItemFactory.getInstance().getInventoryItem(itemTypeID);
                 String itemName =  itemLocation.getItemNameProperty();
 
@@ -149,8 +140,11 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
                     item.setName(itemName);
                 }
 
+                int numberItemsInside = itemLocation.getNumberItemsInside();
+                item.setNumberItemsInside(numberItemsInside);
+
                 inventorySlot.add(item); // добавляем предмет в слот
-                if( item.getName().equalsIgnoreCase(defaultName) ){
+                if(item.getName().equalsIgnoreCase(defaultName)){
                     draganddrop.addSource(new InventorySlotSource(inventorySlot, draganddrop));
                 }else if( disableNonDefaultItems == false ){ // если не дефолтный предмет ???
                     draganddrop.addSource(new InventorySlotSource(inventorySlot, draganddrop));
@@ -163,15 +157,21 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         Array<Cell> cells = targetTable.getCells();
         Array<InventoryItemLocation> items = new Array<InventoryItemLocation>();
         for(int i = 0; i < cells.size; i++){
-            InventorySlot inventorySlot =  ((InventorySlot)cells.get(i).getActor());
+            InventorySlot inventorySlot = ((InventorySlot)cells.get(i).getActor());
             if( inventorySlot == null ) continue;
+
             int numItems = inventorySlot.getNumItems();
+
+            InventoryItem item = inventorySlot.getTopInventoryItem();
+            if( item == null ) continue;
+
+            int numberItemsInside = 0;
+            if (item.hasItemInside()) {
+                numberItemsInside = inventorySlot.getTopInventoryItem().getNumberItemsInside();
+            }
+
             if( numItems > 0 ){
-                items.add(new InventoryItemLocation(
-                        i,
-                        inventorySlot.getTopInventoryItem().getItemTypeID().toString(),
-                        numItems,
-                        inventorySlot.getTopInventoryItem().getName()));
+                items.add(new InventoryItemLocation(i, item.getItemTypeID().toString(), numItems, numberItemsInside, inventorySlot.getTopInventoryItem().getName()));
             }
         }
         return items;
@@ -223,21 +223,16 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
 
     @Override
     public void onNotify(InventorySlot slot, SlotEvent event) {
-        switch(event)
-        {
+        switch(event) {
             case ADDED_ITEM:
                 InventoryItem addItem = slot.getTopInventoryItem();
                 if(addItem == null) return;
-                if(addItem.isInventoryItemOffensive()){ // Проверка на тип предмета, по логике не нужно
-                    notify(addItem, InventoryObserver.InventoryEvent.ADD_WAND_AP);
-                }
+                notify(addItem, InventoryObserver.InventoryEvent.ADDED);
                 break;
             case REMOVED_ITEM:
                 InventoryItem removeItem = slot.getTopInventoryItem();
                 if(removeItem == null) return;
-                if(removeItem.isInventoryItemOffensive()){ // Проверка на тип предмета, по логике не нужно
-                    notify(removeItem, InventoryObserver.InventoryEvent.REMOVE_WAND_AP);
-                }
+                notify(removeItem, InventoryObserver.InventoryEvent.REMOVED);
                 break;
             default:
                 break;

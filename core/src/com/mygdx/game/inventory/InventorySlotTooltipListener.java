@@ -44,7 +44,7 @@ public class InventorySlotTooltipListener extends InputListener {
 
     @Override
     public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor){
-        InventorySlot inventorySlot = (InventorySlot)event.getListenerActor();
+        InventorySlot inventorySlot = (InventorySlot) event.getListenerActor();
 
         isInside = true;
 

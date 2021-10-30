@@ -11,16 +11,17 @@ import com.badlogic.gdx.utils.SnapshotArray;
 import com.mygdx.game.observer.InventorySlotObserver;
 import com.mygdx.game.observer.InventorySlotSubject;
 import com.mygdx.game.tools.Utility;
+import com.mygdx.game.inventory.InventoryItem.ItemUseType;
 
 public class InventorySlot extends Stack implements InventorySlotSubject {
 
     //All slots have this default image
     private Stack defaultBackground;
     private Image customBackgroundDecal;
-    private int filterItemType;
+    private ItemUseType filterItemType;
 
     private Label numItemsLabel;
-    private int numItemsVal = 0; // колл. едениц предмета
+    private int numItems = 0; // кол. едениц предмета
 
     private Array<InventorySlotObserver> observers;
 
@@ -28,13 +29,13 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
     public InventorySlot(){
         defaultBackground = new Stack();
         customBackgroundDecal = new Image();
-        filterItemType = 0; //filter nothing
+        filterItemType = ItemUseType.NONE; // filter nothing
 
         observers = new Array<InventorySlotObserver>();
 
         Image image = new Image(new NinePatch(Utility.STATUSUI.createPatch("dialog")));
 
-        numItemsLabel = new Label(String.valueOf(numItemsVal), Utility.STATUSUI_SKIN);
+        numItemsLabel = new Label(String.valueOf(numItems), Utility.STATUSUI_SKIN);
         numItemsLabel.setAlignment(Align.bottomRight);
         numItemsLabel.setVisible(false);
 
@@ -47,7 +48,7 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         this.add(numItemsLabel);
     }
 
-    public InventorySlot(int filterItemType, Image customBackgroundDecal){
+    public InventorySlot(ItemUseType filterItemType, Image customBackgroundDecal){
         this();
         this.filterItemType = filterItemType;
         this.customBackgroundDecal = customBackgroundDecal;
@@ -55,20 +56,20 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
     }
 
     public void incrementItemCount(boolean sendAddNotification) {
-        numItemsVal++;
-        numItemsLabel.setText(String.valueOf(numItemsVal));
+        numItems++;
+        numItemsLabel.setText(String.valueOf(numItems));
         if( defaultBackground.getChildren().size > 1 ){ // проверка на два слота(дефолт и кастомный), непонятно нахрена
             defaultBackground.getChildren().pop();
         }
         checkVisibilityOfItemCount(); // надо ли отобразить колл. ед.
-        if( sendAddNotification ){
+        if(sendAddNotification) {
             notify(this, InventorySlotObserver.SlotEvent.ADDED_ITEM);
         }
     }
 
     public void decrementItemCount(boolean sendRemoveNotification) {
-        numItemsVal--;
-        numItemsLabel.setText(String.valueOf(numItemsVal));
+        numItems--;
+        numItemsLabel.setText(String.valueOf(numItems));
         if( defaultBackground.getChildren().size == 1 ){ // проверка на дефолтный слот, непонятно нахрена
             defaultBackground.add(customBackgroundDecal);
         }
@@ -87,7 +88,7 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
             return;
         }
 
-        if( !actor.equals(defaultBackground) && !actor.equals(numItemsLabel) ) {
+        if(!actor.equals(defaultBackground) && !actor.equals(numItemsLabel)) {
             incrementItemCount(true);
         }
     }
@@ -190,7 +191,7 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
     }
 
     private void checkVisibilityOfItemCount(){ // если ед. предмета больше 1, то отобразить колличество
-        if( numItemsVal < 2){
+        if( numItems < 2){
             numItemsLabel.setVisible(false);
         }else{
             numItemsLabel.setVisible(true);
@@ -208,7 +209,6 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         }
     }
 
-
     public InventoryItem getTopInventoryItem(){ // берем последний элемент в стеке предмета
         InventoryItem actor = null;
         if( hasChildren() ){
@@ -220,11 +220,11 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         return actor;
     }
 
-    public boolean doesAcceptItemUseType(int itemUseType) {
-        if( filterItemType == 0 ) {
+    public boolean doesAcceptItemUseType(ItemUseType itemUseType) {
+        if(filterItemType == ItemUseType.NONE){
             return true;
-        }else {
-            return ((filterItemType & itemUseType) == itemUseType);
+        } else {
+            return filterItemType == itemUseType;
         }
     }
 

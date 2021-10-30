@@ -177,6 +177,5 @@ public class NewAccountScreen implements Screen {
     public void dispose() {
         stage.clear();
         stage.dispose();
-        System.out.println("ASDa");
     }
 }

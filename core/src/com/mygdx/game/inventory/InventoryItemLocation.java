@@ -4,17 +4,19 @@ package com.mygdx.game.inventory;
 public class InventoryItemLocation {
 
     private int locationIndex; // расположение в иневентаре
-    private int numberItemsAtLocation; // колл. едениц предмета
     private String itemTypeAtLocation; // тип предмета
+    private int numberItemsAtLocation; // кол. едениц предмета
+    private int numberItemsInside; // кол. элементов внутри предмета
     private String itemNameProperty; // ничего особенного
 
     public InventoryItemLocation(){
     }
 
-    public InventoryItemLocation(int locationIndex, String itemTypeAtLocation, int numberItemsAtLocation, String itemNameProperty){
+    public InventoryItemLocation(int locationIndex, String itemTypeAtLocation, int numberItemsAtLocation, int numberItemsInside, String itemNameProperty){
         this.locationIndex = locationIndex;
         this.itemTypeAtLocation = itemTypeAtLocation;
         this.numberItemsAtLocation = numberItemsAtLocation;
+        this.numberItemsInside = numberItemsInside;
         this.itemNameProperty = itemNameProperty;
     }
 
@@ -48,5 +50,13 @@ public class InventoryItemLocation {
 
     public void setNumberItemsAtLocation(int numberItemsAtLocation) {
         this.numberItemsAtLocation = numberItemsAtLocation;
+    }
+
+    public int getNumberItemsInside() {
+        return numberItemsInside;
+    }
+
+    public void setNumberItemsInside(int numberItemsInside) {
+        this.numberItemsInside = numberItemsInside;
     }
 }

@@ -3,49 +3,31 @@ package com.mygdx.game.inventory;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Array;
 
 public class InventoryItem extends Image {
 
     public enum ItemAttribute{
-        CONSUMABLE(1),
-        EQUIPPABLE(2),
-        STACKABLE(4);
-
-        private int _attribute;
-
-        ItemAttribute(int attribute){
-            this._attribute = attribute;
-        }
-
-        public int getValue(){
-            return _attribute;
-        }
-
+        CONSUMABLE,
+        EQUIPPABLE,
+        STACKABLE,
+        ITEM_INSIDE
     }
 
     public enum ItemUseType{
-        ITEM_RESTORE_HEALTH(1),
-        ITEM_RESTORE_MP(2),
-        ITEM_DAMAGE(4),
-        WEAPON_ONEHAND(8),
-        WEAPON_TWOHAND(16),
-        WAND_ONEHAND(32),
-        WAND_TWOHAND(64),
-        ARMOR_SHIELD(128),
-        ARMOR_HELMET(256),
-        ARMOR_CHEST(512),
-        ARMOR_FEET(1024),
-        QUEST_ITEM(2048);
-
-        private int _itemUseType;
-
-        ItemUseType(int itemUseType){
-            this._itemUseType = itemUseType;
-        }
-
-        public int getValue(){
-            return _itemUseType;
-        }
+        ITEM_RESTORE_HEALTH,
+        ITEM_RESTORE_MP,
+        ITEM_DAMAGE,
+        WEAPON_ONEHAND,
+        WEAPON_TWOHAND,
+        WAND_ONEHAND,
+        WAND_TWOHAND,
+        ARMOR_SHIELD,
+        ARMOR_HELMET,
+        ARMOR_CHEST,
+        ARMOR_FEET,
+        QUEST_ITEM,
+        NONE
     }
 
     public enum ItemTypeID {
@@ -60,37 +42,40 @@ public class InventoryItem extends Image {
         HERB001,BABY001,HORNS001,FUR001,
         PISTOL_ALG,
         NONE
-        ;
     }
 
-    private int itemAttributes; // for Enum ItemAttribute
-    private int itemUseTypeValue; // amount of something
-    private int itemValue; // for Trade Value
-    private int itemUseType; // for Enum ItemUseType
+    // начальные настройки предмета
     private ItemTypeID itemTypeID;
     private String itemShortDescription;
+    private Array<ItemAttribute> itemAttributes;
+    private ItemUseType itemUseType;
+    private int itemUseTypeValue; // amount of something
+    private int itemValue; // for Trade Value
 
-    public InventoryItem(TextureRegion textureRegion, int itemAttributes, ItemTypeID itemTypeID, int itemUseType, int itemUseTypeValue, int itemValue){
-        super(textureRegion);
-
-        this.itemAttributes = itemAttributes;
-        this.itemUseType = itemUseType;
-        this.itemUseTypeValue = itemUseTypeValue;
-        this.itemTypeID = itemTypeID;
-        this.itemValue = itemValue;
-    }
+    // изменяемые настройки предмета
+    private int numberItemsInside;
 
     public InventoryItem(){
         super();
     }
 
+    public InventoryItem(TextureRegion textureRegion, ItemTypeID itemTypeID, ItemUseType itemUseType, Array<ItemAttribute> itemAttribute, int itemUseTypeValue, int itemValue){
+        super(textureRegion);
+
+        this.itemTypeID = itemTypeID;
+        this.itemUseType = itemUseType;
+        this.itemAttributes = itemAttribute;
+        this.itemUseTypeValue = itemUseTypeValue;
+        this.itemValue = itemValue;
+    }
+
     public InventoryItem(InventoryItem inventoryItem){
         super();
-        this.itemAttributes = inventoryItem.getItemAttributes();
-        this.itemUseType = inventoryItem.getItemUseType();
-        this.itemUseTypeValue = inventoryItem.getItemUseTypeValue();
         this.itemTypeID = inventoryItem.getItemTypeID();
         this.itemShortDescription = inventoryItem.getItemShortDescription();
+        this.itemUseType = inventoryItem.getItemUseType();
+        this.itemAttributes = inventoryItem.getItemAttributes();
+        this.itemUseTypeValue = inventoryItem.getItemUseTypeValue();
         this.itemValue = inventoryItem.getItemValue();
     }
 
@@ -118,19 +103,19 @@ public class InventoryItem extends Image {
         this.itemTypeID = itemTypeID;
     }
 
-    public int getItemAttributes() {
+    public Array<ItemAttribute> getItemAttributes() {
         return itemAttributes;
     }
 
-    public void setItemAttributes(int itemAttributes) {
+    public void setItemAttributes(Array<ItemAttribute> itemAttributes) {
         this.itemAttributes = itemAttributes;
     }
 
-    public int getItemUseType() {
+    public ItemUseType getItemUseType() {
         return itemUseType;
     }
 
-    public void setItemUseType(int itemUseType) {
+    public void setItemUseType(ItemUseType itemUseType) {
         this.itemUseType = itemUseType;
     }
 
@@ -142,24 +127,37 @@ public class InventoryItem extends Image {
         this.itemShortDescription = itemShortDescription;
     }
 
+    public int getNumberItemsInside() {
+        return numberItemsInside;
+    }
+
+    public void setNumberItemsInside(int numberItemsInside) {
+        this.numberItemsInside = numberItemsInside;
+    }
+
+
+    public static boolean doesRestoreHP(ItemUseType itemUseType){
+        return itemUseType == ItemUseType.ITEM_RESTORE_HEALTH;
+    }
+
+    public static boolean doesRestoreMP(ItemUseType itemUseType){
+        return itemUseType == ItemUseType.ITEM_RESTORE_MP;
+    }
+
     public boolean isStackable(){
-        return ((itemAttributes & ItemAttribute.STACKABLE.getValue()) == ItemAttribute.STACKABLE.getValue());
+        return itemAttributes.contains(ItemAttribute.STACKABLE, true);
     }
 
     public boolean isConsumable(){
-        return ((itemAttributes & ItemAttribute.CONSUMABLE.getValue()) == ItemAttribute.CONSUMABLE.getValue());
+        return itemAttributes.contains(ItemAttribute.CONSUMABLE, true);
+    }
+
+    public boolean hasItemInside() {
+        return itemAttributes.contains(ItemAttribute.ITEM_INSIDE, true);
     }
 
     public boolean isSameItemType(InventoryItem candidateInventoryItem){ //Если два предмета одного типа
         return itemTypeID == candidateInventoryItem.getItemTypeID();
-    }
-
-    public static boolean doesRestoreHP(int itemUseType){
-        return ((itemUseType & ItemUseType.ITEM_RESTORE_HEALTH.getValue()) == ItemUseType.ITEM_RESTORE_HEALTH.getValue());
-    }
-
-    public static boolean doesRestoreMP(int itemUseType){
-        return ((itemUseType & ItemUseType.ITEM_RESTORE_MP.getValue()) == ItemUseType.ITEM_RESTORE_MP.getValue());
     }
 
     public int getTradeValue(){
@@ -171,24 +169,20 @@ public class InventoryItem extends Image {
         }
     }
 
-
     public boolean isInventoryItemOffensiveWand(){
-        return (itemUseType & ItemUseType.WAND_ONEHAND.getValue()) == ItemUseType.WAND_ONEHAND.getValue() ||
-                (itemUseType & ItemUseType.WAND_TWOHAND.getValue()) == ItemUseType.WAND_TWOHAND.getValue();
+        return itemUseType == ItemUseType.WAND_ONEHAND|| itemUseType == ItemUseType.WAND_TWOHAND;
+    }
+
+    public boolean isInventoryItemOffensiveWeapon(){
+        return itemUseType == ItemUseType.WEAPON_ONEHAND || itemUseType == ItemUseType.WEAPON_TWOHAND;
     }
 
     public boolean isInventoryItemOffensive(){
-        return (itemUseType & ItemUseType.WEAPON_ONEHAND.getValue()) == ItemUseType.WEAPON_ONEHAND.getValue() ||
-                (itemUseType & ItemUseType.WEAPON_TWOHAND.getValue()) == ItemUseType.WEAPON_TWOHAND.getValue() ||
-                (itemUseType & ItemUseType.WAND_ONEHAND.getValue()) == ItemUseType.WAND_ONEHAND.getValue() ||
-                (itemUseType & ItemUseType.WAND_TWOHAND.getValue()) == ItemUseType.WAND_TWOHAND.getValue();
+        return itemUseType == ItemUseType.WEAPON_ONEHAND || itemUseType == ItemUseType.WEAPON_TWOHAND || itemUseType == ItemUseType.WAND_ONEHAND || itemUseType == ItemUseType.WAND_TWOHAND;
     }
 
     public boolean isInventoryItemDefensive(){
-        return (itemUseType & ItemUseType.ARMOR_CHEST.getValue()) == ItemUseType.ARMOR_CHEST.getValue() ||
-                (itemUseType & ItemUseType.ARMOR_HELMET.getValue()) == ItemUseType.ARMOR_HELMET.getValue() ||
-                (itemUseType & ItemUseType.ARMOR_FEET.getValue()) == ItemUseType.ARMOR_FEET.getValue() ||
-                (itemUseType & ItemUseType.ARMOR_SHIELD.getValue()) == ItemUseType.ARMOR_SHIELD.getValue();
+        return itemUseType == ItemUseType.ARMOR_CHEST || itemUseType == ItemUseType.ARMOR_HELMET || itemUseType == ItemUseType.ARMOR_FEET || itemUseType == ItemUseType.ARMOR_SHIELD;
     }
 
 }

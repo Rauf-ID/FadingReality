@@ -31,9 +31,10 @@ public class InventorySlotTarget extends Target {
             return;
         }
 
-        // Принимает ли слот тип предмета?
+        // Если слот не принимает тип предмета
         if(!targetSlot.doesAcceptItemUseType(sourceActor.getItemUseType())) {
-            // Вернуть предмет туда, откуда он был
+            System.out.println("Does't Accept");
+            // Вернуть предмет туда, где он был
             sourceSlot.add(sourceActor);
             return;
         }
@@ -42,7 +43,7 @@ public class InventorySlotTarget extends Target {
             targetSlot.add(sourceActor);
         }else{
             //If the same item and stackable, add
-            if( sourceActor.isSameItemType(targetActor) && sourceActor.isStackable()){
+            if(sourceActor.isSameItemType(targetActor) && sourceActor.isStackable()){
                 targetSlot.add(sourceActor);
             }else{
                 //If they aren't the same items or the items aren't stackable, then swap

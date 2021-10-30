@@ -143,7 +143,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         pdaui.setPosition(1250, 200);
 //        pdaui.setDebug(true);
 
-
         //Delta, FPS and other stats
         delatLabel = new Label("", FadingReality.getUiSkin());
         delatLabel.setPosition(20,740);
@@ -212,23 +211,17 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             }
         });
 
-//        Inventory inventory = new Inventory(player);
-//        DragAndDrop dragAndDrop = new DragAndDrop();
-//        dragAndDrop.setDragActorPosition(30,-30);
-//        inventoryActor = new InventoryActor(inventory, dragAndDrop, NonameGame.getUiSkin());
-//        inventoryActor.setSize(700,500);
-//        this.addActor(inventoryActor);
     }
 
     @Override
     public void onNotify(ProfileManager profileManager, ProfileEvent event) {
         switch(event){
             case PROFILE_LOADED:
-                System.out.println("LOADED");
+                System.out.println("PROFILE LOADING");
                 boolean firstTime = profileManager.getIsNewProfile();
 
                 if( firstTime ){
-                    System.out.println("NEW PROFILE");
+                    System.out.println("CREATING NEW PROFILE");
                     InventoryUI.clearInventoryItems(inventoryUI.getInventorySlotTable());
                     InventoryUI.clearInventoryItems(inventoryUI.getEquipSlotTable());
 
@@ -237,7 +230,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     Array<ItemTypeID> items = player.getEntityConfig().getInventory(); // дефолтные предметы из EntityConfig
                     Array<InventoryItemLocation> itemLocations = new Array<InventoryItemLocation>();
                     for( int i = 0; i < items.size; i++){
-                        itemLocations.add(new InventoryItemLocation(i, items.get(i).toString(), 1, InventoryUI.PLAYER_INVENTORY)); // расставляем предметы
+                        itemLocations.add(new InventoryItemLocation(i, items.get(i).toString(), 1, 0, InventoryUI.PLAYER_INVENTORY)); // расставляем предметы
                     }
                     InventoryUI.populateInventory(inventoryUI.getInventorySlotTable(), itemLocations, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
                     profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable()));
@@ -271,7 +264,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 break;
 
             case SAVING_PROFILE:
-                System.out.println("SAVING");
+                System.out.println("PROFILE CONFIG SAVING");
                 profileManager.getPlayerConfig().setPlayerQuests(questUI.getQuests());  // Quests
                 profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable())); // Inventory
                 profileManager.getPlayerConfig().setEquipment(InventoryUI.getInventory(inventoryUI.getEquipSlotTable())); // Equipment
@@ -281,7 +274,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 break;
 
             case CLEAR_CURRENT_PROFILE:
-                System.out.println("CLEAR");
+                System.out.println("PROFILE CONFIG CLEARING");
                 profileManager.getPlayerConfig().setPlayerQuests(new Array<QuestGraph>());
                 profileManager.getPlayerConfig().setInventory(new Array<InventoryItemLocation>());
                 break;
@@ -362,6 +355,13 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     @Override
     public void onNotify(InventoryItem item, InventoryEvent event) {
         switch (event) {
+            case ADDED:
+                player.sendMessage(Message.MESSAGE.UPDATE_WEAPON, json.toJson(""));
+                System.out.println("ITEM ADDED");
+                break;
+            case REMOVED:
+                System.out.println("ITEM REMOVED");
+                break;
             case ITEM_CONSUMED:
                 break;
         }

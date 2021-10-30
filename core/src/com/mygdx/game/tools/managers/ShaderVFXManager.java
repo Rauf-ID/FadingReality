@@ -33,7 +33,7 @@ public class ShaderVFXManager {
         ShaderProgram.pedantic = false;
         shader = new ShaderProgram(Gdx.files.internal("shaders/mask.vert"), Gdx.files.internal("shaders/mask.frag"));
         if(shader.isCompiled()) {
-            System.out.println("Shader2 is compiled");
+            System.out.println("SHADER IS LOADED ( PATH: shaders/mask.vert )");
         }
 
         vfxManager = new VfxManager(Pixmap.Format.RGBA8888);
