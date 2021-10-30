@@ -100,13 +100,12 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
                                           @Override
                                           public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                                               super.touchUp(event, x, y, pointer, button);
-                                              if( getTapCount() == 2 ){ // если нажал дважды на предмет
+                                              if(getTapCount() == 2){ // если нажал дважды на предмет
                                                   InventorySlot slot = (InventorySlot)event.getListenerActor();
-                                                  if( slot.hasItem() ){
+                                                  if(slot.hasItem()){
                                                       InventoryItem item = slot.getTopInventoryItem();
-                                                      if( item.isConsumable() ){
-                                                          String itemInfo = item.getItemUseType() + Message.MESSAGE_TOKEN + item.getItemUseTypeValue();
-                                                          InventoryUI.this.notify(itemInfo, InventoryObserver.InventoryEvent.ITEM_CONSUMED);
+                                                      if(item.isConsumable()){
+                                                          InventoryUI.this.notify(item, InventoryObserver.InventoryEvent.ITEM_CONSUMED);
                                                           slot.remove(item);
                                                       }
                                                   }
@@ -228,23 +227,16 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         {
             case ADDED_ITEM:
                 InventoryItem addItem = slot.getTopInventoryItem();
-                if( addItem == null ) return;
-                if( addItem.isInventoryItemOffensive() ){
-                    if( addItem.isInventoryItemOffensiveWand() ){
-                        notify(String.valueOf(addItem.getItemUseTypeValue()), InventoryObserver.InventoryEvent.ADD_WAND_AP);
-                    }
-
+                if(addItem == null) return;
+                if(addItem.isInventoryItemOffensive()){ // Проверка на тип предмета, по логике не нужно
+                    notify(addItem, InventoryObserver.InventoryEvent.ADD_WAND_AP);
                 }
                 break;
             case REMOVED_ITEM:
                 InventoryItem removeItem = slot.getTopInventoryItem();
-                System.out.println("WTF");
-                if( removeItem == null ) return;
-                if( removeItem.isInventoryItemOffensive() ){
-                    if( removeItem.isInventoryItemOffensiveWand() ){
-                        notify(String.valueOf(removeItem.getItemUseTypeValue()), InventoryObserver.InventoryEvent.REMOVE_WAND_AP);
-                    }
-
+                if(removeItem == null) return;
+                if(removeItem.isInventoryItemOffensive()){ // Проверка на тип предмета, по логике не нужно
+                    notify(removeItem, InventoryObserver.InventoryEvent.REMOVE_WAND_AP);
                 }
                 break;
             default:
@@ -270,9 +262,9 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     }
 
     @Override
-    public void notify(String value, InventoryObserver.InventoryEvent event) {
+    public void notify(InventoryItem item, InventoryObserver.InventoryEvent event) {
         for(InventoryObserver observer: observers){
-            observer.onNotify(value, event);
+            observer.onNotify(item, event);
         }
     }
 

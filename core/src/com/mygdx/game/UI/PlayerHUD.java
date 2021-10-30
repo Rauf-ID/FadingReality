@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.FadingReality;
 import com.mygdx.game.UI.pda.BrowserUI;
 import com.mygdx.game.component.Message;
+import com.mygdx.game.inventory.InventoryItem;
 import com.mygdx.game.quest.QuestGraph;
 import com.mygdx.game.UI.pda.PDAUI;
 import com.mygdx.game.observer.InventoryObserver;
@@ -112,7 +113,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         inventoryUI.setMovable(true);
         inventoryUI.setVisible(false);
         inventoryUI.setSize(1100,600);
-        inventoryUI.setPosition(400, 100);
+        inventoryUI.setPosition(0, 100);
 
         conversationUI = new ConversationUI(FadingReality.getUiSkin());
         conversationUI.setPosition(FadingReality.HEIGHT/1.5f,50);
@@ -359,7 +360,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     }
 
     @Override
-    public void onNotify(String value, InventoryEvent event) {
+    public void onNotify(InventoryItem item, InventoryEvent event) {
         switch (event) {
             case ITEM_CONSUMED:
                 break;

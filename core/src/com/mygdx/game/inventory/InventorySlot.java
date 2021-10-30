@@ -54,7 +54,6 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         defaultBackground.add(this.customBackgroundDecal);
     }
 
-
     public void incrementItemCount(boolean sendAddNotification) {
         numItemsVal++;
         numItemsLabel.setText(String.valueOf(numItemsVal));

@@ -1,5 +1,7 @@
 package com.mygdx.game.observer;
 
+import com.mygdx.game.inventory.InventoryItem;
+
 public interface InventoryObserver {
     public static enum InventoryEvent {
         UPDATED_AP,
@@ -10,5 +12,5 @@ public interface InventoryObserver {
         NONE
     }
 
-    void onNotify(final String value, InventoryEvent event);
+    void onNotify(final InventoryItem item, InventoryEvent event);
 }
