@@ -55,8 +55,6 @@ public class EntityFactory {
         for( EntityConfig config: eliteKnightConfigs){
             entities.put(config.getEntityID(), config);
         }
-
-
     }
 
     public static EntityFactory getInstance() {

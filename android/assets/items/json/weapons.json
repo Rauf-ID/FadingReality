@@ -1,0 +1,11 @@
+[
+{
+	itemTypeID: ANGEL_BLADE
+	knockback: 100
+	hitRange: 100,
+	durability: 500,
+	minDamage: 82,
+	maxDamage: 94,
+	critChance: 33,
+}
+]

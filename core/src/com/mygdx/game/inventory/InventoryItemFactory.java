@@ -18,7 +18,7 @@ public class InventoryItemFactory {
     private static InventoryItemFactory instance = null;
 
     private Json json = new Json();
-    private Hashtable<ItemTypeID,InventoryItem> inventoryItemList;
+    private Hashtable<ItemTypeID, InventoryItem> inventoryItemList;
 
     private InventoryItemFactory(){
         ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal(INVENTORY_ITEM));

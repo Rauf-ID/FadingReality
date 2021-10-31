@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.FadingReality;
 import com.mygdx.game.UI.pda.BrowserUI;
+import com.mygdx.game.component.Component;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.inventory.InventoryItem;
 import com.mygdx.game.quest.QuestGraph;
@@ -356,8 +357,15 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     public void onNotify(InventoryItem item, InventoryEvent event) {
         switch (event) {
             case ADDED:
-                player.sendMessage(Message.MESSAGE.UPDATE_WEAPON, json.toJson(""));
                 System.out.println("ITEM ADDED");
+                if(item.isInventoryItemOffensiveMelee()) {
+                    ItemTypeID itemTypeID = item.getItemTypeID();
+                    player.sendMessage(Message.MESSAGE.UPDATE_MELEE_WEAPON, json.toJson(itemTypeID.toString()));
+                } else if(item.isInventoryItemOffensiveRanged()) {
+                    ItemTypeID itemTypeID = item.getItemTypeID();
+                    int numberItemsInside = item.getNumberItemsInside();
+                    player.sendMessage(Message.MESSAGE.UPDATE_RANGED_WEAPON, json.toJson(itemTypeID.toString() + "::" + numberItemsInside));
+                }
                 break;
             case REMOVED:
                 System.out.println("ITEM REMOVED");

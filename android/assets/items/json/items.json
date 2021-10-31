@@ -2,7 +2,7 @@
 {
 	itemTypeID: ARMOR04
 	itemShortDescription: That Armor
-	itemUseType: ARMOR_CHEST
+	itemUseType: ARMOR
 	itemAttributes: [EQUIPPABLE]
 	itemUseTypeValue: 10
 	itemValue: 25
@@ -10,7 +10,7 @@
 {
 	itemTypeID: BOOTS03
 	itemShortDescription: That Boots
-	itemUseType: ARMOR_FEET
+	itemUseType: ARMOR
 	itemAttributes: [EQUIPPABLE]
 	itemUseTypeValue: 10 
 	itemValue: 25
@@ -18,7 +18,7 @@
 {
 	itemTypeID: HELMET05
 	itemShortDescription: That helmet
-	itemUseType: ARMOR_HELMET
+	itemUseType: ARMOR
 	itemAttributes: [EQUIPPABLE]
 	itemUseTypeValue: 10 
 	itemValue: 25
@@ -34,9 +34,17 @@
 {
 	itemTypeID: PISTOL_ALG
 	itemShortDescription: ALG (Antony Light Gun)	
-	itemUseType: WEAPON_ONEHAND
-	itemAttributes: [EQUIPPABLE, ITEM_INSIDE]
+	itemUseType: RANGED_WEAPON
+	itemAttributes: [EQUIPPABLE, ITEM_INSIDE, LIGHT_WEAPON]
 	itemUseTypeValue: 709090
+	itemValue: 25
+},
+{
+	itemTypeID: ANGEL_BLADE
+	itemShortDescription: Angel Blade Melee Weapon	
+	itemUseType: MELEE_WEAPON
+	itemAttributes: [EQUIPPABLE, LIGHT_WEAPON]
+	itemUseTypeValue: 55555
 	itemValue: 25
 }
 ]

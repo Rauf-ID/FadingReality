@@ -18,7 +18,8 @@ public interface Message {
         ENTITY_SELECTED,
         ENTITY_DESELECTED,
         INIT_CONFIG,
-        UPDATE_WEAPON,
+        UPDATE_MELEE_WEAPON,
+        UPDATE_RANGED_WEAPON,
         ATTAKING_IS_DONE,
         ACTIVATE_ANIM_MECHAN
     }

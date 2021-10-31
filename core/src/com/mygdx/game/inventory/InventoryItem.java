@@ -11,22 +11,20 @@ public class InventoryItem extends Image {
         CONSUMABLE,
         EQUIPPABLE,
         STACKABLE,
-        ITEM_INSIDE
+        ITEM_INSIDE,
+        LIGHT_WEAPON,
+        MEDIUM_WEAPON,
+        HEAVY_WEAPON,
     }
 
     public enum ItemUseType{
         ITEM_RESTORE_HEALTH,
         ITEM_RESTORE_MP,
         ITEM_DAMAGE,
-        WEAPON_ONEHAND,
-        WEAPON_TWOHAND,
-        WAND_ONEHAND,
-        WAND_TWOHAND,
-        ARMOR_SHIELD,
-        ARMOR_HELMET,
-        ARMOR_CHEST,
-        ARMOR_FEET,
         QUEST_ITEM,
+        ARMOR,
+        MELEE_WEAPON,
+        RANGED_WEAPON,
         NONE
     }
 
@@ -41,6 +39,7 @@ public class InventoryItem extends Image {
         SCROLL01,SCROLL02,SCROLL03,
         HERB001,BABY001,HORNS001,FUR001,
         PISTOL_ALG,
+        ANGEL_BLADE,
         NONE
     }
 
@@ -144,24 +143,13 @@ public class InventoryItem extends Image {
         return itemUseType == ItemUseType.ITEM_RESTORE_MP;
     }
 
-    public boolean isStackable(){
-        return itemAttributes.contains(ItemAttribute.STACKABLE, true);
-    }
-
-    public boolean isConsumable(){
-        return itemAttributes.contains(ItemAttribute.CONSUMABLE, true);
-    }
-
-    public boolean hasItemInside() {
-        return itemAttributes.contains(ItemAttribute.ITEM_INSIDE, true);
-    }
 
     public boolean isSameItemType(InventoryItem candidateInventoryItem){ //Если два предмета одного типа
         return itemTypeID == candidateInventoryItem.getItemTypeID();
     }
 
     public int getTradeValue(){
-        //For now, we will set the trade in value of items at about one third their original value
+//        For now, we will set the trade in value of items at about one third their original value
         if( itemValue >= 0 ) {
             return MathUtils.floor(itemValue * .33f) + 2;
         }else{
@@ -169,20 +157,49 @@ public class InventoryItem extends Image {
         }
     }
 
-    public boolean isInventoryItemOffensiveWand(){
-        return itemUseType == ItemUseType.WAND_ONEHAND|| itemUseType == ItemUseType.WAND_TWOHAND;
+    public boolean isConsumable(){
+        return itemAttributes.contains(ItemAttribute.CONSUMABLE, true);
+    }
+
+    public boolean isEquippable(){
+        return itemAttributes.contains(ItemAttribute.EQUIPPABLE, true);
+    }
+
+    public boolean isStackable(){
+        return itemAttributes.contains(ItemAttribute.STACKABLE, true);
+    }
+
+    public boolean hasItemInside() {
+        return itemAttributes.contains(ItemAttribute.ITEM_INSIDE, true);
+    }
+
+    public  boolean isLightWeapon() {
+        return  itemAttributes.contains(ItemAttribute.LIGHT_WEAPON, true);
+    }
+
+    public  boolean isMediumWeapon() {
+        return  itemAttributes.contains(ItemAttribute.MEDIUM_WEAPON, true);
+    }
+
+    public  boolean isHeavyWeapon() {
+        return  itemAttributes.contains(ItemAttribute.HEAVY_WEAPON, true);
+    }
+
+
+    public boolean isInventoryItemOffensiveRanged() {
+        return itemUseType == ItemUseType.RANGED_WEAPON;
+    }
+
+    public boolean isInventoryItemOffensiveMelee() {
+        return itemUseType == ItemUseType.MELEE_WEAPON;
     }
 
     public boolean isInventoryItemOffensiveWeapon(){
-        return itemUseType == ItemUseType.WEAPON_ONEHAND || itemUseType == ItemUseType.WEAPON_TWOHAND;
-    }
-
-    public boolean isInventoryItemOffensive(){
-        return itemUseType == ItemUseType.WEAPON_ONEHAND || itemUseType == ItemUseType.WEAPON_TWOHAND || itemUseType == ItemUseType.WAND_ONEHAND || itemUseType == ItemUseType.WAND_TWOHAND;
+        return itemUseType == ItemUseType.MELEE_WEAPON || itemUseType == ItemUseType.RANGED_WEAPON;
     }
 
     public boolean isInventoryItemDefensive(){
-        return itemUseType == ItemUseType.ARMOR_CHEST || itemUseType == ItemUseType.ARMOR_HELMET || itemUseType == ItemUseType.ARMOR_FEET || itemUseType == ItemUseType.ARMOR_SHIELD;
+        return itemUseType == ItemUseType.ARMOR;
     }
 
 }

@@ -38,15 +38,20 @@ public class InventorySlotTooltip extends Window {
             StringBuilder string = new StringBuilder();
             InventoryItem item = inventorySlot.getTopInventoryItem();
             string.append(item.getItemShortDescription());
-            if(item.isInventoryItemOffensive()){
+            if(item.isInventoryItemOffensiveMelee()) {
+                string.append(System.getProperty("line.separator"));
+                string.append(String.format("Attack Points: %s", item.getItemUseTypeValue()));
+            } else if(item.isInventoryItemOffensiveRanged()){
                 string.append(System.getProperty("line.separator"));
                 string.append(String.format("Attack Points: %s", item.getItemUseTypeValue()));
                 string.append(System.getProperty("line.separator"));
-                string.append(String.format("Bullets: %s", item.getNumberItemsInside()));
+                string.append(System.getProperty("line.separator"));
+                string.append(String.format("Ammo: %s", item.getNumberItemsInside()));
             } else if(item.isInventoryItemDefensive()){
                 string.append(System.getProperty("line.separator"));
                 string.append(String.format("Defense Points: %s", item.getItemUseTypeValue()));
             }
+            string.append(System.getProperty("line.separator"));
             string.append(System.getProperty("line.separator"));
             string.append(String.format("Original Value: %s GP", item.getItemValue()));
             string.append(System.getProperty("line.separator"));

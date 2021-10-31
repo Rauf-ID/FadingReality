@@ -66,17 +66,21 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         inventoryActors = new Array<Actor>();
         inventorySlotTooltip = new InventorySlotTooltip(Utility.STATUSUI_SKIN);
 
-        InventorySlot weaponSlot = new InventorySlot(ItemUseType.WEAPON_ONEHAND, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_weapon")));
-        InventorySlot chestSlot = new InventorySlot(ItemUseType.ARMOR_CHEST, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_chest")));
+        InventorySlot meleeWeaponSlot = new InventorySlot(ItemUseType.MELEE_WEAPON, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_weapon")));
+        InventorySlot armorSlot = new InventorySlot(ItemUseType.ARMOR, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_chest")));
+        InventorySlot rangedWeaponSlot = new InventorySlot(ItemUseType.RANGED_WEAPON, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_weapon")));
 
-        weaponSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
-        chestSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
+        meleeWeaponSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
+        armorSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
+        rangedWeaponSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
 
-        weaponSlot.addObserver(this);
-        chestSlot.addObserver(this);
+        meleeWeaponSlot.addObserver(this);
+        armorSlot.addObserver(this);
+        rangedWeaponSlot.addObserver(this);
 
-        dragAndDrop.addTarget(new InventorySlotTarget(weaponSlot));
-        dragAndDrop.addTarget(new InventorySlotTarget(chestSlot));
+        dragAndDrop.addTarget(new InventorySlotTarget(meleeWeaponSlot));
+        dragAndDrop.addTarget(new InventorySlotTarget(armorSlot));
+        dragAndDrop.addTarget(new InventorySlotTarget(rangedWeaponSlot));
 
         //layout
         for(int i = 1; i <= numSlots; i++){
@@ -109,8 +113,9 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
 
         }
 
-        equipSlots.add(weaponSlot).size(slotWidth, slotHeight);
-        equipSlots.add(chestSlot).size(slotWidth, slotHeight);
+        equipSlots.add(meleeWeaponSlot).size(slotWidth, slotHeight);
+        equipSlots.add(armorSlot).size(slotWidth, slotHeight);
+        equipSlots.add(rangedWeaponSlot).size(slotWidth, slotHeight);
 
         playerSlotsTable.add(equipSlots);
         inventoryActors.add(inventorySlotTooltip);

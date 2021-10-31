@@ -24,7 +24,7 @@ import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.observer.ComponentSubject;
 import com.mygdx.game.tools.managers.ControlManager;
 import com.mygdx.game.tools.managers.ResourceManager;
-import com.mygdx.game.tools.managers.WeaponSystem;
+import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 
 import java.util.ArrayList;

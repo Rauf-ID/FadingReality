@@ -14,11 +14,18 @@ import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
+import com.mygdx.game.inventory.InventoryItem;
+import com.mygdx.game.inventory.InventoryItem.ItemTypeID;
+import com.mygdx.game.inventory.InventoryItemFactory;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.tools.Rumble;
 import com.mygdx.game.tools.managers.ControlManager;
 import com.mygdx.game.tools.managers.ResourceManager;
+import com.mygdx.game.weapon.Weapon;
+import com.mygdx.game.weapon.WeaponFactory;
 import com.mygdx.game.world.MapManager;
+
+import java.util.Arrays;
 
 
 public class Player extends Component {
@@ -46,23 +53,36 @@ public class Player extends Component {
     public void receiveMessage(String message) {
         String[] string = message.split(MESSAGE_TOKEN);
 
-        if( string.length == 0 ) return;
+        if(string.length == 0) return;
 
-        if( string.length == 2 ) {
-            if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
+        if(string.length == 2) {
+            if(string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
                 currentEntityPosition = json.fromJson(Vector2.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_POSITION.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.CURRENT_POSITION.toString())) {
                 currentEntityPosition = json.fromJson(Vector2.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
                 currentState = json.fromJson(Entity.State.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
                 currentDirection = json.fromJson(Entity.Direction.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.INTERACTION_WITH_ENTITY.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.INTERACTION_WITH_ENTITY.toString())) {
 
-            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 entityName = entityConfig.getEntityID();
-            }  else if (string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.UPDATE_MELEE_WEAPON.toString())) {
+
+                String itemTypeIDString = json.fromJson(String.class, string[1]);
+                ItemTypeID itemTypeID = ItemTypeID.valueOf(itemTypeIDString);
+
+                Weapon weapon = WeaponFactory.getInstance().getInventoryItem(itemTypeID);
+
+            } else if(string[0].equalsIgnoreCase(MESSAGE.UPDATE_RANGED_WEAPON.toString())) {
+
+                String[] s = json.fromJson(String.class, string[1]).split("::");
+                String itemTypeID = s[0];
+                int numberItemsInside = Integer.parseInt(s[1]);
+
+            } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
 
@@ -90,7 +110,7 @@ public class Player extends Component {
 //        updatePortalLayerActivation(mapManager, delta);
 
         //Player has moved
-        if( previousPosition.x != currentEntityPosition.x || previousPosition.y != currentEntityPosition.y){
+        if(previousPosition.x != currentEntityPosition.x || previousPosition.y != currentEntityPosition.y){
             notify("", ComponentObserver.ComponentEvent.PLAYER_HAS_MOVED);
             previousPosition = currentEntityPosition.cpy();
         }
@@ -156,12 +176,11 @@ public class Player extends Component {
                 camera.translate(1,1);
             }
         }
-
-//        if (!pdaActive) {
-//            if (camera.zoom  <= 0.39f){
-//                camera.zoom += delta * speedCamMove * 0.03f;
-//            }
-//        }
+        if (!pdaActive) {
+            if (camera.zoom  <= 0.39f){
+                camera.zoom += delta * speedCamMove * 0.03f;
+            }
+        }
 
 
         if (currentState == Entity.State.RUN){
@@ -241,7 +260,6 @@ public class Player extends Component {
                     }
 
                     if (!PlayerHUD.pdaui.isVisible() && !PlayerHUD.browserUI.isVisible()) {
-
                         if (Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
                             currentState = Entity.State.RUN;
                             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
