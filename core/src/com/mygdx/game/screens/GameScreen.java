@@ -21,7 +21,7 @@ import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.tools.OrthogonalTiledMapRendererWithSprites;
 import com.mygdx.game.tools.managers.ShaderVFXManager;
-import com.mygdx.game.tools.managers.WeaponSystem;
+import com.mygdx.game.tools.managers.WeaponManager;
 import com.mygdx.game.world.Map;
 import com.mygdx.game.world.MapFactory;
 import com.mygdx.game.world.MapManager;
@@ -58,7 +58,7 @@ import java.util.Collections;
 
         //MANAGERS ShaderAndVFX / Weapon / MapObjects
         private ShaderVFXManager shaderVFXManager;
-        private WeaponSystem weaponSystem;
+        private WeaponManager weaponManager;
         private MapObjectsManager mapObjectsManager;
 
         //LIST FOR SORT ENTITIES
@@ -102,7 +102,7 @@ import java.util.Collections;
             shaderVFXManager = new ShaderVFXManager();
 
             //CREATE WeaponMANAGER
-            weaponSystem = new WeaponSystem();
+            weaponManager = new WeaponManager();
 
             //CREATE MAP OBJECTS
             mapObjectsManager = new MapObjectsManager();
@@ -126,7 +126,7 @@ import java.util.Collections;
             //SOME UI UPDATES
             playerHUD.update();
             playerHUD.setCurrentState(player.getCurrentState().toString());
-            playerHUD.setCountAmmo(weaponSystem.getGun().getAmmoCount());
+            playerHUD.setCountAmmo(weaponManager.getGun().getAmmoCount());
             playerHUD.setMouseCoordinates(player.getMouseCoordinates());
             playerHUD.setCameraZoom(camera.zoom);
             playerHUD.setPlayerPosition(player.getCurrentPosition());
@@ -168,7 +168,7 @@ import java.util.Collections;
             mapMgr.updateCurrentMapEntities(mapMgr, game.getBatch(), delta);
 
             //WeaponMANAGER UPDATE
-            weaponSystem.update(player, delta);
+            weaponManager.update(player, delta);
 
             //VFX - EFFECTS
             shaderVFXManager.updateVFX();
@@ -184,9 +184,9 @@ import java.util.Collections;
             //RENDER SORTED ENTITY, GUN AND MAP OBJECTS
             if(player.getCurrentDirection() == Entity.Direction.UP) {
                 if (player.getBoolGunActive()){
-                    weaponSystem.getGun().drawRotatedGun(game.getBatch(), delta);
+                    weaponManager.getGun().drawRotatedGun(game.getBatch(), delta);
                 }
-                weaponSystem.getGun().drawAmmo(game.getBatch(), delta);
+                weaponManager.getGun().drawAmmo(game.getBatch(), delta);
                 for(Entity e: entities){
                     e.draw(game.getBatch(), delta);
                 }
@@ -194,9 +194,9 @@ import java.util.Collections;
                 for(Entity e: entities){
                     e.draw(game.getBatch(), delta);
                 }
-                weaponSystem.getGun().drawAmmo(game.getBatch(), delta);
+                weaponManager.getGun().drawAmmo(game.getBatch(), delta);
                 if (player.getBoolGunActive()){
-                    weaponSystem.getGun().drawRotatedGun(game.getBatch(), delta);
+                    weaponManager.getGun().drawRotatedGun(game.getBatch(), delta);
                 }
             }
 

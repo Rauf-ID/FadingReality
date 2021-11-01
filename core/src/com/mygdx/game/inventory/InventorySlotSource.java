@@ -34,7 +34,7 @@ public class InventorySlotSource extends DragAndDrop.Source {
         sourceSlot.decrementItemCount(true);
 
         payload.setDragActor(getActor());
-        dragAndDrop.setDragActorPosition(30, -30); // смещение актера во время перестакивания
+        dragAndDrop.setDragActorPosition(actor.getX() / 2, -actor.getHeight() / 2); // смещение актера во время перестакивания
 
         return payload;
     }

@@ -7,7 +7,7 @@ import com.mygdx.game.tools.Gun;
 import com.mygdx.game.tools.Rumble;
 import com.mygdx.game.tools.SimpleBullet;
 
-public class WeaponSystem {
+public class WeaponManager {
 
     private Gun gun;
     private float shootTimer = 0f;
@@ -16,7 +16,7 @@ public class WeaponSystem {
 
     private InventoryItem.ItemTypeID itemTypeID;
 
-    public WeaponSystem() {
+    public WeaponManager() {
         gun = new Gun(1, 0,0);
         gun.addAmmo(30000);
     }

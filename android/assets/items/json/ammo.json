@@ -1,7 +1,6 @@
 [
 {
 	itemTypeID: ANGEL_BLADE
-	// AmmoTypeID: NINE_MM
 	knockback: 100
 	hitRange: 100
 	minDamage: 100

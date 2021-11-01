@@ -4,25 +4,31 @@ import com.mygdx.game.inventory.InventoryItem.ItemTypeID;
 
 public class Weapon {
 
+    public enum AmmoTypeID {
+        NINE_MM,
+    }
+
     private ItemTypeID itemTypeID;
+    private AmmoTypeID ammoTypeID;
     private int knockback;
     private int hitRange;
-    private int durability;
     private int minDamage;
     private int maxDamage;
     private int critChance;
+    private int ammoSpeed;
 
     public Weapon(){}
 
     public Weapon(Weapon weapon){
         super();
         this.itemTypeID = weapon.getItemTypeID();
+        this.ammoTypeID = weapon.getAmmoTypeID();
         this.knockback = weapon.getKnockback();
         this.hitRange = weapon.getHitRange();
-        this.durability = weapon.getDurability();
         this.minDamage = weapon.getMinDamage();
         this.maxDamage = weapon.getMaxDamage();
         this.critChance = weapon.getCritChance();
+        this.ammoSpeed = weapon.getAmmoSpeed();
     }
 
     public ItemTypeID getItemTypeID() {
@@ -31,6 +37,14 @@ public class Weapon {
 
     public void setItemTypeID(ItemTypeID itemTypeID) {
         this.itemTypeID = itemTypeID;
+    }
+
+    public AmmoTypeID getAmmoTypeID() {
+        return ammoTypeID;
+    }
+
+    public void setAmmoTypeID(AmmoTypeID ammoTypeID) {
+        this.ammoTypeID = ammoTypeID;
     }
 
     public int getKnockback() {
@@ -47,14 +61,6 @@ public class Weapon {
 
     public void setHitRange(int hitRange) {
         this.hitRange = hitRange;
-    }
-
-    public int getDurability() {
-        return durability;
-    }
-
-    public void setDurability(int durability) {
-        this.durability = durability;
     }
 
     public int getMinDamage() {
@@ -79,5 +85,13 @@ public class Weapon {
 
     public void setCritChance(int critChance) {
         this.critChance = critChance;
+    }
+
+    public int getAmmoSpeed() {
+        return ammoSpeed;
+    }
+
+    public void setAmmoSpeed(int ammoSpeed) {
+        this.ammoSpeed = ammoSpeed;
     }
 }

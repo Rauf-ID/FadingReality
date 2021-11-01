@@ -10,14 +10,14 @@ import java.util.Hashtable;
 
 public class WeaponFactory {
 
-    private static final String WEAPONS = "items/json/weapons.json";
+    private static final String PATH_TO_JSON_WEAPONS = "items/json/weapons.json";
     private static WeaponFactory instance = null;
 
     private Json json = new Json();
     private Hashtable<ItemTypeID, Weapon> weaponList;
 
     private WeaponFactory(){
-        ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal(WEAPONS));
+        ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal(PATH_TO_JSON_WEAPONS));
         weaponList = new Hashtable<ItemTypeID, Weapon>();
 
         for (JsonValue jsonVal : list) {
@@ -33,9 +33,8 @@ public class WeaponFactory {
         return instance;
     }
 
-    public Weapon getInventoryItem(ItemTypeID inventoryItemType){
-        Weapon weapon = new Weapon(weaponList.get(inventoryItemType));
-        return weapon;
+    public Weapon getWeapon(ItemTypeID inventoryItemType){
+        return new Weapon(weaponList.get(inventoryItemType));
     }
 
 

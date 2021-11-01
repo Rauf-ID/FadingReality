@@ -14,9 +14,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
-import com.mygdx.game.inventory.InventoryItem;
 import com.mygdx.game.inventory.InventoryItem.ItemTypeID;
-import com.mygdx.game.inventory.InventoryItemFactory;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.tools.Rumble;
 import com.mygdx.game.tools.managers.ControlManager;
@@ -24,8 +22,6 @@ import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.weapon.Weapon;
 import com.mygdx.game.weapon.WeaponFactory;
 import com.mygdx.game.world.MapManager;
-
-import java.util.Arrays;
 
 
 public class Player extends Component {
@@ -74,7 +70,8 @@ public class Player extends Component {
                 String itemTypeIDString = json.fromJson(String.class, string[1]);
                 ItemTypeID itemTypeID = ItemTypeID.valueOf(itemTypeIDString);
 
-                Weapon weapon = WeaponFactory.getInstance().getInventoryItem(itemTypeID);
+                Weapon weapon = WeaponFactory.getInstance().getWeapon(itemTypeID);
+                weaponSystem.setMeleeWeapon(weapon);
 
             } else if(string[0].equalsIgnoreCase(MESSAGE.UPDATE_RANGED_WEAPON.toString())) {
 
