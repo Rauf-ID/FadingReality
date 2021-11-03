@@ -5,51 +5,76 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
 
-public class Ammo {
+public class AmmoOld {
 
-    public Texture texture;
-    public Sprite sprite;
-    public Texture shadow;
+    private Gun gun;
 
-    public float range;
-    public float damage;
+    public float range; // -
+    public float speed; // -
     public float distMoved;
+
+    public Sprite sprite;
     public Vector2 vector;
     public Vector3 pos;
     public boolean active;
     public boolean remove;
     public float width, height;
-    public float speed;
     public float angle;
-
     protected ArrayList<Vector3> ammoTrace = new ArrayList<>();
     protected boolean dashing = false;
     protected float ammoTime = 0;
     protected int anInt1 = 1;
 
+    public AmmoOld(Gun gun){
+        this.gun = gun;
+        sprite = new Sprite(new Texture("bullet.png"));
 
-
-    public Ammo(){
-        super();
         vector = new Vector2();
         pos = new Vector3();
+        range = 360;
+        speed = 720;
+        width = sprite.getWidth();
+        height = sprite.getHeight();
+        active = true;
+        dashing = true;
+        setupBullet();
+    }
+
+    public void setupBullet(){
+        angle=gun.angle;
+        float angleRadians = MathUtils.degreesToRadians * gun.angle;
+        vector.x = MathUtils.cos(angleRadians);
+        vector.y = MathUtils.sin(angleRadians);
+
+        pos.x = gun.pos.x + 64 + 13 + (vector.x * 10);
+        pos.y = gun.pos.y + 64 + 10 + (vector.y * 10);
     }
 
     public void tick(float delta){
+        if(active){
+            float dx = (delta * vector.x) * speed;
+            float dy = (delta * vector.y) * speed;
+            float dx2 = pos.x + dx;
+            float dy2 = pos.y + dy;
 
+            distMoved += Vector2.dst(pos.x, pos.y, dx2, dy2);
+            pos.set(dx2, dy2, 0);
+
+            if(distMoved > range){
+                remove = true;
+                active = false;
+                dashing = false;
+            }
+        }
     }
 
     public void draw(SpriteBatch batch, float delta){
-//        if(shadow != null) batch.draw(shadow, pos.x, pos.y, width, height);
-//        if(texture != null) batch.draw(texture, pos.x, pos.y, width, height);
-//        if(texture != null) batch.draw(texture, pos.x, pos.y, 10,10, width, height, 10,10, 1,10,10, (int)width,(int)height,false,false);
-
-
         if(dashing) {
             if(Gdx.graphics.getFrameId() % (int) ((Gdx.graphics.getFramesPerSecond()*.02f)+1) == 0) {  //def .05f
                 ammoTrace.add(new Vector3(pos.x, pos.y, 1));
@@ -57,12 +82,6 @@ public class Ammo {
             }
             ammoTime += delta;
         }
-//        if(ammoTime > 0.2f) {  //def .02f
-//            ammoTime = 0;
-//            dashing = false;
-//            anInt1 = 1;
-//        }
-
 
         for(Vector3 trace : ammoTrace) {
             batch.setColor(0.05f,0.7f, 0.8f, trace.z);
@@ -76,10 +95,8 @@ public class Ammo {
             }
         }
 
-        if(texture != null) batch.draw(sprite, pos.x, pos.y, 0, 0, width, height, 1, 1, angle);
-
-
-
+        if(sprite != null) batch.draw(sprite, pos.x, pos.y, 0, 0, width, height, 1, 1, angle);
     }
+
 
 }

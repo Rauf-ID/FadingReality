@@ -105,7 +105,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected Hashtable<Entity.AnimationType, Animation<Sprite>> animations;
 
     protected ControlManager controlManager;
-    protected WeaponSystem weaponSystem;
+    public WeaponSystem weaponSystem;
 
 
     Component() {

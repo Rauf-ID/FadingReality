@@ -1,6 +1,6 @@
 [
 {
-	itemTypeID: ARMOR04
+	itemID: ARMOR04
 	itemShortDescription: That Armor
 	itemUseType: ARMOR
 	itemAttributes: [EQUIPPABLE]
@@ -8,7 +8,7 @@
 	itemValue: 25
 },
 {
-	itemTypeID: BOOTS03
+	itemID: BOOTS03
 	itemShortDescription: That Boots
 	itemUseType: ARMOR
 	itemAttributes: [EQUIPPABLE]
@@ -16,7 +16,7 @@
 	itemValue: 25
 },
 {
-	itemTypeID: HELMET05
+	itemID: HELMET05
 	itemShortDescription: That helmet
 	itemUseType: ARMOR
 	itemAttributes: [EQUIPPABLE]
@@ -24,7 +24,7 @@
 	itemValue: 25
 },
 {
-	itemTypeID: POTIONS01
+	itemID: POTIONS01
 	itemShortDescription: That potions
 	itemUseType: ITEM_RESTORE_HEALTH
 	itemAttributes: [CONSUMABLE, STACKABLE]
@@ -32,7 +32,7 @@
 	itemValue: 10
 },
 {
-	itemTypeID: PISTOL_ALG
+	itemID: PISTOL_ALG
 	itemShortDescription: ALG (Antony Light Gun)	
 	itemUseType: RANGED_WEAPON
 	itemAttributes: [EQUIPPABLE, ITEM_INSIDE, LIGHT_WEAPON]
@@ -40,7 +40,7 @@
 	itemValue: 25
 },
 {
-	itemTypeID: ANGEL_BLADE
+	itemID: ANGEL_BLADE
 	itemShortDescription: Angel Blade Melee Weapon	
 	itemUseType: MELEE_WEAPON
 	itemAttributes: [EQUIPPABLE, LIGHT_WEAPON]

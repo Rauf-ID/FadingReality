@@ -2,10 +2,9 @@ package com.mygdx.game.tools.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.entity.Entity;
-import com.mygdx.game.inventory.InventoryItem;
+import com.mygdx.game.tools.AmmoOld;
 import com.mygdx.game.tools.Gun;
 import com.mygdx.game.tools.Rumble;
-import com.mygdx.game.tools.SimpleBullet;
 
 public class WeaponManager {
 
@@ -14,10 +13,8 @@ public class WeaponManager {
     private static final float SHOOT_WAIT_TIMER = 0.3f;
     private float angle;
 
-    private InventoryItem.ItemTypeID itemTypeID;
-
     public WeaponManager() {
-        gun = new Gun(1, 0,0);
+        gun = new Gun();
         gun.addAmmo(30000);
     }
 
@@ -29,7 +26,7 @@ public class WeaponManager {
         if (player.getBoolPissPiss() && shootTimer >= SHOOT_WAIT_TIMER){ //&& shootTimer >= SHOOT_WAIT_TIMER
             shootTimer = 0;
             player.setBoolPissPiss(false);
-            SimpleBullet bullet = new SimpleBullet(gun);
+            AmmoOld bullet = new AmmoOld(gun);
             gun.addActiveAmmo(bullet);
             if(player.getCurrentDirection() == Entity.Direction.LEFT) {
                 Rumble.rumble(-1f, .06f, 0, Rumble.State.GUN);

@@ -19,7 +19,6 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.FadingReality;
 import com.mygdx.game.UI.pda.BrowserUI;
-import com.mygdx.game.component.Component;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.inventory.InventoryItem;
 import com.mygdx.game.quest.QuestGraph;
@@ -27,7 +26,6 @@ import com.mygdx.game.UI.pda.PDAUI;
 import com.mygdx.game.observer.InventoryObserver;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
-import com.mygdx.game.inventory.InventoryItem.ItemTypeID;
 import com.mygdx.game.inventory.InventoryItemLocation;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.dialogs.ConversationGraph;
@@ -37,8 +35,10 @@ import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.tools.HealthBar;
 import com.mygdx.game.tools.Toast;
+import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.world.MapManager;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -228,7 +228,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
                     questUI.setQuests(new Array<QuestGraph>());
 
-                    Array<ItemTypeID> items = player.getEntityConfig().getInventory(); // дефолтные предметы из EntityConfig
+                    Array<InventoryItem.ItemID> items = player.getEntityConfig().getInventory(); // дефолтные предметы из EntityConfig
                     Array<InventoryItemLocation> itemLocations = new Array<InventoryItemLocation>();
                     for( int i = 0; i < items.size; i++){
                         itemLocations.add(new InventoryItemLocation(i, items.get(i).toString(), 1, 0, InventoryUI.PLAYER_INVENTORY)); // расставляем предметы
@@ -254,6 +254,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                         InventoryUI.populateInventory(inventoryUI.getEquipSlotTable(), equipment, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
                     }
 
+                    HashMap<Ammo.AmmoID, Integer> allAmmoCount = profileManager.getPlayerConfig().getAllAmmoCount();
+                    player.sendMessage(Message.MESSAGE.INIT_ALL_AMMO_COUNT, json.toJson(allAmmoCount));
+
                     Array<QuestGraph> quests = profileManager.getPlayerConfig().getPlayerQuests();
                     questUI.setQuests(quests);
 
@@ -269,6 +272,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setPlayerQuests(questUI.getQuests());  // Quests
                 profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable())); // Inventory
                 profileManager.getPlayerConfig().setEquipment(InventoryUI.getInventory(inventoryUI.getEquipSlotTable())); // Equipment
+                profileManager.getPlayerConfig().setAllAmmoCount(player.getAllAmmoCount());
                 profileManager.getPlayerConfig().setPosition(player.getCurrentPosition());  // XY position
                 profileManager.getPlayerConfig().setDirection(player.getCurrentDirection());  // Direction
                 profileManager.getPlayerConfig().setState(player.getCurrentState());  // State
@@ -357,18 +361,17 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     public void onNotify(InventoryItem item, InventoryEvent event) {
         switch (event) {
             case ADDED:
-                System.out.println("ITEM ADDED");
+//                System.out.println("ITEM ADDED");
                 if(item.isInventoryItemOffensiveMelee()) {
-                    ItemTypeID itemTypeID = item.getItemTypeID();
-                    player.sendMessage(Message.MESSAGE.UPDATE_MELEE_WEAPON, json.toJson(itemTypeID.toString()));
+                    InventoryItem.ItemID itemID = item.getItemID();
+                    player.sendMessage(Message.MESSAGE.UPDATE_MELEE_WEAPON, json.toJson(itemID.toString()));
                 } else if(item.isInventoryItemOffensiveRanged()) {
-                    ItemTypeID itemTypeID = item.getItemTypeID();
-                    int numberItemsInside = item.getNumberItemsInside();
-                    player.sendMessage(Message.MESSAGE.UPDATE_RANGED_WEAPON, json.toJson(itemTypeID.toString() + "::" + numberItemsInside));
+                    InventoryItem.ItemID itemID = item.getItemID();
+                    player.sendMessage(Message.MESSAGE.UPDATE_RANGED_WEAPON, json.toJson(itemID.toString()));
                 }
                 break;
             case REMOVED:
-                System.out.println("ITEM REMOVED");
+//                System.out.println("ITEM REMOVED");
                 break;
             case ITEM_CONSUMED:
                 break;
@@ -439,7 +442,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         FPSLabel.setText("FPS = " + Gdx.graphics.getFramesPerSecond());
         timeLabel.setText("Game Time = " + hour + ":" + min);
         stateLabel.setText("State = " + currentState);
-        countAmmoLabel.setText("Ammo = " + ammoCount);
+        countAmmoLabel.setText("AmmoOld = " + ammoCount);
         mouseCoordinatesLabel.setText("Mouse Cord = X: " + Math.round(mouseCoordinates.x) + " Y: " + Math.round(mouseCoordinates.y));
         cameraZoomLabel.setText("Camera Zoom = " + zoom);
         labelPlayerPosition.setText("Player Position = X: " + playerPosition.x + " Y: " + playerPosition.y);

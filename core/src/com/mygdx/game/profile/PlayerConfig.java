@@ -5,7 +5,10 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.quest.QuestGraph;
 import com.mygdx.game.inventory.InventoryItemLocation;
+import com.mygdx.game.weapon.Ammo.AmmoID;
 import com.mygdx.game.world.MapFactory;
+
+import java.util.HashMap;
 
 public class PlayerConfig {
 
@@ -16,6 +19,7 @@ public class PlayerConfig {
     private Array<QuestGraph> playerQuests;
     private Array<InventoryItemLocation> inventory;
     private Array<InventoryItemLocation> equipment;
+    private HashMap<AmmoID, Integer> allAmmoCount;
     private int hp;
     private int money;
 
@@ -27,6 +31,9 @@ public class PlayerConfig {
     private int maxDamage;
 
     PlayerConfig() {
+        inventory = new Array<>();
+        equipment = new Array<>();
+        allAmmoCount = new HashMap<AmmoID, Integer>();
     }
 
 //    PlayerConfig(PlayerConfig config) {
@@ -69,6 +76,14 @@ public class PlayerConfig {
 
     public Array<InventoryItemLocation> getEquipment() {
         return equipment;
+    }
+
+    public HashMap<AmmoID, Integer> getAllAmmoCount() {
+        return allAmmoCount;
+    }
+
+    public void setAllAmmoCount(HashMap<AmmoID, Integer> allAmmoCount) {
+        this.allAmmoCount = allAmmoCount;
     }
 
     public void setPlayerQuests(Array<QuestGraph> playerQuests) {

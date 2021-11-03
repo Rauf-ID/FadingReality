@@ -14,14 +14,18 @@ import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
-import com.mygdx.game.inventory.InventoryItem.ItemTypeID;
+import com.mygdx.game.inventory.InventoryItem;
+import com.mygdx.game.inventory.InventoryItem.ItemID;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.tools.Rumble;
 import com.mygdx.game.tools.managers.ControlManager;
 import com.mygdx.game.tools.managers.ResourceManager;
+import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.weapon.Weapon;
 import com.mygdx.game.weapon.WeaponFactory;
 import com.mygdx.game.world.MapManager;
+
+import java.util.HashMap;
 
 
 public class Player extends Component {
@@ -67,18 +71,23 @@ public class Player extends Component {
                 entityName = entityConfig.getEntityID();
             } else if(string[0].equalsIgnoreCase(MESSAGE.UPDATE_MELEE_WEAPON.toString())) {
 
-                String itemTypeIDString = json.fromJson(String.class, string[1]);
-                ItemTypeID itemTypeID = ItemTypeID.valueOf(itemTypeIDString);
+                String weaponIDString = json.fromJson(String.class, string[1]);
+                ItemID weaponID = InventoryItem.ItemID.valueOf(weaponIDString);
 
-                Weapon weapon = WeaponFactory.getInstance().getWeapon(itemTypeID);
+                Weapon weapon = WeaponFactory.getInstance().getWeapon(weaponID);
                 weaponSystem.setMeleeWeapon(weapon);
 
             } else if(string[0].equalsIgnoreCase(MESSAGE.UPDATE_RANGED_WEAPON.toString())) {
 
-                String[] s = json.fromJson(String.class, string[1]).split("::");
-                String itemTypeID = s[0];
-                int numberItemsInside = Integer.parseInt(s[1]);
+                String weaponIDString = json.fromJson(String.class, string[1]);
+                ItemID weaponID = InventoryItem.ItemID.valueOf(weaponIDString);
 
+                Weapon weapon = WeaponFactory.getInstance().getWeapon(weaponID);
+                weaponSystem.setRangedWeapon(weapon);
+
+            } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
+                HashMap<Ammo.AmmoID, Integer> allAmmoCount = json.fromJson(HashMap.class, string[1]);
+                weaponSystem.setAllAmmoCount(allAmmoCount);
             } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();

@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.FadingReality;
-import com.mygdx.game.component.Message;
 import com.mygdx.game.observer.InventoryObserver;
 import com.mygdx.game.observer.InventorySlotObserver;
 import com.mygdx.game.observer.InventorySubject;
@@ -22,7 +21,7 @@ import com.mygdx.game.inventory.InventorySlot;
 import com.mygdx.game.inventory.InventorySlotSource;
 import com.mygdx.game.inventory.InventorySlotTarget;
 import com.mygdx.game.inventory.InventorySlotTooltip;
-import com.mygdx.game.inventory.InventoryItem.ItemTypeID;
+import com.mygdx.game.inventory.InventoryItem.ItemID;
 import com.mygdx.game.inventory.InventoryItem.ItemUseType;
 import com.mygdx.game.inventory.InventorySlotTooltipListener;
 import com.mygdx.game.tools.Utility;
@@ -66,9 +65,9 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         inventoryActors = new Array<Actor>();
         inventorySlotTooltip = new InventorySlotTooltip(Utility.STATUSUI_SKIN);
 
-        InventorySlot meleeWeaponSlot = new InventorySlot(ItemUseType.MELEE_WEAPON, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_weapon")));
+        InventorySlot meleeWeaponSlot = new InventorySlot(ItemUseType.MELEE_WEAPON, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_melee")));
         InventorySlot armorSlot = new InventorySlot(ItemUseType.ARMOR, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_chest")));
-        InventorySlot rangedWeaponSlot = new InventorySlot(ItemUseType.RANGED_WEAPON, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_weapon")));
+        InventorySlot rangedWeaponSlot = new InventorySlot(ItemUseType.RANGED_WEAPON, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_ranged")));
 
         meleeWeaponSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
         armorSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
@@ -132,11 +131,11 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
 
         Array<Cell> cells = targetTable.getCells(); // все ячейки иневнтаря
         for(InventoryItemLocation itemLocation: inventoryItemLocations){ // заполняем инвентарь текущими предметами
-            ItemTypeID itemTypeID = ItemTypeID.valueOf(itemLocation.getItemTypeAtLocation());
+            ItemID itemID = ItemID.valueOf(itemLocation.getItemTypeAtLocation());
             InventorySlot inventorySlot = (InventorySlot) cells.get(itemLocation.getLocationIndex()).getActor();
 
             for(int index = 0; index < itemLocation.getNumberItemsAtLocation(); index++ ){ // каждую ед. предмета добавляем в слот
-                InventoryItem item = InventoryItemFactory.getInstance().getInventoryItem(itemTypeID);
+                InventoryItem item = InventoryItemFactory.getInstance().getInventoryItem(itemID);
                 String itemName =  itemLocation.getItemNameProperty();
 
                 if( itemName == null || itemName.isEmpty() ){ // задаем имя предмету
@@ -176,7 +175,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
             }
 
             if( numItems > 0 ){
-                items.add(new InventoryItemLocation(i, item.getItemTypeID().toString(), numItems, numberItemsInside, inventorySlot.getTopInventoryItem().getName()));
+                items.add(new InventoryItemLocation(i, item.getItemID().toString(), numItems, numberItemsInside, inventorySlot.getTopInventoryItem().getName()));
             }
         }
         return items;

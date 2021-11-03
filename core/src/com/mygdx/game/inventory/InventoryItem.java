@@ -28,7 +28,7 @@ public class InventoryItem extends Image {
         NONE
     }
 
-    public enum ItemTypeID {
+    public enum ItemID {
         ARMOR01,ARMOR02,ARMOR03,ARMOR04,ARMOR05,
         BOOTS01,BOOTS02,BOOTS03,BOOTS04,BOOTS05,
         HELMET01,HELMET02,HELMET03,HELMET04,HELMET05,
@@ -44,7 +44,7 @@ public class InventoryItem extends Image {
     }
 
     // начальные настройки предмета
-    private ItemTypeID itemTypeID;
+    private ItemID itemID;
     private String itemShortDescription;
     private Array<ItemAttribute> itemAttributes;
     private ItemUseType itemUseType;
@@ -58,10 +58,10 @@ public class InventoryItem extends Image {
         super();
     }
 
-    public InventoryItem(TextureRegion textureRegion, ItemTypeID itemTypeID, ItemUseType itemUseType, Array<ItemAttribute> itemAttribute, int itemUseTypeValue, int itemValue){
+    public InventoryItem(TextureRegion textureRegion, ItemID itemID, ItemUseType itemUseType, Array<ItemAttribute> itemAttribute, int itemUseTypeValue, int itemValue){
         super(textureRegion);
 
-        this.itemTypeID = itemTypeID;
+        this.itemID = itemID;
         this.itemUseType = itemUseType;
         this.itemAttributes = itemAttribute;
         this.itemUseTypeValue = itemUseTypeValue;
@@ -70,7 +70,7 @@ public class InventoryItem extends Image {
 
     public InventoryItem(InventoryItem inventoryItem){
         super();
-        this.itemTypeID = inventoryItem.getItemTypeID();
+        this.itemID = inventoryItem.getItemID();
         this.itemShortDescription = inventoryItem.getItemShortDescription();
         this.itemUseType = inventoryItem.getItemUseType();
         this.itemAttributes = inventoryItem.getItemAttributes();
@@ -94,12 +94,12 @@ public class InventoryItem extends Image {
         this.itemValue = itemValue;
     }
 
-    public ItemTypeID getItemTypeID() {
-        return itemTypeID;
+    public ItemID getItemID() {
+        return itemID;
     }
 
-    public void setItemTypeID(ItemTypeID itemTypeID) {
-        this.itemTypeID = itemTypeID;
+    public void setItemID(ItemID itemID) {
+        this.itemID = itemID;
     }
 
     public Array<ItemAttribute> getItemAttributes() {
@@ -145,7 +145,7 @@ public class InventoryItem extends Image {
 
 
     public boolean isSameItemType(InventoryItem candidateInventoryItem){ //Если два предмета одного типа
-        return itemTypeID == candidateInventoryItem.getItemTypeID();
+        return itemID == candidateInventoryItem.getItemID();
     }
 
     public int getTradeValue(){

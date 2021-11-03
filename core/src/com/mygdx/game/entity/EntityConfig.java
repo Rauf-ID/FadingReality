@@ -3,7 +3,8 @@ package com.mygdx.game.entity;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.mygdx.game.inventory.InventoryItem.ItemTypeID;
+import com.mygdx.game.inventory.InventoryItem;
+import com.mygdx.game.inventory.InventoryItem.ItemID;
 import com.mygdx.game.tools.managers.ResourceManager;
 
 public class EntityConfig {
@@ -18,7 +19,7 @@ public class EntityConfig {
         NONE
     }
 
-    private Array<ItemTypeID> inventory;
+    private Array<ItemID> inventory;
     private Entity.State state;
     private Entity.Direction direction;
     private String entityID;
@@ -32,7 +33,7 @@ public class EntityConfig {
 
     EntityConfig() {
         animationConfig = new Array<AnimationConfig>();
-        inventory = new Array<ItemTypeID>();
+        inventory = new Array<ItemID>();
         entityProperties = new ObjectMap<String, String>();
     }
 
@@ -51,7 +52,7 @@ public class EntityConfig {
         animationConfig = new Array<AnimationConfig>();
         animationConfig.addAll(config.getAnimationConfig());
 
-        inventory = new Array<ItemTypeID>();
+        inventory = new Array<ItemID>();
         inventory.addAll(config.getInventory());
 
         entityProperties = new ObjectMap<String, String>();
@@ -74,11 +75,11 @@ public class EntityConfig {
         return attackRangeBoxHeight;
     }
 
-    public void setInventory(Array<ItemTypeID> inventory) {
+    public void setInventory(Array<InventoryItem.ItemID> inventory) {
         this.inventory = inventory;
     }
 
-    public Array<ItemTypeID> getInventory() {
+    public Array<InventoryItem.ItemID> getInventory() {
         return inventory;
     }
 

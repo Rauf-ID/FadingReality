@@ -136,7 +136,7 @@ HORNS001
   orig: 52, 52
   offset: 0, 0
   index: -1
-inv_boot
+inv_ranged
   rotate: false
   xy: 271, 217
   size: 52, 52
@@ -164,7 +164,7 @@ inv_shield
   orig: 52, 52
   offset: 0, 0
   index: -1
-inv_weapon
+inv_melee
   rotate: false
   xy: 271, 163
   size: 52, 52

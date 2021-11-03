@@ -1,12 +1,25 @@
 [
 {
-	itemTypeID: ANGEL_BLADE
-	// AmmoTypeID: NINE_MM
-	knockback: 100
+	weaponID: ANGEL_BLADE,
+	knockback: 100,
+	hitRange: 100,
+	minDamage: 100,
+	maxDamage: 100,
+	critChance: 100,
+	attackTime: 100,
+}
+{
+	weaponID: PISTOL_ALG,
+	knockback: 100,
+	hitRange: 100,
+	minDamage: 100,
+	maxDamage: 100,
+	critChance: 100,
+	attackTime: 100,
+
+	pathTexture: "gunTEST.png",
+	ammoID: CALIBER_9MM,
+	ammoSpeed: 100,
 	hitRange: 100
-	minDamage: 100
-	maxDamage: 100
-	critChance: 100
-	ammoSpeed: 100
 }
 ]

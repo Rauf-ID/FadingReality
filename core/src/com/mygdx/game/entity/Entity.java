@@ -12,9 +12,11 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.component.Component;
 import com.mygdx.game.observer.ComponentObserver;
+import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.world.MapManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Entity implements Comparable<Entity> {
 
@@ -176,6 +178,10 @@ public class Entity implements Comparable<Entity> {
 
     public Vector2 getCurrentPosition() {
         return component.currentEntityPosition;
+    }
+
+    public HashMap<Ammo.AmmoID, Integer> getAllAmmoCount() {
+        return component.weaponSystem.getAllAmmoCount();
     }
 
     public Entity.State getCurrentState(){

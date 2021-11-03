@@ -1,11 +1,5 @@
 [
 {
-	itemTypeID: ANGEL_BLADE
-	knockback: 100
-	hitRange: 100
-	minDamage: 100
-	maxDamage: 100
-	critChance: 100
-	ammoSpeed: 100
+	ammoID: CALIBER_9MM
 }
 ]

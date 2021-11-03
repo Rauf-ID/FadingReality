@@ -46,7 +46,7 @@ public class InventorySlotTooltip extends Window {
                 string.append(String.format("Attack Points: %s", item.getItemUseTypeValue()));
                 string.append(System.getProperty("line.separator"));
                 string.append(System.getProperty("line.separator"));
-                string.append(String.format("Ammo: %s", item.getNumberItemsInside()));
+                string.append(String.format("AmmoOld: %s", item.getNumberItemsInside()));
             } else if(item.isInventoryItemDefensive()){
                 string.append(System.getProperty("line.separator"));
                 string.append(String.format("Defense Points: %s", item.getItemUseTypeValue()));

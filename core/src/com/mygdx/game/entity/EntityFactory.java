@@ -22,9 +22,7 @@ public class EntityFactory {
     }
 
     public static enum EntityName{
-        PLAYER_PUPPET,
-        TOWN_FOL, TOWN_FOLK1, TOWN_FOLK2, TOWN_FOLK3, TOWN_FOLK4, TOWN_FOLK5, TOWN_FOLK7, TOWN_FOLK8, TOWN_FOLK9, TOWN_FOLK10,
-        TOWN_FOLK11, TOWN_FOLK12, TOWN_FOLK13, TOWN_FOLK14, TOWN_FOLK15,
+        TOWN_FOL, TOWN_FOLK1, TOWN_FOLK2, TOWN_FOLK3, TOWN_FOLK4, TOWN_FOLK5, TOWN_FOLK7, TOWN_FOLK8, TOWN_FOLK9, TOWN_FOLK10, TOWN_FOLK11, TOWN_FOLK12, TOWN_FOLK13, TOWN_FOLK14, TOWN_FOLK15,
         EARTHLINGS_D1, EARTHLINGS_D2, EARTHLINGS_G1, EARTHLINGS_E1, BARTENDER, HOLOGRAM_G2,
         ELITE_KNIGHT,
     }
@@ -33,10 +31,10 @@ public class EntityFactory {
     private static EntityFactory instance = null;
     private Hashtable<String, EntityConfig> entities;
 
-    public static String PLAYER_CONFIG = "scripts/player.json";
+    public static String PLAYER_CONFIG = "main/entities/player/player.json";
+    public static String EARTHLINGS_CONFIGS = "main/entities/npc/earthlings/earthlings.json";
+    public static String ELITE_KNIGHT_CONFIGS = "main/entities/enemies/eliteKnight/eliteKnight.json";
     public static String TOWN_FOLK_CONFIGS = "scripts/town_folk.json";
-    public static String EARTHLINGS_CONFIGS = "scripts/earthlings.json";
-    public static String ELITE_KNIGHT_CONFIGS = "scripts/eliteKnight.json";
 
     private EntityFactory() {
         entities = new Hashtable<String, EntityConfig>();

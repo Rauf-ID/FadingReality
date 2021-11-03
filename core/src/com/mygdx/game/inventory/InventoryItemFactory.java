@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Scaling;
-import com.mygdx.game.inventory.InventoryItem.ItemTypeID;
+import com.mygdx.game.inventory.InventoryItem.ItemID;
 import com.mygdx.game.tools.Utility;
 
 import java.util.ArrayList;
@@ -18,15 +18,15 @@ public class InventoryItemFactory {
     private static InventoryItemFactory instance = null;
 
     private Json json = new Json();
-    private Hashtable<ItemTypeID, InventoryItem> inventoryItemList;
+    private Hashtable<ItemID, InventoryItem> inventoryItemList;
 
     private InventoryItemFactory(){
         ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal(INVENTORY_ITEM));
-        inventoryItemList = new Hashtable<ItemTypeID, InventoryItem>();
+        inventoryItemList = new Hashtable<ItemID, InventoryItem>();
 
         for (JsonValue jsonVal : list) {
             InventoryItem inventoryItem = json.readValue(InventoryItem.class, jsonVal);
-            inventoryItemList.put(inventoryItem.getItemTypeID(), inventoryItem);
+            inventoryItemList.put(inventoryItem.getItemID(), inventoryItem);
         }
     }
 
@@ -37,18 +37,18 @@ public class InventoryItemFactory {
         return instance;
     }
 
-    public InventoryItem getInventoryItem(ItemTypeID inventoryItemType){
+    public InventoryItem getInventoryItem(ItemID inventoryItemType){
         InventoryItem item = new InventoryItem(inventoryItemList.get(inventoryItemType));
-        item.setDrawable(new TextureRegionDrawable(Utility.ITEMS_TEXTUREATLAS.findRegion(item.getItemTypeID().toString())));
+        item.setDrawable(new TextureRegionDrawable(Utility.ITEMS_TEXTUREATLAS.findRegion(item.getItemID().toString())));
         item.setScaling(Scaling.none);
         return item;
     }
 
     /*
     public void testAllItemLoad(){
-        for(ItemTypeID itemTypeID : ItemTypeID.values()) {
+        for(ItemID itemTypeID : ItemID.values()) {
             InventoryItem item = new InventoryItem(_inventoryItemList.get(itemTypeID));
-            item.setDrawable(new TextureRegionDrawable(PlayerHUD.itemsTextureAtlas.findRegion(item.getItemTypeID().toString())));
+            item.setDrawable(new TextureRegionDrawable(PlayerHUD.itemsTextureAtlas.findRegion(item.getWeaponID().toString())));
             item.setScaling(Scaling.none);
         }
     }*/

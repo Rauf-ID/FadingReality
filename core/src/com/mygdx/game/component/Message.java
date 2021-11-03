@@ -20,6 +20,7 @@ public interface Message {
         INIT_CONFIG,
         UPDATE_MELEE_WEAPON,
         UPDATE_RANGED_WEAPON,
+        INIT_ALL_AMMO_COUNT,
         ATTAKING_IS_DONE,
         ACTIVATE_ANIM_MECHAN
     }
