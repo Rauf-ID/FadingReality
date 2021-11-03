@@ -60,7 +60,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
     private Json json;
     private MapManager mapMgr;
-    private ResourceManager rm;
 
     private Label delatLabel, FPSLabel, timeLabel, stateLabel, countAmmoLabel, mouseCoordinatesLabel, cameraZoomLabel, labelPlayerPosition;
     private int hour, min;
@@ -79,10 +78,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     public static List<Toast> toasts = new LinkedList<Toast>();
     private static Toast.ToastFactory toastFactory;
 
-    public PlayerHUD(ResourceManager _rm, Entity _player, MapManager _mapMgr) {
+    public PlayerHUD(Entity _player, MapManager _mapMgr) {
         player=_player;
         mapMgr=_mapMgr;
-        rm=_rm;
 
         toastFactory = new Toast.ToastFactory.Builder().font(FadingReality.font).build();
 
@@ -364,14 +362,19 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 //                System.out.println("ITEM ADDED");
                 if(item.isInventoryItemOffensiveMelee()) {
                     InventoryItem.ItemID itemID = item.getItemID();
-                    player.sendMessage(Message.MESSAGE.UPDATE_MELEE_WEAPON, json.toJson(itemID.toString()));
+                    player.sendMessage(Message.MESSAGE.SET_MELEE_WEAPON, json.toJson(itemID.toString()));
                 } else if(item.isInventoryItemOffensiveRanged()) {
                     InventoryItem.ItemID itemID = item.getItemID();
-                    player.sendMessage(Message.MESSAGE.UPDATE_RANGED_WEAPON, json.toJson(itemID.toString()));
+                    player.sendMessage(Message.MESSAGE.SET_RANGED_WEAPON, json.toJson(itemID.toString()));
                 }
                 break;
             case REMOVED:
 //                System.out.println("ITEM REMOVED");
+                if(item.isInventoryItemOffensiveMelee()) {
+                    player.sendMessage(Message.MESSAGE.REMOVE_MELEE_WEAPON, json.toJson("null"));
+                } else if(item.isInventoryItemOffensiveRanged()) {
+                    player.sendMessage(Message.MESSAGE.REMOVE_RANGED_WEAPON, json.toJson("null"));
+                }
                 break;
             case ITEM_CONSUMED:
                 break;

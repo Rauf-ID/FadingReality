@@ -1,9 +1,7 @@
-package com.mygdx.game.tools.managers;
+package com.mygdx.game._oldClasses;
 
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.entity.Entity;
-import com.mygdx.game.tools.AmmoOld;
-import com.mygdx.game.tools.Gun;
 import com.mygdx.game.tools.Rumble;
 
 public class WeaponManager {
@@ -15,14 +13,18 @@ public class WeaponManager {
 
     public WeaponManager() {
         gun = new Gun();
-        gun.addAmmo(30000);
+        gun.addAmmo(10000);
     }
 
     public void update(Entity player, float delta) {
         updateAngleCenterToMouse();
         gun.setAngle(angle);
         gun.setPlayerDirection(player.getCurrentDirection());
-        shootTimer+=delta;
+        gun.updatePos(player.getCurrentPosition().x, player.getCurrentPosition().y);
+        gun.tick(delta);
+        gun.clearTravelledAmmo();
+
+        shootTimer += delta;
         if (player.getBoolPissPiss() && shootTimer >= SHOOT_WAIT_TIMER){ //&& shootTimer >= SHOOT_WAIT_TIMER
             shootTimer = 0;
             player.setBoolPissPiss(false);
@@ -38,9 +40,6 @@ public class WeaponManager {
                 Rumble.rumble(-1f, .1f, 1, Rumble.State.GUN);
             }
         }
-        gun.updatePos(player.getCurrentPosition().x, player.getCurrentPosition().y);
-        gun.tick(delta);
-        gun.clearTravelledAmmo();
     }
 
     public void updateAngleCenterToMouse() {
@@ -51,7 +50,7 @@ public class WeaponManager {
 
         angle = (float) Math.toDegrees(Math.atan2(screenX - (screenWidth/2), screenY - (screenHeight/2)));
         angle = angle < 0 ? angle += 360: angle;
-        angle-=90;
+        angle -= 90;
     }
 
     public Gun getGun() {

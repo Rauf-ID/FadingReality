@@ -196,12 +196,12 @@ public class Entity implements Comparable<Entity> {
 //        return physicsComponent.meleeAttackBox;
 //    }
 
-    public boolean getBoolGunActive() {
-        return component.boolGunActive;
+    public boolean isGunActive() {
+        return component.isGunActive;
     }
 
     public boolean getBoolPissPiss() {
-        return component.boolPissPiss;
+        return component.isGunActive2;
     }
 
     public boolean getActivateAnimMechan(){
@@ -209,7 +209,7 @@ public class Entity implements Comparable<Entity> {
     }
 
     public void setBoolPissPiss(boolean boolPissPiss){
-        component.boolPissPiss=boolPissPiss;
+        component.isGunActive2 =boolPissPiss;
     }
 
     public Entity.Direction getCurrentDirection() {

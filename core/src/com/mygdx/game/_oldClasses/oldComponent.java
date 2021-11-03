@@ -1,4 +1,4 @@
-package com.mygdx.game.component.oldVersion;
+package com.mygdx.game._oldClasses;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;

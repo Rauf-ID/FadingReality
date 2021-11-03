@@ -66,7 +66,7 @@ public class FadingReality extends Game {
         splashWorker.closeSplashScreen();
 
         menuScreen = new MenuScreen(this, resourceManager);
-        gameScreen = new GameScreen(this, resourceManager);
+        gameScreen = new GameScreen(this);
         loadScreen = new LoadScreen(this);
         newAccountScreen = new NewAccountScreen(this);
         settingsScreen = new SettingsScreen(this, resourceManager);

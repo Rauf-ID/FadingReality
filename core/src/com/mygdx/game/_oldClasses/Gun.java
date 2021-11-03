@@ -1,9 +1,10 @@
-package com.mygdx.game.tools;
+package com.mygdx.game._oldClasses;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.FadingReality;
+import com.mygdx.game._oldClasses.AmmoOld;
 import com.mygdx.game.entity.Entity;
 
 import java.util.ArrayList;
@@ -12,21 +13,18 @@ import java.util.Iterator;
 public class Gun {
 
     public float angle;
-
-    public float xPos, yPos;
     public Vector3 pos;
-
     public float ammoCount;
     public ArrayList<AmmoOld> activeAmmoOld;
+    public float stateTime = 0f;
+    public Sprite currentFrame = null;
 
-    protected Sprite currentFrame = null;
-    protected float stateTime = 0f;
-    protected Entity.Direction playerDirection;
+    public Entity.Direction playerDirection;
+    public float xPos, yPos;
 
 
     public Gun(){
         pos = new Vector3();
-
         activeAmmoOld = new ArrayList<>();
     }
 
@@ -50,14 +48,6 @@ public class Gun {
         }
     }
 
-    public void addAmmo(int count) {
-        ammoCount += count;
-    }
-
-    public float getAmmoCount() {
-        return ammoCount;
-    }
-
     public void clearTravelledAmmo() {
         Iterator<AmmoOld> it = activeAmmoOld.iterator();
         while(it.hasNext()) {
@@ -68,6 +58,41 @@ public class Gun {
         }
     }
 
+    public void drawRotatedGun(SpriteBatch batch, float delta){
+        stateTime += delta;
+        currentFrame = FadingReality.resourceManager.playerRifleAnimRight.getKeyFrame(stateTime, true);
+
+        if(angle > 90 && angle < 270){ // 6 to 12 Clockwise or LEFT
+            currentFrame.setFlip(false, true);
+        } else { // 12 to 6 Clockwise or RIGHT
+            currentFrame.setFlip(false, false);
+            xPos = -20;
+        }
+
+//        if (playerDirection==Entity.Direction.UP) {
+//            yPos = -10;
+//        } else {
+//            yPos = 0;
+//        }
+
+
+        batch.begin();
+        batch.draw(currentFrame, pos.x+xPos+64+13, pos.y+yPos+64+10, 1, 6.5f, 38, 13, 1, 1, angle);
+//        batch.draw(currentFrame, pos.x, pos.y, 0, currentFrame.getHeight() / 2, currentFrame.getWidth(), currentFrame.getHeight(), 1, 1, angle);
+        batch.end();
+    }
+
+    public void drawAmmo(SpriteBatch batch, float delta) {
+        batch.begin();
+        for(AmmoOld a : activeAmmoOld){
+            a.draw(batch, delta);
+        }
+        batch.end();
+    }
+
+
+
+
     public void setAngle(float angle) {
         this.angle = angle;
     }
@@ -76,35 +101,12 @@ public class Gun {
         this.playerDirection = playerDirection;
     }
 
-    public void drawRotatedGun(SpriteBatch batch, float delta){
-        stateTime+=delta;
+    public void addAmmo(int count) {
+        ammoCount += count;
+    }
 
-        if(angle > 90 && angle < 270){ // 6 to 12 Clockwise or LEFT
-            currentFrame = FadingReality.resourceManager.playerRifleAnimLeft.getKeyFrame(stateTime, true);
-        } else { // 12 to 6 clockwise or RIGHT
-            xPos = -20;
-            currentFrame = FadingReality.resourceManager.playerRifleAnimRight.getKeyFrame(stateTime, true);
-        }
-
-        if (playerDirection==Entity.Direction.UP) {
-            yPos = -10;
-        } else {
-            yPos = 0;
-        }
-
-
-        batch.begin();
-//        batch.draw(gunTexture, pos.x+xPos+64+9, pos.y+yPos+64+7, 1, 6.5f, width, height, 1, 1, angle, 0, 0, (int)width, (int)height, flipX, flipY);
-        batch.draw(currentFrame, pos.x+xPos+64+13, pos.y+yPos+64+10, 1, 6.5f, 38, 13, 1, 1, angle);
-        batch.end();
-}
-
-    public void drawAmmo(SpriteBatch batch, float delta) {
-        batch.begin();
-        for(AmmoOld a : activeAmmoOld){
-            a.draw(batch, delta);
-        }
-        batch.end();
+    public float getAmmoCount() {
+        return ammoCount;
     }
 
 }

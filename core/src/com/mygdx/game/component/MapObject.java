@@ -11,7 +11,7 @@ public class MapObject extends Component {
     private float x,y;
 
     public MapObject(TextureRegion textureRegion, float x, float y, float width, float height) {
-        this.textureRegion=textureRegion;
+        this.textureRegion = textureRegion;
         currentEntityPosition.x=x;
         currentEntityPosition.y=y;
         initBoundingBoxForObject(width, height);

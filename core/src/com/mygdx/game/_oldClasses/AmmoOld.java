@@ -1,4 +1,4 @@
-package com.mygdx.game.tools;
+package com.mygdx.game._oldClasses;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -17,19 +17,17 @@ public class AmmoOld {
 
     public float range; // -
     public float speed; // -
-    public float distMoved;
+    public float distMoved; // -
 
-    public Sprite sprite;
-    public Vector2 vector;
-    public Vector3 pos;
-    public boolean active;
-    public boolean remove;
-    public float width, height;
-    public float angle;
-    protected ArrayList<Vector3> ammoTrace = new ArrayList<>();
-    protected boolean dashing = false;
-    protected float ammoTime = 0;
-    protected int anInt1 = 1;
+    public Sprite sprite; // -
+    public Vector2 vector; // -
+    public Vector3 pos; // -
+    public boolean active; // -
+    public boolean remove; // -
+    public float width, height; // -
+    public float angle; // -
+    protected ArrayList<Vector3> ammoTrace = new ArrayList<>(); // -
+    protected boolean dashing = false; // -
 
     public AmmoOld(Gun gun){
         this.gun = gun;
@@ -47,7 +45,7 @@ public class AmmoOld {
     }
 
     public void setupBullet(){
-        angle=gun.angle;
+        angle = gun.angle;
         float angleRadians = MathUtils.degreesToRadians * gun.angle;
         vector.x = MathUtils.cos(angleRadians);
         vector.y = MathUtils.sin(angleRadians);
@@ -78,9 +76,7 @@ public class AmmoOld {
         if(dashing) {
             if(Gdx.graphics.getFrameId() % (int) ((Gdx.graphics.getFramesPerSecond()*.02f)+1) == 0) {  //def .05f
                 ammoTrace.add(new Vector3(pos.x, pos.y, 1));
-                anInt1++;
             }
-            ammoTime += delta;
         }
 
         for(Vector3 trace : ammoTrace) {

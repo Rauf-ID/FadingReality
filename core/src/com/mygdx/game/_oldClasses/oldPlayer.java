@@ -1,4 +1,4 @@
-package com.mygdx.game.component.oldVersion;
+package com.mygdx.game._oldClasses;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -522,8 +522,8 @@ public class oldPlayer extends oldComponent {
         }
         if(button == Input.Buttons.RIGHT) {
 //            dogShitRight=true;
-//            boolPissPiss=true;
-//            boolGunActive=true;
+//            isGunActive2=true;
+//            isGunActive=true;
         }
 
         return true;

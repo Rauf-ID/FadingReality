@@ -37,7 +37,8 @@ public class Player extends Component {
     }
 
     private State state;
-    private boolean dogShitLeft = false;
+    private boolean isLeftButtonPressed = false;
+    private boolean isRightButtonPressed = false;
 
     private Vector2 previousPosition;
 
@@ -69,32 +70,36 @@ public class Player extends Component {
             } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 entityName = entityConfig.getEntityID();
-            } else if(string[0].equalsIgnoreCase(MESSAGE.UPDATE_MELEE_WEAPON.toString())) {
+            }
 
-                String weaponIDString = json.fromJson(String.class, string[1]);
-                ItemID weaponID = InventoryItem.ItemID.valueOf(weaponIDString);
 
-                Weapon weapon = WeaponFactory.getInstance().getWeapon(weaponID);
-                weaponSystem.setMeleeWeapon(weapon);
-
-            } else if(string[0].equalsIgnoreCase(MESSAGE.UPDATE_RANGED_WEAPON.toString())) {
-
-                String weaponIDString = json.fromJson(String.class, string[1]);
-                ItemID weaponID = InventoryItem.ItemID.valueOf(weaponIDString);
-
-                Weapon weapon = WeaponFactory.getInstance().getWeapon(weaponID);
-                weaponSystem.setRangedWeapon(weapon);
-
-            } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
+            else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
                 HashMap<Ammo.AmmoID, Integer> allAmmoCount = json.fromJson(HashMap.class, string[1]);
                 weaponSystem.setAllAmmoCount(allAmmoCount);
-            } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.SET_MELEE_WEAPON.toString())) {
+                String weaponIDString = json.fromJson(String.class, string[1]);
+                ItemID weaponID = InventoryItem.ItemID.valueOf(weaponIDString);
+                Weapon weapon = WeaponFactory.getInstance().getWeapon(weaponID);
+                weaponSystem.setMeleeWeapon(weapon);
+            } else if(string[0].equalsIgnoreCase(MESSAGE.SET_RANGED_WEAPON.toString())) {
+                String weaponIDString = json.fromJson(String.class, string[1]);
+                ItemID weaponID = InventoryItem.ItemID.valueOf(weaponIDString);
+                Weapon weapon = WeaponFactory.getInstance().getWeapon(weaponID);
+                weaponSystem.setRangedWeapon(weapon);
+            } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_MELEE_WEAPON.toString())) {
+                weaponSystem.setMeleeWeapon(null);
+            } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_RANGED_WEAPON.toString())) {
+                weaponSystem.setRangedWeapon(null);
+            }
+
+
+            else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
 
                 if (animationConfigs.size == 0) return;
 
-                for( EntityConfig.AnimationConfig animationConfig : animationConfigs ) {
+                for(EntityConfig.AnimationConfig animationConfig : animationConfigs) {
                     float frameDuration = animationConfig.getFrameDuration();
                     ResourceManager.AtlasType atlasType = animationConfig.getAtlasType();
                     Entity.AnimationType animationType = animationConfig.getAnimationType();
@@ -121,6 +126,8 @@ public class Player extends Component {
             previousPosition = currentEntityPosition.cpy();
         }
 
+        weaponSystem.update(delta, this);
+
         activeDash(delta);
         activeSwordAttackMove(delta);
         activeGotHit(delta);
@@ -130,7 +137,7 @@ public class Player extends Component {
         tempEntities.addAll(mapManager.getCurrentMapEntities());
         tempEntities.addAll(mapManager.getCurrentMapQuestEntities());
 
-        for( Entity mapEntity : tempEntities ) {
+        for(Entity mapEntity : tempEntities) {
             Rectangle entitySwordRangeBox = mapEntity.getCurrentSwordRangeBox();
             if (entitySwordRangeBox.overlaps(entityRangeBox)) {
                 stateTime=0f;
@@ -199,7 +206,7 @@ public class Player extends Component {
         updateEntityRangeBox(64,64);
 
         //GUN ACTIVE
-        if(boolGunActive) {
+        if(isGunActive) {
             getMouseDirectionForGun();
         }
 
@@ -240,8 +247,25 @@ public class Player extends Component {
             }
         }
 
-        batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
-        batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y);
+        if(currentDirection == Entity.Direction.UP) {
+            if (weaponSystem.rangedIsActive()) {
+                if (isGunActive){
+                    weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
+                }
+                weaponSystem.getRangedWeapon().drawAmmo(batch);
+            }
+            batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
+            batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y);
+        } else {
+            if (weaponSystem.rangedIsActive()) {
+                weaponSystem.getRangedWeapon().drawAmmo(batch);
+                if (isGunActive){
+                    weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
+                }
+            }
+            batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y); // player
+            batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y); // blood
+        }
 
         batch.end();
     }
@@ -373,8 +397,8 @@ public class Player extends Component {
                             }
                         } else {
                             currentState = Entity.State.IDLE;
-                            boolPissPiss = false;
-                            boolGunActive = false;
+                            isGunActive2 = false;
+                            isGunActive = false;
                         }
 
                         //DASH
@@ -419,8 +443,8 @@ public class Player extends Component {
                         }
 
                         //MELEE ATTACK
-                        if (dogShitLeft) {
-                            dogShitLeft = false;
+                        if (isLeftButtonPressed && weaponSystem.meleeIsActive()) {
+                            isLeftButtonPressed = false;
 
                             currentTime = System.currentTimeMillis();
                             if ((currentTime - timeSinceLastAttack) < comboTimer) {
@@ -455,13 +479,19 @@ public class Player extends Component {
                             }, frameAttack); //0.44
 
                             updateSwordRangeBox(64, 64);
+                        } else if(isLeftButtonPressed) {
+                            isLeftButtonPressed = false;
+                            PlayerHUD.toastShort("Melee Weapon is not Active");
                         }
 
                         //RANGED ATTACK
-                        if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+                        if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive()) {
                             currentState = Entity.State.RANGED_ATTACK;
-                            boolPissPiss = true;
-                            boolGunActive = true;
+                            isGunActive2 = true;
+                            isGunActive = true;
+                        } else if (isRightButtonPressed) {
+                            isRightButtonPressed = false;
+                            PlayerHUD.toastShort("Ranged Weapon is not Active");
                         }
                     }
                 } else {
@@ -481,9 +511,8 @@ public class Player extends Component {
         }
     }
 
-    private boolean updatePortalLayerActivation(MapManager mapMgr, float delta){
-        return true;
-    }
+
+
 
     @Override
     public boolean keyDown(int keycode) {
@@ -497,8 +526,10 @@ public class Player extends Component {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (button == Input.Buttons.LEFT){
-            dogShitLeft=true;
+        if (button == Input.Buttons.LEFT) {
+            isLeftButtonPressed = true;
+        } else if (button == Input.Buttons.RIGHT) {
+            isRightButtonPressed = true;
         }
         return true;
     }

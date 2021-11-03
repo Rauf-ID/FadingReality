@@ -53,8 +53,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected Vector2 runVelocity, runVelocityD;
     protected Vector2 walkVelocity, walkVelocityD;
 
-    public boolean boolGunActive=false;
-    public boolean boolPissPiss=false;
+    public boolean isGunActive = false;
+    public boolean isGunActive2 = false;
 
     protected float angle;
     protected Vector2 vector;
@@ -65,7 +65,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected float distMoved;
 
     protected long currentTime;
-    protected int attackId = 0, comboTimer = 600;
+    protected int attackId = 0;
+    protected int comboTimer = 600;
     protected long timeSinceLastAttack = 0;
     protected float frameAttack = 0f;
 
@@ -140,6 +141,10 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
         controlManager = new ControlManager();
         weaponSystem = new WeaponSystem();
+    }
+
+    public void setGunActive2(boolean gunActive2) {
+        isGunActive2 = gunActive2;
     }
 
     protected void updateAnimations(float delta){

@@ -17,11 +17,9 @@ import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.tools.MapObjectsManager;
-import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.tools.OrthogonalTiledMapRendererWithSprites;
 import com.mygdx.game.tools.managers.ShaderVFXManager;
-import com.mygdx.game.tools.managers.WeaponManager;
 import com.mygdx.game.world.Map;
 import com.mygdx.game.world.MapFactory;
 import com.mygdx.game.world.MapManager;
@@ -44,7 +42,6 @@ import java.util.Collections;
         private static GameState gameState;
 
         private FadingReality game;
-        private ResourceManager rm;
 
         private Json json;
         private Entity player;
@@ -56,17 +53,15 @@ import java.util.Collections;
         private InputMultiplexer inputMultiplexer;
 //        private QuestManager questManager;
 
-        //MANAGERS ShaderAndVFX / Weapon / MapObjects
+        //MANAGERS ShaderAndVFX / MapObjects
         private ShaderVFXManager shaderVFXManager;
-        private WeaponManager weaponManager;
         private MapObjectsManager mapObjectsManager;
 
         //LIST FOR SORT ENTITIES
         private ArrayList<Entity> entities = new ArrayList<Entity>();
 
-        public GameScreen(FadingReality game, ResourceManager rm) {
+        public GameScreen(FadingReality game) {
             this.game=game;
-            this.rm=rm;
 
             json = new Json();
 
@@ -75,7 +70,7 @@ import java.util.Collections;
             player.sendMessage(Message.MESSAGE.INIT_CONFIG, json.toJson(player.getEntityConfig()));
             mapMgr.setPlayer(player);
 
-            playerHUD = new PlayerHUD(rm, player, mapMgr);
+            playerHUD = new PlayerHUD(player, mapMgr);
             playerHUD.updateEntityObservers();
         }
 
@@ -101,9 +96,6 @@ import java.util.Collections;
             //CREATE ShaderVFXMANAGER
             shaderVFXManager = new ShaderVFXManager();
 
-            //CREATE WeaponMANAGER
-            weaponManager = new WeaponManager();
-
             //CREATE MAP OBJECTS
             mapObjectsManager = new MapObjectsManager();
 
@@ -126,7 +118,7 @@ import java.util.Collections;
             //SOME UI UPDATES
             playerHUD.update();
             playerHUD.setCurrentState(player.getCurrentState().toString());
-            playerHUD.setCountAmmo(weaponManager.getGun().getAmmoCount());
+            playerHUD.setCountAmmo(0);
             playerHUD.setMouseCoordinates(player.getMouseCoordinates());
             playerHUD.setCameraZoom(camera.zoom);
             playerHUD.setPlayerPosition(player.getCurrentPosition());
@@ -143,7 +135,7 @@ import java.util.Collections;
                 playerHUD.setLabelMapName(mapMgr.getCurrentMap().getNameMap());
                 entities.clear();
                 MapLayer mapCollisionLayer = mapMgr.getMapObjectsLayer();
-                if(mapCollisionLayer!=null){
+                if(mapCollisionLayer != null){
                     MapObjects objects = mapCollisionLayer.getObjects();
                     for(MapObject object: objects) {
                         TextureMapObject textureMapObject = (TextureMapObject) object;
@@ -167,9 +159,6 @@ import java.util.Collections;
             player.update(mapMgr, game.getBatch(), delta);
             mapMgr.updateCurrentMapEntities(mapMgr, game.getBatch(), delta);
 
-            //WeaponMANAGER UPDATE
-            weaponManager.update(player, delta);
-
             //VFX - EFFECTS
             shaderVFXManager.updateVFX();
 
@@ -182,22 +171,8 @@ import java.util.Collections;
             mapRenderer.getBatch().end();
 
             //RENDER SORTED ENTITY, GUN AND MAP OBJECTS
-            if(player.getCurrentDirection() == Entity.Direction.UP) {
-                if (player.getBoolGunActive()){
-                    weaponManager.getGun().drawRotatedGun(game.getBatch(), delta);
-                }
-                weaponManager.getGun().drawAmmo(game.getBatch(), delta);
-                for(Entity e: entities){
-                    e.draw(game.getBatch(), delta);
-                }
-            } else {
-                for(Entity e: entities){
-                    e.draw(game.getBatch(), delta);
-                }
-                weaponManager.getGun().drawAmmo(game.getBatch(), delta);
-                if (player.getBoolGunActive()){
-                    weaponManager.getGun().drawRotatedGun(game.getBatch(), delta);
-                }
+            for(Entity e: entities){
+                e.draw(game.getBatch(), delta);
             }
 
             //UPDATE MAP OBJECTS
@@ -226,7 +201,7 @@ import java.util.Collections;
 
             game.getBatch().begin();
             FadingReality.font.setColor(Color.GOLD);
-            FadingReality.font.draw(game.getBatch(), "asd", 250,340);
+            FadingReality.font.draw(game.getBatch(), "Hello", 250,340);
             game.getBatch().end();
         }
 
