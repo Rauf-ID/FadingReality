@@ -10,7 +10,7 @@ public class Toast {
 
     public enum Length {
         SHORT(0.8f),
-        LONG(3.5f);
+        LONG(1.5f);
 
         private final float duration; // in seconds
 

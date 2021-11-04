@@ -78,7 +78,6 @@ public class Gun {
 
         batch.begin();
         batch.draw(currentFrame, pos.x+xPos+64+13, pos.y+yPos+64+10, 1, 6.5f, 38, 13, 1, 1, angle);
-//        batch.draw(currentFrame, pos.x, pos.y, 0, currentFrame.getHeight() / 2, currentFrame.getWidth(), currentFrame.getHeight(), 1, 1, angle);
         batch.end();
     }
 

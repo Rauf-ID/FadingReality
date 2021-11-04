@@ -13,6 +13,7 @@ import com.mygdx.game.entity.Entity;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.profile.ProfileManager;
+import com.mygdx.game.tools.Toast;
 
 public class MapManager implements ProfileObserver {
     private static final String TAG = MapManager.class.getSimpleName();
@@ -172,28 +173,28 @@ public class MapManager implements ProfileObserver {
 
     public void quickChangeMap() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-            PlayerHUD.toastShort("SPACE_STATION");
+            PlayerHUD.toastShort("SPACE_STATION", Toast.Length.SHORT);
             this.loadMap(MapFactory.MapType.SPACE_STATION);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
-            PlayerHUD.toastShort("CASTLE");
+            PlayerHUD.toastShort("CASTLE", Toast.Length.SHORT);
             this.loadMap(MapFactory.MapType.CASTLE);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
-            PlayerHUD.toastShort("MEHAN");
+            PlayerHUD.toastShort("MEHAN", Toast.Length.SHORT);
             this.loadMap(MapFactory.MapType.MEHAN);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_4)) {
-            PlayerHUD.toastShort("ANTIKVA");
+            PlayerHUD.toastShort("ANTIKVA", Toast.Length.SHORT);
             this.loadMap(MapFactory.MapType.ANTIKVA);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_5)) {
-            PlayerHUD.toastShort("LEPROZIA");
+            PlayerHUD.toastShort("LEPROZIA", Toast.Length.SHORT);
             this.loadMap(MapFactory.MapType.LEPROZIA);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_6)) {
-            PlayerHUD.toastShort("TIMULO");
+            PlayerHUD.toastShort("TIMULO", Toast.Length.SHORT);
             this.loadMap(MapFactory.MapType.TIMULO);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_7)) {
-            PlayerHUD.toastShort("VI_CLUB");
+            PlayerHUD.toastShort("VI_CLUB", Toast.Length.SHORT);
             this.loadMap(MapFactory.MapType.VI_CLUB);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_8)) {
-            PlayerHUD.toastShort("ROOF_KBM_OFFICE");
+            PlayerHUD.toastShort("ROOF_KBM_OFFICE", Toast.Length.SHORT);
             this.loadMap(MapFactory.MapType.ROOF_KBM_OFFICE);
         }
     }

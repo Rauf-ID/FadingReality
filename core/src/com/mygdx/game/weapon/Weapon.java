@@ -32,6 +32,7 @@ public class Weapon {
     private float angle;
     private float ammoCount;
     private float stateTime;
+    private float offsetX, offsetY;
 
     public Weapon(){}
 
@@ -57,38 +58,15 @@ public class Weapon {
 
     public void update(float delta) {}
 
-    public void update(float delta, float angle, float x, float y) {
-        updatePos(x, y);
-        setAngle(angle);
-        tick(delta);
-        clearTravelledAmmo();
-    }
-
-    public void updatePos(float x, float y){
+    public void update(float delta, float x, float y, float angle) {
         this.pos.x = x;
         this.pos.y = y;
-    }
+        this.angle = angle;
 
-    public void addAmmo(int count) {
-        ammoCount += count;
-    }
-
-    public void tick(float delta){
         for(Ammo a : activeAmmo){
             a.tick(delta);
         }
-    }
 
-    public void addActiveAmmo(Ammo a){
-        if(ammoCount > 0){
-            activeAmmo.add(a);
-            ammoCount--;
-        } else {
-//            System.out.println("Clink");
-        }
-    }
-
-    public void clearTravelledAmmo() {
         Iterator<Ammo> it = activeAmmo.iterator();
         while(it.hasNext()) {
             Ammo a = it.next();
@@ -98,17 +76,32 @@ public class Weapon {
         }
     }
 
+    public void addActiveAmmo(Ammo a){
+        if(ammoCount > 0){
+            activeAmmo.add(a);
+            ammoCount--;
+        } else {
+            System.out.println("Clink");
+        }
+    }
+
+    public void addAmmo(int count) {
+        ammoCount += count;
+    }
+
     public void drawRotatedGun(Batch batch, float delta){
         stateTime += delta;
         weaponSprite = FadingReality.resourceManager.playerRifleAnimRight.getKeyFrame(stateTime, true);
 
         if(angle > 90 && angle < 270){ // LEFT
             weaponSprite.setFlip(false, true);
+            offsetX = -8;
         } else { // RIGHT
             weaponSprite.setFlip(false, false);
+            offsetX = -20;
         }
 
-        batch.draw(weaponSprite, pos.x, pos.y, 0, weaponSprite.getHeight() / 2, weaponSprite.getWidth(), weaponSprite.getHeight(), 1, 1, angle);
+        batch.draw(weaponSprite, pos.x + offsetX +  77, pos.y + offsetY + 74, 1, weaponSprite.getHeight() / 2, weaponSprite.getWidth(), weaponSprite.getHeight(), 1, 1, angle);
     }
 
     public void drawAmmo(Batch batch) {

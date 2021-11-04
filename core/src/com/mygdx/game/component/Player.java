@@ -18,6 +18,7 @@ import com.mygdx.game.inventory.InventoryItem;
 import com.mygdx.game.inventory.InventoryItem.ItemID;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.tools.Rumble;
+import com.mygdx.game.tools.Toast;
 import com.mygdx.game.tools.managers.ControlManager;
 import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.weapon.Ammo;
@@ -152,7 +153,7 @@ public class Player extends Component {
                         state = State.NORMAL;
                     }}, 0.3f);
                 Rumble.rumble(5, .1f, 0, Rumble.State.SWORD);
-                PlayerHUD.toastShort("Enemy HIT");
+                PlayerHUD.toastShort("Enemy HIT", Toast.Length.SHORT);
             }
         }
 
@@ -190,7 +191,7 @@ public class Player extends Component {
             }
         }
         if (!pdaActive) {
-            if (camera.zoom  <= 0.39f){
+            if (camera.zoom  <= 0.1f){
                 camera.zoom += delta * speedCamMove * 0.03f;
             }
         }
@@ -257,14 +258,14 @@ public class Player extends Component {
             batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
             batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y);
         } else {
+            batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y); // player
+            batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y); // blood
             if (weaponSystem.rangedIsActive()) {
                 weaponSystem.getRangedWeapon().drawAmmo(batch);
                 if (isGunActive){
                     weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
                 }
             }
-            batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y); // player
-            batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y); // blood
         }
 
         batch.end();
@@ -278,13 +279,13 @@ public class Player extends Component {
                     if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
                         Gdx.app.exit();
                     } else if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
-                        PlayerHUD.toastShort("Pressed T");
+                        PlayerHUD.toastShort("Pressed T", Toast.Length.SHORT);
                         entity.sendMessage(MESSAGE.INTERACTION_WITH_ENTITY);
                     }
 
                     if (!PlayerHUD.browserUI.isVisible()) {
                         if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-                            PlayerHUD.toastShort("Pressed TAB");
+                            PlayerHUD.toastShort("Pressed TAB", Toast.Length.SHORT);
                             pdaActive = !pdaActive;
                         }
                     }
@@ -425,7 +426,7 @@ public class Player extends Component {
                             stateTime = 0f;
                             state = State.FREEZ;
                             currentState = Entity.State.USE_RUDIMENT;
-                            PlayerHUD.toastShort("Use Rudiment");
+                            PlayerHUD.toastShort("Use Rudiment", Toast.Length.SHORT);
 
                             Timer.schedule(new Timer.Task() {
                                 @Override
@@ -481,17 +482,18 @@ public class Player extends Component {
                             updateSwordRangeBox(64, 64);
                         } else if(isLeftButtonPressed) {
                             isLeftButtonPressed = false;
-                            PlayerHUD.toastShort("Melee Weapon is not Active");
+                            PlayerHUD.toastShort("Melee Weapon is not Active", Toast.Length.LONG);
                         }
 
                         //RANGED ATTACK
                         if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive()) {
+                            isRightButtonPressed = false;
                             currentState = Entity.State.RANGED_ATTACK;
                             isGunActive2 = true;
                             isGunActive = true;
                         } else if (isRightButtonPressed) {
                             isRightButtonPressed = false;
-                            PlayerHUD.toastShort("Ranged Weapon is not Active");
+                            PlayerHUD.toastShort("Ranged Weapon is not Active", Toast.Length.LONG);
                         }
                     }
                 } else {
@@ -557,9 +559,9 @@ public class Player extends Component {
     @Override
     public boolean scrolled(int amount) {
         if (amount==-1){
-            camera.zoom-=0.03;
+            camera.zoom -= 0.03;
         } else {
-            camera.zoom+=0.03;
+            camera.zoom += 0.03;
         }
         return false;
     }

@@ -16,6 +16,7 @@ import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.tools.Rumble;
+import com.mygdx.game.tools.Toast;
 import com.mygdx.game.tools.managers.ControlManager;
 import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.world.MapManager;
@@ -121,7 +122,7 @@ public class oldPlayer extends oldComponent {
                         state = State.NORMAL;
                     }}, 0.3f);
                 Rumble.rumble(5, .1f, 0, Rumble.State.SWORD);
-                PlayerHUD.toastShort("Enemy HIT");
+                PlayerHUD.toastShort("Enemy HIT", Toast.Length.SHORT);
             }
         }
 
@@ -231,13 +232,13 @@ public class oldPlayer extends oldComponent {
                     if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
                         Gdx.app.exit();
                     } else if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
-                        PlayerHUD.toastShort("Pressed T");
+                        PlayerHUD.toastShort("Pressed T", Toast.Length.SHORT);
                         entity.sendMessage(MESSAGE.INTERACTION_WITH_ENTITY);
                     }
 
                     if (!PlayerHUD.browserUI.isVisible()) {
                         if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-                            PlayerHUD.toastShort("Pressed TAB");
+                            PlayerHUD.toastShort("Pressed TAB", Toast.Length.SHORT);
                             pdaActive = !pdaActive;
                         }
                     }
@@ -405,7 +406,7 @@ public class oldPlayer extends oldComponent {
                             stateTime = 0f;
                             state = State.FREEZ;
                             currentState = Entity.State.USE_RUDIMENT;
-                            PlayerHUD.toastShort("Use Rudiment");
+                            PlayerHUD.toastShort("Use Rudiment", Toast.Length.SHORT);
 
                             Timer.schedule(new Timer.Task() {
                                 @Override

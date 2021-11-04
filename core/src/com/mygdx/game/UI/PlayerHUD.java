@@ -244,6 +244,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
                 } else {
 
+                    HashMap<Ammo.AmmoID, Integer> allAmmoCount = profileManager.getPlayerConfig().getAllAmmoCount();
+                    player.sendMessage(Message.MESSAGE.INIT_ALL_AMMO_COUNT, json.toJson(allAmmoCount));
+
                     Array<InventoryItemLocation> inventory = profileManager.getPlayerConfig().getInventory();
                     InventoryUI.populateInventory(inventoryUI.getInventorySlotTable(), inventory, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
 
@@ -251,9 +254,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     if( equipment != null && equipment.size > 0 ){
                         InventoryUI.populateInventory(inventoryUI.getEquipSlotTable(), equipment, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
                     }
-
-                    HashMap<Ammo.AmmoID, Integer> allAmmoCount = profileManager.getPlayerConfig().getAllAmmoCount();
-                    player.sendMessage(Message.MESSAGE.INIT_ALL_AMMO_COUNT, json.toJson(allAmmoCount));
 
                     Array<QuestGraph> quests = profileManager.getPlayerConfig().getPlayerQuests();
                     questUI.setQuests(quests);
@@ -467,8 +467,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         this.draw();
     }
 
-    public static void toastShort(String text) {
-        toasts.add(toastFactory.create(text, Toast.Length.SHORT));
+    public static void toastShort(String text, Toast.Length length) {
+        toasts.add(toastFactory.create(text, length));
     }
 
 

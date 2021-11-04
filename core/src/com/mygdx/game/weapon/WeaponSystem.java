@@ -20,14 +20,14 @@ public class WeaponSystem {
     }
 
     public void update(float delta, Component player) {
+
         if (meleeWeapon != null) {
             meleeWeapon.update(delta);
         }
 
-
         if (rangedWeapon != null) {
             updateAngleCenterToMouse();
-            rangedWeapon.update(delta, angle, player.currentEntityPosition.x, player.currentEntityPosition.y);
+            rangedWeapon.update(delta, player.currentEntityPosition.x, player.currentEntityPosition.y, angle);
 
             shootTimer += delta;
             if (player.isGunActive2 && shootTimer >= rangedWeapon.getAttackTime()){ //&& shootTimer >= SHOOT_WAIT_TIMER
@@ -38,11 +38,7 @@ public class WeaponSystem {
             }
         }
 
-
-
     }
-
-
 
     public void updateAngleCenterToMouse() {
         float screenX = Gdx.input.getX();
@@ -79,7 +75,8 @@ public class WeaponSystem {
     public void setRangedWeapon(Weapon rangedWeapon) {
         this.rangedWeapon = rangedWeapon;
         if (rangedWeapon != null) {
-            rangedWeapon.addAmmo(100);
+            int b = allAmmoCount.get(rangedWeapon.getAmmoID().toString());
+            rangedWeapon.addAmmo(b);
         }
     }
 

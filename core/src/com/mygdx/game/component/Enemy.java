@@ -16,6 +16,7 @@ import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.tools.Rumble;
+import com.mygdx.game.tools.Toast;
 import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.world.MapManager;
 
@@ -134,7 +135,7 @@ public class Enemy extends Component {
                 }
             }, 0.3f);
 
-            PlayerHUD.toastShort("Player HIT");
+            PlayerHUD.toastShort("Player HIT", Toast.Length.SHORT);
             //
 
             Rumble.rumble(5, .1f, 0, Rumble.State.SWORD);
