@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.observer.ProfileSubject;
 
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -22,6 +23,9 @@ public class ProfileManager extends ProfileSubject {
     private Hashtable<String,FileHandle> profiles = null;
     private String profileName;
     private boolean isNewProfile = false;
+
+    private SettingsConfig settingsConfig = new SettingsConfig();
+    private FileHandle fileSettings = Gdx.files.local("main/Settings.json");
 
 
     private ProfileManager(){
@@ -100,10 +104,6 @@ public class ProfileManager extends ProfileSubject {
         profiles.put(profileName, file);
     }
 
-    public PlayerConfig getPlayerConfig() {
-        return playerConfig;
-    }
-
     public void saveProfile(){
         notify(this, ProfileObserver.ProfileEvent.SAVING_PROFILE);
         String text = json.prettyPrint(json.toJson(playerConfig));
@@ -116,7 +116,7 @@ public class ProfileManager extends ProfileSubject {
             saveProfile();
         }
 
-        String fullProfileFileName = profileName+SAVEGAME_SUFFIX;
+        String fullProfileFileName = profileName + SAVEGAME_SUFFIX;
         boolean doesProfileFileExist = Gdx.files.local("main/profile/" + fullProfileFileName).exists();
 
 
@@ -134,6 +134,11 @@ public class ProfileManager extends ProfileSubject {
         isNewProfile = false;
     }
 
+    public void loadSetting() {
+        String settings = fileSettings.readString();
+        settingsConfig = json.fromJson(SettingsConfig.class, settings);
+    }
+
     public void setCurrentProfile(String profileName){
         if( doesProfileExist(profileName) ){
             this.profileName = profileName;
@@ -141,5 +146,15 @@ public class ProfileManager extends ProfileSubject {
             this.profileName = DEFAULT_PROFILE;
         }
     }
+
+
+    public PlayerConfig getPlayerConfig() {
+        return playerConfig;
+    }
+
+    public SettingsConfig getSettingsConfig() {
+        return settingsConfig;
+    }
+
 
 }

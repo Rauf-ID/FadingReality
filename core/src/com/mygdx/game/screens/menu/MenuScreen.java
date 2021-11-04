@@ -3,6 +3,7 @@ package com.mygdx.game.screens.menu;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.FadingReality;
+import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.FadingReality.ScreenType;
 
@@ -27,6 +29,8 @@ public class MenuScreen implements Screen {
     public MenuScreen(FadingReality game, ResourceManager rm) {
         this.game=game;
         this.rm=rm;
+
+        ProfileManager.getInstance().loadSetting();
     }
 
     @Override
@@ -41,6 +45,9 @@ public class MenuScreen implements Screen {
 
         TextButton continueGameButton = new TextButton("CONTINUE GAME", FadingReality.getUiSkin());
         continueGameButton.setPosition(300,500);
+        if(ProfileManager.getInstance().getSettingsConfig().getLastActiveAccount().isEmpty()) {
+            continueGameButton.setVisible(false);
+        }
 
         TextButton loadGameButton = new TextButton("LOAD GAME", FadingReality.getUiSkin());
         loadGameButton.setPosition(300,450);
@@ -81,43 +88,47 @@ public class MenuScreen implements Screen {
         //Listeners
         continueGameButton.addListener(new ClickListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                stage.addAction(Actions.sequence(Actions.fadeOut(0.6f), Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        game.setScreen(FadingReality.gameScreen);
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                String fileName = ProfileManager.getInstance().getSettingsConfig().getLastActiveAccount();
+                if (fileName != null && !fileName.isEmpty()) {
+                    FileHandle file = ProfileManager.getInstance().getProfileFile(fileName);
+                    if (file != null) {
+                        ProfileManager.getInstance().setCurrentProfile(fileName);
+                        game.setScreen(game.getScreenType(ScreenType.Game));
                     }
-                })));
+                }
             }
         });
 
 
         loadGameButton.addListener(new ClickListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
 
-                                       @Override
-                                       public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                           return true;
-                                       }
-
-                                       @Override
-                                       public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                           game.setScreen(game.getScreenType(ScreenType.LoadGame));
-                                       }
-                                   }
-        );
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(game.getScreenType(ScreenType.LoadGame));
+            }
+        });
 
         newGameButton.addListener(new ClickListener() {
-                                      @Override
-                                      public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                          return true;
-                                      }
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
 
-                                      @Override
-                                      public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                          game.setScreen(game.getScreenType(ScreenType.NewAccountGame));
-                                      }
-                                  }
-        );
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(game.getScreenType(ScreenType.NewAccountGame));
+            }
+        });
 
         settingsGameButton.addListener(new ClickListener() {
             @Override
@@ -159,7 +170,14 @@ public class MenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-            game.setScreen(game.getScreenType(ScreenType.Game));
+            String fileName = ProfileManager.getInstance().getSettingsConfig().getLastActiveAccount();
+            if (fileName != null && !fileName.isEmpty()) {
+                FileHandle file = ProfileManager.getInstance().getProfileFile(fileName);
+                if (file != null) {
+                    ProfileManager.getInstance().setCurrentProfile(fileName);
+                    game.setScreen(game.getScreenType(ScreenType.Game));
+                }
+            }
         }
 
         stage.act(delta);

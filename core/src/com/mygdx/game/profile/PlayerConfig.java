@@ -20,8 +20,8 @@ public class PlayerConfig {
     private Array<InventoryItemLocation> inventory;
     private Array<InventoryItemLocation> equipment;
     private HashMap<AmmoID, Integer> allAmmoCount;
-    private int hp;
     private int money;
+    private int hp;
 
     private int level;
     private int exp;
@@ -36,46 +36,61 @@ public class PlayerConfig {
         allAmmoCount = new HashMap<AmmoID, Integer>();
     }
 
-//    PlayerConfig(PlayerConfig config) {
-//        positionX = config.getPositionX();
-//        positionY = config.getPцositionY();
-//        mainInventory = config.getMainInventory();
-//        equipInventory = config.getEquipInventory();
-//
-//        hp = config.getHp();
-//        money = config.getMoney();
-//
-//        level = config.getLevel();
-//        exp = config.getExp();
-//        maxHp = config.getMaxHp();
-//        maxExp = config.getMaxExp();
-//        minDamage = config.getMinDamage();
-//        maxDamage = config.getMaxDamage();
-//    }
 
+    public Entity.State getState() {
+        return state;
+    }
 
-    public void setCurrentMap(MapFactory.MapType currentMap) {
-        this.currentMap = currentMap;
+    public void setState(Entity.State state) {
+        this.state = state;
+    }
+
+    public Entity.Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Entity.Direction direction) {
+        this.direction = direction;
+    }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
     }
 
     public MapFactory.MapType getCurrentMap() {
         return currentMap;
     }
 
-    public void setInventory(Array<InventoryItemLocation> inventory) {
-        this.inventory = inventory;
+    public void setCurrentMap(MapFactory.MapType currentMap) {
+        this.currentMap = currentMap;
+    }
+
+    public Array<QuestGraph> getPlayerQuests() {
+        return playerQuests;
+    }
+
+    public void setPlayerQuests(Array<QuestGraph> playerQuests) {
+        this.playerQuests = playerQuests;
     }
 
     public Array<InventoryItemLocation> getInventory() {
         return inventory;
     }
 
-    public void setEquipment(Array<InventoryItemLocation> equipment) {
-        this.equipment = equipment;
+    public void setInventory(Array<InventoryItemLocation> inventory) {
+        this.inventory = inventory;
     }
 
     public Array<InventoryItemLocation> getEquipment() {
         return equipment;
+    }
+
+    public void setEquipment(Array<InventoryItemLocation> equipment) {
+        this.equipment = equipment;
     }
 
     public HashMap<AmmoID, Integer> getAllAmmoCount() {
@@ -86,32 +101,12 @@ public class PlayerConfig {
         this.allAmmoCount = allAmmoCount;
     }
 
-    public void setPlayerQuests(Array<QuestGraph> playerQuests) {
-        this.playerQuests = playerQuests;
+    public int getMoney() {
+        return money;
     }
 
-    public Array<QuestGraph> getPlayerQuests() {
-        return playerQuests;
-    }
-
-    public void setMoney(int money) {}
-
-    public int getMoney() { return money; }
-
-    public void setExp(int exp) {
-        this.exp = exp;
-    }
-
-    public int getExp() {
-        return exp;
-    }
-
-    public void setMaxExp(int maxExp) {
-        this.maxExp = maxExp;
-    }
-
-    public int getMaxExp() {
-        return maxExp;
+    public void setMoney(int money) {
+        this.money = money;
     }
 
     public int getHp() {
@@ -122,59 +117,51 @@ public class PlayerConfig {
         this.hp = hp;
     }
 
-    public void setMaxHp(int maxHp) {
-        this.maxHp = maxHp;
-    }
-
-    public int getMaxHp() {
-        return maxHp;
+    public int getLevel() {
+        return level;
     }
 
     public void setLevel(int level) {
         this.level = level;
     }
 
-    public int getLevel() {
-        return level;
+    public int getExp() {
+        return exp;
     }
 
-    public void setMaxDamage(int maxDamage) {
-        this.maxDamage = maxDamage;
+    public void setExp(int exp) {
+        this.exp = exp;
     }
 
-    public int getMaxDamage() {
-        return maxDamage;
+    public int getMaxHp() {
+        return maxHp;
     }
 
-    public void setMinDamage(int minDamage) {
-        this.minDamage = minDamage;
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
+    }
+
+    public int getMaxExp() {
+        return maxExp;
+    }
+
+    public void setMaxExp(int maxExp) {
+        this.maxExp = maxExp;
     }
 
     public int getMinDamage() {
         return minDamage;
     }
 
-    public void setState(Entity.State state) {
-        this.state = state;
+    public void setMinDamage(int minDamage) {
+        this.minDamage = minDamage;
     }
 
-    public Entity.State getState() {
-        return state;
+    public int getMaxDamage() {
+        return maxDamage;
     }
 
-    public void setDirection(Entity.Direction direction) {
-        this.direction = direction;
-    }
-
-    public Entity.Direction getDirection() {
-        return direction;
-    }
-
-    public Vector2 getPosition() {
-        return position;
-    }
-
-    public void setPosition(Vector2 position) {
-        this.position = position;
+    public void setMaxDamage(int maxDamage) {
+        this.maxDamage = maxDamage;
     }
 }

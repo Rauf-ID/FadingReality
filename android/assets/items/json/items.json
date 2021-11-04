@@ -32,7 +32,7 @@
 	itemValue: 10
 },
 {
-	itemID: PISTOL_ALG
+	itemID: ALG
 	itemShortDescription: ALG (Antony Light Gun)	
 	itemUseType: RANGED_WEAPON
 	itemAttributes: [EQUIPPABLE, ITEM_INSIDE, LIGHT_WEAPON]

@@ -219,7 +219,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 System.out.println("PROFILE LOADING");
                 boolean firstTime = profileManager.getIsNewProfile();
 
-                if( firstTime ){
+                if(firstTime){
                     System.out.println("CREATING NEW PROFILE");
                     InventoryUI.clearInventoryItems(inventoryUI.getInventorySlotTable());
                     InventoryUI.clearInventoryItems(inventoryUI.getEquipSlotTable());
@@ -267,6 +267,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
             case SAVING_PROFILE:
                 System.out.println("PROFILE CONFIG SAVING");
+//                profileManager.getSettingsConfig().setLastActiveAccount();
+
                 profileManager.getPlayerConfig().setPlayerQuests(questUI.getQuests());  // Quests
                 profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable())); // Inventory
                 profileManager.getPlayerConfig().setEquipment(InventoryUI.getInventory(inventoryUI.getEquipSlotTable())); // Equipment
