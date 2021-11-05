@@ -65,42 +65,40 @@ public class NewAccountScreen implements Screen {
 
 
         startButton.addListener(new ClickListener() {
-                                    @Override
-                                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button ){
-                                        return true;
-                                    }
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button ){
+                return true;
+            }
 
-                                    @Override
-                                    public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                        String messageText = profileText.getText();
-                                        boolean exists = false;
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                String messageText = profileText.getText();
+                boolean exists = false;
 
-                                        exists = ProfileManager.getInstance().doesProfileExist(messageText);
+                exists = ProfileManager.getInstance().doesProfileExist(messageText);
 
-                                        if( exists ){
-                                            overwriteDialog.show(stage);
-                                        }else{
-                                            ProfileManager.getInstance().writeProfileToStorage(messageText, "", false);
-                                            ProfileManager.getInstance().setCurrentProfile(messageText);
-                                            ProfileManager.getInstance().setIsNewProfile(true);
-                                            game.setScreen(game.getScreenType(ScreenType.Game));
-                                        }
-                                    }
-                                }
-        );
+                if( exists ){
+                    overwriteDialog.show(stage);
+                }else{
+                    ProfileManager.getInstance().writeProfileToStorage(messageText, "", false);
+                    ProfileManager.getInstance().setCurrentProfile(messageText);
+                    ProfileManager.getInstance().setIsNewProfile(true);
+                    game.setScreen(game.getScreenType(ScreenType.Game));
+                }
+            }
+        });
 
         backButton.addListener(new ClickListener() {
-                                   @Override
-                                   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                       return true;
-                                   }
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
 
-                                   @Override
-                                   public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                       game.setScreen(game.getScreenType(ScreenType.Menu));
-                                   }
-                               }
-        );
+           @Override
+           public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+               game.setScreen(game.getScreenType(ScreenType.Menu));
+           }
+       });
 
         overwriteButton.addListener(new ClickListener() {
                                         @Override

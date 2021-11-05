@@ -259,6 +259,7 @@ import java.util.Collections;
                 break;
             case SAVING:
                 ProfileManager.getInstance().saveProfile();
+                ProfileManager.getInstance().saveSetting();
                 gameState = GameState.PAUSED;
                 break;
             case PAUSED:

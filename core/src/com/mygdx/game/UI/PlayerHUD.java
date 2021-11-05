@@ -218,7 +218,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             case PROFILE_LOADED:
                 System.out.println("PROFILE LOADING");
                 boolean firstTime = profileManager.getIsNewProfile();
-
                 if(firstTime){
                     System.out.println("CREATING NEW PROFILE");
                     InventoryUI.clearInventoryItems(inventoryUI.getInventorySlotTable());
@@ -229,7 +228,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     Array<InventoryItem.ItemID> items = player.getEntityConfig().getInventory(); // дефолтные предметы из EntityConfig
                     Array<InventoryItemLocation> itemLocations = new Array<InventoryItemLocation>();
                     for( int i = 0; i < items.size; i++){
-                        itemLocations.add(new InventoryItemLocation(i, items.get(i).toString(), 1, 0, InventoryUI.PLAYER_INVENTORY)); // расставляем предметы
+                        itemLocations.add(new InventoryItemLocation(i, items.get(i).toString(), 0, 0, InventoryUI.PLAYER_INVENTORY)); // расставляем предметы
                     }
                     InventoryUI.populateInventory(inventoryUI.getInventorySlotTable(), itemLocations, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
                     profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable()));
@@ -241,9 +240,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     Entity.Direction direction = profileManager.getPlayerConfig().getDirection();
                     player.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(initPlayerPosition));
                     player.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
-
                 } else {
-
                     HashMap<Ammo.AmmoID, Integer> allAmmoCount = profileManager.getPlayerConfig().getAllAmmoCount();
                     player.sendMessage(Message.MESSAGE.INIT_ALL_AMMO_COUNT, json.toJson(allAmmoCount));
 
@@ -264,11 +261,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
                 }
                 break;
-
             case SAVING_PROFILE:
                 System.out.println("PROFILE CONFIG SAVING");
-//                profileManager.getSettingsConfig().setLastActiveAccount();
-
+                profileManager.getSettingsConfig().setLastActiveAccount(profileManager.getProfileName());
                 profileManager.getPlayerConfig().setPlayerQuests(questUI.getQuests());  // Quests
                 profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable())); // Inventory
                 profileManager.getPlayerConfig().setEquipment(InventoryUI.getInventory(inventoryUI.getEquipSlotTable())); // Equipment
@@ -277,13 +272,11 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setDirection(player.getCurrentDirection());  // Direction
                 profileManager.getPlayerConfig().setState(player.getCurrentState());  // State
                 break;
-
             case CLEAR_CURRENT_PROFILE:
                 System.out.println("PROFILE CONFIG CLEARING");
                 profileManager.getPlayerConfig().setPlayerQuests(new Array<QuestGraph>());
                 profileManager.getPlayerConfig().setInventory(new Array<InventoryItemLocation>());
                 break;
-
             default:
                 break;
         }

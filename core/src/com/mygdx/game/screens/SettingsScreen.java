@@ -3,54 +3,77 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.FadingReality;
+import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.tools.managers.ResourceManager;
 
 public class SettingsScreen implements Screen {
 
+    private Stage stage;
     private FadingReality game;
     private ResourceManager rm;
-    private Stage uiStage;
-
-    private TextButton languageButtonOne, languageButtonTwo;
 
 
     public SettingsScreen(FadingReality game, ResourceManager rm) {
-        this.game=game;
-        this.rm=rm;
+        this.game = game;
+        this.rm = rm;
     }
 
     @Override
     public void show() {
-        uiStage = new Stage();
+        stage = new Stage();
 
-        languageButtonOne = new TextButton("<-", FadingReality.getUiSkin());
-        languageButtonTwo = new TextButton("->", FadingReality.getUiSkin());
+        TextButton saveButton = new TextButton("Save", FadingReality.getUiSkin());
+        TextButton backButton = new TextButton("Back", FadingReality.getUiSkin());
 
-        languageButtonOne.setPosition(100,100);
-        languageButtonOne.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
+        Table table = new Table();
+        table.setFillParent(true);
 
-            }
+        Table bottomTable = new Table();
+        bottomTable.setHeight(500);
+        bottomTable.setWidth(Gdx.graphics.getWidth());
+        bottomTable.add(saveButton).padRight(50);
+        bottomTable.add(backButton);
+
+        stage.addActor(table);
+        stage.addActor(bottomTable);
+
+        //Listeners
+        saveButton.addListener(new ClickListener() {
+               @Override
+               public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                   return true;
+               }
+
+               @Override
+               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                   ProfileManager.getInstance().saveSetting();
+               }
         });
 
-        languageButtonTwo.setPosition(150,100);
-        languageButtonTwo.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
+        backButton.addListener(new ClickListener() {
+               @Override
+               public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                   return true;
+               }
 
-            }
+               @Override
+               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                   game.setScreen(game.getScreenType(FadingReality.ScreenType.Menu));
+               }
         });
 
-        uiStage.addActor(languageButtonOne);
-        uiStage.addActor(languageButtonTwo);
-        Gdx.input.setInputProcessor(uiStage);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -61,8 +84,9 @@ public class SettingsScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(FadingReality.menuScreen);
         }
-        uiStage.act(delta);
-        uiStage.draw();
+
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override

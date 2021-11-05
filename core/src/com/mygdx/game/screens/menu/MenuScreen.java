@@ -50,23 +50,10 @@ public class MenuScreen implements Screen {
         }
 
         TextButton loadGameButton = new TextButton("LOAD GAME", FadingReality.getUiSkin());
-        loadGameButton.setPosition(300,450);
-
         TextButton newGameButton = new TextButton("NEW GAME", FadingReality.getUiSkin());
-        newGameButton.setPosition(300,400);
-
         TextButton settingsGameButton = new TextButton("SETTINGS", FadingReality.getUiSkin());
-        settingsGameButton.setPosition(300,350);
-
         TextButton creditsGameButton = new TextButton("CREDITS", FadingReality.getUiSkin());
-        creditsGameButton.setPosition(300,300);
-
         TextButton exitGameButton = new TextButton("EXIT GAME", FadingReality.getUiSkin());
-        exitGameButton.setPosition(300,250);
-
-//        Image imageMenuBackground = new Image(new TextureRegion());
-//        imageMenuBackground.setPosition(0,0);
-
 
         table.add(continueGameButton).spaceBottom(40).row();
         table.add(loadGameButton).spaceBottom(40).row();
@@ -76,14 +63,6 @@ public class MenuScreen implements Screen {
         table.add(exitGameButton).spaceBottom(40).row();
 
         stage.addActor(table);
-//        stage.addActor(imageMenuBackground);
-//        stage.addActor(continueGameButton);
-//        stage.addActor(loadGameButton);
-//        stage.addActor(newGameButton);
-//        stage.addActor(settingsGameButton);
-//        stage.addActor(creditsGameButton);
-//        stage.addActor(exitGameButton);
-
 
         //Listeners
         continueGameButton.addListener(new ClickListener() {

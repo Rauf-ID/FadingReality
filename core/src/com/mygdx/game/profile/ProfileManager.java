@@ -139,6 +139,11 @@ public class ProfileManager extends ProfileSubject {
         settingsConfig = json.fromJson(SettingsConfig.class, settings);
     }
 
+    public void saveSetting() {
+        String text = json.prettyPrint(json.toJson(settingsConfig));
+        fileSettings.writeString(text, false);
+    }
+
     public void setCurrentProfile(String profileName){
         if( doesProfileExist(profileName) ){
             this.profileName = profileName;
@@ -156,5 +161,11 @@ public class ProfileManager extends ProfileSubject {
         return settingsConfig;
     }
 
+    public String getProfileName() {
+        return profileName;
+    }
 
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
+    }
 }

@@ -1,6 +1,6 @@
 {
-	lastActiveAccount: "",
-    language: "english",
-	musicVolume: 1,
-	sfxVolume: 1,
+lastActiveAccount: Seva
+language: english
+musicVolume: 1
+sfxVolume: 1
 }

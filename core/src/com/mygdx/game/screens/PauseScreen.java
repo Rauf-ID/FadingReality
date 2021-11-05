@@ -27,8 +27,6 @@ public class PauseScreen implements Screen {
     public void show() {
         uiStage = new Stage();
 
-
-//        uiStage.addActor();
         Gdx.input.setInputProcessor(uiStage);
     }
 

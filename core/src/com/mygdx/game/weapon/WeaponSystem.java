@@ -74,7 +74,7 @@ public class WeaponSystem {
 
     public void setRangedWeapon(Weapon rangedWeapon) {
         this.rangedWeapon = rangedWeapon;
-        if (rangedWeapon != null) {
+        if (rangedWeapon != null && !allAmmoCount.isEmpty()) {
             int b = allAmmoCount.get(rangedWeapon.getAmmoID().toString());
             rangedWeapon.addAmmo(b);
         }

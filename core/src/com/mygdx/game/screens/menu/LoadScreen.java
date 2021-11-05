@@ -67,43 +67,40 @@ public class LoadScreen implements Screen {
 
         //Listeners
         backButton.addListener(new ClickListener() {
-                                   @Override
-                                   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                       return true;
-                                   }
+               @Override
+               public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                   return true;
+               }
 
-                                   @Override
-                                   public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                       game.setScreen(game.getScreenType(ScreenType.Menu));
-                                   }
-                               }
-        );
+               @Override
+               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                   game.setScreen(game.getScreenType(ScreenType.Menu));
+               }
+        });
 
         loadButton.addListener(new ClickListener() {
-                                   @Override
-                                   public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                                       return true;
-                                   }
+               @Override
+               public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                   return true;
+               }
 
-                                   @Override
-                                   public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                       if( listItems.getSelected() == null ) {
-                                           return;
-                                       }
+               @Override
+               public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                   if( listItems.getSelected() == null ) {
+                       return;
+                   }
 
-                                       String fileName = listItems.getSelected().toString();
+                   String fileName = listItems.getSelected().toString();
 
-                                       if (fileName != null && !fileName.isEmpty()) {
-                                           FileHandle file = ProfileManager.getInstance().getProfileFile(fileName);
-                                           if (file != null) {
-                                               ProfileManager.getInstance().setCurrentProfile(fileName);
-                                               game.setScreen(game.getScreenType(ScreenType.Game));
-                                           }
-                                       }
-                                   }
-
-                               }
-        );
+                   if (fileName != null && !fileName.isEmpty()) {
+                       FileHandle file = ProfileManager.getInstance().getProfileFile(fileName);
+                       if (file != null) {
+                           ProfileManager.getInstance().setCurrentProfile(fileName);
+                           game.setScreen(game.getScreenType(ScreenType.Game));
+                       }
+                   }
+               }
+        });
 
         Gdx.input.setInputProcessor(stage);
     }
