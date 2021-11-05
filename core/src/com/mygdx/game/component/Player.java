@@ -76,17 +76,19 @@ public class Player extends Component {
 
             else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
                 HashMap<Ammo.AmmoID, Integer> allAmmoCount = json.fromJson(HashMap.class, string[1]);
-                weaponSystem.setAllAmmoCount(allAmmoCount);
+                weaponSystem.setBagAmmunition(allAmmoCount);
             } else if(string[0].equalsIgnoreCase(MESSAGE.SET_MELEE_WEAPON.toString())) {
-                String weaponIDString = json.fromJson(String.class, string[1]);
-                ItemID weaponID = InventoryItem.ItemID.valueOf(weaponIDString);
+                String weaponIDStr = json.fromJson(String.class, string[1]);
+                ItemID weaponID = InventoryItem.ItemID.valueOf(weaponIDStr);
                 Weapon weapon = WeaponFactory.getInstance().getWeapon(weaponID);
                 weaponSystem.setMeleeWeapon(weapon);
             } else if(string[0].equalsIgnoreCase(MESSAGE.SET_RANGED_WEAPON.toString())) {
-                String weaponIDString = json.fromJson(String.class, string[1]);
-                ItemID weaponID = InventoryItem.ItemID.valueOf(weaponIDString);
+                String weaponIDStr = json.fromJson(String.class, string[1]);
+                String[] splitStr = weaponIDStr.split(MESSAGE_TOKEN_2);
+                ItemID weaponID = InventoryItem.ItemID.valueOf(splitStr[0]);
                 Weapon weapon = WeaponFactory.getInstance().getWeapon(weaponID);
                 weaponSystem.setRangedWeapon(weapon);
+                weaponSystem.setStartAmmoCountInMagazine(Integer.parseInt(splitStr[1]));
             } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_MELEE_WEAPON.toString())) {
                 weaponSystem.setMeleeWeapon(null);
             } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_RANGED_WEAPON.toString())) {
@@ -141,7 +143,7 @@ public class Player extends Component {
         for(Entity mapEntity : tempEntities) {
             Rectangle entitySwordRangeBox = mapEntity.getCurrentSwordRangeBox();
             if (entitySwordRangeBox.overlaps(entityRangeBox)) {
-                stateTime=0f;
+                stateTime = 0f;
                 playerGotHit(delta);
                 health-=25;
                 state = State.FREEZ;
@@ -486,15 +488,21 @@ public class Player extends Component {
                         }
 
                         //RANGED ATTACK
-                        if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive()) {
+                        if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive() && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() != 0) {
                             isRightButtonPressed = false;
                             currentState = Entity.State.RANGED_ATTACK;
+
                             isGunActive2 = true;
                             isGunActive = true;
-                        } else if (isRightButtonPressed) {
-                            isRightButtonPressed = false;
-                            PlayerHUD.toastShort("Ranged Weapon is not Active", Toast.Length.LONG);
+
+                            state = State.FREEZ;
+                            Timer.schedule(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    state = State.NORMAL;
+                                }}, 0.3f);
                         }
+
                     }
                 } else {
                     stateTime = 0f;
@@ -532,6 +540,17 @@ public class Player extends Component {
             isLeftButtonPressed = true;
         } else if (button == Input.Buttons.RIGHT) {
             isRightButtonPressed = true;
+
+            if (weaponSystem.rangedIsActive()) {
+                if (weaponSystem.getAmmoCountFromBag() == 0 && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() == 0) {
+                    PlayerHUD.toastShort("No ammo in bag", Toast.Length.SHORT);
+                } else if (weaponSystem.getRangedWeapon().getAmmoCountInMagazine() == 0) {
+                    PlayerHUD.toastShort("Reload weapon", Toast.Length.SHORT);
+                }
+            } else {
+                PlayerHUD.toastShort("Ranged Weapon is not Active", Toast.Length.LONG);
+            }
+
         }
         return true;
     }

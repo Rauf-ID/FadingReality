@@ -10,7 +10,7 @@
 	attackTime: 100,
 }
 {
-	weaponID: ALG,
+	weaponID: AHR,
 	isRangedWeapon: true,
 	knockback: 100,
 	hitRange: 100,
@@ -19,7 +19,8 @@
 	critChance: 100,
 	attackTime: 0.3,
 
-	ammoID: CALIBER_9MM,
+	magazineSize: 30,
+	ammoID: CALIBER_5_55MM,
 	pathTextureAmmo: "bullet.png",
 	ammoSpeed: 720,
 	hitRange: 360

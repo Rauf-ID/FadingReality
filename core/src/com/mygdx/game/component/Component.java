@@ -148,7 +148,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     }
 
     protected void updateAnimations(float delta){
-//        stateTime = (stateTime + delta)%5; //Want to avoid overflow
+//        stateTime = (stateTime + delta) % 5; //Want to avoid overflow
         stateTime += delta;
         policeLookedAround += delta;
         atkTime += delta;

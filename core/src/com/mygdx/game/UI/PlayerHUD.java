@@ -265,9 +265,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 System.out.println("PROFILE CONFIG SAVING");
                 profileManager.getSettingsConfig().setLastActiveAccount(profileManager.getProfileName());
                 profileManager.getPlayerConfig().setPlayerQuests(questUI.getQuests());  // Quests
+                profileManager.getPlayerConfig().setAllAmmoCount(player.getBagAmunation());
                 profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable())); // Inventory
                 profileManager.getPlayerConfig().setEquipment(InventoryUI.getInventory(inventoryUI.getEquipSlotTable())); // Equipment
-                profileManager.getPlayerConfig().setAllAmmoCount(player.getAllAmmoCount());
                 profileManager.getPlayerConfig().setPosition(player.getCurrentPosition());  // XY position
                 profileManager.getPlayerConfig().setDirection(player.getCurrentDirection());  // Direction
                 profileManager.getPlayerConfig().setState(player.getCurrentState());  // State
@@ -354,17 +354,16 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     public void onNotify(InventoryItem item, InventoryEvent event) {
         switch (event) {
             case ADDED:
-//                System.out.println("ITEM ADDED");
                 if(item.isInventoryItemOffensiveMelee()) {
                     InventoryItem.ItemID itemID = item.getItemID();
                     player.sendMessage(Message.MESSAGE.SET_MELEE_WEAPON, json.toJson(itemID.toString()));
                 } else if(item.isInventoryItemOffensiveRanged()) {
-                    InventoryItem.ItemID itemID = item.getItemID();
-                    player.sendMessage(Message.MESSAGE.SET_RANGED_WEAPON, json.toJson(itemID.toString()));
+                    String itemID = item.getItemID().toString();
+                    int ammoCountInMagazine = item.getNumberItemsInside();
+                    player.sendMessage(Message.MESSAGE.SET_RANGED_WEAPON, json.toJson(itemID + Message.MESSAGE_TOKEN_2 + ammoCountInMagazine));
                 }
                 break;
             case REMOVED:
-//                System.out.println("ITEM REMOVED");
                 if(item.isInventoryItemOffensiveMelee()) {
                     player.sendMessage(Message.MESSAGE.REMOVE_MELEE_WEAPON, json.toJson("null"));
                 } else if(item.isInventoryItemOffensiveRanged()) {

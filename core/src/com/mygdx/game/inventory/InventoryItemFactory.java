@@ -44,13 +44,4 @@ public class InventoryItemFactory {
         return item;
     }
 
-    /*
-    public void testAllItemLoad(){
-        for(ItemID itemTypeID : ItemID.values()) {
-            InventoryItem item = new InventoryItem(_inventoryItemList.get(itemTypeID));
-            item.setDrawable(new TextureRegionDrawable(PlayerHUD.itemsTextureAtlas.findRegion(item.getWeaponID().toString())));
-            item.setScaling(Scaling.none);
-        }
-    }*/
-
 }

@@ -180,8 +180,8 @@ public class Entity implements Comparable<Entity> {
         return component.currentEntityPosition;
     }
 
-    public HashMap<Ammo.AmmoID, Integer> getAllAmmoCount() {
-        return component.weaponSystem.getAllAmmoCount();
+    public HashMap<Ammo.AmmoID, Integer> getBagAmunation() {
+        return component.weaponSystem.getBagAmmunition();
     }
 
     public Entity.State getCurrentState(){

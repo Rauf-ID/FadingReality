@@ -10,13 +10,13 @@ public class WeaponSystem {
 
     private Weapon meleeWeapon = null;
     private Weapon rangedWeapon = null;
-    private HashMap<AmmoID, Integer> allAmmoCount;
+    private HashMap<AmmoID, Integer> bagAmmunition;
 
     private float angle;
     private float shootTimer = 0f;
 
     public WeaponSystem() {
-       allAmmoCount = new HashMap<AmmoID, Integer>();
+       bagAmmunition = new HashMap<AmmoID, Integer>();
     }
 
     public void update(float delta, Component player) {
@@ -31,13 +31,39 @@ public class WeaponSystem {
 
             shootTimer += delta;
             if (player.isGunActive2 && shootTimer >= rangedWeapon.getAttackTime()){ //&& shootTimer >= SHOOT_WAIT_TIMER
-                shootTimer = 0;
                 player.isGunActive2 = false;
                 Ammo bullet = new Ammo(rangedWeapon);
-                rangedWeapon.addActiveAmmo(bullet);
+                rangedWeapon.addActiveAmmo(bullet, getBagAmmunition());
+                shootTimer = 0;
             }
         }
 
+    }
+
+    public void addAmmoCountInMagazine(int ammoCount) {
+        if (rangedWeapon != null && !bagAmmunition.isEmpty()) {
+            int ammoCountFromBag = getAmmoCountFromBag(rangedWeapon.getAmmoID());
+            rangedWeapon.addAmmoInMagazine(ammoCount);
+        }
+    }
+
+
+    public void reloadWeapon() {
+//        if ()
+    }
+
+    public int getAmmoCountFromBag() {
+        return bagAmmunition.get(rangedWeapon.getAmmoID().toString());
+    }
+
+    public int getAmmoCountFromBag(AmmoID ammoID) {
+        return bagAmmunition.get(ammoID.toString());
+    }
+
+    public void setStartAmmoCountInMagazine(int ammoCount) {
+        if (rangedWeapon != null && ammoCount != 0) {
+            rangedWeapon.addAmmoInMagazine(ammoCount);
+        }
     }
 
     public void updateAngleCenterToMouse() {
@@ -50,6 +76,9 @@ public class WeaponSystem {
         angle = angle < 0 ? angle += 360: angle;
         angle -= 90;
     }
+
+
+
 
 
     public boolean meleeIsActive() {
@@ -74,17 +103,14 @@ public class WeaponSystem {
 
     public void setRangedWeapon(Weapon rangedWeapon) {
         this.rangedWeapon = rangedWeapon;
-        if (rangedWeapon != null && !allAmmoCount.isEmpty()) {
-            int b = allAmmoCount.get(rangedWeapon.getAmmoID().toString());
-            rangedWeapon.addAmmo(b);
-        }
     }
 
-    public HashMap<AmmoID, Integer> getAllAmmoCount() {
-        return allAmmoCount;
+    public HashMap<AmmoID, Integer> getBagAmmunition() {
+        return bagAmmunition;
     }
 
-    public void setAllAmmoCount(HashMap<AmmoID, Integer> allAmmoCount) {
-        this.allAmmoCount = allAmmoCount;
+    public void setBagAmmunition(HashMap<AmmoID, Integer> bagAmmunition) {
+        this.bagAmmunition = bagAmmunition;
     }
+
 }

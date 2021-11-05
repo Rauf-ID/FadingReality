@@ -39,6 +39,7 @@ public class InventoryItem extends Image {
         SCROLL01,SCROLL02,SCROLL03,
         HERB001,BABY001,HORNS001,FUR001,
         ALG, PREDATOR,
+        AHR,
         ANGEL_BLADE,
         NONE
     }

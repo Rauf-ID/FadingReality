@@ -4,10 +4,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.FadingReality;
+import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.inventory.InventoryItem.ItemID;
+import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class Weapon {
@@ -21,6 +24,7 @@ public class Weapon {
     private float attackTime; // время между аттакой/выстрелом
 //    private Rectangle hitBox; // хитбокс лезвия/боеприпаса
 
+    private int magazineSize;
     private AmmoID ammoID; // ID патрона
     private String pathTextureAmmo; // путь до текстуры боеприпаса
     private int ammoSpeed; // скорость патрона
@@ -30,7 +34,7 @@ public class Weapon {
     private ArrayList<Ammo> activeAmmo = null;
     private Vector3 pos;
     private float angle;
-    private float ammoCount;
+    private float ammoCountInMagazine;
     private float stateTime;
     private float offsetX, offsetY;
 
@@ -46,6 +50,7 @@ public class Weapon {
         this.attackTime = weapon.getAttackTime();
 
         if(isRangedWeapon) {
+            this.magazineSize = weapon.getMagazineSize();
             this.ammoID = weapon.getAmmoID();
             this.pathTextureAmmo = weapon.getPathTextureAmmo();
             this.ammoSpeed = weapon.getAmmoSpeed();
@@ -76,17 +81,24 @@ public class Weapon {
         }
     }
 
-    public void addActiveAmmo(Ammo a){
-        if(ammoCount > 0){
-            activeAmmo.add(a);
-            ammoCount--;
-        } else {
-            System.out.println("Clink");
-        }
+    public void addActiveAmmo(Ammo a, HashMap<AmmoID, Integer> bagAmmunition){
+        activeAmmo.add(a);
+        ammoCountInMagazine--;
+//        if(ammoCountInMagazine > 0){
+//            activeAmmo.add(a);
+//            ammoCountInMagazine--;
+//        } else if (bagAmmunition.get(ammoID.toString()) == 0) {
+//            PlayerHUD.toastShort("No ammo in bag", Toast.Length.SHORT);
+//        } else {
+//            PlayerHUD.toastShort("Reload weapon", Toast.Length.SHORT);
+//        }
     }
 
-    public void addAmmo(int count) {
-        ammoCount += count;
+    public void addAmmoInMagazine(int ammoCount) {
+        if (ammoCountInMagazine == magazineSize) {
+            return;
+        }
+        ammoCountInMagazine += ammoCount;
     }
 
     public void drawRotatedGun(Batch batch, float delta){
@@ -171,6 +183,13 @@ public class Weapon {
     }
 
 
+    public int getMagazineSize() {
+        return magazineSize;
+    }
+
+    public void setMagazineSize(int magazineSize) {
+        this.magazineSize = magazineSize;
+    }
 
     public AmmoID getAmmoID() {
         return ammoID;
@@ -238,12 +257,8 @@ public class Weapon {
         this.angle = angle;
     }
 
-    public float getAmmoCount() {
-        return ammoCount;
-    }
-
-    public void setAmmoCount(float ammoCount) {
-        this.ammoCount = ammoCount;
+    public float getAmmoCountInMagazine() {
+        return ammoCountInMagazine;
     }
 
     public float getStateTime() {

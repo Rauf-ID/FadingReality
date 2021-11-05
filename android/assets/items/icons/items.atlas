@@ -318,13 +318,6 @@ WEAPON05
   orig: 52, 52
   offset: 0, 0
   index: -1
-PISTOL_ALG
-  rotate: false
-  xy: 271, 1
-  size: 52, 52
-  orig: 52, 52
-  offset: 0, 0
-  index: -1
 ANGEL_BLADE
   rotate: false
   xy: 433, 55
@@ -332,3 +325,11 @@ ANGEL_BLADE
   orig: 52, 52
   offset: 0, 0
   index: -1
+AHR
+  rotate: false
+  xy: 271, 1
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
+

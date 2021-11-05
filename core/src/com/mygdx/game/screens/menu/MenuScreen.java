@@ -44,11 +44,9 @@ public class MenuScreen implements Screen {
         table.setBackground(drawableMenuBackground);
 
         TextButton continueGameButton = new TextButton("CONTINUE GAME", FadingReality.getUiSkin());
-        continueGameButton.setPosition(300,500);
-        if(ProfileManager.getInstance().getSettingsConfig().getLastActiveAccount().isEmpty()) {
+        if(ProfileManager.getInstance().getSettingsConfig().getLastActiveAccount().isEmpty()) { // добавить условие на то что имя есть, но файла нет
             continueGameButton.setVisible(false);
         }
-
         TextButton loadGameButton = new TextButton("LOAD GAME", FadingReality.getUiSkin());
         TextButton newGameButton = new TextButton("NEW GAME", FadingReality.getUiSkin());
         TextButton settingsGameButton = new TextButton("SETTINGS", FadingReality.getUiSkin());

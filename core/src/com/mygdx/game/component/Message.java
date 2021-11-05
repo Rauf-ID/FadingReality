@@ -3,6 +3,7 @@ package com.mygdx.game.component;
 public interface Message {
 
     public static final String MESSAGE_TOKEN = ":::::";
+    public static final String MESSAGE_TOKEN_2 = ":::";
 
     public static enum MESSAGE{
         CURRENT_POSITION,
