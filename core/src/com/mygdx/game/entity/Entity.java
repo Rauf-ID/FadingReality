@@ -17,6 +17,7 @@ import com.mygdx.game.world.MapManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Entity implements Comparable<Entity> {
 
@@ -180,7 +181,7 @@ public class Entity implements Comparable<Entity> {
         return component.currentEntityPosition;
     }
 
-    public HashMap<Ammo.AmmoID, Integer> getBagAmunation() {
+    public Map<String, Integer> getBagAmmunition() {
         return component.weaponSystem.getBagAmmunition();
     }
 

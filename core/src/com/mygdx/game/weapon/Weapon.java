@@ -34,7 +34,7 @@ public class Weapon {
     private ArrayList<Ammo> activeAmmo = null;
     private Vector3 pos;
     private float angle;
-    private float ammoCountInMagazine;
+    private int ammoCountInMagazine;
     private float stateTime;
     private float offsetX, offsetY;
 
@@ -81,24 +81,18 @@ public class Weapon {
         }
     }
 
-    public void addActiveAmmo(Ammo a, HashMap<AmmoID, Integer> bagAmmunition){
-        activeAmmo.add(a);
-        ammoCountInMagazine--;
-//        if(ammoCountInMagazine > 0){
-//            activeAmmo.add(a);
-//            ammoCountInMagazine--;
-//        } else if (bagAmmunition.get(ammoID.toString()) == 0) {
-//            PlayerHUD.toastShort("No ammo in bag", Toast.Length.SHORT);
-//        } else {
-//            PlayerHUD.toastShort("Reload weapon", Toast.Length.SHORT);
-//        }
-    }
-
     public void addAmmoInMagazine(int ammoCount) {
         if (ammoCountInMagazine == magazineSize) {
             return;
         }
         ammoCountInMagazine += ammoCount;
+    }
+
+    public void addActiveAmmo(Ammo a){
+        if(ammoCountInMagazine > 0){
+            activeAmmo.add(a);
+            ammoCountInMagazine--;
+        }
     }
 
     public void drawRotatedGun(Batch batch, float delta){
@@ -257,7 +251,7 @@ public class Weapon {
         this.angle = angle;
     }
 
-    public float getAmmoCountInMagazine() {
+    public int getAmmoCountInMagazine() {
         return ammoCountInMagazine;
     }
 

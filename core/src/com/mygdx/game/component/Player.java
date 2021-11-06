@@ -75,7 +75,7 @@ public class Player extends Component {
 
 
             else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
-                HashMap<Ammo.AmmoID, Integer> allAmmoCount = json.fromJson(HashMap.class, string[1]);
+                java.util.Map<String, Integer> allAmmoCount = json.fromJson(HashMap.class, string[1]);
                 weaponSystem.setBagAmmunition(allAmmoCount);
             } else if(string[0].equalsIgnoreCase(MESSAGE.SET_MELEE_WEAPON.toString())) {
                 String weaponIDStr = json.fromJson(String.class, string[1]);
@@ -482,16 +482,13 @@ public class Player extends Component {
                             }, frameAttack); //0.44
 
                             updateSwordRangeBox(64, 64);
-                        } else if(isLeftButtonPressed) {
+                        } else {
                             isLeftButtonPressed = false;
-                            PlayerHUD.toastShort("Melee Weapon is not Active", Toast.Length.LONG);
                         }
 
                         //RANGED ATTACK
                         if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive() && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() != 0) {
-                            isRightButtonPressed = false;
                             currentState = Entity.State.RANGED_ATTACK;
-
                             isGunActive2 = true;
                             isGunActive = true;
 
@@ -500,8 +497,21 @@ public class Player extends Component {
                                 @Override
                                 public void run() {
                                     state = State.NORMAL;
-                                }}, 0.3f);
+                                }}, weaponSystem.getRangedWeapon().getAttackTime());
                         }
+
+                        //RELOAD WEAPON
+                        if(Gdx.input.isKeyJustPressed(Input.Keys.R) && weaponSystem.rangedIsActive()) {
+                            state = State.FREEZ;
+                            Timer.schedule(new Timer.Task() {
+                                @Override
+                                public void run() {
+                                    weaponSystem.reloadWeapon();
+
+                                    state = State.NORMAL;
+                                }}, 0.5f);
+                        }
+
 
                     }
                 } else {
@@ -538,6 +548,12 @@ public class Player extends Component {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == Input.Buttons.LEFT) {
             isLeftButtonPressed = true;
+
+            if(weaponSystem.meleeIsActive()) {
+
+            } else {
+                PlayerHUD.toastShort("Melee Weapon is not Active", Toast.Length.LONG);
+            }
         } else if (button == Input.Buttons.RIGHT) {
             isRightButtonPressed = true;
 
@@ -545,7 +561,7 @@ public class Player extends Component {
                 if (weaponSystem.getAmmoCountFromBag() == 0 && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() == 0) {
                     PlayerHUD.toastShort("No ammo in bag", Toast.Length.SHORT);
                 } else if (weaponSystem.getRangedWeapon().getAmmoCountInMagazine() == 0) {
-                    PlayerHUD.toastShort("Reload weapon", Toast.Length.SHORT);
+                    PlayerHUD.toastShort("Press R to Reload weapon", Toast.Length.SHORT);
                 }
             } else {
                 PlayerHUD.toastShort("Ranged Weapon is not Active", Toast.Length.LONG);

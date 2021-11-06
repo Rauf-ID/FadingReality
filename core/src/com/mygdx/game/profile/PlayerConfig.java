@@ -9,6 +9,7 @@ import com.mygdx.game.weapon.Ammo.AmmoID;
 import com.mygdx.game.world.MapFactory;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerConfig {
 
@@ -19,7 +20,7 @@ public class PlayerConfig {
     private Array<QuestGraph> playerQuests;
     private Array<InventoryItemLocation> inventory;
     private Array<InventoryItemLocation> equipment;
-    private HashMap<AmmoID, Integer> allAmmoCount;
+    private Map<String, Integer> allAmmoCount;
     private int money;
     private int hp;
 
@@ -33,7 +34,7 @@ public class PlayerConfig {
     PlayerConfig() {
         inventory = new Array<>();
         equipment = new Array<>();
-        allAmmoCount = new HashMap<AmmoID, Integer>();
+        allAmmoCount = new HashMap<String, Integer>();
     }
 
 
@@ -93,11 +94,11 @@ public class PlayerConfig {
         this.equipment = equipment;
     }
 
-    public HashMap<AmmoID, Integer> getAllAmmoCount() {
+    public Map<String, Integer> getAllAmmoCount() {
         return allAmmoCount;
     }
 
-    public void setAllAmmoCount(HashMap<AmmoID, Integer> allAmmoCount) {
+    public void setAllAmmoCount(Map<String, Integer> allAmmoCount) {
         this.allAmmoCount = allAmmoCount;
     }
 

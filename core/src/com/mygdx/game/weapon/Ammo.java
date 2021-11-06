@@ -13,13 +13,30 @@ import java.util.ArrayList;
 
 public class Ammo {
 
-    public enum AmmoID {
-        CALIBER_12,
-        CALIBER_9MM,
-        CALIBER_6MM,
-        CALIBER_5_55MM,
-        BATTERIES,
-        UM,
+//    public enum AmmoID {
+//        CALIBER_12,
+//        CALIBER_9MM,
+//        CALIBER_6MM,
+//        CALIBER_5_55MM,
+//        BATTERIES,
+//        UM,
+//    }
+
+    public enum AmmoID{
+
+        CALIBER_5_55MM("5.55mm"),
+        CALIBER_9MM("9mm");
+
+        private String  name;
+
+        AmmoID(String name){
+            this.name = name;
+        }
+
+        public String  getValue(){
+            return name;
+        }
+
     }
 
     private Weapon weapon;

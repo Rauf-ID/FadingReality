@@ -7,7 +7,6 @@ public class SettingsConfig {
     private float musicVolume;
     private float sfxVolume;
 
-
     SettingsConfig() {}
 
     public String getLastActiveAccount() {

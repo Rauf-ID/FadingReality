@@ -1,6 +1,7 @@
 package com.mygdx.game.weapon;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.component.Component;
@@ -10,13 +11,13 @@ public class WeaponSystem {
 
     private Weapon meleeWeapon = null;
     private Weapon rangedWeapon = null;
-    private HashMap<AmmoID, Integer> bagAmmunition;
+    private Map<String, Integer> bagAmmunition;
 
     private float angle;
     private float shootTimer = 0f;
 
     public WeaponSystem() {
-       bagAmmunition = new HashMap<AmmoID, Integer>();
+       bagAmmunition = new HashMap<String, Integer>();
     }
 
     public void update(float delta, Component player) {
@@ -33,36 +34,55 @@ public class WeaponSystem {
             if (player.isGunActive2 && shootTimer >= rangedWeapon.getAttackTime()){ //&& shootTimer >= SHOOT_WAIT_TIMER
                 player.isGunActive2 = false;
                 Ammo bullet = new Ammo(rangedWeapon);
-                rangedWeapon.addActiveAmmo(bullet, getBagAmmunition());
+                rangedWeapon.addActiveAmmo(bullet);
                 shootTimer = 0;
             }
         }
 
     }
 
-    public void addAmmoCountInMagazine(int ammoCount) {
-        if (rangedWeapon != null && !bagAmmunition.isEmpty()) {
-            int ammoCountFromBag = getAmmoCountFromBag(rangedWeapon.getAmmoID());
+    public void reloadWeapon() {
+        int currentCount = rangedWeapon.getAmmoCountInMagazine();
+        int magazineSize = rangedWeapon.getMagazineSize();
+
+        int ammoCountFromBag = getAmmoCountFromBag();
+        int difference = magazineSize - currentCount;
+
+        if (currentCount < magazineSize &&  ammoCountFromBag > 0) {
+            for (int i = 0; ammoCountFromBag != 0 &&  i < difference; i++) {
+                ammoCountFromBag -= 1;
+                rangedWeapon.addAmmoInMagazine(1);
+            }
+            setAmmoCountForBag(ammoCountFromBag);
+        }
+    }
+
+    public void setStartAmmoCountInMagazine(int ammoCount) {
+        if (rangedWeapon != null && ammoCount > 0) {
             rangedWeapon.addAmmoInMagazine(ammoCount);
         }
     }
 
-
-    public void reloadWeapon() {
-//        if ()
-    }
-
     public int getAmmoCountFromBag() {
-        return bagAmmunition.get(rangedWeapon.getAmmoID().toString());
+        if (rangedWeapon != null && !bagAmmunition.isEmpty()) {
+            return bagAmmunition.get(rangedWeapon.getAmmoID().getValue());
+        } else {
+            return 0;
+        }
     }
 
     public int getAmmoCountFromBag(AmmoID ammoID) {
-        return bagAmmunition.get(ammoID.toString());
+        if (rangedWeapon != null && !bagAmmunition.isEmpty()) {
+            return bagAmmunition.get(ammoID.getValue());
+        } else {
+            return 0;
+        }
     }
 
-    public void setStartAmmoCountInMagazine(int ammoCount) {
-        if (rangedWeapon != null && ammoCount != 0) {
-            rangedWeapon.addAmmoInMagazine(ammoCount);
+    public void setAmmoCountForBag(int ammoCount) {
+        if (ammoCount >= 0) {
+            bagAmmunition.remove(rangedWeapon.getAmmoID().toString());
+            bagAmmunition.put(rangedWeapon.getAmmoID().getValue(), ammoCount);
         }
     }
 
@@ -105,11 +125,11 @@ public class WeaponSystem {
         this.rangedWeapon = rangedWeapon;
     }
 
-    public HashMap<AmmoID, Integer> getBagAmmunition() {
+    public Map<String, Integer> getBagAmmunition() {
         return bagAmmunition;
     }
 
-    public void setBagAmmunition(HashMap<AmmoID, Integer> bagAmmunition) {
+    public void setBagAmmunition(Map<String, Integer> bagAmmunition) {
         this.bagAmmunition = bagAmmunition;
     }
 
