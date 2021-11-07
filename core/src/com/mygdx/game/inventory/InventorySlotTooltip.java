@@ -3,6 +3,10 @@ package com.mygdx.game.inventory;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.mygdx.game.weapon.Ammo;
+import com.mygdx.game.weapon.Weapon;
+import com.mygdx.game.weapon.WeaponFactory;
+import com.mygdx.game.weapon.WeaponSystem;
 
 public class InventorySlotTooltip extends Window {
 
@@ -38,15 +42,19 @@ public class InventorySlotTooltip extends Window {
             StringBuilder string = new StringBuilder();
             InventoryItem item = inventorySlot.getTopInventoryItem();
             string.append(item.getItemShortDescription());
+
+
             if(item.isInventoryItemOffensiveMelee()) {
                 string.append(System.getProperty("line.separator"));
                 string.append(String.format("Attack Points: %s", item.getItemUseTypeValue()));
             } else if(item.isInventoryItemOffensiveRanged()){
+                Weapon weapon = WeaponFactory.getInstance().getWeapon(item.getItemID());
+
                 string.append(System.getProperty("line.separator"));
                 string.append(String.format("Attack Points: %s", item.getItemUseTypeValue()));
                 string.append(System.getProperty("line.separator"));
                 string.append(System.getProperty("line.separator"));
-                string.append(String.format("Ammo: %s", 0));
+                string.append(String.format("Ammo: %s", item.getNumberItemsInside() + "/" + WeaponSystem.getBagAmmunition().get(weapon.getAmmoID().getValue())));
             } else if(item.isInventoryItemDefensive()){
                 string.append(System.getProperty("line.separator"));
                 string.append(String.format("Defense Points: %s", item.getItemUseTypeValue()));

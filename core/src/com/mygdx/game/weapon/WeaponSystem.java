@@ -4,14 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.component.Component;
+import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
 
 public class WeaponSystem {
 
     private Weapon meleeWeapon = null;
     private Weapon rangedWeapon = null;
-    private Map<String, Integer> bagAmmunition;
+    private static Map<String, Integer> bagAmmunition;
 
     private float angle;
     private float shootTimer = 0f;
@@ -48,11 +50,12 @@ public class WeaponSystem {
         int ammoCountFromBag = getAmmoCountFromBag();
         int difference = magazineSize - currentCount;
 
-        if (currentCount < magazineSize &&  ammoCountFromBag > 0) {
+        if (currentCount < magazineSize &&  ammoCountFromBag != 0) {
             for (int i = 0; ammoCountFromBag != 0 &&  i < difference; i++) {
                 ammoCountFromBag -= 1;
                 rangedWeapon.addAmmoInMagazine(1);
             }
+            PlayerHUD.toastShort("Weapon reloaded", Toast.Length.SHORT);
             setAmmoCountForBag(ammoCountFromBag);
         }
     }
@@ -125,7 +128,7 @@ public class WeaponSystem {
         this.rangedWeapon = rangedWeapon;
     }
 
-    public Map<String, Integer> getBagAmmunition() {
+    public static Map<String, Integer> getBagAmmunition() {
         return bagAmmunition;
     }
 

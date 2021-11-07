@@ -78,7 +78,7 @@ import java.util.Collections;
         public void show() {
             camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             camera.setToOrtho(false);
-            camera.zoom=0.5f; //45 //1.80
+            camera.zoom = 0.5f; //45 //1.80
             mapMgr.setCamera(camera);
             if( mapRenderer == null ){
                 mapRenderer = new OrthogonalTiledMapRendererWithSprites(mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);

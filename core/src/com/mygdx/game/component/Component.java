@@ -107,6 +107,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     protected ControlManager controlManager;
     public WeaponSystem weaponSystem;
+    public boolean reloaded = false;
 
 
     Component() {

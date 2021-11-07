@@ -45,6 +45,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     private Array<Actor> inventoryActors;
     private InventorySlotTooltip inventorySlotTooltip;
 
+    private InventorySlot meleeWeaponSlot, armorSlot, rangedWeaponSlot;
 
     public InventoryUI(){
         super("Inventory", FadingReality.getUiSkin());
@@ -65,9 +66,9 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         inventoryActors = new Array<Actor>();
         inventorySlotTooltip = new InventorySlotTooltip(Utility.STATUSUI_SKIN);
 
-        InventorySlot meleeWeaponSlot = new InventorySlot(ItemUseType.MELEE_WEAPON, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_melee")));
-        InventorySlot armorSlot = new InventorySlot(ItemUseType.ARMOR, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_chest")));
-        InventorySlot rangedWeaponSlot = new InventorySlot(ItemUseType.RANGED_WEAPON, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_ranged")));
+        meleeWeaponSlot = new InventorySlot(ItemUseType.MELEE_WEAPON, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_melee")));
+        armorSlot = new InventorySlot(ItemUseType.ARMOR, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_chest")));
+        rangedWeaponSlot = new InventorySlot(ItemUseType.RANGED_WEAPON, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_ranged")));
 
         meleeWeaponSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
         armorSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
@@ -223,6 +224,9 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         return equipSlots;
     }
 
+    public InventoryItem getItemFromWeaponRangedWeaponSlot() {
+        return rangedWeaponSlot.getTopInventoryItem();
+    }
 
 
     @Override

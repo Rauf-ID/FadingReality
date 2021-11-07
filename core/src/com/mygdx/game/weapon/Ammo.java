@@ -24,8 +24,8 @@ public class Ammo {
 
     public enum AmmoID{
 
-        CALIBER_5_55MM("5.55mm"),
-        CALIBER_9MM("9mm");
+        CALIBER_5_55MM("5.56 mm"),
+        CALIBER_9MM("9 mm");
 
         private String  name;
 

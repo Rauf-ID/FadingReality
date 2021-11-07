@@ -185,6 +185,14 @@ public class Entity implements Comparable<Entity> {
         return component.weaponSystem.getBagAmmunition();
     }
 
+    public int getAmmoCountInMagazine() {
+        if (component.weaponSystem.rangedIsActive()) {
+            return component.weaponSystem.getRangedWeapon().getAmmoCountInMagazine();
+        } else {
+            return 0;
+        }
+    }
+
     public Entity.State getCurrentState(){
         return component.currentState;
     }

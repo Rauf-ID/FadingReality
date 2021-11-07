@@ -32,13 +32,10 @@ import com.mygdx.game.dialogs.ConversationGraph;
 import com.mygdx.game.observer.ConversationGraphObserver;
 import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.profile.ProfileManager;
-import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.tools.HealthBar;
 import com.mygdx.game.tools.Toast;
-import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.world.MapManager;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -242,7 +239,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(initPlayerPosition));
                     player.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
                 } else {
-                    Map<String, Integer> allAmmoCount = profileManager.getPlayerConfig().getAllAmmoCount();
+                    Map<String, Integer> allAmmoCount = profileManager.getPlayerConfig().getBagAmmunition();
                     player.sendMessage(Message.MESSAGE.INIT_ALL_AMMO_COUNT, json.toJson(allAmmoCount));
 
                     Array<InventoryItemLocation> inventory = profileManager.getPlayerConfig().getInventory();
@@ -266,7 +263,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 System.out.println("PROFILE CONFIG SAVING");
                 profileManager.getSettingsConfig().setLastActiveAccount(profileManager.getProfileName());
                 profileManager.getPlayerConfig().setPlayerQuests(questUI.getQuests());  // Quests
-                profileManager.getPlayerConfig().setAllAmmoCount(player.getBagAmmunition());
+                profileManager.getPlayerConfig().setBagAmmunition(player.getBagAmmunition()); // Bag Ammunition
                 profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable())); // Inventory
                 profileManager.getPlayerConfig().setEquipment(InventoryUI.getInventory(inventoryUI.getEquipSlotTable())); // Equipment
                 profileManager.getPlayerConfig().setPosition(player.getCurrentPosition());  // XY position
@@ -312,6 +309,10 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             case ENEMY_SPAWN_LOCATION_CHANGED:
                 break;
             case PLAYER_HAS_MOVED:
+                break;
+            case PLAYER_SHOT:
+                Integer ammoCountInMagazine = json.fromJson(Integer.class, value);
+                inventoryUI.getItemFromWeaponRangedWeaponSlot().setNumberItemsInside(ammoCountInMagazine);
                 break;
             default:
                 break;
@@ -440,7 +441,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         FPSLabel.setText("FPS = " + Gdx.graphics.getFramesPerSecond());
         timeLabel.setText("Game Time = " + hour + ":" + min);
         stateLabel.setText("State = " + currentState);
-        countAmmoLabel.setText("AmmoOld = " + ammoCount);
+        countAmmoLabel.setText("Ammo = " + player.getAmmoCountInMagazine());
         mouseCoordinatesLabel.setText("Mouse Cord = X: " + Math.round(mouseCoordinates.x) + " Y: " + Math.round(mouseCoordinates.y));
         cameraZoomLabel.setText("Camera Zoom = " + zoom);
         labelPlayerPosition.setText("Player Position = X: " + playerPosition.x + " Y: " + playerPosition.y);
