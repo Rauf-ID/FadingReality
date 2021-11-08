@@ -226,7 +226,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     Array<InventoryItem.ItemID> items = player.getEntityConfig().getInventory(); // дефолтные предметы из EntityConfig
                     Array<InventoryItemLocation> itemLocations = new Array<InventoryItemLocation>();
                     for( int i = 0; i < items.size; i++){
-                        itemLocations.add(new InventoryItemLocation(i, items.get(i).toString(), 0, 0, InventoryUI.PLAYER_INVENTORY)); // расставляем предметы
+                        itemLocations.add(new InventoryItemLocation(i, items.get(i).toString(), 1, 0, InventoryUI.PLAYER_INVENTORY)); // расставляем предметы
                     }
                     InventoryUI.populateInventory(inventoryUI.getInventorySlotTable(), itemLocations, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
                     profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable()));

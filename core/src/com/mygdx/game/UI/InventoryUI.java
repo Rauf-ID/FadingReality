@@ -128,6 +128,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     }
 
     public static void populateInventory(Table targetTable, Array<InventoryItemLocation> inventoryItemLocations, DragAndDrop draganddrop, String defaultName, boolean disableNonDefaultItems) {
+
         clearInventoryItems(targetTable); // очистить инвентарь от предметов
 
         Array<Cell> cells = targetTable.getCells(); // все ячейки иневнтаря
@@ -145,8 +146,10 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
                     item.setName(itemName);
                 }
 
-                int numberItemsInside = itemLocation.getNumberItemsInside();
-                item.setNumberItemsInside(numberItemsInside);
+                if (item.hasItemInside()) {
+                    int numberItemsInside = itemLocation.getNumberItemsInside();
+                    item.setNumberItemsInside(numberItemsInside);
+                }
 
                 inventorySlot.add(item); // добавляем предмет в слот
                 if(item.getName().equalsIgnoreCase(defaultName)){

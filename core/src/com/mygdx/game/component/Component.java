@@ -120,9 +120,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
         mouseCoordinates = new Vector3();
 
-//        currentEntityPosition = new Vector2(0,0);
-//        currentEntityPosition = new Vector2(850,950);
-        currentEntityPosition = new Vector2(850,500);
+        currentEntityPosition = new Vector2();
         tempEntities = new Array<Entity>();
         runVelocity = new Vector2(2f,2f);
         runVelocityD = new Vector2(1.4f,1.4f);
@@ -191,7 +189,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 }
                 break;
             case MELEE_ATTACK:
-                if (attackId==0) {
+                if (attackId == 0) {
                     if (mouseDirection == Entity.MouseDirection.UP) {
                         currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_UP).getKeyFrame(atkTime);
                     } else if(mouseDirection == Entity.MouseDirection.DOWN) {
@@ -255,10 +253,13 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 }
                 break;
             case POLICE_STOPS:
-                currentFrame = FadingReality.resourceManager.policeAnimStops.getKeyFrame(stateTime, false);
+                currentFrame = animations.get(Entity.AnimationType.STOPS).getKeyFrame(stateTime);
                 break;
             case POLICE_LOOKED_AROUND:
-                currentFrame = FadingReality.resourceManager.policeAnimLookedAround.getKeyFrame(policeLookedAround, false);
+                currentFrame = animations.get(Entity.AnimationType.LOOKED_AROUND).getKeyFrame(stateTime);
+                break;
+            case DETENTION:
+                currentFrame = animations.get(Entity.AnimationType.DETENTION).getKeyFrame(stateTime);
                 break;
             case TALK:
                 currentFrame = FadingReality.resourceManager.kingAnimTalk.getKeyFrame(stateTime, false);
@@ -292,9 +293,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 break;
             case HURT_AMELIA:
                 currentFrame = FadingReality.resourceManager.playerAnimHurtAmelia.getKeyFrame(stateTime, false);
-                break;
-            case DETENTION:
-                currentFrame = FadingReality.resourceManager.policeAnimDetention.getKeyFrame(stateTime, true);
                 break;
             case USE_RUDIMENT:
                 currentFrame = FadingReality.resourceManager.playerAnimUseRudiment1.getKeyFrame(stateTime, true);
@@ -641,7 +639,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     }
 
     protected boolean isCollisionWithMapLayer(Entity entity, MapManager mapMgr){
-        MapLayer mapCollisionLayer =  mapMgr.getCollisionLayer();
+        MapLayer mapCollisionLayer = mapMgr.getCollisionLayer();
 
         if( mapCollisionLayer == null ){
             return false;

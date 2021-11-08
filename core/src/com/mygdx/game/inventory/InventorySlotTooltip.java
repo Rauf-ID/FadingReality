@@ -59,11 +59,11 @@ public class InventorySlotTooltip extends Window {
                 string.append(System.getProperty("line.separator"));
                 string.append(String.format("Defense Points: %s", item.getItemUseTypeValue()));
             }
-            string.append(System.getProperty("line.separator"));
-            string.append(System.getProperty("line.separator"));
-            string.append(String.format("Original Value: %s GP", item.getItemValue()));
-            string.append(System.getProperty("line.separator"));
-            string.append(String.format("Trade Value: %s GP", item.getTradeValue()));
+//            string.append(System.getProperty("line.separator"));
+//            string.append(System.getProperty("line.separator"));
+//            string.append(String.format("Original Value: %s GP", item.getItemValue()));
+//            string.append(System.getProperty("line.separator"));
+//            string.append(String.format("Trade Value: %s GP", item.getTradeValue()));
 
             description.setText(string);
             this.pack();

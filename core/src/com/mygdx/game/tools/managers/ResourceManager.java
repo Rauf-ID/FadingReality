@@ -223,8 +223,8 @@ public class ResourceManager {
         policeAnimShootingRight = new Animation<Sprite>(0.06f, ATLAS_POLICE.createSprites("SHOOTING_RIGHT"));
         policeAnimShootingLeft = new Animation<Sprite>(0.06f, ATLAS_POLICE.createSprites("SHOOTING_LEFT"));
         policeAnimLookedAround = new Animation<Sprite>(0.1f, ATLAS_POLICE.createSprites("LOOKED_AROUND"));
-        policeAnimStops = new Animation<Sprite>(0.1f, ATLAS_POLICE.createSprites("STOPS"));
         policeAnimDetention = new Animation<Sprite>(0.1f, ATLAS_POLICE.createSprites("DETENTION"));
+        policeAnimStops = new Animation<Sprite>(0.1f, ATLAS_POLICE.createSprites("STOPS"));
 
         eliteKnightAnimIdleRight = new Animation<Sprite>(0.2f, ATLAS_ELITE_KNIGHT.createSprites("IDLE_RIGHT"));
         eliteKnightAnimIdleLeft = new Animation<Sprite>(0.2f, ATLAS_ELITE_KNIGHT.createSprites("IDLE_LEFT"));
@@ -318,6 +318,13 @@ public class ResourceManager {
                 textureAtlas = atlasTable.get(atlasType);
                 if( textureAtlas == null ){
                     textureAtlas = assetManager.get("main/entities/enemies/eliteKnight/eliteKnight.atlas", TextureAtlas.class);
+                    atlasTable.put(atlasType, textureAtlas);
+                }
+                break;
+            case ATLAS_POLICE:
+                textureAtlas = atlasTable.get(atlasType);
+                if( textureAtlas == null ){
+                    textureAtlas = assetManager.get("main/entities/enemies/police/police.atlas", TextureAtlas.class);
                     atlasTable.put(atlasType, textureAtlas);
                 }
                 break;

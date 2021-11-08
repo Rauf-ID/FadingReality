@@ -18,18 +18,9 @@ public class SpaceStation extends Map {
 
         json = new Json();
 
-//        Entity townfolk1 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.TOWN_FOLK3);
-//        initSpecialEntityPosition(townfolk1, new Vector2(890,280), Entity.Direction.RIGHT);
-//        mapEntities.add(townfolk1);
-//
-//        Entity townfolk2 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.TOWN_FOLK4);
-//        initSpecialEntityPosition(townfolk2, new Vector2(790,320), Entity.Direction.RIGHT);
-//        mapEntities.add(townfolk2);
-//
-//        Entity townfolk3 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.TOWN_FOLK7);
-//        initSpecialEntityPosition(townfolk3, new Vector2(820,335), Entity.Direction.RIGHT);
-//        mapEntities.add(townfolk3);
-
+        Entity policeB1 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.POLICE_B1);
+        initSpecialEntityPosition(policeB1, new Vector2(890,280), Entity.Direction.RIGHT);
+        mapEntities.add(policeB1);
 
     }
 

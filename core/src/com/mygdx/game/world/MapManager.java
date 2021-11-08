@@ -16,15 +16,14 @@ import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.tools.Toast;
 
 public class MapManager implements ProfileObserver {
-    private static final String TAG = MapManager.class.getSimpleName();
 
+    private static final String TAG = MapManager.class.getSimpleName();
 
     private OrthographicCamera camera;
     private boolean mapChanged = false;
     private Map currentMap;
     private Entity player;
     private Entity currentSelectedEntity = null;
-
 
     public MapManager() {
     }

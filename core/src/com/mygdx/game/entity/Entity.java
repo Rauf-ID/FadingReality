@@ -29,7 +29,7 @@ public class Entity implements Comparable<Entity> {
         return (temp_y < compare_y ) ? -1: (temp_y > compare_y) ? 1:0;
     }
 
-    public static enum MouseDirection {
+    public enum MouseDirection {
         UP,
         RIGHT,
         DOWN,
@@ -40,30 +40,23 @@ public class Entity implements Comparable<Entity> {
         DOWN_RIGHT,
     }
 
-    public static enum Direction {
+    public enum Direction {
         UP,
         RIGHT,
         DOWN,
         LEFT,
-        UP_LEFT,
-        UP_RIGHT,
-        DOWN_LEFT,
-        DOWN_RIGHT,
     }
 
-    public static enum State {
+    public enum State {
         NONE,
         IDLE,
         RUN,
         WALK,
         WALK_SHADOW,
-        RUNING,
         MELEE_ATTACK,
         RANGED_ATTACK,
         DASH,
         USE_RUDIMENT,
-        SWORD__ATTACK,
-        SHOOT_ATTACK,
         TAKING_DAMAGE,
         FALLING,
         LANDING,
@@ -81,7 +74,7 @@ public class Entity implements Comparable<Entity> {
         AMELIA_BAT_SIT
     }
 
-    public static enum AnimationType {
+    public enum AnimationType {
         IDLE_RIGHT, IDLE_LEFT, IDLE_UP, IDLE_DOWN,
         WALK_RIGHT, WALK_LEFT, WALK_UP, WALK_DOWN,
         RUN_RIGHT, RUN_LEFT, RUN_UP, RUN_DOWN,
@@ -95,6 +88,9 @@ public class Entity implements Comparable<Entity> {
         BAR_DRINK,
         HURT_AMELIA,
         USE_RUDIMENT_1,
+        LOOKED_AROUND,
+        DETENTION,
+        STOPS,
         IDLE,
     }
 

@@ -39,15 +39,15 @@ public class InventorySlotTarget extends Target {
             return;
         }
 
-        if( !targetSlot.hasItem() ){ // Если предмета в слоте нет, то добавить его
+        if(!targetSlot.hasItem()) { // Если предмета в слоте нет, то добавить его
             targetSlot.add(sourceActor);
-        }else{
+        } else {
             //If the same item and stackable, add
-            if(sourceActor.isSameItemType(targetActor) && sourceActor.isStackable()){
+            if(sourceActor.isSameItemType(targetActor) && sourceActor.isStackable()) {
                 targetSlot.add(sourceActor);
-            }else{
+            } else {
                 //If they aren't the same items or the items aren't stackable, then swap
-                InventorySlot.swapSlots(sourceSlot, targetSlot, sourceActor);
+                InventorySlot.swapSlots(sourceSlot, targetSlot, sourceActor, targetActor);
             }
         }
 

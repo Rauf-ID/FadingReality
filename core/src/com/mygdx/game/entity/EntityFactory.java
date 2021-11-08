@@ -23,6 +23,7 @@ public class EntityFactory {
 
     public static enum EntityName{
         TOWN_FOL, TOWN_FOLK1, TOWN_FOLK2, TOWN_FOLK3, TOWN_FOLK4, TOWN_FOLK5, TOWN_FOLK7, TOWN_FOLK8, TOWN_FOLK9, TOWN_FOLK10, TOWN_FOLK11, TOWN_FOLK12, TOWN_FOLK13, TOWN_FOLK14, TOWN_FOLK15,
+        POLICE_B1, POLICE_R1,
         EARTHLINGS_D1, EARTHLINGS_D2, EARTHLINGS_G1, EARTHLINGS_E1, BARTENDER, HOLOGRAM_G2,
         ELITE_KNIGHT,
     }
@@ -34,23 +35,29 @@ public class EntityFactory {
     public static String PLAYER_CONFIG = "main/entities/player/player.json";
     public static String EARTHLINGS_CONFIGS = "main/entities/npc/earthlings/earthlings.json";
     public static String ELITE_KNIGHT_CONFIGS = "main/entities/enemies/eliteKnight/eliteKnight.json";
+    public static String POLICE_CONFIGS = "main/entities/enemies/police/police.json";
     public static String TOWN_FOLK_CONFIGS = "scripts/town_folk.json";
 
     private EntityFactory() {
         entities = new Hashtable<String, EntityConfig>();
 
         Array<EntityConfig> townFolkConfigs = Entity.getEntityConfigs(TOWN_FOLK_CONFIGS);
-        for( EntityConfig config: townFolkConfigs){
+        for(EntityConfig config: townFolkConfigs){
             entities.put(config.getEntityID(), config);
         }
 
         Array<EntityConfig> earthlingsConfigs = Entity.getEntityConfigs(EARTHLINGS_CONFIGS);
-        for( EntityConfig config: earthlingsConfigs){
+        for(EntityConfig config: earthlingsConfigs){
             entities.put(config.getEntityID(), config);
         }
 
         Array<EntityConfig> eliteKnightConfigs = Entity.getEntityConfigs(ELITE_KNIGHT_CONFIGS);
-        for( EntityConfig config: eliteKnightConfigs){
+        for(EntityConfig config: eliteKnightConfigs){
+            entities.put(config.getEntityID(), config);
+        }
+
+        Array<EntityConfig> policeConfig = Entity.getEntityConfigs(POLICE_CONFIGS);
+        for(EntityConfig config: policeConfig){
             entities.put(config.getEntityID(), config);
         }
     }

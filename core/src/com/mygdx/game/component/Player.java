@@ -6,6 +6,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -231,10 +235,40 @@ public class Player extends Component {
 
         //GRAPHICS
         updateAnimations(delta);
+
+    }
+
+    public boolean isCollisionWithMapLayer2(Entity entity, MapManager mapManager){
+        MapLayer mapCollisionLayer = mapManager.getCollisionLayer();
+
+        if( mapCollisionLayer == null ){
+            return false;
+        }
+
+        Rectangle rectangle = null;
+
+        for(MapObject object: mapCollisionLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+                if(boundingBox.overlaps(rectangle)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override
     public void draw(Batch batch, float delta) {
+        //Used to graphically debug boundingBox
+        Rectangle rect = boundingBox;
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        shapeRenderer.end();
+
         batch.begin();
 
         //DASH
@@ -271,6 +305,7 @@ public class Player extends Component {
         }
 
         batch.end();
+
     }
 
     private void input(Entity entity) {
@@ -502,10 +537,6 @@ public class Player extends Component {
                                 }}, weaponSystem.getRangedWeapon().getAttackTime());
                         }
 
-                        if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive() && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() == 0) {
-                            notify(json.toJson(0), ComponentObserver.ComponentEvent.PLAYER_SHOT);
-                        }
-
                         //RELOAD WEAPON
                         if(Gdx.input.isKeyJustPressed(Input.Keys.R) && weaponSystem.rangedIsActive()) {
 
@@ -522,6 +553,9 @@ public class Player extends Component {
 
                         }
 
+                        if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive() && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() == 0) {
+                            notify(json.toJson(0), ComponentObserver.ComponentEvent.PLAYER_SHOT);
+                        }
                         if (reloaded) {
                             reloaded = false;
                             notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
@@ -550,6 +584,11 @@ public class Player extends Component {
 
     @Override
     public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.R) {
+            if (weaponSystem.rangedIsActive() && weaponSystem.getAmmoCountFromBag(weaponSystem.getRangedWeapon().getAmmoID()) == 0) {
+                PlayerHUD.toastShort("No " + weaponSystem.getRangedWeapon().getAmmoID().getValue() + " in bag", Toast.Length.LONG);
+            }
+        }
         return false;
     }
 
@@ -572,7 +611,7 @@ public class Player extends Component {
             isRightButtonPressed = true;
 
             if (weaponSystem.rangedIsActive()) {
-                if (weaponSystem.getAmmoCountFromBag() == 0 && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() == 0) {
+                if (weaponSystem.getAmmoCountFromBag(weaponSystem.getRangedWeapon().getAmmoID()) == 0 && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() == 0) {
                     PlayerHUD.toastShort("No " + weaponSystem.getRangedWeapon().getAmmoID().getValue() + " in bag", Toast.Length.LONG);
                 } else if (weaponSystem.getRangedWeapon().getAmmoCountInMagazine() == 0) {
                     PlayerHUD.toastShort("Press R to Reload weapon", Toast.Length.LONG);

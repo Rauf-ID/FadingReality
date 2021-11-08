@@ -83,7 +83,6 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
     @Override
     public void add(Actor actor) {
         super.add(actor);
-
         if( numItemsLabel == null ){
             return;
         }
@@ -94,7 +93,7 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
     }
 
     public void add(Array<Actor> array) {
-        for( Actor actor : array){
+        for(Actor actor : array){
             super.add(actor);
 
             if( numItemsLabel == null ){
@@ -193,7 +192,7 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
     private void checkVisibilityOfItemCount(){ // если ед. предмета больше 1, то отобразить колличество
         if( numItems < 2){
             numItemsLabel.setVisible(false);
-        }else{
+        } else {
             numItemsLabel.setVisible(true);
         }
     }
@@ -228,7 +227,7 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         }
     }
 
-    static public void swapSlots(InventorySlot inventorySlotSource, InventorySlot inventorySlotTarget, InventoryItem dragActor){
+    static public void swapSlots(InventorySlot inventorySlotSource, InventorySlot inventorySlotTarget, InventoryItem dragActor, InventoryItem targetActor){
         //check if items can accept each other, otherwise, no swap
         if( !inventorySlotTarget.doesAcceptItemUseType(dragActor.getItemUseType()) || !inventorySlotSource.doesAcceptItemUseType(inventorySlotTarget.getTopInventoryItem().getItemUseType())) {
             inventorySlotSource.add(dragActor);

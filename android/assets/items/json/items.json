@@ -40,6 +40,14 @@
 	itemValue: 25,
 },
 {
+	itemID: ALG,
+	itemShortDescription: ALG(Antony Light Gun),
+	itemUseType: RANGED_WEAPON,
+	itemAttributes: [EQUIPPABLE, ITEM_INSIDE, LIGHT_WEAPON],
+	itemUseTypeValue: 10102,
+	itemValue: 25,
+},
+{
 	itemID: AHR,
 	itemShortDescription: AHR(Antony Heavy Rifle),
 	itemUseType: RANGED_WEAPON,
