@@ -2,29 +2,23 @@ package com.mygdx.game.component;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
-import com.mygdx.game.FadingReality;
 import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
-import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.tools.Rumble;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.tools.managers.ResourceManager;
-import com.mygdx.game.world.GridNode;
+import com.mygdx.game.pathfinder.Node;
 import com.mygdx.game.world.MapManager;
-
-import java.util.Hashtable;
 
 public class Enemy extends Component {
 
@@ -43,6 +37,7 @@ public class Enemy extends Component {
         initEntityRangeBox();
         initChaseRangeBox();
         initAttackRangeBox();
+
     }
 
     @Override
@@ -145,8 +140,8 @@ public class Enemy extends Component {
 
         switch (state) {
             case NORMAL:
-                if (health > 0) {
-                    if (attackRangeBox.overlaps(playerBoundingBox)) {   // ATTACK
+//                if (health > 0) {
+//                    if (attackRangeBox.overlaps(playerBoundingBox)) {   // ATTACK
 //                        long time = System.currentTimeMillis();
 //                        if (time > lastAttack + cooldownTime) {
 //                            // Do something
@@ -184,24 +179,24 @@ public class Enemy extends Component {
 //                            atkTime = 0f;
 //                            currentState = Entity.State.IDLE;
 //                        }
-                    } else if (!boundingBox.overlaps(mapManager.getPlayer().getCurrentBoundingBox()) && chaseRangeBox.overlaps(playerBoundingBox) && !isCollisionWithMapEntities(entity, mapManager)) { //CHASE
-                        long time = System.currentTimeMillis();
-                        if (time > lastAttack + cooldownTime) {
-                            // Do something
-                            atkTime = 0f;
-                            chase(mapManager);
-                        } else {
-                            atkTime = 0f;
-                            currentState = Entity.State.IDLE;
-                        }
-                    } else { //IDLE
-                        currentState = Entity.State.IDLE;
-                    }
-                } else {
-                    stateTime=0f;
-                    state = State.DEAD;
-                    currentState = Entity.State.DEAD;
-                }
+//                    } else if (!boundingBox.overlaps(mapManager.getPlayer().getCurrentBoundingBox()) && chaseRangeBox.overlaps(playerBoundingBox) && !isCollisionWithMapEntities(entity, mapManager)) { //CHASE
+//                        long time = System.currentTimeMillis();
+//                        if (time > lastAttack + cooldownTime) {
+//                            // Do something
+//                            atkTime = 0f;
+//                            chase(mapManager);
+//                        } else {
+//                            atkTime = 0f;
+//                            currentState = Entity.State.IDLE;
+//                        }
+//                    } else { //IDLE
+//                        currentState = Entity.State.IDLE;
+//                    }
+//                } else {
+//                    stateTime=0f;
+//                    state = State.DEAD;
+//                    currentState = Entity.State.DEAD;
+//                }
                 break;
             case FREEZ:
                 break;
@@ -213,17 +208,75 @@ public class Enemy extends Component {
         //GRAPHICS
          updateAnimations(delta);
 
-        GridNode startNode = new GridNode(boundingBox);
-        GridNode endNode = new GridNode(playerBoundingBox);
 
 
 
-        camera = mapManager.getCamera();
+        Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
+
+//        for (int y = 0; y < grid.size; y++) {
+//            for (int x = 0; x < grid.get(y).size; x++) {
+//                if (grid.get(y).get(x).rectangle.overlaps(boundingBox)) {
+//                    startNode = grid.get(y).get(x);
+//                    startNode.setType(Node.GridType.START);
+//                    pathFinder.setGridNode(startNode, Node.GridType.START);
+//                }
+//                if (grid.get(y).get(x).rectangle.contains(playerBoundingBox.x, playerBoundingBox.y)) {
+//                    endNode = grid.get(y).get(x);
+//                    endNode.setType(Node.GridType.END);
+//                    pathFinder.setGridNode(endNode, Node.GridType.END);
+//                }
+//            }
+//        }
+//
+//        pathFinder.setGrid(mapManager.getCurrentMap().getGrid());
+//        pathFinder.findPath();
+//
+//        mapManager.getCurrentMap().updateGridOjc();
+
+
+        this.mapManager = mapManager;
+        this.camera = mapManager.getCamera();
     }
 
+    public void followPath(MapManager mapManager){
+        Array<Node> finalP = pathFinder.getFinalPath();
+
+        if(finalP == null && finalP.size == 0) return;
+
+        Node node = finalP.removeIndex(finalP.size - 1);
+
+        if (node.rectangle.x > currentEntityPosition.x) {
+            currentState = Entity.State.RUN;
+            currentDirection = Entity.Direction.RIGHT;
+            currentEntityPosition.x += 1f;
+        }
+        if (node.rectangle.x < currentEntityPosition.x){
+            currentState = Entity.State.RUN;
+            currentDirection = Entity.Direction.LEFT;
+            currentEntityPosition.x-=1f;
+        }
+        if (node.rectangle.y > currentEntityPosition.y) {
+            currentEntityPosition.y+=1f;
+        }
+        if (node.rectangle.y < currentEntityPosition.y) {
+            currentEntityPosition.y-=1f;
+        }
+
+    }
 
     @Override
     public void draw(Batch batch, float delta) {
+        //Render path
+        Array<Node> finalP = pathFinder.getFinalPath();
+        shapeRenderer2.setProjectionMatrix(camera.combined);
+        shapeRenderer2.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer2.setColor(Color.GOLD);
+        for (Node node : finalP) {
+            Rectangle rectangle = node.rectangle;
+            shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+        }
+        shapeRenderer2.end();
+
         //Used to graphically debug boundingBox
         Rectangle rect = boundingBox;
         shapeRenderer.setProjectionMatrix(camera.combined);
@@ -244,7 +297,7 @@ public class Enemy extends Component {
         if (playerCurrentPosition.x > currentEntityPosition.x) {
             currentState = Entity.State.RUN;
             currentDirection = Entity.Direction.RIGHT;
-            currentEntityPosition.x+=1.5f;
+            currentEntityPosition.x += 1.5f;
         }
         if (playerCurrentPosition.x < currentEntityPosition.x){
             currentState = Entity.State.RUN;

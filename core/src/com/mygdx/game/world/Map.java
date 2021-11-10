@@ -4,24 +4,22 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.entity.Entity;
+import com.mygdx.game.pathfinder.Node;
 
 public class Map {
     private static final String TAG = Map.class.getSimpleName();
 
     public final static float UNIT_SCALE  = 1f;
-
-    public final static int CELL_SIZE  = 32;
+    public final static int CELL_SIZE  = 16;
 
     public final static String MAP_OBJECTS_LAYER = "MAP_OBJECTS_LAYER";
     protected final static String COLLISION_LAYER = "COLLISION_LAYER";
@@ -35,20 +33,22 @@ public class Map {
 
     protected Json json;
 
-    protected TiledMap currentMap = null;
-    protected MapFactory.MapType currentMapType;
-    protected Vector2 playerStart;
+    private Array<Array<Node>> grid;
 
-    protected MapLayer collisionLayer = null;
-    protected MapLayer mapObjectsLayer = null;
-    protected MapLayer portalLayer = null;
-    protected MapProperties mapProperties = null;
+    private TiledMap currentMap = null;
+    private MapFactory.MapType currentMapType;
+    private Vector2 playerStart;
+
+    private MapLayer collisionLayer = null;
+    private MapLayer mapObjectsLayer = null;
+    private MapLayer portalLayer = null;
+    private MapProperties mapProperties = null;
+
+    private int mapWidth;
+    private int mapHeight;
 
     protected Array<Entity> mapEntities;
     protected Array<Entity> mapQuestEntities;
-
-    protected Array<GridNode> nodes = new Array<GridNode>();
-
 
 
     public Map (MapFactory.MapType mapType, String fullMapPath) {
@@ -57,6 +57,7 @@ public class Map {
         playerStart = new Vector2(0,0);
         mapEntities = new Array<Entity>(10);
         mapQuestEntities = new Array<Entity>();
+        grid = new Array<Array<Node>>();
 
         if( fullMapPath == null || fullMapPath.isEmpty() ) {
             Gdx.app.debug(TAG, "Map is invalid");
@@ -81,63 +82,62 @@ public class Map {
         }
 
         mapProperties = currentMap.getProperties();
+        mapWidth = mapProperties.get("tilewidth", Integer.class);
+        mapHeight = mapProperties.get("tileheight", Integer.class);
 
         createGrid();
     }
 
-    public void createGrid() {
-        int mapWidth = getMapWidth();
-        int mapHeight = getMapHeighth();
+    private void createGrid() {
+        for (int y = 0; y < (mapWidth / CELL_SIZE); y++) {
+            grid.add(new Array<Node>());
+            for (int x = 0; x < (mapHeight / CELL_SIZE); x++) {
+                Rectangle rectangle = new Rectangle(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                grid.get(y).add(new Node(rectangle));
+            }
+        }
 
+        updateGridOjc();
+    }
+
+    public void updateGridOjc() {
         if( collisionLayer == null ){
             return;
         }
 
-        for (int x = 0; x < mapWidth; x += Map.CELL_SIZE) {
-            for (int y = 0; y < mapHeight; y += Map.CELL_SIZE) {
-                Rectangle rectangle = new Rectangle(x, y, Map.CELL_SIZE, Map.CELL_SIZE);
-                nodes.add(new GridNode(rectangle));
-            }
-        }
-
         Rectangle rectangle = null;
-
-        for(MapObject object: collisionLayer.getObjects()){
-            if(object instanceof RectangleMapObject) {
-                rectangle = ((RectangleMapObject)object).getRectangle();
-                for (GridNode node: nodes) {
-                    if(node.getRectangle().overlaps(rectangle)){
-                        node.setGridType(GridNode.GridType.CLOSE);
-                    } else {
-                        node.setGridType(GridNode.GridType.OPEN);
+        for (int y = 0; y < grid.size; y++) {
+            for (int x = 0; x < grid.get(y).size; x++) {
+                for(MapObject object: collisionLayer.getObjects()){
+                    if(object instanceof RectangleMapObject) {
+                        rectangle = ((RectangleMapObject)object).getRectangle();
+                        if(grid.get(y).get(x).rectangle.overlaps(rectangle)){
+                            grid.get(y).get(x).setType(Node.GridType.CLOSE);
+                        }
                     }
                 }
             }
         }
-
-        for (GridNode node: nodes) {
-            if (node.getGridType() == GridNode.GridType.CLOSE) {
-                System.out.println(node.getRectangle());
-            }
-        }
-
     }
 
-
-    public Array<GridNode> getNodes() {
-        return nodes;
-    }
-
-    public void setNodes(Array<GridNode> nodes) {
-        this.nodes = nodes;
+    public Array<Array<Node>> getGrid() {
+        return grid;
     }
 
     public int getMapWidth() {
-        return  mapProperties.get("tilewidth", Integer.class);
+        return mapWidth;
     }
 
-    public int getMapHeighth() {
-        return  mapProperties.get("tileheight", Integer.class);
+    public void setMapWidth(int mapWidth) {
+        this.mapWidth = mapWidth;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
+    public void setMapHeight(int mapHeight) {
+        this.mapHeight = mapHeight;
     }
 
     public TiledMap getCurrentTiledMap() {

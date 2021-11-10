@@ -41,7 +41,7 @@ public class MapManager implements ProfileObserver {
                 break;
             case SAVING_PROFILE:
                 if( currentMap != null ){
-                    profileManager.getPlayerConfig().setCurrentMap(currentMap.currentMapType);
+                    profileManager.getPlayerConfig().setCurrentMap(currentMap.getCurrentMapType());
                 }
                 break;
             case CLEAR_CURRENT_PROFILE:

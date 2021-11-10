@@ -34,6 +34,7 @@ import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.tools.HealthBar;
 import com.mygdx.game.tools.Toast;
+import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 
 import java.util.Iterator;
@@ -240,6 +241,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
                 } else {
                     Map<String, Integer> allAmmoCount = profileManager.getPlayerConfig().getBagAmmunition();
+//                    WeaponSystem.setBagAmmunition(allAmmoCount);
                     player.sendMessage(Message.MESSAGE.INIT_ALL_AMMO_COUNT, json.toJson(allAmmoCount));
 
                     Array<InventoryItemLocation> inventory = profileManager.getPlayerConfig().getInventory();

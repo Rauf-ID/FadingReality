@@ -19,7 +19,7 @@ public class WeaponSystem {
     private float shootTimer = 0f;
 
     public WeaponSystem() {
-       bagAmmunition = new HashMap<String, Integer>();
+//       bagAmmunition = new HashMap<String, Integer>(); //Если работает то при смене карты обнуляется
     }
 
     public void update(float delta, Component player) {
@@ -132,8 +132,8 @@ public class WeaponSystem {
         return bagAmmunition;
     }
 
-    public void setBagAmmunition(Map<String, Integer> bagAmmunition) {
-        this.bagAmmunition = bagAmmunition;
+    public static void setBagAmmunition(Map<String, Integer> bagAmmunition) {
+        WeaponSystem.bagAmmunition = bagAmmunition;
     }
 
 }

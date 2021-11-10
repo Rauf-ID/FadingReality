@@ -13,6 +13,7 @@ import com.mygdx.game.component.Message;
 import com.mygdx.game.component.Component;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.weapon.Ammo;
+import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 
 import java.util.ArrayList;
@@ -178,7 +179,7 @@ public class Entity implements Comparable<Entity> {
     }
 
     public Map<String, Integer> getBagAmmunition() {
-        return component.weaponSystem.getBagAmmunition();
+        return WeaponSystem.getBagAmmunition();
     }
 
     public int getAmmoCountInMagazine() {

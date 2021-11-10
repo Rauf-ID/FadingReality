@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -22,10 +21,12 @@ import com.mygdx.game.FadingReality;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.observer.ComponentSubject;
+import com.mygdx.game.pathfinder.PathFinder;
 import com.mygdx.game.tools.managers.ControlManager;
 import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
+import com.mygdx.game.pathfinder.Node;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -43,6 +44,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected Sprite currentFrame = null;
     protected Sprite currentFrame2 = null;
     protected ShapeRenderer shapeRenderer;
+    protected ShapeRenderer shapeRenderer2;
 
     public Vector3 mouseCoordinates;
 
@@ -85,8 +87,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected long lastAttack = 0;
     protected long cooldownTime = 1000; //1sec
 
-    protected OrthographicCamera camera;
-
     protected float ggov = 0.2f;
     protected float speedCamMove=15f;
     protected boolean pdaActive=false;
@@ -109,10 +109,17 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public WeaponSystem weaponSystem;
     public boolean reloaded = false;
 
+    protected OrthographicCamera camera;
+    protected MapManager mapManager;
+
+    protected PathFinder pathFinder;
+    protected Node startNode;
+    protected Node endNode;
 
     Component() {
         json = new Json();
         shapeRenderer = new ShapeRenderer();
+        shapeRenderer2 = new ShapeRenderer();
 
         currentState = Entity.State.IDLE;
         currentDirection = Entity.Direction.RIGHT;
@@ -140,6 +147,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
         controlManager = new ControlManager();
         weaponSystem = new WeaponSystem();
+        pathFinder = new PathFinder();
+
     }
 
     public void setGunActive2(boolean gunActive2) {

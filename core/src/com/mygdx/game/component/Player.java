@@ -25,9 +25,10 @@ import com.mygdx.game.tools.Rumble;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.tools.managers.ControlManager;
 import com.mygdx.game.tools.managers.ResourceManager;
-import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.weapon.Weapon;
 import com.mygdx.game.weapon.WeaponFactory;
+import com.mygdx.game.weapon.WeaponSystem;
+import com.mygdx.game.pathfinder.Node;
 import com.mygdx.game.world.MapManager;
 
 import java.util.HashMap;
@@ -80,7 +81,7 @@ public class Player extends Component {
 
             else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
                 java.util.Map<String, Integer> allAmmoCount = json.fromJson(HashMap.class, string[1]);
-                weaponSystem.setBagAmmunition(allAmmoCount);
+                WeaponSystem.setBagAmmunition(allAmmoCount);
             } else if(string[0].equalsIgnoreCase(MESSAGE.SET_MELEE_WEAPON.toString())) {
                 String weaponIDStr = json.fromJson(String.class, string[1]);
                 ItemID weaponID = InventoryItem.ItemID.valueOf(weaponIDStr);
@@ -236,31 +237,27 @@ public class Player extends Component {
         //GRAPHICS
         updateAnimations(delta);
 
+        this.mapManager = mapManager;
     }
 
-    public boolean isCollisionWithMapLayer2(Entity entity, MapManager mapManager){
-        MapLayer mapCollisionLayer = mapManager.getCollisionLayer();
-
-        if( mapCollisionLayer == null ){
-            return false;
-        }
-
-        Rectangle rectangle = null;
-
-        for(MapObject object: mapCollisionLayer.getObjects()){
-            if(object instanceof RectangleMapObject) {
-                rectangle = ((RectangleMapObject)object).getRectangle();
-                if(boundingBox.overlaps(rectangle)){
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
 
     @Override
     public void draw(Batch batch, float delta) {
+        Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
+        if(grid == null && grid.size == 0) return;
+        shapeRenderer2.setProjectionMatrix(camera.combined);
+        shapeRenderer2.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer2.setColor(Color.RED);
+        for (int y = 0; y < grid.size; y++) {
+            for (int x = 0; x < grid.get(y).size; x++) {
+                if (grid.get(y).get(x).getType() == Node.GridType.CLOSE) {
+                    Rectangle rectangle = grid.get(y).get(x).rectangle;
+                    shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+                }
+            }
+        }
+        shapeRenderer2.end();
+
         //Used to graphically debug boundingBox
         Rectangle rect = boundingBox;
         shapeRenderer.setProjectionMatrix(camera.combined);
@@ -305,7 +302,27 @@ public class Player extends Component {
         }
 
         batch.end();
+    }
 
+    public boolean isCollisionWithMapLayer2(Entity entity, MapManager mapManager){
+        MapLayer mapCollisionLayer = mapManager.getCollisionLayer();
+
+        if( mapCollisionLayer == null ){
+            return false;
+        }
+
+        Rectangle rectangle = null;
+
+        for(MapObject object: mapCollisionLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+                if(boundingBox.overlaps(rectangle)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private void input(Entity entity) {
