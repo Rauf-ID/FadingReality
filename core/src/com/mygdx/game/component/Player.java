@@ -36,13 +36,6 @@ import java.util.HashMap;
 
 public class Player extends Component {
 
-    protected enum State {
-        NORMAL,
-        FREEZ,
-        DEAD,
-    }
-
-    private State state;
     private boolean isLeftButtonPressed = false;
     private boolean isRightButtonPressed = false;
 
@@ -151,7 +144,7 @@ public class Player extends Component {
                 stateTime = 0f;
                 playerGotHit(delta);
                 health-=25;
-                state = State.FREEZ;
+                state = State.FREEZE;
                 currentState = Entity.State.TAKING_DAMAGE;
 
                 Timer.schedule(new Timer.Task() {
@@ -237,71 +230,9 @@ public class Player extends Component {
         //GRAPHICS
         updateAnimations(delta);
 
+        mapManager.getCurrentMap().updateGridOjc();
+
         this.mapManager = mapManager;
-    }
-
-
-    @Override
-    public void draw(Batch batch, float delta) {
-        Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
-        if(grid == null && grid.size == 0) return;
-        shapeRenderer2.setProjectionMatrix(camera.combined);
-        shapeRenderer2.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer2.setColor(Color.RED);
-        for (int y = 0; y < grid.size; y++) {
-            for (int x = 0; x < grid.get(y).size; x++) {
-                if (grid.get(y).get(x).getType() == Node.GridType.CLOSE) {
-                    Rectangle rectangle = grid.get(y).get(x).rectangle;
-                    shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
-                }
-            }
-        }
-        shapeRenderer2.end();
-
-        //Used to graphically debug boundingBox
-        Rectangle rect = boundingBox;
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        shapeRenderer.end();
-
-        batch.begin();
-
-        //DASH
-        for(Vector3 shadow : dashShadow) {
-            batch.setColor(0.05f,0.7f, 0.8f, shadow.z);
-            batch.draw(currentFrame, shadow.x, shadow.y);
-            shadow.z -= Gdx.graphics.getDeltaTime()*6;  //def *2
-        }
-        batch.setColor(Color.WHITE);
-        for(int i = 0; i < dashShadow.size(); i++) {
-            if(dashShadow.get(i).z <= 0) {
-                dashShadow.remove(i);
-            }
-        }
-
-        if(currentDirection == Entity.Direction.UP) {
-            if (weaponSystem.rangedIsActive()) {
-                if (isGunActive){
-                    weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
-                }
-                weaponSystem.getRangedWeapon().drawAmmo(batch);
-            }
-            batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
-            batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y);
-        } else {
-            batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y); // player
-            batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y); // blood
-            if (weaponSystem.rangedIsActive()) {
-                weaponSystem.getRangedWeapon().drawAmmo(batch);
-                if (isGunActive){
-                    weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
-                }
-            }
-        }
-
-        batch.end();
     }
 
     public boolean isCollisionWithMapLayer2(Entity entity, MapManager mapManager){
@@ -459,7 +390,7 @@ public class Player extends Component {
                         //DASH
                         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
                             stateTime = 0f;
-                            state = State.FREEZ;
+                            state = State.FREEZE;
                             currentState = Entity.State.DASH;
                             getMouseDirection();
                             doDash();
@@ -478,7 +409,7 @@ public class Player extends Component {
                             currentEntityPosition.x -= 64;
                             currentEntityPosition.y -= 64;
                             stateTime = 0f;
-                            state = State.FREEZ;
+                            state = State.FREEZE;
                             currentState = Entity.State.USE_RUDIMENT;
                             PlayerHUD.toastShort("Use Rudiment", Toast.Length.SHORT);
 
@@ -515,7 +446,7 @@ public class Player extends Component {
                             timeSinceLastAttack = System.currentTimeMillis();
 
                             atkTime = 0f;
-                            state = State.FREEZ;
+                            state = State.FREEZE;
                             currentState = Entity.State.MELEE_ATTACK;
                             getMouseDirection();
                             doSwordAttackMove();
@@ -546,7 +477,7 @@ public class Player extends Component {
 
                             notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() - 1), ComponentObserver.ComponentEvent.PLAYER_SHOT);
 
-                            state = State.FREEZ;
+                            state = State.FREEZE;
                             Timer.schedule(new Timer.Task() {
                                 @Override
                                 public void run() {
@@ -557,7 +488,7 @@ public class Player extends Component {
                         //RELOAD WEAPON
                         if(Gdx.input.isKeyJustPressed(Input.Keys.R) && weaponSystem.rangedIsActive()) {
 
-                            state = State.FREEZ;
+                            state = State.FREEZE;
                             Timer.schedule(new Timer.Task() {
                                 @Override
                                 public void run() {
@@ -585,7 +516,7 @@ public class Player extends Component {
                     currentState = Entity.State.DEAD;
                 }
                 break;
-            case FREEZ:
+            case FREEZE:
                 if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
                     stateTime = 0f;
                     state = State.NORMAL;
@@ -596,7 +527,68 @@ public class Player extends Component {
         }
     }
 
+    @Override
+    public void draw(Batch batch, float delta) {
+        Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
+        if(grid == null && grid.size == 0) return;
+        shapeRenderer2.setProjectionMatrix(camera.combined);
+        shapeRenderer2.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer2.setColor(Color.RED);
+        for (int y = 0; y < grid.size; y++) {
+            for (int x = 0; x < grid.get(y).size; x++) {
+                if (grid.get(y).get(x).getType() == Node.GridType.CLOSE) {
+                    Rectangle rectangle = grid.get(y).get(x).rectangle;
+                    shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+                }
+            }
+        }
+        shapeRenderer2.end();
 
+        //Used to graphically debug boundingBox
+        Rectangle rect = boundingBox;
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.RED);
+        shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        shapeRenderer.end();
+
+        batch.begin();
+
+        //DASH
+        for(Vector3 shadow : dashShadow) {
+            batch.setColor(0.05f,0.7f, 0.8f, shadow.z);
+            batch.draw(currentFrame, shadow.x, shadow.y);
+            shadow.z -= Gdx.graphics.getDeltaTime()*6;  //def *2
+        }
+        batch.setColor(Color.WHITE);
+        for(int i = 0; i < dashShadow.size; i++) {
+            if(dashShadow.get(i).z <= 0) {
+                dashShadow.removeIndex(i);
+            }
+        }
+
+        if(currentDirection == Entity.Direction.UP) {
+            if (weaponSystem.rangedIsActive()) {
+                if (isGunActive){
+                    weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
+                }
+                weaponSystem.getRangedWeapon().drawAmmo(batch);
+            }
+            batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
+            batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y);
+        } else {
+            batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y); // player
+            batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y); // blood
+            if (weaponSystem.rangedIsActive()) {
+                weaponSystem.getRangedWeapon().drawAmmo(batch);
+                if (isGunActive){
+                    weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
+                }
+            }
+        }
+
+        batch.end();
+    }
 
 
     @Override

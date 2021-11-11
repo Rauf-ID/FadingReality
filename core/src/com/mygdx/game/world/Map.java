@@ -21,18 +21,19 @@ public class Map {
     public final static float UNIT_SCALE  = 1f;
     public final static int CELL_SIZE  = 16;
 
-    public final static String MAP_OBJECTS_LAYER = "MAP_OBJECTS_LAYER";
-    protected final static String COLLISION_LAYER = "COLLISION_LAYER";
-    protected final static String PORTAL_LAYER = "PORTAL_LAYER";
-
-
     public final static String PARALLAX_LAYER = "PARALLAX_LAYER";
     public final static String BACKGROUND_LAYER = "BACKGROUND_LAYER";
     public final static String FRONT_LAYER = "FRONT_LAYER";
     public final static String LIGHT_LAYER = "LIGHT_LAYER";
 
+    private final static String MAP_OBJECTS_LAYER = "MAP_OBJECTS_LAYER";
+    private final static String COLLISION_LAYER = "COLLISION_LAYER";
+    private final static String PORTAL_LAYER = "PORTAL_LAYER";
+
     protected Json json;
 
+    private int mapWidth;
+    private int mapHeight;
     private Array<Array<Node>> grid;
 
     private TiledMap currentMap = null;
@@ -44,20 +45,16 @@ public class Map {
     private MapLayer portalLayer = null;
     private MapProperties mapProperties = null;
 
-    private int mapWidth;
-    private int mapHeight;
-
     protected Array<Entity> mapEntities;
     protected Array<Entity> mapQuestEntities;
-
 
     public Map (MapFactory.MapType mapType, String fullMapPath) {
         json = new Json();
         currentMapType = mapType;
         playerStart = new Vector2(0,0);
-        mapEntities = new Array<Entity>(10);
-        mapQuestEntities = new Array<Entity>();
-        grid = new Array<Array<Node>>();
+        mapEntities = new Array<>(10);
+        mapQuestEntities = new Array<>();
+        grid = new Array<>();
 
         if( fullMapPath == null || fullMapPath.isEmpty() ) {
             Gdx.app.debug(TAG, "Map is invalid");
@@ -120,24 +117,19 @@ public class Map {
         }
     }
 
+    protected void updateMapEntities(MapManager mapMgr, Batch batch, float delta){
+        for( int i=0; i < mapEntities.size; i++){
+            mapEntities.get(i).update(mapMgr, batch, delta);
+        }
+        for( int i=0; i < mapQuestEntities.size; i++){
+            mapQuestEntities.get(i).update(mapMgr, batch, delta);
+        }
+    }
+
+
+
     public Array<Array<Node>> getGrid() {
         return grid;
-    }
-
-    public int getMapWidth() {
-        return mapWidth;
-    }
-
-    public void setMapWidth(int mapWidth) {
-        this.mapWidth = mapWidth;
-    }
-
-    public int getMapHeight() {
-        return mapHeight;
-    }
-
-    public void setMapHeight(int mapHeight) {
-        this.mapHeight = mapHeight;
     }
 
     public TiledMap getCurrentTiledMap() {
@@ -172,6 +164,22 @@ public class Map {
         return mapQuestEntities;
     }
 
+    public int getMapWidth() {
+        return mapWidth;
+    }
+
+    public void setMapWidth(int mapWidth) {
+        this.mapWidth = mapWidth;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
+    public void setMapHeight(int mapHeight) {
+        this.mapHeight = mapHeight;
+    }
+
     public void setPlayerStart(Vector2 playerStart) {
         this.playerStart = playerStart;
     }
@@ -186,15 +194,6 @@ public class Map {
 
     public void setMapProperties(MapProperties mapProperties) {
         this.mapProperties = mapProperties;
-    }
-
-    protected void updateMapEntities(MapManager mapMgr, Batch batch, float delta){
-        for( int i=0; i < mapEntities.size; i++){
-            mapEntities.get(i).update(mapMgr, batch, delta);
-        }
-        for( int i=0; i < mapQuestEntities.size; i++){
-            mapQuestEntities.get(i).update(mapMgr, batch, delta);
-        }
     }
 
     protected void dispose(){

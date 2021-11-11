@@ -28,183 +28,181 @@ import com.badlogic.gdx.utils.Json;
 import java.util.ArrayList;
 import java.util.Collections;
 
+public class GameScreen implements Screen {
 
-    public class GameScreen implements Screen {
+    public enum GameState {
+        SAVING,
+        LOADING,
+        RUNNING,
+        PAUSED,
+        GAME_OVER
+    }
 
-        public enum GameState {
-            SAVING,
-            LOADING,
-            RUNNING,
-            PAUSED,
-            GAME_OVER
-        }
+    private static GameState gameState;
 
-        private static GameState gameState;
+    private FadingReality game;
 
-        private FadingReality game;
+    private Json json;
+    private Entity player;
+    private MapManager mapMgr;
+    private PlayerHUD playerHUD;
+    private OrthographicCamera camera;
 
-        private Json json;
-        private Entity player;
-        private MapManager mapMgr;
-        private PlayerHUD playerHUD;
-        private OrthographicCamera camera;
-
-        private OrthogonalTiledMapRendererWithSprites mapRenderer = null;
-        private InputMultiplexer inputMultiplexer;
+    private OrthogonalTiledMapRendererWithSprites mapRenderer = null;
+    private InputMultiplexer inputMultiplexer;
 //        private QuestManager questManager;
 
-        //MANAGERS ShaderAndVFX / MapObjects
-        private ShaderVFXManager shaderVFXManager;
-        private MapObjectsManager mapObjectsManager;
+    //MANAGERS ShaderAndVFX / MapObjects
+    private ShaderVFXManager shaderVFXManager;
+    private MapObjectsManager mapObjectsManager;
 
-        //LIST FOR SORT ENTITIES
-        private ArrayList<Entity> entities = new ArrayList<Entity>();
+    //LIST FOR SORT ENTITIES
+    private ArrayList<Entity> entities = new ArrayList<Entity>();
 
-        public GameScreen(FadingReality game) {
-            this.game=game;
+    public GameScreen(FadingReality game) {
+        this.game=game;
 
-            json = new Json();
+        json = new Json();
 
-            mapMgr = new MapManager();
-            player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
-            player.sendMessage(Message.MESSAGE.INIT_CONFIG, json.toJson(player.getEntityConfig()));
-            mapMgr.setPlayer(player);
+        mapMgr = new MapManager();
+        player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
+        player.sendMessage(Message.MESSAGE.INIT_CONFIG, json.toJson(player.getEntityConfig()));
+        mapMgr.setPlayer(player);
 
-            playerHUD = new PlayerHUD(player, mapMgr);
-            playerHUD.updateEntityObservers();
+        playerHUD = new PlayerHUD(player, mapMgr);
+        playerHUD.updateEntityObservers();
+    }
+
+    @Override
+    public void show() {
+        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false);
+        camera.zoom = 0.5f; //45 //1.80
+        mapMgr.setCamera(camera);
+        if( mapRenderer == null ){
+            mapRenderer = new OrthogonalTiledMapRendererWithSprites(mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
         }
 
-        @Override
-        public void show() {
-            camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            camera.setToOrtho(false);
-            camera.zoom = 0.5f; //45 //1.80
-            mapMgr.setCamera(camera);
-            if( mapRenderer == null ){
-                mapRenderer = new OrthogonalTiledMapRendererWithSprites(mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
-            }
+        //ADD OBSERVER FOR PROFILE
+        ProfileManager.getInstance().addObserver(mapMgr);
+        ProfileManager.getInstance().addObserver(playerHUD);
+        setGameState(GameState.LOADING);
 
-            //ADD OBSERVER FOR PROFILE
-            ProfileManager.getInstance().addObserver(mapMgr);
-            ProfileManager.getInstance().addObserver(playerHUD);
-            setGameState(GameState.LOADING);
-
-            //CREATE QuestMANAGER
+        //CREATE QuestMANAGER
 //            questManager = new QuestManager();
 //            questManager.loadQuest("quest1");
 
-            //CREATE ShaderVFXMANAGER
-            shaderVFXManager = new ShaderVFXManager();
+        //CREATE ShaderVFXMANAGER
+        shaderVFXManager = new ShaderVFXManager();
 
-            //CREATE MAP OBJECTS
-            mapObjectsManager = new MapObjectsManager();
+        //CREATE MAP OBJECTS
+        mapObjectsManager = new MapObjectsManager();
 
-            //INPUT
-            inputMultiplexer = new InputMultiplexer();
-            inputMultiplexer.addProcessor(playerHUD);
-            inputMultiplexer.addProcessor(player.getInputProcessor());
-            Gdx.input.setInputProcessor(inputMultiplexer);
+        //INPUT
+        inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(playerHUD);
+        inputMultiplexer.addProcessor(player.getInputProcessor());
+        Gdx.input.setInputProcessor(inputMultiplexer);
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0.294f, 0.294f, 0.294f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        game.getBatch().setProjectionMatrix(camera.combined);
+
+        //MAPS CHANGER
+        mapMgr.quickChangeMap();
+
+        //SOME UI UPDATES
+        playerHUD.update();
+        playerHUD.setCurrentState(player.getCurrentState().toString());
+        playerHUD.setCountAmmo(0);
+        playerHUD.setMouseCoordinates(player.getMouseCoordinates());
+        playerHUD.setCameraZoom(camera.zoom);
+        playerHUD.setPlayerPosition(player.getCurrentPosition());
+
+        //MapRENDER
+        mapRenderer.setView(camera);
+        mapRenderer.getBatch().enableBlending();
+        mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+        //MAP HAS CHANGED
+        if(mapMgr.hasMapChanged()){
+            mapRenderer.setMap(mapMgr.getCurrentTiledMap());
+            playerHUD.updateEntityObservers();
+            playerHUD.setLabelMapName(mapMgr.getCurrentMap().getNameMap());
+            entities.clear();
+            MapLayer mapCollisionLayer = mapMgr.getMapObjectsLayer();
+            if(mapCollisionLayer != null){
+                MapObjects objects = mapCollisionLayer.getObjects();
+                for(MapObject object: objects) {
+                    TextureMapObject textureMapObject = (TextureMapObject) object;
+                    entities.add(EntityFactory.getInstance().getEntity(EntityFactory.EntityType.MAPOBJECT, textureMapObject));
+                }
+            }
+            entities.add(player);
+            for (Entity entity: mapMgr.getCurrentMapEntities()){
+                entities.add(entity);
+                if (entity.getEntityConfig().getEntityID().equals(EntityFactory.EntityName.TOWN_FOL.toString())) {
+                    mapObjectsManager.getGateMehan().setEntity(entity);
+                }
+            }
+            mapMgr.setMapChanged(false);
         }
 
-        @Override
-        public void render(float delta) {
-            Gdx.gl.glClearColor(0.294f, 0.294f, 0.294f, 1f);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            game.getBatch().setProjectionMatrix(camera.combined);
+        //SORT ENTITY AND MAP OBJECTS
+        Collections.sort(entities);
 
-            //MAPS CHANGER
-            mapMgr.quickChangeMap();
+        //UPDATE ENTITY
+        player.update(mapMgr, game.getBatch(), delta);
+        mapMgr.updateCurrentMapEntities(mapMgr, game.getBatch(), delta);
 
-            //SOME UI UPDATES
-            playerHUD.update();
-            playerHUD.setCurrentState(player.getCurrentState().toString());
-            playerHUD.setCountAmmo(0);
-            playerHUD.setMouseCoordinates(player.getMouseCoordinates());
-            playerHUD.setCameraZoom(camera.zoom);
-            playerHUD.setPlayerPosition(player.getCurrentPosition());
+        //VFX - EFFECTS
+        shaderVFXManager.updateVFX();
 
-            //MapRENDER
-            mapRenderer.setView(camera);
-            mapRenderer.getBatch().enableBlending();
-            mapRenderer.getBatch().setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        //RENDER BACKGROUND LAYERS MAP
+        mapRenderer.getBatch().begin();
+        TiledMapTileLayer backgroundMapLayer = (TiledMapTileLayer)mapMgr.getCurrentTiledMap().getLayers().get(Map.BACKGROUND_LAYER);
+        if( backgroundMapLayer != null ){
+            mapRenderer.renderTileLayer(backgroundMapLayer);
+        }
+        mapRenderer.getBatch().end();
 
-            //MAP HAS CHANGED
-            if(mapMgr.hasMapChanged()){
-                mapRenderer.setMap(mapMgr.getCurrentTiledMap());
-                playerHUD.updateEntityObservers();
-                playerHUD.setLabelMapName(mapMgr.getCurrentMap().getNameMap());
-                entities.clear();
-                MapLayer mapCollisionLayer = mapMgr.getMapObjectsLayer();
-                if(mapCollisionLayer != null){
-                    MapObjects objects = mapCollisionLayer.getObjects();
-                    for(MapObject object: objects) {
-                        TextureMapObject textureMapObject = (TextureMapObject) object;
-                        entities.add(EntityFactory.getInstance().getEntity(EntityFactory.EntityType.MAPOBJECT, textureMapObject));
-                    }
-                }
-                entities.add(player);
-                for (Entity entity: mapMgr.getCurrentMapEntities()){
-                    entities.add(entity);
-                    if (entity.getEntityConfig().getEntityID().equals(EntityFactory.EntityName.TOWN_FOL.toString())) {
-                        mapObjectsManager.getGateMehan().setEntity(entity);
-                    }
-                }
-                mapMgr.setMapChanged(false);
-            }
-
-            //SORT ENTITY AND MAP OBJECTS
-            Collections.sort(entities);
-
-            //UPDATE ENTITY
-            player.update(mapMgr, game.getBatch(), delta);
-            mapMgr.updateCurrentMapEntities(mapMgr, game.getBatch(), delta);
-
-            //VFX - EFFECTS
-            shaderVFXManager.updateVFX();
-
-            //RENDER BACKGROUND LAYERS MAP
-            mapRenderer.getBatch().begin();
-            TiledMapTileLayer backgroundMapLayer = (TiledMapTileLayer)mapMgr.getCurrentTiledMap().getLayers().get(Map.BACKGROUND_LAYER);
-            if( backgroundMapLayer != null ){
-                mapRenderer.renderTileLayer(backgroundMapLayer);
-            }
-            mapRenderer.getBatch().end();
-
-            //RENDER SORTED ENTITY, GUN AND MAP OBJECTS
-            for(Entity e: entities){
-                e.draw(game.getBatch(), delta);
-            }
-
-            //UPDATE MAP OBJECTS
-            mapObjectsManager.update(game, mapMgr, delta);
-
-            //RENDER FRONT LAYERS MAP
-            mapRenderer.getBatch().begin();
-            TiledMapTileLayer groundMapLayer = (TiledMapTileLayer)mapMgr.getCurrentTiledMap().getLayers().get(Map.FRONT_LAYER);
-            if( groundMapLayer != null ){
-                mapRenderer.renderTileLayer(groundMapLayer);
-            }
-            TiledMapTileLayer lightMapLayer = (TiledMapTileLayer)mapMgr.getCurrentTiledMap().getLayers().get(Map.LIGHT_LAYER);
-            if( groundMapLayer != null ){
-                mapRenderer.renderTileLayer(lightMapLayer);
-            }
-            mapRenderer.getBatch().end();
-
-            //UPDATE SHADER
-            shaderVFXManager.updateShader(game, player, mapMgr, delta);
-
-            //VFX - EFFECTS
-            shaderVFXManager.renderVFX();
-
-            //DRAW RENDERING
-            playerHUD.render(delta);
-
-            game.getBatch().begin();
-            FadingReality.font.setColor(Color.GOLD);
-            FadingReality.font.draw(game.getBatch(), "Hello", 250,340);
-            game.getBatch().end();
+        //RENDER SORTED ENTITY, GUN AND MAP OBJECTS
+        for(Entity e: entities){
+            e.draw(game.getBatch(), delta);
         }
 
+        //UPDATE MAP OBJECTS
+        mapObjectsManager.update(game, mapMgr, delta);
+
+        //RENDER FRONT LAYERS MAP
+        mapRenderer.getBatch().begin();
+        TiledMapTileLayer groundMapLayer = (TiledMapTileLayer)mapMgr.getCurrentTiledMap().getLayers().get(Map.FRONT_LAYER);
+        if( groundMapLayer != null ){
+            mapRenderer.renderTileLayer(groundMapLayer);
+        }
+        TiledMapTileLayer lightMapLayer = (TiledMapTileLayer)mapMgr.getCurrentTiledMap().getLayers().get(Map.LIGHT_LAYER);
+        if( groundMapLayer != null ){
+            mapRenderer.renderTileLayer(lightMapLayer);
+        }
+        mapRenderer.getBatch().end();
+
+        //UPDATE SHADER
+        shaderVFXManager.updateShader(game, player, mapMgr, delta);
+
+        //VFX - EFFECTS
+        shaderVFXManager.renderVFX();
+
+        //DRAW RENDERING
+        playerHUD.render(delta);
+
+        game.getBatch().begin();
+        FadingReality.font.setColor(Color.GOLD);
+        FadingReality.font.draw(game.getBatch(), "Hello", 250,340);
+        game.getBatch().end();
+    }
 
     @Override
     public void resize(int width, int height) {

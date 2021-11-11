@@ -22,22 +22,13 @@ import com.mygdx.game.world.MapManager;
 
 public class Enemy extends Component {
 
-    protected enum State {
-        NORMAL,
-        FREEZ,
-        DEAD,
-    }
-
-    private State state;
-
-
     public Enemy(){
-        state = State.FREEZ;
+        state = State.FREEZE;
         initBoundingBox();
         initEntityRangeBox();
         initChaseRangeBox();
         initAttackRangeBox();
-
+        health = 100;
     }
 
     @Override
@@ -70,9 +61,7 @@ public class Enemy extends Component {
                 chaseRangeBox.set(currentEntityPosition.x-(entityConfig.getAttackRadiusBoxWidth()/2)+(boundingBox.width/2), currentEntityPosition.y-(entityConfig.getAttackRadiusBoxHeight()/2)+(boundingBox.height/2), entityConfig.getAttackRadiusBoxWidth(), entityConfig.getAttackRadiusBoxHeight());
             } else if (string[0].equalsIgnoreCase(MESSAGE.ACTIVATE_ANIM_MECHAN.toString())) {
                 activateAnimMechan = json.fromJson(Boolean.class, string[1]);
-            }
-
-            else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
 
@@ -89,16 +78,21 @@ public class Enemy extends Component {
                     animations.put(animationType, animation);
                 }
             }
-
-
         }
     }
 
     @Override
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
+        this.camera = mapManager.getCamera();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+            enemyActive = !enemyActive;
+        }
+
+        if (enemyActive) {
             state = State.NORMAL;
+        } else {
+            state = State.FREEZE;
         }
 
         updateBoundingBoxPosition(64,64);
@@ -111,18 +105,17 @@ public class Enemy extends Component {
         activeSwordAttackMoveForEnemy(delta);
         setSwordRangeBox(new Vector2(10000,10000),0,0);
 
-
-        Rectangle playerBoundingBox = mapManager.getPlayer().getCurrentBoundingBox();
-        Rectangle playerRangeBox = mapManager.getPlayer().getCurrentEntityRangeBox();
-        Rectangle playerSwordRangeBox = mapManager.getPlayer().getCurrentSwordRangeBox();
-
         Entity player = mapManager.getPlayer();
+        Rectangle playerBoundingBox = player.getCurrentBoundingBox();
+        Rectangle playerRangeBox = player.getCurrentEntityRangeBox();
+        Rectangle playerSwordRangeBox = player.getCurrentSwordRangeBox();
+
 
         if(playerSwordRangeBox.overlaps(entityRangeBox)){
             stateTime=0f;
             doGotHit();
-            health-=25;
-            state = State.FREEZ;
+            health -= 25;
+            state = State.FREEZE;
             currentState = Entity.State.TAKING_DAMAGE;
 
             Timer.schedule(new Timer.Task() {
@@ -137,131 +130,79 @@ public class Enemy extends Component {
             Rumble.rumble(5, .1f, 0, Rumble.State.SWORD);
         }
 
-
         switch (state) {
             case NORMAL:
-//                if (health > 0) {
-//                    if (attackRangeBox.overlaps(playerBoundingBox)) {   // ATTACK
-//                        long time = System.currentTimeMillis();
-//                        if (time > lastAttack + cooldownTime) {
-//                            // Do something
-//                            state = State.FREEZ;
-//                            currentState = Entity.State.MELEE_ATTACK;
-//                            lastAttack = time;
-//
-//                            doSwordAttackMoveForEnemy(mapManager);
-//
-//                            if (entityName.equals(EntityFactory.EntityName.ELITE_KNIGHT.toString())) {
-//                                Timer.schedule(new Timer.Task() {
-//                                    @Override
-//                                    public void run() {
-//                                        state = State.NORMAL;
-//                                    }
-//                                }, 3f);
-//                            } else {
-//                                Timer.schedule(new Timer.Task() {
-//                                    @Override
-//                                    public void run() {
-//                                        updateSwordRangeBox(64,64);
-//                                    }
-//                                }, 0.3f);
-//
-//                                Timer.schedule(new Timer.Task() {
-//                                    @Override
-//                                    public void run() {
-//                                        state = State.NORMAL;
-//                                    }
-//                                }, 0.5f);
-//                            }
-//
-//
-//                        } else {
-//                            atkTime = 0f;
-//                            currentState = Entity.State.IDLE;
-//                        }
-//                    } else if (!boundingBox.overlaps(mapManager.getPlayer().getCurrentBoundingBox()) && chaseRangeBox.overlaps(playerBoundingBox) && !isCollisionWithMapEntities(entity, mapManager)) { //CHASE
-//                        long time = System.currentTimeMillis();
-//                        if (time > lastAttack + cooldownTime) {
-//                            // Do something
-//                            atkTime = 0f;
-//                            chase(mapManager);
-//                        } else {
-//                            atkTime = 0f;
-//                            currentState = Entity.State.IDLE;
-//                        }
-//                    } else { //IDLE
-//                        currentState = Entity.State.IDLE;
-//                    }
-//                } else {
-//                    stateTime=0f;
-//                    state = State.DEAD;
-//                    currentState = Entity.State.DEAD;
-//                }
+                Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
+
+                pathFinder.setGrid(grid);
+                for (int y = 0; y < grid.size; y++) {
+                    for (int x = 0; x < grid.get(y).size; x++) {
+                        if (grid.get(y).get(x).rectangle.contains(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2)) {
+                            startNode = grid.get(y).get(x);
+                            startNode.setType(Node.GridType.START);
+                            pathFinder.setGridNode(startNode, Node.GridType.START);
+                        }
+                        if (grid.get(y).get(x).rectangle.contains(playerBoundingBox.x + playerBoundingBox.width / 2, playerBoundingBox.y + playerBoundingBox.height / 2)) {
+                            endNode = grid.get(y).get(x);
+                            endNode.setType(Node.GridType.END);
+                            pathFinder.setGridNode(endNode, Node.GridType.END);
+                        }
+                    }
+                }
+                pathFinder.findPath();
+
+                followPath();
+
                 break;
-            case FREEZ:
+            case FREEZE:
                 break;
             case DEAD:
                 break;
         }
 
-
         //GRAPHICS
          updateAnimations(delta);
-
-
-
-
-        Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
-
-//        for (int y = 0; y < grid.size; y++) {
-//            for (int x = 0; x < grid.get(y).size; x++) {
-//                if (grid.get(y).get(x).rectangle.overlaps(boundingBox)) {
-//                    startNode = grid.get(y).get(x);
-//                    startNode.setType(Node.GridType.START);
-//                    pathFinder.setGridNode(startNode, Node.GridType.START);
-//                }
-//                if (grid.get(y).get(x).rectangle.contains(playerBoundingBox.x, playerBoundingBox.y)) {
-//                    endNode = grid.get(y).get(x);
-//                    endNode.setType(Node.GridType.END);
-//                    pathFinder.setGridNode(endNode, Node.GridType.END);
-//                }
-//            }
-//        }
-//
-//        pathFinder.setGrid(mapManager.getCurrentMap().getGrid());
-//        pathFinder.findPath();
-//
-//        mapManager.getCurrentMap().updateGridOjc();
-
-
-        this.mapManager = mapManager;
-        this.camera = mapManager.getCamera();
     }
 
-    public void followPath(MapManager mapManager){
+    public void followPath(){
         Array<Node> finalP = pathFinder.getFinalPath();
 
-        if(finalP == null && finalP.size == 0) return;
+        Node node0 = finalP.get(0);
+        if (finalP.size == 1) {
+            return;
+        }
+        Node node1 = finalP.get(1);
 
-        Node node = finalP.removeIndex(finalP.size - 1);
-
-        if (node.rectangle.x > currentEntityPosition.x) {
+        if (node1.rectangle.x > node0.rectangle.x) {
             currentState = Entity.State.RUN;
             currentDirection = Entity.Direction.RIGHT;
             currentEntityPosition.x += 1f;
         }
-        if (node.rectangle.x < currentEntityPosition.x){
+        if (node1.rectangle.x < node0.rectangle.x){
             currentState = Entity.State.RUN;
             currentDirection = Entity.Direction.LEFT;
-            currentEntityPosition.x-=1f;
+            currentEntityPosition.x -= 1f;
         }
-        if (node.rectangle.y > currentEntityPosition.y) {
-            currentEntityPosition.y+=1f;
+        if (node1.rectangle.y > node0.rectangle.y) {
+            currentEntityPosition.y += 1f;
         }
-        if (node.rectangle.y < currentEntityPosition.y) {
-            currentEntityPosition.y-=1f;
+        if (node1.rectangle.y < node0.rectangle.y) {
+            currentEntityPosition.y -= 1f;
+        }
+    }
+
+    @Override
+    protected boolean isCollisionWithMapEntities(Entity entity, MapManager mapMgr){
+        //Test against player
+        if( isCollision(entity, mapMgr.getPlayer()) ) {
+            return true;
         }
 
+        if( super.isCollisionWithMapEntities(entity, mapMgr) ){
+            return true;
+        }
+
+        return false;
     }
 
     @Override
@@ -291,40 +232,6 @@ public class Enemy extends Component {
         batch.end();
     }
 
-    private void chase(MapManager mapMgr) {
-        Vector2 playerCurrentPosition = mapMgr.getPlayer().getCurrentPosition();
-
-        if (playerCurrentPosition.x > currentEntityPosition.x) {
-            currentState = Entity.State.RUN;
-            currentDirection = Entity.Direction.RIGHT;
-            currentEntityPosition.x += 1.5f;
-        }
-        if (playerCurrentPosition.x < currentEntityPosition.x){
-            currentState = Entity.State.RUN;
-            currentDirection = Entity.Direction.LEFT;
-            currentEntityPosition.x-=1.5f;
-        }
-        if (playerCurrentPosition.y > currentEntityPosition.y) {
-            currentEntityPosition.y+=1.5f;
-        }
-        if (playerCurrentPosition.y < currentEntityPosition.y) {
-            currentEntityPosition.y-=1.5f;
-        }
-    }
-
-    @Override
-    protected boolean isCollisionWithMapEntities(Entity entity, MapManager mapMgr){
-        //Test against player
-        if( isCollision(entity, mapMgr.getPlayer()) ) {
-            return true;
-        }
-
-        if( super.isCollisionWithMapEntities(entity, mapMgr) ){
-            return true;
-        }
-
-        return false;
-    }
 
     @Override
     public boolean keyDown(int keycode) {

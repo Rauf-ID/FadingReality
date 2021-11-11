@@ -28,14 +28,54 @@ import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 import com.mygdx.game.pathfinder.Node;
 
+import java.awt.SplashScreen;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
 public abstract class Component extends ComponentSubject implements Message, InputProcessor {
 
-    public Entity.State currentState = null;
-    public Entity.Direction currentDirection = null;
-    private Entity.MouseDirection mouseDirection = null;
+    protected enum State {
+        NORMAL,
+        FREEZE,
+        DEAD,
+    }
+
+    protected State state;
+
+    public Entity.State currentState;
+    public Entity.Direction currentDirection;
+    private Entity.MouseDirection mouseDirection;
+
+    protected OrthographicCamera camera;
+    protected MapManager mapManager;
+
+    protected ControlManager controlManager;
+    public WeaponSystem weaponSystem;
+    public boolean reloaded = false;
+    protected PathFinder pathFinder;
+    protected Node startNode;
+    protected Node endNode;
+
+    protected Array<Entity> tempEntities;
+
+    protected float health;
+    protected String entityName = "";
+    public Vector2 currentEntityPosition;
+    protected Vector2 runVelocity, runVelocityD;
+    protected Vector2 walkVelocity, walkVelocityD;
+    public boolean isGunActive = false;
+    public boolean isGunActive2 = false;
+    protected Array<Vector3> dashShadow;
+
+    public Rectangle boundingBox;
+    public Rectangle entityRangeBox;
+    public Rectangle swordRangeBox;
+    protected Rectangle chaseRangeBox;
+    protected Rectangle attackRangeBox;
+
+    protected Hashtable<Entity.AnimationType, Animation<Sprite>> animations;
+
+    public Vector3 mouseCoordinates;
 
     protected Json json;
     public float atkTime = 0f;
@@ -45,24 +85,13 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected Sprite currentFrame2 = null;
     protected ShapeRenderer shapeRenderer;
     protected ShapeRenderer shapeRenderer2;
-
-    public Vector3 mouseCoordinates;
-
-    protected float health = 100;
-
-    protected Array<Entity> tempEntities;
-    public Vector2 currentEntityPosition;
-    protected Vector2 runVelocity, runVelocityD;
-    protected Vector2 walkVelocity, walkVelocityD;
-
-    public boolean isGunActive = false;
-    public boolean isGunActive2 = false;
+    protected boolean enemyActive = false;
 
     protected float angle;
     protected Vector2 vector;
     protected boolean activeDash = false;
-    protected boolean activeSwordAttackMove= false;
-    protected boolean activeSwordAttackMoveForEnemy= false;
+    protected boolean activeSwordAttackMove = false;
+    protected boolean activeSwordAttackMoveForEnemy = false;
     protected boolean activeGotHit = false;
     protected float distMoved;
 
@@ -72,13 +101,17 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected long timeSinceLastAttack = 0;
     protected float frameAttack = 0f;
 
-    protected String entityName = "";
+    protected float ggov = 0.2f;
+    protected float speedCamMove = 15f;
+    protected boolean pdaActive = false;
+    protected boolean pdaDeffault = true;
 
-    public Rectangle boundingBox;
-    public Rectangle entityRangeBox;
-    public Rectangle swordRangeBox;
-    protected Rectangle chaseRangeBox;
-    protected Rectangle attackRangeBox;
+    protected boolean dashing = false;
+    protected float dashTime = 0;
+    protected int anInt1 = 1;
+
+    protected int sheeshTime = 35;
+    public boolean activateAnimMechan = false;
 
     protected boolean attackCoolDown=false;
     protected static final float ATTACK_WAIT_TIMER = 1f;
@@ -86,35 +119,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     protected long lastAttack = 0;
     protected long cooldownTime = 1000; //1sec
-
-    protected float ggov = 0.2f;
-    protected float speedCamMove=15f;
-    protected boolean pdaActive=false;
-    protected boolean pdaDeffault=true;
-
-    protected ArrayList<Vector3> dashShadow = new ArrayList<>();
-    protected boolean dashing = false;
-    protected float dashTime = 0;
-    protected int anInt1 = 1;
-
-    protected boolean detentionActive = false;
-    protected boolean moveActive = false;
-
-    protected int sheeshTime = 35;
-    public boolean activateAnimMechan = false;
-
-    protected Hashtable<Entity.AnimationType, Animation<Sprite>> animations;
-
-    protected ControlManager controlManager;
-    public WeaponSystem weaponSystem;
-    public boolean reloaded = false;
-
-    protected OrthographicCamera camera;
-    protected MapManager mapManager;
-
-    protected PathFinder pathFinder;
-    protected Node startNode;
-    protected Node endNode;
 
     Component() {
         json = new Json();
@@ -134,6 +138,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         walkVelocity = new  Vector2(2f/2,2f/2);
         walkVelocityD = new Vector2(1.4f/2,1.4f/2);
 
+        dashShadow = new Array<>();
 
         vector = new Vector2();
 
@@ -323,7 +328,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected void setCurrentPosition(Entity entity){
         currentEntityPosition.x = 0;
         currentEntityPosition.y = 0;
-        //SplashScreen splashScreen = SplashScreen.getSplashScreen();
+//        SplashScreen splashScreen = SplashScreen.getSplashScreen();
     }
 
     protected void initBoundingBox(){
@@ -332,9 +337,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     }
 
     protected void updateBoundingBoxPosition(float width, float height) {
-        if( currentFrame==null ) return;
-
-        boundingBox.setCenter(currentEntityPosition.x+width, currentEntityPosition.y+height); //x+width/2, y+height/2
+        boundingBox.setCenter(currentEntityPosition.x + width, currentEntityPosition.y + height); //x+width/2, y+height/2
     }
 
     protected void initEntityRangeBox() {

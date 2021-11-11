@@ -22,9 +22,9 @@ public class DistrictTimulo extends Map {
         initSpecialEntityPosition(policeB1, new Vector2(925,920), Entity.Direction.RIGHT);
         mapEntities.add(policeB1);
 
-        Entity policeB1_2 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.POLICE_B1);
-        initSpecialEntityPosition(policeB1_2, new Vector2(725,950), Entity.Direction.RIGHT);
-        mapEntities.add(policeB1_2);
+//        Entity policeB1_2 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.POLICE_B1);
+//        initSpecialEntityPosition(policeB1_2, new Vector2(725,950), Entity.Direction.RIGHT);
+//        mapEntities.add(policeB1_2);
 
 
 //        Entity townfolk2 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.TOWN_FOLK2);

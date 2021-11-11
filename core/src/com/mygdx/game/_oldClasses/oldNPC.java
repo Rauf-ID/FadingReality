@@ -1,4 +1,4 @@
-package com.mygdx.game.component;
+package com.mygdx.game._oldClasses;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -15,7 +15,7 @@ import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.world.Map;
 import com.mygdx.game.world.MapManager;
 
-public class NPC extends Component {
+public class oldNPC extends oldComponent {
 
     private boolean isSelected = false;
     private boolean wasSelected = false;
@@ -23,8 +23,9 @@ public class NPC extends Component {
     private boolean sentShowConversationMessage = false;
     private boolean sentHideConversationMessage = false;
 
-    public NPC () {
+    public oldNPC () {
         initBoundingBox();
+
     }
 
     @Override
@@ -62,6 +63,7 @@ public class NPC extends Component {
             } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 entityName = entityConfig.getEntityID();
+//                System.out.println(entityName);
 //                chaseRangeBox.set(currentEntityPosition.x-(entityConfig.getAttackRadiusBoxWidth()/2)+(boundingBox.width/2), currentEntityPosition.y-(entityConfig.getAttackRadiusBoxHeight()/2)+(boundingBox.height/2), entityConfig.getAttackRadiusBoxWidth(), entityConfig.getAttackRadiusBoxHeight());
             }
         }
@@ -74,6 +76,27 @@ public class NPC extends Component {
         updateBoundingBoxPosition(64,64);
         updateEntityRangeBox(64,64);
 
+        if(entityName.equals(EntityFactory.EntityName.TOWN_FOLK5.toString()) && Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
+            currentState = Entity.State.TALK;
+            stateTime = 0f;
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    stateTime = 0f;
+                    currentState = Entity.State.DEATH;
+                }
+            }, 3.2f);
+        } else if (entityName.equals(EntityFactory.EntityName.EARTHLINGS_D1.toString()) ||
+                entityName.equals(EntityFactory.EntityName.EARTHLINGS_D2.toString()) ||
+                entityName.equals(EntityFactory.EntityName.EARTHLINGS_E1.toString()) ||
+                entityName.equals(EntityFactory.EntityName.EARTHLINGS_G1.toString()) ||
+                entityName.equals(EntityFactory.EntityName.HOLOGRAM_G2.toString())) {
+            currentState = Entity.State.DANCE;
+        } else if (entityName.equals(EntityFactory.EntityName.BARTENDER.toString())) {
+            currentState = Entity.State.WIPES_GLASS;
+        } else if (entityName.equals(EntityFactory.EntityName.TOWN_FOLK15.toString())) {
+            currentState = Entity.State.AMELIA_BAT_SIT;
+        }
 
         //GRAPHICS
         updateAnimations(delta);

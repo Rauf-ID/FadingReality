@@ -36,6 +36,7 @@ public class Node {
                 G = parent.G + 10;
             }
         }
+
         float xDistance = (Math.abs(rectangle.x-end.rectangle.x) / rectangle.width);
         float yDistance = (Math.abs(end.rectangle.y-rectangle.y) / rectangle.height);
 
