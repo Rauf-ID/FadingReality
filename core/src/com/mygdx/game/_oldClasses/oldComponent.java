@@ -246,12 +246,6 @@ public abstract class oldComponent extends ComponentSubject implements Message, 
                     currentFrame2 = FadingReality.resourceManager.bloodRight.getKeyFrame(stateTime, true);
                 }
                 break;
-            case POLICE_STOPS:
-                currentFrame = FadingReality.resourceManager.policeAnimStops.getKeyFrame(stateTime, false);
-                break;
-            case POLICE_LOOKED_AROUND:
-                currentFrame = FadingReality.resourceManager.policeAnimLookedAround.getKeyFrame(policeLookedAround, false);
-                break;
             case TALK:
                 currentFrame = FadingReality.resourceManager.kingAnimTalk.getKeyFrame(stateTime, false);
                 break;
@@ -284,9 +278,6 @@ public abstract class oldComponent extends ComponentSubject implements Message, 
                 break;
             case HURT_AMELIA:
                 currentFrame = FadingReality.resourceManager.playerAnimHurtAmelia.getKeyFrame(stateTime, false);
-                break;
-            case DETENTION:
-                currentFrame = FadingReality.resourceManager.policeAnimDetention.getKeyFrame(stateTime, true);
                 break;
             case USE_RUDIMENT:
                 currentFrame = FadingReality.resourceManager.playerAnimUseRudiment1.getKeyFrame(stateTime, true);

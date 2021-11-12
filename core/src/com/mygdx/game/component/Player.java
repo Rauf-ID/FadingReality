@@ -42,7 +42,6 @@ public class Player extends Component {
     private Vector2 previousPosition;
 
     public Player(){
-        initBoundingBox();
         initEntityRangeBox();
         state = State.NORMAL;
         previousPosition = new Vector2(0,0);
@@ -68,11 +67,9 @@ public class Player extends Component {
 
             } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
-                entityName = entityConfig.getEntityID();
-            }
-
-
-            else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
+                initImageBox(entityConfig.getImageBox());
+                initBoundingBox(entityConfig.getBoundingBox());
+            } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
                 java.util.Map<String, Integer> allAmmoCount = json.fromJson(HashMap.class, string[1]);
                 WeaponSystem.setBagAmmunition(allAmmoCount);
             } else if(string[0].equalsIgnoreCase(MESSAGE.SET_MELEE_WEAPON.toString())) {
@@ -91,10 +88,7 @@ public class Player extends Component {
                 weaponSystem.setMeleeWeapon(null);
             } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_RANGED_WEAPON.toString())) {
                 weaponSystem.setRangedWeapon(null);
-            }
-
-
-            else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
 
@@ -117,6 +111,7 @@ public class Player extends Component {
 
     @Override
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
+        camera = mapManager.getCamera();
 
         mapManager.getCamera().unproject(mouseCoordinates.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 //        updatePortalLayerActivation(mapManager, delta);
@@ -161,7 +156,6 @@ public class Player extends Component {
         input(entity);
 
         //PHYSICS
-        camera = mapManager.getCamera();
         if (Rumble.getRumbleTimeLeft() > 0){
             Rumble.tick(Gdx.graphics.getDeltaTime());
             camera.translate(Rumble.getPos());
@@ -203,7 +197,8 @@ public class Player extends Component {
         } else{
         }
 
-        updateBoundingBoxPosition(64,64);
+//        System.out.println(currentFrame.getHeight());
+        updateBoundingBox();
         updateEntityRangeBox(64,64);
 
         //GUN ACTIVE
@@ -230,7 +225,7 @@ public class Player extends Component {
         //GRAPHICS
         updateAnimations(delta);
 
-        mapManager.getCurrentMap().updateGridOjc();
+//        mapManager.getCurrentMap().updateGridOjc();
 
         this.mapManager = mapManager;
     }
@@ -529,31 +524,14 @@ public class Player extends Component {
 
     @Override
     public void draw(Batch batch, float delta) {
-        Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
-        if(grid == null && grid.size == 0) return;
-        shapeRenderer2.setProjectionMatrix(camera.combined);
-        shapeRenderer2.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer2.setColor(Color.RED);
-        for (int y = 0; y < grid.size; y++) {
-            for (int x = 0; x < grid.get(y).size; x++) {
-                if (grid.get(y).get(x).getType() == Node.GridType.CLOSE) {
-                    Rectangle rectangle = grid.get(y).get(x).rectangle;
-                    shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
-                }
-            }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) {
+            debugActive = !debugActive;
         }
-        shapeRenderer2.end();
-
-        //Used to graphically debug boundingBox
-        Rectangle rect = boundingBox;
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.RED);
-        shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        shapeRenderer.end();
+        if (debugActive) {
+            debug(true, true);
+        }
 
         batch.begin();
-
         //DASH
         for(Vector3 shadow : dashShadow) {
             batch.setColor(0.05f,0.7f, 0.8f, shadow.z);
@@ -586,10 +564,42 @@ public class Player extends Component {
                 }
             }
         }
-
         batch.end();
     }
 
+    public void debug(boolean activeGrid, boolean activeBoundingBox) {
+        if (activeGrid) {
+            Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
+            if(grid == null && grid.size == 0) return;
+            shapeRenderer2.setProjectionMatrix(camera.combined);
+            shapeRenderer2.begin(ShapeRenderer.ShapeType.Line);
+            for (int y = 0; y < grid.size; y++) {
+                for (int x = 0; x < grid.get(y).size; x++) {
+                    if (grid.get(y).get(x).getType() == Node.GridType.CLOSE) {
+                        shapeRenderer2.setColor(Color.RED);
+                        Rectangle rectangle = grid.get(y).get(x).rectangle;
+                        shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+                    } else {
+//                    shapeRenderer2.setColor(Color.GREEN);
+//                    Rectangle rectangle = grid.get(y).get(x).rectangle;
+//                    shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+                    }
+                }
+            }
+            shapeRenderer2.end();
+        }
+
+        if (activeBoundingBox) {
+            //Used to graphically debug boundingBox
+            Rectangle rect = boundingBox;
+            shapeRenderer.setProjectionMatrix(camera.combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.GRAY);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+            shapeRenderer.end();
+        }
+
+    }
 
     @Override
     public boolean keyDown(int keycode) {

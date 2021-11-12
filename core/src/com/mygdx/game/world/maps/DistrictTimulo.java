@@ -19,25 +19,25 @@ public class DistrictTimulo extends Map {
         json = new Json();
 
         Entity policeB1 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.POLICE_B1);
-        initSpecialEntityPosition(policeB1, new Vector2(925,920), Entity.Direction.RIGHT);
+        initEntity(policeB1, new Vector2(925,920), Entity.Direction.RIGHT);
         mapEntities.add(policeB1);
 
 //        Entity policeB1_2 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.POLICE_B1);
-//        initSpecialEntityPosition(policeB1_2, new Vector2(725,950), Entity.Direction.RIGHT);
+//        initEntity(policeB1_2, new Vector2(725,950), Entity.Direction.RIGHT);
 //        mapEntities.add(policeB1_2);
 
 
 //        Entity townfolk2 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.TOWN_FOLK2);
-//        initSpecialEntityPosition(townfolk2, new Vector2(940,1100), Entity.Direction.LEFT);
+//        initEntity(townfolk2, new Vector2(940,1100), Entity.Direction.LEFT);
 //        mapEntities.add(townfolk2);
 //
 //        Entity townfolk3 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.TOWN_FOLK2);
-//        initSpecialEntityPosition(townfolk3, new Vector2(720,1070), Entity.Direction.RIGHT);
+//        initEntity(townfolk3, new Vector2(720,1070), Entity.Direction.RIGHT);
 //        mapEntities.add(townfolk3);
 
     }
 
-    private void initSpecialEntityPosition(Entity entity, Vector2 position, Entity.Direction direction){
+    private void initEntity(Entity entity, Vector2 position, Entity.Direction direction){
 
         entity.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(position));
         entity.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));

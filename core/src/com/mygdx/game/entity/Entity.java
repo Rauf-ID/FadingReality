@@ -257,10 +257,7 @@ public class Entity implements Comparable<Entity> {
         Entity entity = EntityFactory.getEntity(EntityFactory.EntityType.NPC);
         entity.setEntityConfig(entityConfig);
 
-        entity.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(new Vector2(0,0)));
-        entity.sendMessage(Message.MESSAGE.INIT_STATE, json.toJson(entity.getEntityConfig().getState()));
-        entity.sendMessage(Message.MESSAGE.INIT_DIRECTION, json.toJson(entity.getEntityConfig().getDirection()));
-
+        entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
         return entity;
     }
 
@@ -270,9 +267,6 @@ public class Entity implements Comparable<Entity> {
         entity.setEntityConfig(entityConfig);
 
         entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
-        entity.sendMessage(Message.MESSAGE.INIT_STATE, json.toJson(entity.getEntityConfig().getState()));
-        entity.sendMessage(Message.MESSAGE.INIT_DIRECTION, json.toJson(entity.getEntityConfig().getDirection()));
-
         return entity;
     }
 

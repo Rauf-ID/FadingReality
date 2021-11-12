@@ -1,30 +1,39 @@
 package com.mygdx.game.entity;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.ObjectMap;
-import com.mygdx.game.inventory.InventoryItem;
 import com.mygdx.game.inventory.InventoryItem.ItemID;
 import com.mygdx.game.tools.managers.ResourceManager;
 
 public class EntityConfig {
 
-    private Array<ItemID> inventory;
+    private String entityID;
     private Entity.State state;
     private Entity.Direction direction;
-    private String entityID;
     private String conversationConfigPath;
     private String questConfigPath;
     private String currentQuestID;
     private String itemTypeID;
+    private Array<ItemID> inventory;
     private Array<AnimationConfig> animationConfig;
-    private int attackRangeBoxWidth, attackRangeBoxHeight;
-    private ObjectMap<String, String> entityProperties;
+
+    private Vector2 hitBox;
+    private Vector2 imageBox;
+    private Vector2 boundingBox;
+    private Vector2 activeZoneBox;
+    private Vector2 attackZoneBox;
+
 
     EntityConfig() {
-        animationConfig = new Array<AnimationConfig>();
         inventory = new Array<ItemID>();
-        entityProperties = new ObjectMap<String, String>();
+        animationConfig = new Array<AnimationConfig>();
+
+        hitBox = new Vector2();
+        imageBox = new Vector2();
+        boundingBox = new Vector2();
+        activeZoneBox = new Vector2();
+        attackZoneBox = new Vector2();
     }
 
     EntityConfig(EntityConfig config) {
@@ -36,105 +45,129 @@ public class EntityConfig {
         currentQuestID = config.getCurrentQuestID();
         itemTypeID = config.getItemTypeID();
 
-        attackRangeBoxWidth = config.getAttackRadiusBoxWidth();
-        attackRangeBoxHeight = config.getAttackRadiusBoxHeight();
+        inventory = new Array<ItemID>();
+        inventory.addAll(config.getInventory());
 
         animationConfig = new Array<AnimationConfig>();
         animationConfig.addAll(config.getAnimationConfig());
 
-        inventory = new Array<ItemID>();
-        inventory.addAll(config.getInventory());
-
-        entityProperties = new ObjectMap<String, String>();
-        entityProperties.putAll(config.entityProperties);
-    }
-
-    public void setAttackRadiusBoxWidth(int attackRadiusBoxWidth) {
-        this.attackRangeBoxWidth = attackRadiusBoxWidth;
-    }
-
-    public int getAttackRadiusBoxWidth() {
-        return attackRangeBoxWidth;
-    }
-
-    public void setAttackRadiusBoxHeight(int attackRadiusBoxHeight) {
-        this.attackRangeBoxHeight = attackRadiusBoxHeight;
-    }
-
-    public int getAttackRadiusBoxHeight() {
-        return attackRangeBoxHeight;
-    }
-
-    public void setInventory(Array<InventoryItem.ItemID> inventory) {
-        this.inventory = inventory;
-    }
-
-    public Array<InventoryItem.ItemID> getInventory() {
-        return inventory;
-    }
-
-    public void setState(Entity.State state) {
-        this.state = state;
-    }
-
-    public Entity.State getState() {
-        return state;
-    }
-
-    public void setDirection(Entity.Direction direction) {
-        this.direction = direction;
-    }
-
-    public Entity.Direction getDirection() {
-        return direction;
-    }
-
-    public void setEntityID(String entityID) {
-        this.entityID = entityID;
+        hitBox = config.getHitBox();
+        imageBox = config.getImageBox();
+        boundingBox = config.getBoundingBox();
+        activeZoneBox = config.getActiveZoneBox();
+        attackZoneBox = config.getAttackZoneBox();
     }
 
     public String getEntityID() {
         return entityID;
     }
 
-    public void setConversationConfigPath(String conversationConfigPath) {
-        this.conversationConfigPath = conversationConfigPath;
+    public void setEntityID(String entityID) {
+        this.entityID = entityID;
+    }
+
+    public Entity.State getState() {
+        return state;
+    }
+
+    public void setState(Entity.State state) {
+        this.state = state;
+    }
+
+    public Entity.Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Entity.Direction direction) {
+        this.direction = direction;
     }
 
     public String getConversationConfigPath() {
         return conversationConfigPath;
     }
 
-    public void setQuestConfigPath(String questConfigPath) {
-        this.questConfigPath = questConfigPath;
+    public void setConversationConfigPath(String conversationConfigPath) {
+        this.conversationConfigPath = conversationConfigPath;
     }
 
     public String getQuestConfigPath() {
         return questConfigPath;
     }
 
-    public void setCurrentQuestID(String currentQuestID) {
-        this.currentQuestID = currentQuestID;
+    public void setQuestConfigPath(String questConfigPath) {
+        this.questConfigPath = questConfigPath;
     }
 
     public String getCurrentQuestID() {
         return currentQuestID;
     }
 
-    public void setItemTypeID(String itemTypeID) {
-        this.itemTypeID = itemTypeID;
+    public void setCurrentQuestID(String currentQuestID) {
+        this.currentQuestID = currentQuestID;
     }
 
     public String getItemTypeID() {
         return itemTypeID;
     }
 
+    public void setItemTypeID(String itemTypeID) {
+        this.itemTypeID = itemTypeID;
+    }
+
+    public Array<ItemID> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Array<ItemID> inventory) {
+        this.inventory = inventory;
+    }
+
     public Array<AnimationConfig> getAnimationConfig() {
         return animationConfig;
     }
 
-    public void addAnimationConfig(AnimationConfig animationConfig) {
-        this.animationConfig.add(animationConfig);
+    public void setAnimationConfig(Array<AnimationConfig> animationConfig) {
+        this.animationConfig = animationConfig;
+    }
+
+    public Vector2 getImageBox() {
+        return imageBox;
+    }
+
+    public void setImageBox(Vector2 imageBox) {
+        this.imageBox = imageBox;
+    }
+
+    public Vector2 getHitBox() {
+        return hitBox;
+    }
+
+    public void setHitBox(Vector2 hitBox) {
+        this.hitBox = hitBox;
+    }
+
+    public Vector2 getBoundingBox() {
+        return boundingBox;
+    }
+
+    public void setBoundingBox(Vector2 boundingBox) {
+        this.boundingBox = boundingBox;
+    }
+
+    public Vector2 getActiveZoneBox() {
+        return activeZoneBox;
+    }
+
+    public void setActiveZoneBox(Vector2 activeZoneBox) {
+        this.activeZoneBox = activeZoneBox;
+    }
+
+    public Vector2 getAttackZoneBox() {
+        return attackZoneBox;
+    }
+
+    public void setAttackZoneBox(Vector2 attackZoneBox) {
+        this.attackZoneBox = attackZoneBox;
     }
 
     static public class AnimationConfig {

@@ -24,7 +24,6 @@ public class Enemy extends Component {
 
     public Enemy(){
         state = State.FREEZE;
-        initBoundingBox();
         initEntityRangeBox();
         initChaseRangeBox();
         initAttackRangeBox();
@@ -57,8 +56,9 @@ public class Enemy extends Component {
             } else if (string[0].equalsIgnoreCase(MESSAGE.INTERACTION_WITH_ENTITY.toString())) {
             } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
-                entityName = entityConfig.getEntityID();
-                chaseRangeBox.set(currentEntityPosition.x-(entityConfig.getAttackRadiusBoxWidth()/2)+(boundingBox.width/2), currentEntityPosition.y-(entityConfig.getAttackRadiusBoxHeight()/2)+(boundingBox.height/2), entityConfig.getAttackRadiusBoxWidth(), entityConfig.getAttackRadiusBoxHeight());
+                initImageBox(entityConfig.getImageBox());
+                initBoundingBox(entityConfig.getBoundingBox());
+//                chaseRangeBox.set(currentEntityPosition.x-(entityConfig.getAttackRadiusBoxWidth()/2)+(boundingBox.width/2), currentEntityPosition.y-(entityConfig.getAttackRadiusBoxHeight()/2)+(boundingBox.height/2), entityConfig.getAttackRadiusBoxWidth(), entityConfig.getAttackRadiusBoxHeight());
             } else if (string[0].equalsIgnoreCase(MESSAGE.ACTIVATE_ANIM_MECHAN.toString())) {
                 activateAnimMechan = json.fromJson(Boolean.class, string[1]);
             } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
@@ -85,7 +85,7 @@ public class Enemy extends Component {
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
         this.camera = mapManager.getCamera();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_2)) {
             enemyActive = !enemyActive;
         }
 
@@ -95,7 +95,7 @@ public class Enemy extends Component {
             state = State.FREEZE;
         }
 
-        updateBoundingBoxPosition(64,64);
+        updateBoundingBox();
         updateEntityRangeBox(64,64);
         updateAttackRangeBox(64,64);
         updateChaseRangeBox(64,64);
@@ -137,7 +137,7 @@ public class Enemy extends Component {
                 pathFinder.setGrid(grid);
                 for (int y = 0; y < grid.size; y++) {
                     for (int x = 0; x < grid.get(y).size; x++) {
-                        if (grid.get(y).get(x).rectangle.contains(boundingBox.x + boundingBox.width / 2, boundingBox.y + boundingBox.height / 2)) {
+                        if (grid.get(y).get(x).rectangle.contains(boundingBox.x + boundingBox.width / 2, boundingBox.y)) {
                             startNode = grid.get(y).get(x);
                             startNode.setType(Node.GridType.START);
                             pathFinder.setGridNode(startNode, Node.GridType.START);
@@ -207,24 +207,12 @@ public class Enemy extends Component {
 
     @Override
     public void draw(Batch batch, float delta) {
-        //Render path
-        Array<Node> finalP = pathFinder.getFinalPath();
-        shapeRenderer2.setProjectionMatrix(camera.combined);
-        shapeRenderer2.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer2.setColor(Color.GOLD);
-        for (Node node : finalP) {
-            Rectangle rectangle = node.rectangle;
-            shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) {
+            debugActive = !debugActive;
         }
-        shapeRenderer2.end();
-
-        //Used to graphically debug boundingBox
-        Rectangle rect = boundingBox;
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        shapeRenderer.end();
+        if (debugActive) {
+            debug(true, true);
+        }
 
         batch.begin();
         batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
@@ -232,6 +220,30 @@ public class Enemy extends Component {
         batch.end();
     }
 
+    public void debug(boolean activePath, boolean activeBoundingBox) {
+        if (activePath) {
+            //Render path
+            Array<Node> finalP = pathFinder.getFinalPath();
+            shapeRenderer2.setProjectionMatrix(camera.combined);
+            shapeRenderer2.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer2.setColor(Color.GOLD);
+            for (Node node : finalP) {
+                Rectangle rectangle = node.rectangle;
+                shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+            }
+            shapeRenderer2.end();
+        }
+
+        if (activeBoundingBox) {
+            //Used to graphically debug boundingBox
+            Rectangle rect = boundingBox;
+            shapeRenderer.setProjectionMatrix(camera.combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer.setColor(Color.GRAY);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+            shapeRenderer.end();
+        }
+    }
 
     @Override
     public boolean keyDown(int keycode) {

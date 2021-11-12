@@ -28,8 +28,6 @@ import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 import com.mygdx.game.pathfinder.Node;
 
-import java.awt.SplashScreen;
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 public abstract class Component extends ComponentSubject implements Message, InputProcessor {
@@ -67,7 +65,12 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public boolean isGunActive2 = false;
     protected Array<Vector3> dashShadow;
 
+    public Rectangle hitBox;
+    public Rectangle imageBox;
     public Rectangle boundingBox;
+    public Rectangle activeZoneBox;
+    public Rectangle attackZoneBox;
+
     public Rectangle entityRangeBox;
     public Rectangle swordRangeBox;
     protected Rectangle chaseRangeBox;
@@ -86,6 +89,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected ShapeRenderer shapeRenderer;
     protected ShapeRenderer shapeRenderer2;
     protected boolean enemyActive = false;
+    protected boolean debugActive = true;
 
     protected float angle;
     protected Vector2 vector;
@@ -142,7 +146,12 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
         vector = new Vector2();
 
+        hitBox = new Rectangle();
+        imageBox = new Rectangle();
         boundingBox = new Rectangle();
+        activeZoneBox = new Rectangle();
+        attackZoneBox = new Rectangle();
+
         entityRangeBox = new Rectangle();
         swordRangeBox = new Rectangle();
         chaseRangeBox = new Rectangle();
@@ -156,8 +165,93 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     }
 
-    public void setGunActive2(boolean gunActive2) {
-        isGunActive2 = gunActive2;
+    protected void setCurrentPosition(Entity entity){
+        currentEntityPosition.x = 0;
+        currentEntityPosition.y = 0;
+//        SplashScreen splashScreen = SplashScreen.getSplashScreen();
+    }
+
+    protected void initImageBox(Vector2 size) {
+        imageBox.setWidth(size.x);
+        imageBox.setHeight(size.y);
+    }
+
+    protected void initBoundingBox(Vector2 size){
+        boundingBox.setWidth(size.x);
+        boundingBox.setHeight(size.y);
+    }
+
+    protected void initActiveZoneBox(Vector2 size){
+        activeZoneBox.setWidth(size.x);
+        activeZoneBox.setHeight(size.y);
+    }
+
+    protected void updateBoundingBox() {
+        float entityX =  currentEntityPosition.x;
+        float entityY =  currentEntityPosition.y;
+        int middleImageWidth = (int) imageBox.getWidth() / 2;
+        int middleImageHeight = (int) imageBox.getHeight() / 2;
+        int middleBoundingBoxWidth = (int) boundingBox.getWidth() / 2;
+        int boundingBoxHeight = (int) boundingBox.getHeight() * 2;
+        boundingBox.setPosition(entityX + middleImageWidth - middleBoundingBoxWidth, entityY + middleImageHeight - boundingBoxHeight);
+    }
+
+    protected void updateActiveZoneBox() {
+        int middleBoundingBoxWidth = (int) boundingBox.getWidth() / 2;
+        int middleBoundingBoxHeight = (int) boundingBox.getHeight() / 2;
+        activeZoneBox.setCenter(boundingBox.x + middleBoundingBoxWidth, boundingBox.y + middleBoundingBoxHeight);
+    }
+
+    protected void initEntityRangeBox() {
+        entityRangeBox.setWidth(24);
+        entityRangeBox.setHeight(54);
+    }
+
+    protected void initBoundingBoxForObject(float width, float height){
+        entityRangeBox.set(currentEntityPosition.x, currentEntityPosition.y, width, height);
+    }
+
+    protected void updateEntityRangeBox(float width, float height) {
+        entityRangeBox.setCenter(currentEntityPosition.x+width, currentEntityPosition.y+height+10);
+    }
+
+    protected void setSwordRangeBox(Vector2 position, float width, float height) {
+        swordRangeBox.set(position.x, position.y, width,height);
+    }
+
+    protected void updateSwordRangeBox(float width, float height) {
+        switch (currentDirection) {
+            case UP:
+                swordRangeBox.set(currentEntityPosition.x+width-21, currentEntityPosition.y+height+13, 40, 30);
+                break;
+            case DOWN:
+                swordRangeBox.set(currentEntityPosition.x+width-21, currentEntityPosition.y+height-13, 40, 30);
+                break;
+            case LEFT:
+                swordRangeBox.set(currentEntityPosition.x+width-34, currentEntityPosition.y+height-16, 30, 40);
+                break;
+            case RIGHT:
+                swordRangeBox.set(currentEntityPosition.x+width+4, currentEntityPosition.y+height-16, 30, 40);
+                break;
+        }
+    }
+
+    protected void initChaseRangeBox(){
+        chaseRangeBox.setWidth(512); //512
+        chaseRangeBox.setHeight(512); //512
+    }
+
+    protected void updateChaseRangeBox(float width, float height) {
+        chaseRangeBox.setCenter(currentEntityPosition.x+width, currentEntityPosition.y+height);
+    }
+
+    protected void initAttackRangeBox(){
+        attackRangeBox.setWidth(64);
+        attackRangeBox.setHeight(64);
+    }
+
+    protected void updateAttackRangeBox(float width, float height) {
+        attackRangeBox.setCenter(currentEntityPosition.x+width, currentEntityPosition.y+height);
     }
 
     protected void updateAnimations(float delta){
@@ -325,71 +419,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         return animation;
     }
 
-    protected void setCurrentPosition(Entity entity){
-        currentEntityPosition.x = 0;
-        currentEntityPosition.y = 0;
-//        SplashScreen splashScreen = SplashScreen.getSplashScreen();
-    }
-
-    protected void initBoundingBox(){
-        boundingBox.setWidth(22); //31
-        boundingBox.setHeight(11); //66
-    }
-
-    protected void updateBoundingBoxPosition(float width, float height) {
-        boundingBox.setCenter(currentEntityPosition.x + width, currentEntityPosition.y + height); //x+width/2, y+height/2
-    }
-
-    protected void initEntityRangeBox() {
-        entityRangeBox.setWidth(24);
-        entityRangeBox.setHeight(54);
-    }
-
-    protected void initBoundingBoxForObject(float width, float height){
-        entityRangeBox.set(currentEntityPosition.x, currentEntityPosition.y, width, height);
-    }
-
-    protected void updateEntityRangeBox(float width, float height) {
-        entityRangeBox.setCenter(currentEntityPosition.x+width, currentEntityPosition.y+height+10);
-    }
-
-    protected void setSwordRangeBox(Vector2 position, float width, float height) {
-        swordRangeBox.set(position.x, position.y, width,height);
-    }
-
-    protected void updateSwordRangeBox(float width, float height) {
-        switch (currentDirection) {
-            case UP:
-                swordRangeBox.set(currentEntityPosition.x+width-21, currentEntityPosition.y+height+13, 40, 30);
-                break;
-            case DOWN:
-                swordRangeBox.set(currentEntityPosition.x+width-21, currentEntityPosition.y+height-13, 40, 30);
-                break;
-            case LEFT:
-                swordRangeBox.set(currentEntityPosition.x+width-34, currentEntityPosition.y+height-16, 30, 40);
-                break;
-            case RIGHT:
-                swordRangeBox.set(currentEntityPosition.x+width+4, currentEntityPosition.y+height-16, 30, 40);
-                break;
-        }
-    }
-
-    protected void initChaseRangeBox(){
-        chaseRangeBox.setWidth(512); //512
-        chaseRangeBox.setHeight(512); //512
-    }
-
-    protected void updateChaseRangeBox(float width, float height) {
-        chaseRangeBox.setCenter(currentEntityPosition.x+width, currentEntityPosition.y+height);
-    }
-
-    protected void initAttackRangeBox(){
-        attackRangeBox.setWidth(64);
-        attackRangeBox.setHeight(64);
-    }
-
-    protected void updateAttackRangeBox(float width, float height) {
-        attackRangeBox.setCenter(currentEntityPosition.x+width, currentEntityPosition.y+height);
+    public void setGunActive2(boolean gunActive2) {
+        isGunActive2 = gunActive2;
     }
 
     protected float getAngleCenterToMouse() {

@@ -23,7 +23,8 @@ public class ResourceManager {
         ATLAS_ISB,
         ATLAS_KING,
         ATLAS_AMELIA,
-        ATLAS_POLICE,
+        ATLAS_POLICE_B1, ATLAS_POLICE_R1,
+        ATLAS_MERCENARIES_M1,
         ATLAS_EARTHLINGS,
         ATLAS_ELITE_KNIGHT,
         ATLAS_SECURITY_MECHANISM,
@@ -35,7 +36,7 @@ public class ResourceManager {
 
     // public Json json;
 
-    public TextureAtlas ATLAS, ATLAS_SECURITY_MECHANISM, ATLAS_POLICE, ATLAS_ELITE_KNIGHT, ATLAS_ISB, ATLAS_AMELIA, ATLAS_KING, ATLAS_EARTHLINGS, ATLAS_MAP_OBJECTS;
+    public TextureAtlas ATLAS, ATLAS_SECURITY_MECHANISM, ATLAS_ELITE_KNIGHT, ATLAS_ISB, ATLAS_AMELIA, ATLAS_KING, ATLAS_EARTHLINGS, ATLAS_MAP_OBJECTS;
     private static Hashtable<AtlasType, TextureAtlas> atlasTable = new Hashtable<AtlasType, TextureAtlas>();
 
 
@@ -44,20 +45,21 @@ public class ResourceManager {
     public World world;
     public String language;
 
+    public static final String PATH_TO_JSON_WEAPONS = "items/weapons.json";
+    public static final String INVENTORY_ITEM = "items/items.json";
+    public static String PLAYER_CONFIG = "main/entities/player/player.json";
+    public static String EARTHLINGS_CONFIGS = "main/entities/npc/earthlings/earthlings.json";
+    public static String ELITE_KNIGHT_CONFIGS = "main/entities/enemies/eliteKnight/eliteKnight.json";
+    public static String POLICE_CONFIGS = "main/entities/enemies/police/police.json";
+    public static String MERCENARIES_CONFIGS = "main/entities/npc/mercenaries/mercenaries.json";
+    public static String TOWN_FOLK_CONFIGS = "main/entities/town_folk.json";
+
 
     //Animation
-    public Animation<Sprite> playerAnimGunRight;
-    public Animation<Sprite> playerAnimGunLeft;
     public Animation<Sprite> playerAnimGunUp;
     public Animation<Sprite> playerAnimGunDown;
     public Animation<Sprite> playerRifleAnimRight;
     public Animation<Sprite> playerRifleAnimLeft;
-    public Animation<Sprite> playerAnimAttackRight;
-    public Animation<Sprite> playerAnimAttackLeft;
-    public Animation<Sprite> playerAnimAttackUp;
-    public Animation<Sprite> playerAnimAttackDown;
-    public Animation<Sprite> playerAnimAttackLeft2;
-    public Animation<Sprite> playerAnimAttackRight2;
     public Animation<Sprite> playerAnimDashRight;
     public Animation<Sprite> playerAnimBarDrink;
     public Animation<Sprite> playerAnimHurtAmelia;
@@ -77,16 +79,6 @@ public class ResourceManager {
     public Animation<Sprite> roninAnimAttackLeft;
     public Animation<Sprite> roninAnimDeadRight;
     public Animation<Sprite> roninAnimDeadLeft;
-
-    public Animation<Sprite> policeAnimIdleRight;
-    public Animation<Sprite> policeAnimIdleLeft;
-    public Animation<Sprite> policeAnimRunRight;
-    public Animation<Sprite> policeAnimRunLeft;
-    public Animation<Sprite> policeAnimShootingRight;
-    public Animation<Sprite> policeAnimShootingLeft;
-    public Animation<Sprite> policeAnimLookedAround;
-    public Animation<Sprite> policeAnimStops;
-    public Animation<Sprite> policeAnimDetention;
 
     public Animation<Sprite> eliteKnightAnimIdleRight;
     public Animation<Sprite> eliteKnightAnimIdleLeft;
@@ -160,9 +152,11 @@ public class ResourceManager {
         language = "main/languages/english";
         
         assetManager = new AssetManager();
-        assetManager.load("main/entities/player/newPlayer.atlas", TextureAtlas.class);
+        assetManager.load("main/entities/player/player.atlas", TextureAtlas.class);
         assetManager.load("main/entities/bosses/securityMechanism/securityMechanism.atlas", TextureAtlas.class);
-        assetManager.load("main/entities/enemies/police/police.atlas", TextureAtlas.class);
+        assetManager.load("main/entities/enemies/police/policeB1.atlas", TextureAtlas.class);
+        assetManager.load("main/entities/enemies/police/policeR1.atlas", TextureAtlas.class);
+        assetManager.load("main/entities/npc/mercenaries/mercenariesM1.atlas", TextureAtlas.class);
         assetManager.load("main/entities/enemies/eliteKnight/eliteKnight.atlas", TextureAtlas.class);
         assetManager.load("main/entities/enemies/ISB/ISB.atlas", TextureAtlas.class);
         assetManager.load("main/entities/npc/amelia/amelia.atlas", TextureAtlas.class);
@@ -171,9 +165,8 @@ public class ResourceManager {
         assetManager.load("maps/mapObjects.atlas", TextureAtlas.class);
         assetManager.finishLoading();
 
-        ATLAS = assetManager.get("main/entities/player/newPlayer.atlas", TextureAtlas.class);
+        ATLAS = assetManager.get("main/entities/player/player.atlas", TextureAtlas.class);
         ATLAS_SECURITY_MECHANISM = assetManager.get("main/entities/bosses/securityMechanism/securityMechanism.atlas", TextureAtlas.class);
-        ATLAS_POLICE = assetManager.get("main/entities/enemies/police/police.atlas", TextureAtlas.class);
         ATLAS_ELITE_KNIGHT = assetManager.get("main/entities/enemies/eliteKnight/eliteKnight.atlas", TextureAtlas.class);
         ATLAS_ISB = assetManager.get("main/entities/enemies/ISB/ISB.atlas", TextureAtlas.class);
         ATLAS_AMELIA = assetManager.get("main/entities/npc/amelia/amelia.atlas", TextureAtlas.class);
@@ -181,18 +174,10 @@ public class ResourceManager {
         ATLAS_EARTHLINGS = assetManager.get("main/entities/npc/earthlings/earthlings.atlas", TextureAtlas.class);
         ATLAS_MAP_OBJECTS = assetManager.get("maps/mapObjects.atlas", TextureAtlas.class);
 
-        playerAnimGunRight = new Animation<Sprite>(0.09f, ATLAS.createSprites("RANGED_ATTACK_RIGHT"));
-        playerAnimGunLeft = new Animation<Sprite>(0.09f, ATLAS.createSprites("RANGED_ATTACK_LEFT"));
         playerAnimGunUp = new Animation<Sprite>(0.06f, ATLAS.createSprites("RANGED_ATTACK_UP"));
         playerAnimGunDown = new Animation<Sprite>(0.06f, ATLAS.createSprites("RANGED_ATTACK_DOWN"));
         playerRifleAnimRight = new Animation<Sprite>(0.06f, ATLAS.createSprites("RIFLE_RIGHT"));
         playerRifleAnimLeft = new Animation<Sprite>(0.06f, ATLAS.createSprites("RIFLE_LEFT"));
-        playerAnimAttackRight = new Animation<Sprite>(0.05f, ATLAS.createSprites("MELEE_ATTACK_RIGHT")); //11
-        playerAnimAttackLeft = new Animation<Sprite>(0.05f, ATLAS.createSprites("MELEE_ATTACK_LEFT")); //11
-        playerAnimAttackUp = new Animation<Sprite>(0.05f, ATLAS.createSprites("MELEE_ATTACK_UP")); //11
-        playerAnimAttackDown = new Animation<Sprite>(0.05f, ATLAS.createSprites("MELEE_ATTACK_DOWN")); //11
-        playerAnimAttackRight2 = new Animation<Sprite>(0.05f, ATLAS.createSprites("MELEE_ATTACK_RIGHT_2")); //13
-        playerAnimAttackLeft2 = new Animation<Sprite>(0.05f, ATLAS.createSprites("MELEE_ATTACK_LEFT_2")); //13
         playerAnimDashRight = new Animation<Sprite>(0.045f, ATLAS.createSprites("DASH_RIGHT"));
         playerAnimBarDrink = new Animation<Sprite>(0.12f, ATLAS.createSprites("BAR_DRINK"));
         playerAnimHurtAmelia = new Animation<Sprite>(0.14f, ATLAS.createSprites("HURT_AMELIA"));
@@ -215,16 +200,6 @@ public class ResourceManager {
 
         roninAnimDeadRight = new Animation<Sprite>(0.2f, ATLAS.createSprites("RONIN_DEAD_RIGHT"));
         roninAnimDeadLeft = new Animation<Sprite>(0.2f, ATLAS.createSprites("RONIN_DEAD_LEFT"));
-
-        policeAnimIdleRight = new Animation<Sprite>(0.2f, ATLAS_POLICE.createSprites("IDLE_RIGHT"));
-        policeAnimIdleLeft = new Animation<Sprite>(0.2f, ATLAS_POLICE.createSprites("IDLE_LEFT"));
-        policeAnimRunRight = new Animation<Sprite>(0.2f, ATLAS_POLICE.createSprites("RUN_RIGHT"));
-        policeAnimRunLeft = new Animation<Sprite>(0.2f, ATLAS_POLICE.createSprites("RUN_LEFT"));
-        policeAnimShootingRight = new Animation<Sprite>(0.06f, ATLAS_POLICE.createSprites("SHOOTING_RIGHT"));
-        policeAnimShootingLeft = new Animation<Sprite>(0.06f, ATLAS_POLICE.createSprites("SHOOTING_LEFT"));
-        policeAnimLookedAround = new Animation<Sprite>(0.1f, ATLAS_POLICE.createSprites("LOOKED_AROUND"));
-        policeAnimDetention = new Animation<Sprite>(0.1f, ATLAS_POLICE.createSprites("DETENTION"));
-        policeAnimStops = new Animation<Sprite>(0.1f, ATLAS_POLICE.createSprites("STOPS"));
 
         eliteKnightAnimIdleRight = new Animation<Sprite>(0.2f, ATLAS_ELITE_KNIGHT.createSprites("IDLE_RIGHT"));
         eliteKnightAnimIdleLeft = new Animation<Sprite>(0.2f, ATLAS_ELITE_KNIGHT.createSprites("IDLE_LEFT"));
@@ -310,7 +285,7 @@ public class ResourceManager {
             case ATLAS:
                 textureAtlas = atlasTable.get(atlasType);
                 if( textureAtlas == null ){
-                    textureAtlas = assetManager.get("main/entities/player/newPlayer.atlas", TextureAtlas.class);
+                    textureAtlas = assetManager.get("main/entities/player/player.atlas", TextureAtlas.class);
                     atlasTable.put(atlasType, textureAtlas);
                 }
                 break;
@@ -321,10 +296,24 @@ public class ResourceManager {
                     atlasTable.put(atlasType, textureAtlas);
                 }
                 break;
-            case ATLAS_POLICE:
+            case ATLAS_POLICE_B1:
                 textureAtlas = atlasTable.get(atlasType);
                 if( textureAtlas == null ){
-                    textureAtlas = assetManager.get("main/entities/enemies/police/police.atlas", TextureAtlas.class);
+                    textureAtlas = assetManager.get("main/entities/enemies/police/policeB1.atlas", TextureAtlas.class);
+                    atlasTable.put(atlasType, textureAtlas);
+                }
+                break;
+            case ATLAS_POLICE_R1:
+                textureAtlas = atlasTable.get(atlasType);
+                if( textureAtlas == null ){
+                    textureAtlas = assetManager.get("main/entities/enemies/police/policeR1.atlas", TextureAtlas.class);
+                    atlasTable.put(atlasType, textureAtlas);
+                }
+                break;
+            case ATLAS_MERCENARIES_M1:
+                textureAtlas = atlasTable.get(atlasType);
+                if( textureAtlas == null ){
+                    textureAtlas = assetManager.get("main/entities/npc/mercenaries/mercenariesM1.atlas", TextureAtlas.class);
                     atlasTable.put(atlasType, textureAtlas);
                 }
                 break;

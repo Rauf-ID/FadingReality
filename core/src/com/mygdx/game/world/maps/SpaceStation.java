@@ -18,13 +18,13 @@ public class SpaceStation extends Map {
 
         json = new Json();
 
-        Entity policeB1 = EntityFactory.getInstance().getEnemyByName(EntityFactory.EntityName.POLICE_B1);
-        initSpecialEntityPosition(policeB1, new Vector2(890,280), Entity.Direction.RIGHT);
-        mapEntities.add(policeB1);
+        Entity mercenariesM1 = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.MERCENARIES_M1);
+        initEntity(mercenariesM1, new Vector2(890,280), Entity.Direction.RIGHT);
+        mapEntities.add(mercenariesM1);
 
     }
 
-    private void initSpecialEntityPosition(Entity entity, Vector2 position, Entity.Direction direction){
+    private void initEntity(Entity entity, Vector2 position, Entity.Direction direction){
 
         entity.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(position));
         entity.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));

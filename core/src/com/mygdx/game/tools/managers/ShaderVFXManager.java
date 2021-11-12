@@ -49,7 +49,7 @@ public class ShaderVFXManager {
     }
 
     public void updateShader(FadingReality game, Entity player, MapManager mapMgr, float delta) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
             shaderSilhouette = !shaderSilhouette;
         }
         if(shaderSilhouette){
@@ -68,7 +68,7 @@ public class ShaderVFXManager {
 
     public void renderVFX() {
         vfxManager.endInputCapture();
-        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_3)) {
             VFXEffectOnOff = !VFXEffectOnOff;
         }
         if(VFXEffectOnOff){
