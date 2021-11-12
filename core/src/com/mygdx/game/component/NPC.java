@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -12,8 +13,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.FadingReality;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
+import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.world.Map;
 import com.mygdx.game.world.MapManager;
@@ -25,6 +28,12 @@ public class NPC extends Component {
 
     private boolean sentShowConversationMessage = false;
     private boolean sentHideConversationMessage = false;
+
+    private boolean playerInActiveZone = false;
+    private boolean playerInActiveZone2 = true;
+
+    private float yY = 0;
+    private boolean aBoolean = true;
 
     public NPC () {
         state = State.NORMAL;
@@ -92,10 +101,24 @@ public class NPC extends Component {
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
         this.camera = mapManager.getCamera();
 
+        updateImageBox();
         updateBoundingBox();
         updateActiveZoneBox();
-        updateEntityRangeBox(64,64);
 
+        Entity player = mapManager.getPlayer();
+        Rectangle playerBoundingBox = player.getBoundingBox();
+
+        if (playerBoundingBox.overlaps(activeZoneBox)) {
+            playerInActiveZone = true;
+            if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+                notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.LOAD_CONVERSATION);
+                playerInActiveZone2 = false;
+            }
+        } else {
+//            notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.HIDE_CONVERSATION);
+            playerInActiveZone = false;
+            playerInActiveZone2 = true;
+        }
 
         switch (state) {
             case NORMAL:
@@ -116,10 +139,11 @@ public class NPC extends Component {
             debugActive = !debugActive;
         }
         if (debugActive) {
-            debug(true, true);
+            debug(true, true, true);
         }
 
         batch.begin();
+        drawDialogueImg(batch, delta);
         batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
         batch.end();
     }
@@ -128,7 +152,7 @@ public class NPC extends Component {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         Camera camera = mapMgr.getCamera();
-        Rectangle rect = entity.getCurrentBoundingBox();
+        Rectangle rect = entity.getBoundingBox();
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0.0f, 1.0f, 1.0f, 0.5f);
@@ -143,9 +167,34 @@ public class NPC extends Component {
         Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
-    public void debug(boolean activeBoundingBox, boolean activeActiveZoneBox) {
+    private void drawDialogueImg(Batch batch, float delta) {
+        if (playerInActiveZone && playerInActiveZone2) {
+            Texture texture = FadingReality.resourceManager.dialogueImg;
+            int x = (int) (imageBox.x + imageBox.getWidth() / 2 - texture.getWidth() / 2);
+            int y = (int) (imageBox.y + imageBox.getHeight() - texture.getHeight());
+            if (!aBoolean) {
+                if (yY > 0) {
+                    aBoolean = true;
+                }
+                yY += 4 * delta;
+            } else {
+                if (yY < -5) {
+                    aBoolean = false;
+                }
+                yY -= 4 * delta;
+            }
+            batch.draw(texture, x, y + yY);
+        }
+    }
+
+    public void debug(boolean activeImageBox, boolean activeBoundingBox, boolean activeActiveZoneBox) {
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        if (activeImageBox) {
+            Rectangle rect = imageBox;
+            shapeRenderer.setColor(0.5f, .92f, .75f, 1f);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
         if (activeBoundingBox) {
             Rectangle rect = boundingBox;
             shapeRenderer.setColor(Color.GRAY);
@@ -156,6 +205,7 @@ public class NPC extends Component {
             shapeRenderer.setColor(Color.ORANGE);
             shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
         }
+
         shapeRenderer.end();
     }
 

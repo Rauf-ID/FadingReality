@@ -85,7 +85,7 @@ public class Enemy extends Component {
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
         this.camera = mapManager.getCamera();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_2)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
             enemyActive = !enemyActive;
         }
 
@@ -106,7 +106,7 @@ public class Enemy extends Component {
         setSwordRangeBox(new Vector2(10000,10000),0,0);
 
         Entity player = mapManager.getPlayer();
-        Rectangle playerBoundingBox = player.getCurrentBoundingBox();
+        Rectangle playerBoundingBox = player.getBoundingBox();
         Rectangle playerRangeBox = player.getCurrentEntityRangeBox();
         Rectangle playerSwordRangeBox = player.getCurrentSwordRangeBox();
 

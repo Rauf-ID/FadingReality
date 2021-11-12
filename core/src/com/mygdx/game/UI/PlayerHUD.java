@@ -60,7 +60,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     private Json json;
     private MapManager mapMgr;
 
-    private Label delatLabel, FPSLabel, timeLabel, stateLabel, countAmmoLabel, mouseCoordinatesLabel, cameraZoomLabel, labelPlayerPosition;
+    private Label tooltip1, tooltip2;
     private int hour, min;
     private String currentState;
     private float ammoCount;
@@ -114,9 +114,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         inventoryUI.setPosition(0, 100);
 
         conversationUI = new ConversationUI(FadingReality.getUiSkin());
-        conversationUI.setPosition(FadingReality.HEIGHT/1.5f,50);
+        conversationUI.setPosition(FadingReality.HEIGHT / 1.5f,50);
         conversationUI.setSize(500,300);
-        conversationUI.setMovable(false);
+        conversationUI.setMovable(true);
         conversationUI.setVisible(false);
 
         questUI = new QuestUI();
@@ -142,32 +142,14 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 //        pdaui.setDebug(true);
 
         //Delta, FPS and other stats
-        delatLabel = new Label("", FadingReality.getUiSkin());
-        delatLabel.setPosition(20,740);
+        tooltip1 = new Label("", FadingReality.getUiSkin());
+        tooltip1.setPosition(0, Gdx.graphics.getHeight() - 100);
 
-        FPSLabel = new Label("", FadingReality.getUiSkin());
-        FPSLabel.setPosition(20, 720);
-
-        timeLabel = new Label("", FadingReality.getUiSkin());
-        timeLabel.setPosition(20, 700);
-
-        stateLabel = new Label("", FadingReality.getUiSkin());
-        stateLabel.setPosition(20, 680);
-
-        countAmmoLabel = new Label("", FadingReality.getUiSkin());
-        countAmmoLabel.setPosition(20, 660);
-
-        mouseCoordinatesLabel = new Label("", FadingReality.getUiSkin());
-        mouseCoordinatesLabel.setPosition(20, 640);
-
-        cameraZoomLabel = new Label("", FadingReality.getUiSkin());
-        cameraZoomLabel.setPosition(20, 620);
-
-        labelPlayerPosition = new Label("", FadingReality.getUiSkin());
-        labelPlayerPosition.setPosition(20, 600);
+        tooltip2 = new Label("NUMPAD_1 - Activate Enemy \n NUMPAD_2 - Shader1 & Speed \n NUMPAD_3 - Shader2 \n NUMPAD_4 - Activate Debug", FadingReality.getUiSkin());
+        tooltip2.setPosition(0, 0);
 
         labelMapName = new Label("", FadingReality.getUiSkin());
-        labelMapName.setPosition(Gdx.graphics.getWidth()- 500, Gdx.graphics.getHeight() - 50);
+        labelMapName.setPosition(Gdx.graphics.getWidth() - 500, Gdx.graphics.getHeight() - 50);
 
 //        image = new Image(new TextureRegion(NonameGame.resourceManager.texture2));
 //        image.setPosition(500,500);
@@ -177,17 +159,11 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         this.addActor(conversationUI);
         this.addActor(questUI);
         this.addActor(pdaui);
-        this.addActor(delatLabel);
-        this.addActor(FPSLabel);
-        this.addActor(timeLabel);
-        this.addActor(stateLabel);
-        this.addActor(countAmmoLabel);
-        this.addActor(mouseCoordinatesLabel);
-        this.addActor(labelMapName);
-        this.addActor(cameraZoomLabel);
-        this.addActor(labelPlayerPosition);
         this.addActor(healthBar);
         this.addActor(browserUI);
+        this.addActor(tooltip1);
+        this.addActor(tooltip2);
+        this.addActor(labelMapName);
 //        this.addActor(image);
 
         //add tooltips to the stage
@@ -289,23 +265,22 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 EntityConfig config = json.fromJson(EntityConfig.class, value);
                 conversationUI.loadConversation(config);
                 conversationUI.getCurrentConversationGraph().addObserver(this);
+                if( config.getEntityID().equalsIgnoreCase(conversationUI.getCurrentEntityID())) {
+                    conversationUI.setVisible(true);
+                }
                 break;
             case SHOW_CONVERSATION:
-
                 EntityConfig configShow = json.fromJson(EntityConfig.class, value);
                 if( configShow.getEntityID().equalsIgnoreCase(conversationUI.getCurrentEntityID())) {
                     conversationUI.setVisible(true);
                 }
                 break;
-
             case HIDE_CONVERSATION:
-
                 EntityConfig configHide = json.fromJson(EntityConfig.class, value);
-                if( configHide.getEntityID().equalsIgnoreCase(conversationUI.getCurrentEntityID())) {
+                if(configHide.getEntityID().equalsIgnoreCase(conversationUI.getCurrentEntityID())) {
                     conversationUI.setVisible(false);
                 }
                 break;
-
             case QUEST_LOCATION_DISCOVERED:
                 break;
             case ENEMY_SPAWN_LOCATION_CHANGED:
@@ -439,16 +414,15 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
     public void render(float delta) {
 //        Delta and FPS
-        delatLabel.setText("Delta = " + delta);
-        FPSLabel.setText("FPS = " + Gdx.graphics.getFramesPerSecond());
-        timeLabel.setText("Game Time = " + hour + ":" + min);
-        stateLabel.setText("State = " + currentState);
-        countAmmoLabel.setText("Ammo = " + player.getAmmoCountInMagazine());
-        mouseCoordinatesLabel.setText("Mouse Cord = X: " + Math.round(mouseCoordinates.x) + " Y: " + Math.round(mouseCoordinates.y));
-        cameraZoomLabel.setText("Camera Zoom = " + zoom);
-        labelPlayerPosition.setText("Player Position = X: " + playerPosition.x + " Y: " + playerPosition.y);
+        tooltip1.setText("Delta = " + delta + "\n" +
+                "FPS = " + Gdx.graphics.getFramesPerSecond() + "\n" +
+                "Game Time = " + hour + ":" + min + "\n" +
+                "State = " + currentState + "\n" +
+                "Ammo = " + player.getAmmoCountInMagazine() + "\n" +
+                "Mouse Cord = X: " + Math.round(mouseCoordinates.x) + " Y: " + Math.round(mouseCoordinates.y) + "\n" +
+                "Camera Zoom = " + zoom + "\n" +
+                "Player Position = X: " + playerPosition.x + " Y: " + playerPosition.y);
         labelMapName.setText(mapName);
-
 
         // handle toast queue and display
         Iterator<Toast> it = toasts.iterator();

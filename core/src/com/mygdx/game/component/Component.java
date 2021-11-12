@@ -186,6 +186,10 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         activeZoneBox.setHeight(size.y);
     }
 
+    protected void updateImageBox() {
+        imageBox.setPosition(currentEntityPosition.x, currentEntityPosition.y);
+    }
+
     protected void updateBoundingBox() {
         float entityX =  currentEntityPosition.x;
         float entityY =  currentEntityPosition.y;
@@ -440,7 +444,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     }
 
     protected float getAngleCenterToPlayer(MapManager mapManager) {
-        Rectangle playerRect = mapManager.getPlayer().getCurrentBoundingBox();
+        Rectangle playerRect = mapManager.getPlayer().getBoundingBox();
 
         int screenWidth = Gdx.graphics.getWidth()/2;
         int screenHeight = Gdx.graphics.getHeight()/2;
@@ -653,7 +657,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 continue;
             }
 
-            Rectangle targetRect = mapEntity.getCurrentBoundingBox();
+            Rectangle targetRect = mapEntity.getBoundingBox();
             if (boundingBox.overlaps(targetRect) ){
                 //Collision
                 entity.sendMessage(MESSAGE.COLLISION_WITH_ENTITY);
@@ -672,7 +676,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
             return false;
         }
 
-        if (entitySource.getCurrentBoundingBox().overlaps(entityTarget.getCurrentBoundingBox()) ){
+        if (entitySource.getBoundingBox().overlaps(entityTarget.getBoundingBox()) ){
             //Collision
             entitySource.sendMessage(MESSAGE.COLLISION_WITH_ENTITY);
             isCollisionWithMapEntities = true;

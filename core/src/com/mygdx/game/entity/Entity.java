@@ -162,7 +162,7 @@ public class Entity implements Comparable<Entity> {
         component.draw(batch, delta);
     }
 
-    public Rectangle getCurrentBoundingBox(){
+    public Rectangle getBoundingBox(){
         return component.boundingBox;
     }
 

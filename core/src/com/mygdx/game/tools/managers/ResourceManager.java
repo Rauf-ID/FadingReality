@@ -145,6 +145,9 @@ public class ResourceManager {
 
     public Texture textureMenuBackground;
 
+    public Texture dialogueImg;
+
+
 
     public ResourceManager() {
         SKIN = new Skin(Gdx.files.internal("uiskin.json"));
@@ -266,6 +269,8 @@ public class ResourceManager {
 
         lightClubRed = ATLAS_MAP_OBJECTS.createSprite("LIGHT_CLUB_RED",1);
         lightClubGreen = ATLAS_MAP_OBJECTS.createSprite("LIGHT_CLUB_GREEN",1);
+
+        dialogueImg = new Texture(Gdx.files.internal("dialogue2.png"));
 
         texture = new Texture(Gdx.files.internal("stats.png"));
         texture2 = new Texture(Gdx.files.internal("items.png"));
