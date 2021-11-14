@@ -22,10 +22,6 @@ public class SpaceStation extends Map {
         initEntity(mercenariesM1, new Vector2(890,280), Entity.Direction.RIGHT);
         mapEntities.add(mercenariesM1);
 
-        Entity mercenariesM12 = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.MERCENARIES_M1);
-        initEntity(mercenariesM12, new Vector2(590,280), Entity.Direction.RIGHT);
-        mapEntities.add(mercenariesM12);
-
     }
 
     private void initEntity(Entity entity, Vector2 position, Entity.Direction direction){

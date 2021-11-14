@@ -1,0 +1,39 @@
+{
+"questID" : 1,
+"questTitle" : "The first step",
+"isQuestComplete" : false,
+"goldReward" : 100,
+"xpReward" : 100,
+"questTasks": {
+	"1": {
+		"id": 1,
+		"taskPhrase": "Talk to the Recruiter",
+		"taskType": "TALK",
+		"isTaskComplete": false,
+		"taskProperties": {
+			"targetName": "MERCENARIES_M1",
+			"targetLocation": "SPACE_STATION",
+			"targetsPositions": [ 
+				{
+				"x": 250,
+				"y": 250,
+				} 
+			]
+		},
+	},
+	"2": {
+		"id": 2,
+		"taskPhrase": "Talk to the Merchant",
+		"taskType": "TALK",
+		"isTaskComplete": false,
+		"taskProperties": {
+			"targetsPositions": [ 
+				{
+				"x": 250,
+				"y": 250, 
+				} 
+			] 
+		}, 
+	}, 
+}
+}

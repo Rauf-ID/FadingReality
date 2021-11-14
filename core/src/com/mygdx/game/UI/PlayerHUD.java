@@ -34,7 +34,6 @@ import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.tools.HealthBar;
 import com.mygdx.game.tools.Toast;
-import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 
 import java.util.Iterator;
@@ -120,12 +119,11 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         conversationUI.setVisible(false);
 
         questUI = new QuestUI();
-        questUI.setMovable(false);
+        questUI.setPosition(FadingReality.WIDTH / 4, 50);
+        questUI.setSize(500,300);
+        questUI.setMovable(true);
         questUI.setVisible(false);
         questUI.setKeepWithinStage(false);
-        questUI.setPosition(50, 50);
-        questUI.setWidth(200);
-        questUI.setHeight(200);
 
         browserUI = new BrowserUI("BB", FadingReality.getUiSkin());
         browserUI.setSize(1800,950);
@@ -145,7 +143,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         tooltip1 = new Label("", FadingReality.getUiSkin());
         tooltip1.setPosition(0, Gdx.graphics.getHeight() - 100);
 
-        tooltip2 = new Label("NUMPAD_1 - Activate Enemy \n NUMPAD_2 - Shader1 & Speed \n NUMPAD_3 - Shader2 \n NUMPAD_4 - Activate Debug", FadingReality.getUiSkin());
+        tooltip2 = new Label("Tab - PDA \n" + "Z - Inventory \n" + "X - QuestList \n" + "NUMPAD_1 - Activate Enemy \n " + "NUMPAD_2 - Shader1 & Speed \n " + "NUMPAD_3 - Shader2 \n " + "NUMPAD_4 - Activate Debug", FadingReality.getUiSkin());
         tooltip2.setPosition(0, 0);
 
         labelMapName = new Label("", FadingReality.getUiSkin());
@@ -228,7 +226,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                         InventoryUI.populateInventory(inventoryUI.getEquipSlotTable(), equipment, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
                     }
 
-                    Array<QuestGraph> quests = profileManager.getPlayerConfig().getPlayerQuests();
+                    Array<QuestGraph> quests = profileManager.getPlayerConfig().getQuests();
                     questUI.setQuests(quests);
 
                     Vector2 initPlayerPosition = profileManager.getPlayerConfig().getPosition();
@@ -240,7 +238,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             case SAVING_PROFILE:
                 System.out.println("PROFILE CONFIG SAVING");
                 profileManager.getSettingsConfig().setLastActiveAccount(profileManager.getProfileName());
-                profileManager.getPlayerConfig().setPlayerQuests(questUI.getQuests());  // Quests
+                profileManager.getPlayerConfig().setQuests(questUI.getQuests());  // Quests
                 profileManager.getPlayerConfig().setBagAmmunition(player.getBagAmmunition()); // Bag Ammunition
                 profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable())); // Inventory
                 profileManager.getPlayerConfig().setEquipment(InventoryUI.getInventory(inventoryUI.getEquipSlotTable())); // Equipment
@@ -250,7 +248,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 break;
             case CLEAR_CURRENT_PROFILE:
                 System.out.println("PROFILE CONFIG CLEARING");
-                profileManager.getPlayerConfig().setPlayerQuests(new Array<QuestGraph>());
+                profileManager.getPlayerConfig().setQuests(new Array<QuestGraph>());
                 profileManager.getPlayerConfig().setInventory(new Array<InventoryItemLocation>());
                 break;
             default:
@@ -264,7 +262,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             case LOAD_CONVERSATION:
                 EntityConfig config = json.fromJson(EntityConfig.class, value);
                 conversationUI.loadConversation(config);
-                conversationUI.getCurrentConversationGraph().addObserver(this);
+                conversationUI.getConversationGraph().addObserver(this);
                 if( config.getEntityID().equalsIgnoreCase(conversationUI.getCurrentEntityID())) {
                     conversationUI.setVisible(true);
                 }
@@ -298,33 +296,38 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
     @Override
     public void onNotify(ConversationGraph graph, ConversationCommandEvent event) {
-
         switch(event) {
             case ACCEPT_QUEST:
-                float delay = 1;
+                System.out.println("Accept quest!");
+
+                Entity currentlyEntity = mapMgr.getCurrentMapEntity();
+                if( currentlyEntity == null ){
+                    break;
+                }
+                EntityConfig config = currentlyEntity.getEntityConfig();
+//                QuestGraph questGraph = questUI.loadQuest(config.getQuestConfigPath());
+
+
                 Timer.schedule( new Timer.Task(){
                     @Override
                     public void run() {
                         conversationUI.setVisible(false);
                         mapMgr.clearCurrentSelectedMapEntity();
                     }
-                }, delay);
-                System.out.println("Accept quest!");
+                }, 1);
                 break;
             case EXIT_CONVERSATION:
-                float sec = 1;
                 Timer.schedule(new Timer.Task(){
                     @Override
                     public void run() {
                         conversationUI.setVisible(false);
                         mapMgr.clearCurrentSelectedMapEntity();
                     }
-                }, sec);
+                }, 1);
                 System.out.println("Exit conversation!");
                 break;
             case NONE:
                 break;
-
         }
 
     }
@@ -400,6 +403,10 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
             if(Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
                 inventoryUI.setVisible(inventoryUI.isVisible() ? false : true);
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+                questUI.setVisible(questUI.isVisible() ? false : true);
             }
         }
 

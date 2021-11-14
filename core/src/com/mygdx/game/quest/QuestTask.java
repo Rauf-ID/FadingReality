@@ -4,7 +4,9 @@ import com.badlogic.gdx.utils.ObjectMap;
 
 public class QuestTask {
 
-    public static enum QuestType{
+    public enum TaskType {
+        TALK,
+
         FETCH,
         KILL,
         DELIVERY,
@@ -14,7 +16,7 @@ public class QuestTask {
         DISCOVER
     }
 
-    public static enum QuestTaskPropertyType{
+    public enum QuestTaskPropertyType{
         IS_TASK_COMPLETE,
         TARGET_TYPE,
         TARGET_NUM,
@@ -22,13 +24,16 @@ public class QuestTask {
         NONE
     }
 
-    private ObjectMap<String, Object> taskProperties;
     private String id;
     private String taskPhrase;
-    private QuestType questType;
+    private TaskType taskType;
+    private boolean isTaskComplete;
+    private QuestTaskProperty taskProperties;
+    private ObjectMap<String, Object> taskPropertiesOld;
 
     public QuestTask(){
-        taskProperties = new ObjectMap<String, Object>();
+        taskProperties = new QuestTaskProperty();
+        taskPropertiesOld = new ObjectMap<String, Object>();
     }
 
     public String getId() {
@@ -47,28 +52,28 @@ public class QuestTask {
         this.taskPhrase = taskPhrase;
     }
 
-    public QuestType getQuestType() {
-        return questType;
+    public TaskType getTaskType() {
+        return taskType;
     }
 
-    public void setQuestType(QuestType questType) {
-        this.questType = questType;
+    public void setTaskType(TaskType taskType) {
+        this.taskType = taskType;
     }
 
-    public ObjectMap<String, Object> getTaskProperties() {
-        return taskProperties;
+    public ObjectMap<String, Object> getTaskPropertiesOld() {
+        return taskPropertiesOld;
     }
 
-    public void setTaskProperties(ObjectMap<String, Object> taskProperties) {
-        this.taskProperties = taskProperties;
+    public void setTaskPropertiesOld(ObjectMap<String, Object> taskPropertiesOld) {
+        this.taskPropertiesOld = taskPropertiesOld;
     }
 
     public boolean isTaskComplete(){
-        if( !taskProperties.containsKey(QuestTaskPropertyType.IS_TASK_COMPLETE.toString()) ){
+        if( !taskPropertiesOld.containsKey(QuestTaskPropertyType.IS_TASK_COMPLETE.toString()) ){
             setPropertyValue(QuestTaskPropertyType.IS_TASK_COMPLETE.toString(), "false");
             return false;
         }
-        String val = taskProperties.get(QuestTaskPropertyType.IS_TASK_COMPLETE.toString()).toString();
+        String val = taskPropertiesOld.get(QuestTaskPropertyType.IS_TASK_COMPLETE.toString()).toString();
         return Boolean.parseBoolean(val);
     }
 
@@ -77,17 +82,29 @@ public class QuestTask {
     }
 
     public void resetAllProperties(){
-        taskProperties.put(QuestTaskPropertyType.IS_TASK_COMPLETE.toString(), "false");
+        taskPropertiesOld.put(QuestTaskPropertyType.IS_TASK_COMPLETE.toString(), "false");
     }
 
     public void setPropertyValue(String key, String value){
-        taskProperties.put(key, value);
+        taskPropertiesOld.put(key, value);
     }
 
     public String getPropertyValue(String key){
-        Object propertyVal = taskProperties.get(key);
+        Object propertyVal = taskPropertiesOld.get(key);
         if( propertyVal == null ) return new String();
         return propertyVal.toString();
+    }
+
+    public void setTaskComplete(boolean taskComplete) {
+        isTaskComplete = taskComplete;
+    }
+
+    public QuestTaskProperty getTaskProperties() {
+        return taskProperties;
+    }
+
+    public void setTaskProperties(QuestTaskProperty taskProperties) {
+        this.taskProperties = taskProperties;
     }
 
     public String toString(){

@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.observer.ProfileSubject;
 
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
@@ -96,7 +95,7 @@ public class ProfileManager extends ProfileSubject {
         FileHandle file = null;
         if( Gdx.files.isLocalStorageAvailable() ) {
             file = Gdx.files.local("main/profile/" + fullFilename);
-            String encodedString = Base64Coder.encodeString(fileData);
+//            String encodedString = Base64Coder.encodeString(fileData);
 //            file.writeString(encodedString, !overwrite);
             file.writeString(fileData, !overwrite);
         }

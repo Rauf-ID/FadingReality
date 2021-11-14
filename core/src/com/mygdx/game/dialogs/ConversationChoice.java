@@ -14,7 +14,7 @@ public class ConversationChoice {
         return sourceId;
     }
 
-    public void setSourceId(String sourceId){
+    public void setSourceId(String sourceId) {
         this.sourceId = sourceId;
     }
 
@@ -22,7 +22,7 @@ public class ConversationChoice {
         return destinationId;
     }
 
-    public void setDestinationId(String destinationId){
+    public void setDestinationId(String destinationId) {
         this.destinationId = destinationId;
     }
 
@@ -36,11 +36,10 @@ public class ConversationChoice {
 
     public ConversationCommandEvent getConversationCommandEvent() {
         return conversationCommandEvent;
-        //ConversationCommandEvent - один из объектов перечисления в ConversationGraphObserver.
     }
 
-    public void setConversationCommandEvent(ConversationCommandEvent choiceCommand) {
-        this.conversationCommandEvent = choiceCommand;
+    public void setConversationCommandEvent(ConversationCommandEvent conversationCommandEvent) {
+        this.conversationCommandEvent = conversationCommandEvent;
     }
 
     public String toString(){

@@ -34,19 +34,15 @@ public class LoadScreen implements Screen {
         stage = new Stage();
 
         TextButton loadButton = new TextButton("Load", FadingReality.getUiSkin());
-        loadButton.setPosition(300,100);
-
         TextButton backButton = new TextButton("Back", FadingReality.getUiSkin());
-        backButton.setPosition(500,100);
 
         ProfileManager.getInstance().storeAllProfiles();
-        listItems = new List( FadingReality.getUiSkin());
+        listItems = new List(FadingReality.getUiSkin());
 
         Array<String> list = ProfileManager.getInstance().getProfileList();
         listItems.setItems(list);
-        ScrollPane scrollPane = new ScrollPane(listItems);
-        scrollPane.setPosition(350,200);
 
+        ScrollPane scrollPane = new ScrollPane(listItems);
         scrollPane.setOverscroll(false, false);
         scrollPane.setFadeScrollBars(false);
         scrollPane.setScrollingDisabled(true, false);

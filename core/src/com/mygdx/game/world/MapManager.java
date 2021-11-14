@@ -23,7 +23,7 @@ public class MapManager implements ProfileObserver {
     private boolean mapChanged = false;
     private Map currentMap;
     private Entity player;
-    private Entity currentSelectedEntity = null;
+    private Entity currentEntity = null;
 
     public MapManager() {
     }
@@ -140,9 +140,9 @@ public class MapManager implements ProfileObserver {
     }
 
     public void clearCurrentSelectedMapEntity(){
-        if( currentSelectedEntity == null ) return;
-        currentSelectedEntity.sendMessage(Message.MESSAGE.ENTITY_DESELECTED);
-        currentSelectedEntity = null;
+        if( currentEntity == null ) return;
+        currentEntity.sendMessage(Message.MESSAGE.ENTITY_DESELECTED);
+        currentEntity = null;
     }
 
     public void setCamera(OrthographicCamera camera){
@@ -161,12 +161,12 @@ public class MapManager implements ProfileObserver {
         return player;
     }
 
-    public Entity getCurrentSelectedMapEntity(){
-        return currentSelectedEntity;
+    public Entity getCurrentMapEntity(){
+        return currentEntity;
     }
 
-    public void setCurrentSelectedMapEntity(Entity currentSelectedEntity) {
-        this.currentSelectedEntity = currentSelectedEntity;
+    public void setCurrentMapEntity(Entity currentSelectedEntity) {
+        this.currentEntity = currentSelectedEntity;
     }
 
 

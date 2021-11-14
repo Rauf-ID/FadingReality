@@ -13,13 +13,13 @@ public class QuestGraph {
 
     private static final String TAG = QuestGraph.class.getSimpleName();
 
-    private Hashtable<String, QuestTask> questTasks;
-    private Hashtable<String, ArrayList<QuestTaskDependency>> questTaskDependencies;
-    private String questTitle;
     private String questID;
+    private String questTitle;
     private boolean isQuestComplete;
     private int goldReward;
     private int xpReward;
+    private Hashtable<String, QuestTask> questTasks;
+    private Hashtable<String, ArrayList<QuestTaskDependency>> questTaskDependencies;
 
     public QuestGraph() {
     }
@@ -173,7 +173,7 @@ public class QuestGraph {
                 return false;
             }
             if( !task.isTaskComplete() ){
-                if( task.getQuestType().equals(QuestTask.QuestType.RETURN) ){
+                if( task.getTaskType().equals(QuestTask.TaskType.RETURN) ){
                     readyTask = task;
                 }else{
                     return false;
@@ -188,15 +188,15 @@ public class QuestGraph {
     public boolean isQuestTaskAvailable(String id){
         QuestTask task = getQuestTaskByID(id);
         if( task == null) return false;
-        ArrayList<QuestTaskDependency> list = questTaskDependencies.get(id);
-
-        for(QuestTaskDependency dep: list){
-            QuestTask depTask = getQuestTaskByID(dep.getDestinationId());
-            if( depTask == null || depTask.isTaskComplete() ) continue;
-            if( dep.getSourceId().equalsIgnoreCase(id) ){
-                return false;
-            }
-        }
+//        ArrayList<QuestTaskDependency> list = questTaskDependencies.get(id);
+//
+//        for(QuestTaskDependency dep: list){
+//            QuestTask depTask = getQuestTaskByID(dep.getDestinationId());
+//            if( depTask == null || depTask.isTaskComplete() ) continue;
+//            if( dep.getSourceId().equalsIgnoreCase(id) ){
+//                return false;
+//            }
+//        }
         return true;
     }
 
@@ -220,7 +220,7 @@ public class QuestGraph {
                     taskLocation.isEmpty() ||
                     !taskLocation.equalsIgnoreCase(mapMgr.getCurrentMapType().toString())) continue;
 
-            switch (questTask.getQuestType()) {
+            switch (questTask.getTaskType()) {
                 case FETCH:
                     break;
                 case KILL:
@@ -240,6 +240,7 @@ public class QuestGraph {
     }
 
     public void init(MapManager mapMgr){
+        System.out.println("asdasd");
         ArrayList<QuestTask> allQuestTasks = getAllQuestTasks();
         for( QuestTask questTask: allQuestTasks ) {
 
@@ -251,7 +252,7 @@ public class QuestGraph {
             String taskLocation = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION.toString());
             if (taskLocation == null || taskLocation.isEmpty() || !taskLocation.equalsIgnoreCase(mapMgr.getCurrentMapType().toString())) continue;
 
-            switch (questTask.getQuestType()) {
+            switch (questTask.getTaskType()) {
                 case FETCH:
                     break;
                 case KILL:

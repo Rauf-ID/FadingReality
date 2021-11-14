@@ -109,6 +109,7 @@ public class NPC extends Component {
         Rectangle playerBoundingBox = player.getBoundingBox();
 
         if (playerBoundingBox.overlaps(activeZoneBox)) {
+            mapManager.setCurrentMapEntity(entity); // Задать текущего персонажа на карте
             playerInActiveZone = true;
             if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
                 notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.LOAD_CONVERSATION);

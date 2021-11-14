@@ -9,6 +9,7 @@ import com.mygdx.game.tools.managers.ResourceManager;
 public class EntityConfig {
 
     private String entityID;
+    private String entityName;
     private Entity.State state;
     private Entity.Direction direction;
     private String conversationConfigPath;
@@ -40,6 +41,7 @@ public class EntityConfig {
         state = config.getState();
         direction = config.getDirection();
         entityID = config.getEntityID();
+        entityName = config.getEntityName();
         conversationConfigPath = config.getConversationConfigPath();
         questConfigPath = config.getQuestConfigPath();
         currentQuestID = config.getCurrentQuestID();
@@ -64,6 +66,14 @@ public class EntityConfig {
 
     public void setEntityID(String entityID) {
         this.entityID = entityID;
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
     }
 
     public Entity.State getState() {

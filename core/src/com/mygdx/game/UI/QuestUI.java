@@ -97,11 +97,10 @@ public class QuestUI extends Window {
         }
 
         QuestGraph graph = _json.fromJson(QuestGraph.class, Gdx.files.internal(questConfigPath));
-        if( doesQuestExist(graph.getQuestID()) ){
+        if(doesQuestExist(graph.getQuestID())){
             return null;
         }
 
-        clearDialog();
         _quests.add(graph);
         updateQuestItemList();
         return graph;
@@ -135,7 +134,7 @@ public class QuestUI extends Window {
         return null;
     }
 
-    public boolean doesQuestExist(String questGraphID){
+    public boolean doesQuestExist(String questGraphID){  // Если квест уже существует
         for( QuestGraph questGraph: _quests ){
             if( questGraph.getQuestID().equalsIgnoreCase(questGraphID)){
                 return true;
@@ -185,7 +184,7 @@ public class QuestUI extends Window {
                 quest.init(mapMgr);
             }
         }
-        ProfileManager.getInstance().getPlayerConfig().setPlayerQuests(_quests);
+        ProfileManager.getInstance().getPlayerConfig().setQuests(_quests);
     }
 
     public void updateQuests(MapManager mapMgr){
@@ -194,7 +193,7 @@ public class QuestUI extends Window {
                 quest.update(mapMgr);
             }
         }
-        ProfileManager.getInstance().getPlayerConfig().setPlayerQuests(_quests);
+        ProfileManager.getInstance().getPlayerConfig().setQuests(_quests);
     }
 
 }

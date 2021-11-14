@@ -16,7 +16,7 @@ public class PlayerConfig {
     private Entity.Direction direction;
     private Vector2 position;
     private MapFactory.MapType currentMap;
-    private Array<QuestGraph> playerQuests;
+    private Array<QuestGraph> quests;
     private Array<InventoryItemLocation> inventory;
     private Array<InventoryItemLocation> equipment;
     private Map<String, Integer> bagAmmunition;
@@ -69,12 +69,12 @@ public class PlayerConfig {
         this.currentMap = currentMap;
     }
 
-    public Array<QuestGraph> getPlayerQuests() {
-        return playerQuests;
+    public Array<QuestGraph> getQuests() {
+        return quests;
     }
 
-    public void setPlayerQuests(Array<QuestGraph> playerQuests) {
-        this.playerQuests = playerQuests;
+    public void setQuests(Array<QuestGraph> quests) {
+        this.quests = quests;
     }
 
     public Array<InventoryItemLocation> getInventory() {
