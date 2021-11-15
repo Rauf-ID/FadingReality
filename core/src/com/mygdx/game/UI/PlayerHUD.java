@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.FadingReality;
 import com.mygdx.game.UI.pda.BrowserUI;
 import com.mygdx.game.component.Message;
+import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.inventory.InventoryItem;
 import com.mygdx.game.quest.QuestGraph;
 import com.mygdx.game.UI.pda.PDAUI;
@@ -305,8 +306,15 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     break;
                 }
                 EntityConfig config = currentlyEntity.getEntityConfig();
-//                QuestGraph questGraph = questUI.loadQuest(config.getQuestConfigPath());
+                QuestGraph questGraph = questUI.loadQuest(config.getQuestConfigPath());
 
+                if( questGraph != null ) {
+                    //Update conversation dialog
+//                    config.setConversationConfigPath(QuestUI.RETURN_QUEST);
+//                    config.setCurrentQuestID(questGraph.getQuestID());
+//                    ProfileManager.getInstance().setProperty(config.getEntityID(), config);
+                    updateEntityObservers();
+                }
 
                 Timer.schedule( new Timer.Task(){
                     @Override

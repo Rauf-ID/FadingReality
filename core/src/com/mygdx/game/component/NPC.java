@@ -103,7 +103,9 @@ public class NPC extends Component {
 
         updateImageBox();
         updateBoundingBox();
+        updateEntityRangeBox(64,64);
         updateActiveZoneBox();
+
 
         Entity player = mapManager.getPlayer();
         Rectangle playerBoundingBox = player.getBoundingBox();

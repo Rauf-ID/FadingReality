@@ -70,7 +70,7 @@ public class GameScreen implements Screen {
         mapMgr.setPlayer(player);
 
         playerHUD = new PlayerHUD(player, mapMgr);
-        playerHUD.updateEntityObservers();
+//        playerHUD.updateEntityObservers();
     }
 
     @Override
@@ -143,6 +143,12 @@ public class GameScreen implements Screen {
             }
             entities.add(player);
             for (Entity entity: mapMgr.getCurrentMapEntities()){
+                entities.add(entity);
+                if (entity.getEntityConfig().getEntityID().equals(EntityFactory.EntityName.TOWN_FOL.toString())) {
+                    mapObjectsManager.getGateMehan().setEntity(entity);
+                }
+            }
+            for (Entity entity: mapMgr.getCurrentMapQuestEntities()){
                 entities.add(entity);
                 if (entity.getEntityConfig().getEntityID().equals(EntityFactory.EntityName.TOWN_FOL.toString())) {
                     mapObjectsManager.getGateMehan().setEntity(entity);

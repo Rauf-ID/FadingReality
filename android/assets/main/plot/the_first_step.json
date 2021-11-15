@@ -12,28 +12,14 @@
 		"isTaskComplete": false,
 		"taskProperties": {
 			"targetName": "MERCENARIES_M1",
-			"targetLocation": "SPACE_STATION",
+			"targetLocation": "TIMULO",
 			"targetsPositions": [ 
 				{
-				"x": 250,
-				"y": 250,
+				"x": 860,
+				"y": 1040,
 				} 
 			]
 		},
 	},
-	"2": {
-		"id": 2,
-		"taskPhrase": "Talk to the Merchant",
-		"taskType": "TALK",
-		"isTaskComplete": false,
-		"taskProperties": {
-			"targetsPositions": [ 
-				{
-				"x": 250,
-				"y": 250, 
-				} 
-			] 
-		}, 
-	}, 
 }
 }
