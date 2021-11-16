@@ -1,0 +1,76 @@
+{
+state: IDLE
+direction: LEFT
+position: {
+	x: 1188
+	y: 281
+}
+currentMap: SPACE_STATION
+quests: [
+	{
+		questID: 1
+		questTitle: Start
+		goldReward: 100
+		xpReward: 100
+		questTasks: {
+			1: {
+				id: 1
+				taskPhrase: Talk to the Recruiter
+				taskType: TALK
+				taskProperties: {
+					targetLocation: SPACE_STATION
+					targetsPositions: [
+						{
+							x: 890
+							y: 280
+						}
+					]
+					targetName: MERCENARIES_M1
+				}
+			}
+		}
+	}
+]
+inventory: [
+	{
+		itemTypeAtLocation: ARMOR04
+		numberItemsAtLocation: 1
+		itemNameProperty: Player_Inventory
+	}
+	{
+		locationIndex: 1
+		itemTypeAtLocation: BOOTS03
+		numberItemsAtLocation: 1
+		itemNameProperty: Player_Inventory
+	}
+	{
+		locationIndex: 2
+		itemTypeAtLocation: HELMET05
+		numberItemsAtLocation: 1
+		itemNameProperty: Player_Inventory
+	}
+	{
+		locationIndex: 3
+		itemTypeAtLocation: POTIONS01
+		numberItemsAtLocation: 1
+		itemNameProperty: Player_Inventory
+	}
+	{
+		locationIndex: 4
+		itemTypeAtLocation: AHR
+		numberItemsAtLocation: 1
+		itemNameProperty: Player_Inventory
+	}
+	{
+		locationIndex: 5
+		itemTypeAtLocation: ALG
+		numberItemsAtLocation: 1
+		itemNameProperty: Player_Inventory
+	}
+]
+bagAmmunition: {
+	class: java.util.HashMap
+	5.56 mm: 0
+	9 mm: 0
+}
+}

@@ -198,20 +198,8 @@ public class Entity implements Comparable<Entity> {
         return component.mouseCoordinates;
     }
 
-//    public Rectangle getMeleeAttackBox() {
-//        return physicsComponent.meleeAttackBox;
-//    }
-
-    public boolean isGunActive() {
-        return component.isGunActive;
-    }
-
     public boolean getBoolPissPiss() {
         return component.isGunActive2;
-    }
-
-    public boolean getActivateAnimMechan(){
-        return component.activateAnimMechan;
     }
 
     public void setBoolPissPiss(boolean boolPissPiss){
@@ -257,7 +245,7 @@ public class Entity implements Comparable<Entity> {
         Entity entity = EntityFactory.getEntity(EntityFactory.EntityType.NPC);
         entity.setEntityConfig(entityConfig);
 
-        entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(new Vector2(860, 1040)));
+        entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(new Vector2(890, 280)));
         entity.sendMessage(Component.MESSAGE.CURRENT_DIRECTION, json.toJson(Direction.RIGHT));
         entity.sendMessage(Message.MESSAGE.INIT_CONFIG, json.toJson(entity.getEntityConfig()));
 
@@ -272,7 +260,6 @@ public class Entity implements Comparable<Entity> {
         entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
         return entity;
     }
-
 
 
     public void dispose(){

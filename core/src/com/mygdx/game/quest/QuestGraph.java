@@ -45,6 +45,10 @@ public class QuestGraph {
         this.xpReward = xpReward;
     }
 
+    public void isQuestComplete2() {
+
+    }
+
     public boolean isQuestComplete() {
         return isQuestComplete;
     }
@@ -100,6 +104,14 @@ public class QuestGraph {
     public void clear(){
         questTasks.clear();
         questTaskDependencies.clear();
+    }
+
+    public Hashtable<String, QuestTask> getQuestTasks() {
+        return questTasks;
+    }
+
+    public void setQuestTasks(Hashtable<String, QuestTask> questTasks) {
+        this.questTasks = questTasks;
     }
 
     public boolean isValid(String taskID){
@@ -218,14 +230,18 @@ public class QuestGraph {
             if( questTask.isTaskComplete() ) continue;
 
             //We first want to make sure the task is available and is relevant to current location
-            if (!isQuestTaskAvailable(questTask.getId())) continue;
+//            if (!isQuestTaskAvailable(questTask.getId())) continue;
 
-            String taskLocation = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION.toString());
-            if (taskLocation == null ||
-                    taskLocation.isEmpty() ||
-                    !taskLocation.equalsIgnoreCase(mapMgr.getCurrentMapType().toString())) continue;
+//            String taskLocation = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION.toString());
+            String targetLocation = questTask.getTaskProperties().getTargetLocation();
+            if (targetLocation == null || targetLocation.isEmpty() || !targetLocation.equalsIgnoreCase(mapMgr.getCurrentMapType().toString())) continue;
 
             switch (questTask.getTaskType()) {
+                case TALK:
+                    if (questTask.getTaskProperties().getTargetName().equals(mapMgr.getCurrentMapEntity().getEntityConfig().getEntityID())) {
+                        questTask.setTaskComplete(true);
+                    }
+                    break;
                 case FETCH:
                     break;
                 case KILL:

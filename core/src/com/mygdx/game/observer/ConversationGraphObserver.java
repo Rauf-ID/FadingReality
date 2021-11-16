@@ -9,6 +9,7 @@ public interface ConversationGraphObserver {
         ADD_ENTITY_TO_INVENTORY,
         LOAD_STORE_INVENTORY,
         RETURN_QUEST,
+        TASK_COMPLETE,
         NONE
     }
 

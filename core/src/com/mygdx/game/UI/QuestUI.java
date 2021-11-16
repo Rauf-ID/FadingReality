@@ -24,9 +24,9 @@ public class QuestUI extends Window {
     public static final String RETURN_QUEST = "conversations/return_quest.json";
     public static final String FINISHED_QUEST = "conversations/quest_finished.json";
 
-    private List _listQuests;
-    private List _listTasks;
-    private Json _json;
+    private List listQuests;
+    private List listTasks;
+    private Json json;
     private Array<QuestGraph> quests;
     private Label _questLabel;
     private Label _tasksLabel;
@@ -34,23 +34,23 @@ public class QuestUI extends Window {
     public QuestUI() {
         super("Quest Log", FadingReality.getUiSkin());
 
-        _json = new Json();
+        json = new Json();
         quests = new Array<QuestGraph>();
 
         //create
         _questLabel = new Label("Quests:", FadingReality.getUiSkin());
         _tasksLabel = new Label("Tasks:", FadingReality.getUiSkin());
 
-        _listQuests = new List<QuestGraph>(FadingReality.getUiSkin());
+        listQuests = new List<QuestGraph>(FadingReality.getUiSkin());
 
-        ScrollPane scrollPane = new ScrollPane(_listQuests, FadingReality.getUiSkin());
+        ScrollPane scrollPane = new ScrollPane(listQuests, FadingReality.getUiSkin());
         scrollPane.setOverscroll(false, false);
         scrollPane.setFadeScrollBars(false);
         scrollPane.setForceScroll(true, false);
 
-        _listTasks = new List<QuestTask>(FadingReality.getUiSkin());
+        listTasks = new List<QuestTask>(FadingReality.getUiSkin());
 
-        ScrollPane scrollPaneTasks = new ScrollPane(_listTasks, FadingReality.getUiSkin());
+        ScrollPane scrollPaneTasks = new ScrollPane(listTasks, FadingReality.getUiSkin());
         scrollPaneTasks.setOverscroll(false, false);
         scrollPaneTasks.setFadeScrollBars(false);
         scrollPaneTasks.setForceScroll(true, false);
@@ -67,15 +67,17 @@ public class QuestUI extends Window {
         this.pack();
 
         //Listeners
-        _listQuests.addListener(new ClickListener() {
+        listQuests.addListener(new ClickListener() {
                                     @Override
                                     public void clicked(InputEvent event, float x, float y) {
-                                        QuestGraph quest = (QuestGraph) _listQuests.getSelected();
+                                        QuestGraph quest = (QuestGraph) listQuests.getSelected();
                                         if (quest == null) return;
                                         populateQuestTaskDialog(quest);
                                     }
                                 }
         );
+
+        updateQuestItemList();
     }
 
     public void questTaskComplete(String questID, String questTaskID){
@@ -96,10 +98,10 @@ public class QuestUI extends Window {
             return null;
         }
 
-        QuestGraph graph = _json.fromJson(QuestGraph.class, Gdx.files.internal(questConfigPath));
-//        if(doesQuestExist(graph.getQuestID())){
-//            return null;
-//        }
+        QuestGraph graph = json.fromJson(QuestGraph.class, Gdx.files.internal(questConfigPath));
+        if(doesQuestExist(graph.getQuestID())){
+            return null;
+        }
 
         quests.add(graph);
         updateQuestItemList();
@@ -156,23 +158,23 @@ public class QuestUI extends Window {
     public void updateQuestItemList(){
         clearDialog();
 
-        _listQuests.setItems(quests);
-        _listQuests.setSelectedIndex(-1);
+        listQuests.setItems(quests);
+        listQuests.setSelectedIndex(-1);
     }
 
     private void clearDialog(){
-        _listQuests.clearItems();
-        _listTasks.clearItems();
+        listQuests.clearItems();
+        listTasks.clearItems();
     }
 
     private void populateQuestTaskDialog(QuestGraph graph){
-        _listTasks.clearItems();
+        listTasks.clearItems();
 
         ArrayList<QuestTask> tasks =  graph.getAllQuestTasks();
         if( tasks == null ) return;
 
-        _listTasks.setItems(tasks.toArray());
-        _listTasks.setSelectedIndex(-1);
+        listTasks.setItems(tasks.toArray());
+        listTasks.setSelectedIndex(-1);
     }
 
     public void initQuests(MapManager mapMgr){
@@ -184,7 +186,7 @@ public class QuestUI extends Window {
                 quest.init(mapMgr);
             }
         }
-        ProfileManager.getInstance().getPlayerConfig().setQuests(quests);
+//        ProfileManager.getInstance().getPlayerConfig().setQuests(quests); // Think don't need, coz PlayerHUD save that
     }
 
     public void updateQuests(MapManager mapMgr){
@@ -193,7 +195,31 @@ public class QuestUI extends Window {
                 quest.update(mapMgr);
             }
         }
-        ProfileManager.getInstance().getPlayerConfig().setQuests(quests);
+
+//        for (QuestGraph questGraph: quests) {
+//            int sizeTask = questGraph.getQuestTasks().size();
+//            int completeTask = 0;
+//            for (QuestTask questTask: questGraph.getAllQuestTasks()) {
+//                if (questTask.isTaskComplete()) {
+//                    completeTask++;
+//                }
+//            }
+//            if (sizeTask == completeTask) {
+//                questGraph.setQuestComplete(true);
+//            }
+//        }
+//
+//        for (int i = 0; i < quests.size; i++ ){
+//            if (quests.get(i).isQuestComplete()) {
+//                quests.removeIndex(i);
+////                loadQuest("main/plot/the_first_step.json");
+//            }
+//        }
+//        ProfileManager.getInstance().getPlayerConfig().setQuests(quests); Think don't need, coz PlayerHUD save that
+    }
+
+    public void update() {
+
     }
 
 }

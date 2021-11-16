@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="1477" tileheight="850" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="Mehan" tilewidth="1477" tileheight="850" tilecount="1" columns="1">
+  <image source="Mehan.png" width="1477" height="850"/>
+ </tileset>
+ <layer id="1" name="BACKGROUND_LAYER" width="1" height="1">
+  <data encoding="base64">
+   AQAAAA==
+  </data>
+ </layer>
+</map>

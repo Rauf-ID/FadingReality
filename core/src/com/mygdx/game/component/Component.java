@@ -114,15 +114,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected float dashTime = 0;
     protected int anInt1 = 1;
 
-    protected int sheeshTime = 35;
-    public boolean activateAnimMechan = false;
-
-    protected boolean attackCoolDown=false;
-    protected static final float ATTACK_WAIT_TIMER = 1f;
-    protected float attackTimer = 0f;
-
-    protected long lastAttack = 0;
-    protected long cooldownTime = 1000; //1sec
 
     Component() {
         json = new Json();

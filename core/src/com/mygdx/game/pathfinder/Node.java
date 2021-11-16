@@ -7,19 +7,19 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Node {
 
-    public Rectangle rectangle;
-    public GridType type = GridType.NONE;
-
-    public float F = 0, G = 0, H = 0;
-
-    public Node parent = null;
-
     public enum GridType {
         NONE,
         CLOSE,
         START,
         END
     }
+
+    public Rectangle rectangle;
+    public GridType type = GridType.NONE;
+
+    public float F = 0, G = 0, H = 0;
+
+    public Node parent = null;
 
     public Node(Rectangle rectangle) {
         this.rectangle = rectangle;

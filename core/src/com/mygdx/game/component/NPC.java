@@ -18,16 +18,12 @@ import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.tools.managers.ResourceManager;
-import com.mygdx.game.world.Map;
 import com.mygdx.game.world.MapManager;
 
 public class NPC extends Component {
 
     private boolean isSelected = false;
     private boolean wasSelected = false;
-
-    private boolean sentShowConversationMessage = false;
-    private boolean sentHideConversationMessage = false;
 
     private boolean playerInActiveZone = false;
     private boolean playerInActiveZone2 = true;
@@ -76,7 +72,6 @@ public class NPC extends Component {
                 initImageBox(entityConfig.getImageBox());
                 initBoundingBox(entityConfig.getBoundingBox());
                 initActiveZoneBox(entityConfig.getActiveZoneBox());
-//                chaseRangeBox.set(currentEntityPosition.x-(entityConfig.getAttackRadiusBoxWidth()/2)+(boundingBox.width/2), currentEntityPosition.y-(entityConfig.getAttackRadiusBoxHeight()/2)+(boundingBox.height/2), entityConfig.getAttackRadiusBoxWidth(), entityConfig.getAttackRadiusBoxHeight());
             } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
@@ -149,25 +144,6 @@ public class NPC extends Component {
         drawDialogueImg(batch, delta);
         batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
         batch.end();
-    }
-
-    private void drawSelected(Entity entity, MapManager mapMgr){
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        Camera camera = mapMgr.getCamera();
-        Rectangle rect = entity.getBoundingBox();
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.0f, 1.0f, 1.0f, 0.5f);
-
-        float width =  rect.getWidth() * Map.UNIT_SCALE*1.5f;
-        float height = rect.getHeight() * Map.UNIT_SCALE/4f;
-        float x = rect.x;
-        float y = rect.y;
-
-        shapeRenderer.ellipse(x-3,y-14,width,height);
-        shapeRenderer.end();
-        Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
     private void drawDialogueImg(Batch batch, float delta) {

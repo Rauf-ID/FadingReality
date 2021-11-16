@@ -35,8 +35,12 @@ import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.tools.HealthBar;
 import com.mygdx.game.tools.Toast;
+import com.mygdx.game.weapon.Ammo.AmmoID;
+import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -197,7 +201,12 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     InventoryUI.clearInventoryItems(inventoryUI.getInventorySlotTable());
                     InventoryUI.clearInventoryItems(inventoryUI.getEquipSlotTable());
 
-                    questUI.setQuests(new Array<QuestGraph>());
+                    Map<String, Integer> allAmmoCount = new HashMap<>();
+                    for (AmmoID ammo: AmmoID.values()) {
+                        String nameAmmo = ammo.getValue();
+                        allAmmoCount.put(nameAmmo, 0);
+                    }
+                    WeaponSystem.setBagAmmunition(allAmmoCount);
 
                     Array<InventoryItem.ItemID> items = player.getEntityConfig().getInventory(); // дефолтные предметы из EntityConfig
                     Array<InventoryItemLocation> itemLocations = new Array<InventoryItemLocation>();
@@ -206,6 +215,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     }
                     InventoryUI.populateInventory(inventoryUI.getInventorySlotTable(), itemLocations, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
                     profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable()));
+
+//                    questUI.setQuests(new Array<QuestGraph>());
+                    questUI.loadQuest("main/plot/start.json");
 
                     profileManager.getPlayerConfig().setPosition(new Vector2(1188,281));
                     profileManager.getPlayerConfig().setDirection(Entity.Direction.LEFT);
@@ -216,8 +228,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
                 } else {
                     Map<String, Integer> allAmmoCount = profileManager.getPlayerConfig().getBagAmmunition();
-//                    WeaponSystem.setBagAmmunition(allAmmoCount);
-                    player.sendMessage(Message.MESSAGE.INIT_ALL_AMMO_COUNT, json.toJson(allAmmoCount));
+                    WeaponSystem.setBagAmmunition(allAmmoCount);
+//                    player.sendMessage(Message.MESSAGE.INIT_ALL_AMMO_COUNT, json.toJson(allAmmoCount));
 
                     Array<InventoryItemLocation> inventory = profileManager.getPlayerConfig().getInventory();
                     InventoryUI.populateInventory(inventoryUI.getInventorySlotTable(), inventory, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
@@ -249,8 +261,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 break;
             case CLEAR_CURRENT_PROFILE:
                 System.out.println("PROFILE CONFIG CLEARING");
-                profileManager.getPlayerConfig().setQuests(new Array<QuestGraph>());
-                profileManager.getPlayerConfig().setInventory(new Array<InventoryItemLocation>());
+//                profileManager.getPlayerConfig().setQuests(new Array<QuestGraph>());
+//                profileManager.getPlayerConfig().setInventory(new Array<InventoryItemLocation>());
                 break;
             default:
                 break;
@@ -334,6 +346,15 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 }, 1);
                 System.out.println("Exit conversation!");
                 break;
+            case TASK_COMPLETE:
+                questUI.updateQuests(mapMgr);
+
+//                Entity currentlyEntity2 = mapMgr.getCurrentMapEntity();
+//                if( currentlyEntity2 == null ){
+//                    break;
+//                }
+//                QuestGraph graph2 = json.fromJson(QuestGraph.class, Gdx.files.internal(currentlyEntity2.getEntityConfig().getQuestConfigPath()));
+//                questUI.questTaskComplete(graph2.getQuestID(), questTaskID);
             case NONE:
                 break;
         }

@@ -59,8 +59,6 @@ public class Enemy extends Component {
                 initImageBox(entityConfig.getImageBox());
                 initBoundingBox(entityConfig.getBoundingBox());
 //                chaseRangeBox.set(currentEntityPosition.x-(entityConfig.getAttackRadiusBoxWidth()/2)+(boundingBox.width/2), currentEntityPosition.y-(entityConfig.getAttackRadiusBoxHeight()/2)+(boundingBox.height/2), entityConfig.getAttackRadiusBoxWidth(), entityConfig.getAttackRadiusBoxHeight());
-            } else if (string[0].equalsIgnoreCase(MESSAGE.ACTIVATE_ANIM_MECHAN.toString())) {
-                activateAnimMechan = json.fromJson(Boolean.class, string[1]);
             } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
@@ -107,28 +105,6 @@ public class Enemy extends Component {
 
         Entity player = mapManager.getPlayer();
         Rectangle playerBoundingBox = player.getBoundingBox();
-        Rectangle playerRangeBox = player.getCurrentEntityRangeBox();
-        Rectangle playerSwordRangeBox = player.getCurrentSwordRangeBox();
-
-
-        if(playerSwordRangeBox.overlaps(entityRangeBox)){
-            stateTime=0f;
-            doGotHit();
-            health -= 25;
-            state = State.FREEZE;
-            currentState = Entity.State.TAKING_DAMAGE;
-
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    state = State.NORMAL;
-                }
-            }, 0.3f);
-
-            PlayerHUD.toastShort("Player HIT", Toast.Length.SHORT);
-
-            Rumble.rumble(5, .1f, 0, Rumble.State.SWORD);
-        }
 
         switch (state) {
             case NORMAL:

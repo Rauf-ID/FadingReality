@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="2048" tileheight="2048" infinite="0" nextlayerid="15" nextobjectid="84">
+ <tileset firstgid="1" name="Timulo2LayerTest" tilewidth="1721" tileheight="1793" tilecount="1" columns="1">
+  <image source="Timulo2LayerTest.png" width="1721" height="1793"/>
+ </tileset>
+ <tileset firstgid="2" name="Timulo4LayerTest" tilewidth="1721" tileheight="1793" tilecount="1" columns="1">
+  <image source="Timulo4LayerTest.png" width="1721" height="1793"/>
+ </tileset>
+ <tileset firstgid="3" name="Timulo5LayerTest" tilewidth="1721" tileheight="1793" tilecount="1" columns="1">
+  <image source="Timulo5LayerTest.png" width="1721" height="1793"/>
+ </tileset>
+ <tileset firstgid="4" name="gate" tilewidth="662" tileheight="153" tilecount="1" columns="1">
+  <image source="gate.png" width="662" height="153"/>
+ </tileset>
+ <tileset firstgid="5" name="lions" tilewidth="274" tileheight="81" tilecount="1" columns="1">
+  <image source="lions.png" width="274" height="81"/>
+ </tileset>
+ <tileset firstgid="6" name="treesWithLamp" tilewidth="114" tileheight="112" tilecount="1" columns="1">
+  <image source="treesWithLamp.png" width="114" height="112"/>
+ </tileset>
+ <tileset firstgid="7" name="defTree" tilewidth="114" tileheight="112" tilecount="1" columns="1">
+  <image source="defTree.png" width="114" height="112"/>
+ </tileset>
+ <tileset firstgid="8" name="treesWithLampRight" tilewidth="114" tileheight="112" tilecount="1" columns="1">
+  <image source="treesWithLampRight.png" width="114" height="112"/>
+ </tileset>
+ <tileset firstgid="9" name="defTreeRight" tilewidth="114" tileheight="112" tilecount="1" columns="1">
+  <image source="defTreeRight.png" width="114" height="112"/>
+ </tileset>
+ <tileset firstgid="10" name="treeRight" tilewidth="153" tileheight="164" tilecount="1" columns="1">
+  <image source="treeRight.png" width="153" height="164"/>
+ </tileset>
+ <tileset firstgid="11" name="bigtreeright" tilewidth="153" tileheight="164" tilecount="1" columns="1">
+  <image source="Без имени-1.png" width="153" height="164"/>
+ </tileset>
+ <tileset firstgid="12" name="gate2" tilewidth="1552" tileheight="67" tilecount="1" columns="1">
+  <image source="gate2.png" width="1552" height="67"/>
+ </tileset>
+ <tileset firstgid="13" name="treeRightRight" tilewidth="153" tileheight="176" tilecount="1" columns="1">
+  <image source="treeRightRight.png" width="153" height="176"/>
+ </tileset>
+ <tileset firstgid="14" name="building" tilewidth="89" tileheight="218" tilecount="1" columns="1">
+  <image source="building.png" width="89" height="218"/>
+ </tileset>
+ <layer id="14" name="PARALLAX_LAYER" width="1" height="1" locked="1">
+  <data encoding="base64">
+   AAAAAA==
+  </data>
+ </layer>
+ <layer id="7" name="BACKGROUND_LAYER" width="1" height="1" locked="1">
+  <data encoding="base64">
+   AQAAAA==
+  </data>
+ </layer>
+ <objectgroup id="12" name="MAP_OBJECTS_LAYER" locked="1">
+  <object id="28" gid="4" x="480" y="1259" width="662" height="153"/>
+  <object id="31" gid="5" x="761.995" y="1316" width="274" height="81"/>
+  <object id="32" gid="6" x="1013" y="901" width="114" height="112"/>
+  <object id="33" gid="6" x="1005" y="1087" width="114" height="112"/>
+  <object id="34" gid="7" x="1057" y="1018" width="114" height="112"/>
+  <object id="35" gid="7" x="712" y="924" width="114" height="112"/>
+  <object id="36" gid="7" x="664" y="997" width="114" height="112"/>
+  <object id="37" gid="8" x="704.914" y="1071.15" width="114" height="112"/>
+  <object id="38" gid="9" x="749" y="1153" width="114" height="112"/>
+  <object id="39" gid="10" x="602" y="1182" width="153" height="164"/>
+  <object id="40" gid="11" x="1120" y="1123" width="153" height="164"/>
+  <object id="41" gid="12" x="169" y="392" width="1552" height="67"/>
+  <object id="43" gid="13" x="408" y="1135" width="153" height="176"/>
+  <object id="44" gid="14" x="481" y="1071.15" width="89" height="218"/>
+ </objectgroup>
+ <objectgroup id="13" name="COLLISION_LAYER">
+  <object id="74" x="483" y="1220" width="380.727" height="39"/>
+  <object id="78" x="945.25" y="1219" width="303.75" height="40"/>
+  <object id="79" x="701.792" y="356.667" width="395.417" height="425"/>
+ </objectgroup>
+ <layer id="8" name="FRONT_LAYER" width="1" height="1" locked="1">
+  <data encoding="base64">
+   AgAAAA==
+  </data>
+ </layer>
+ <layer id="9" name="LIGHT_LAYER" width="1" height="1" locked="1">
+  <data encoding="base64">
+   AwAAAA==
+  </data>
+ </layer>
+</map>

@@ -1,0 +1,58 @@
+[
+{
+	itemID: ARMOR04
+	itemShortDescription: That Armor
+	itemUseType: ARMOR
+	itemAttributes: [EQUIPPABLE]
+	itemUseTypeValue: 10
+	itemValue: 25
+},
+{
+	itemID: BOOTS03,
+	itemShortDescription: That Boots,
+	itemUseType: ARMOR,
+	itemAttributes: [EQUIPPABLE],
+	itemUseTypeValue: 10,
+	itemValue: 25,
+},
+{
+	itemID: HELMET05,
+	itemShortDescription: That helmet,
+	itemUseType: ARMOR,
+	itemAttributes: [EQUIPPABLE],
+	itemUseTypeValue: 10,
+	itemValue: 25,
+},
+{
+	itemID: POTIONS01,
+	itemShortDescription: That potions,
+	itemUseType: ITEM_RESTORE_HEALTH,
+	itemAttributes: [CONSUMABLE, STACKABLE],
+	itemUseTypeValue: 10,
+	itemValue: 10,
+},
+{
+	itemID: ANGEL_BLADE,
+	itemShortDescription: Angel Blade Melee Weapon,
+	itemUseType: MELEE_WEAPON,
+	itemAttributes: [EQUIPPABLE, LIGHT_WEAPON],
+	itemUseTypeValue: 55555,
+	itemValue: 25,
+},
+{
+	itemID: ALG,
+	itemShortDescription: ALG(Antony Light Gun),
+	itemUseType: RANGED_WEAPON,
+	itemAttributes: [EQUIPPABLE, ITEM_INSIDE, LIGHT_WEAPON],
+	itemUseTypeValue: 10102,
+	itemValue: 25,
+},
+{
+	itemID: AHR,
+	itemShortDescription: AHR(Antony Heavy Rifle),
+	itemUseType: RANGED_WEAPON,
+	itemAttributes: [EQUIPPABLE, ITEM_INSIDE, MEDIUM_WEAPON],
+	itemUseTypeValue: 709090,
+	itemValue: 25,
+},
+]

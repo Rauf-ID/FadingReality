@@ -144,15 +144,9 @@ public class GameScreen implements Screen {
             entities.add(player);
             for (Entity entity: mapMgr.getCurrentMapEntities()){
                 entities.add(entity);
-                if (entity.getEntityConfig().getEntityID().equals(EntityFactory.EntityName.TOWN_FOL.toString())) {
-                    mapObjectsManager.getGateMehan().setEntity(entity);
-                }
             }
             for (Entity entity: mapMgr.getCurrentMapQuestEntities()){
                 entities.add(entity);
-                if (entity.getEntityConfig().getEntityID().equals(EntityFactory.EntityName.TOWN_FOL.toString())) {
-                    mapObjectsManager.getGateMehan().setEntity(entity);
-                }
             }
             mapMgr.setMapChanged(false);
         }
