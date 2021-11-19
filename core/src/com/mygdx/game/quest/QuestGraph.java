@@ -198,7 +198,7 @@ public class QuestGraph {
             }
         }
         if( readyTask == null ) return false;
-        readyTask.setTaskComplete();
+//        readyTask.setTaskComplete();
         return true;
     }
 
@@ -220,7 +220,7 @@ public class QuestGraph {
     public void setQuestTaskComplete(String id){
         QuestTask task = getQuestTaskByID(id);
         if( task == null) return;
-        task.setTaskComplete();
+//        task.setTaskComplete();
     }
 
     public void update(MapManager mapMgr){
@@ -232,14 +232,16 @@ public class QuestGraph {
             //We first want to make sure the task is available and is relevant to current location
 //            if (!isQuestTaskAvailable(questTask.getId())) continue;
 
-//            String taskLocation = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION.toString());
             String targetLocation = questTask.getTaskProperties().getTargetLocation();
             if (targetLocation == null || targetLocation.isEmpty() || !targetLocation.equalsIgnoreCase(mapMgr.getCurrentMapType().toString())) continue;
 
             switch (questTask.getTaskType()) {
                 case TALK:
-                    if (questTask.getTaskProperties().getTargetName().equals(mapMgr.getCurrentMapEntity().getEntityConfig().getEntityID())) {
-                        questTask.setTaskComplete(true);
+                    QuestTaskProperty questTaskProperty = questTask.getTaskProperties();
+                    for (int i = 0; i < questTaskProperty.getNumberEntities(); i++) {
+                        if (questTaskProperty.getTargetName().get(i).equals(mapMgr.getCurrentMapEntity().getEntityConfig().getEntityID())) {
+                            questTask.setTaskComplete(true);
+                        }
                     }
                     break;
                 case FETCH:
@@ -262,14 +264,13 @@ public class QuestGraph {
 
     public void init(MapManager mapMgr){
         ArrayList<QuestTask> allQuestTasks = getAllQuestTasks();
-        for( QuestTask questTask: allQuestTasks ) {
+        for(QuestTask questTask: allQuestTasks) {
 
-            if( questTask.isTaskComplete() ) continue;
+            if(questTask.isTaskComplete()) continue;
 
             //We first want to make sure the task is available and is relevant to current location
 //            if (!isQuestTaskAvailable(questTask.getId())) continue;
 
-//            String taskLocation = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_LOCATION.toString());
             String targetLocation = questTask.getTaskProperties().getTargetLocation();
             if (targetLocation == null || targetLocation.isEmpty() || !targetLocation.equalsIgnoreCase(mapMgr.getCurrentMapType().toString())) continue;
 
@@ -278,35 +279,22 @@ public class QuestGraph {
                 case TALK:
                     System.out.println(questTask.getTaskPhrase() + " INIT");
                     Array<Entity> questEntities = new Array<>();
-//                    String taskConfig = questTask.getPropertyValue(QuestTask.QuestTaskPropertyType.TARGET_TYPE.toString());
-//                    if( taskConfig == null || taskConfig.isEmpty() ) break;
-//                    EntityConfig config = Entity.getEntityConfig(taskConfig);
+                    QuestTaskProperty taskProperties = questTask.getTaskProperties();
 
-//                    Array<Vector2> questItemPositions = ProfileManager.getInstance().getProperty(config.getEntityID(), Array.class);
+                    System.out.println(taskProperties.getTargetName());
 
-                    Entity mercenariesM1 = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.MERCENARIES_M1);
+                    for (int i = 0; i < taskProperties.getNumberEntities(); i++) {
+                        EntityFactory.EntityName entityName = EntityFactory.EntityName.valueOf(taskProperties.getTargetName().get(i));
+                        Vector2 position = taskProperties.getTargetsPositions().get(i);
+                        Entity.Direction direction = taskProperties.getDirection();
+                        String conversationConfigPath = taskProperties.getConversationConfigPath();
 
-//                    System.out.println(mercenariesM1);
-                    questEntities.add(mercenariesM1);
+                        Entity entity = EntityFactory.getInstance().getNPCByNameForQuest(entityName, position, direction, conversationConfigPath);
 
-//                    if( questItemPositions == null ){
-//                        questItemPositions = new Array<Vector2>();
-//                        for( Vector2 position: positions ){
-//                            questItemPositions.add(position);
-//                            Entity entity = Entity.initNPC(config, position);
-//                            entity.getEntityConfig().setCurrentQuestID(questID);
-//                            questEntities.add(entity);
-//                        }
-//                    }else{
-//                        for( Vector2 questItemPosition: questItemPositions ){
-//                            Entity entity = Entity.initEntity(config, questItemPosition);
-//                            entity.getEntityConfig().setCurrentQuestID(questID);
-//                            questEntities.add(entity);
-//                        }
-//                    }
+                        questEntities.add(entity);
+                    }
 
                     mapMgr.addMapQuestEntities(questEntities);
-//                    ProfileManager.getInstance().setProperty(config.getEntityID(), questItemPositions);
                     break;
                 case FETCH:
                     break;

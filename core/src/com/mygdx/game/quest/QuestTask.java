@@ -29,11 +29,9 @@ public class QuestTask {
     private TaskType taskType;
     private boolean isTaskComplete;
     private QuestTaskProperty taskProperties;
-    private ObjectMap<String, Object> taskPropertiesOld;
 
     public QuestTask(){
         taskProperties = new QuestTaskProperty();
-        taskPropertiesOld = new ObjectMap<String, Object>();
     }
 
     public String getId() {
@@ -60,44 +58,8 @@ public class QuestTask {
         this.taskType = taskType;
     }
 
-    public ObjectMap<String, Object> getTaskPropertiesOld() {
-        return taskPropertiesOld;
-    }
-
-    public void setTaskPropertiesOld(ObjectMap<String, Object> taskPropertiesOld) {
-        this.taskPropertiesOld = taskPropertiesOld;
-    }
-
-//    public boolean isTaskComplete(){
-//        if( !taskPropertiesOld.containsKey(QuestTaskPropertyType.IS_TASK_COMPLETE.toString()) ){
-//            setPropertyValue(QuestTaskPropertyType.IS_TASK_COMPLETE.toString(), "false");
-//            return false;
-//        }
-//        String val = taskPropertiesOld.get(QuestTaskPropertyType.IS_TASK_COMPLETE.toString()).toString();
-//        return Boolean.parseBoolean(val);
-//    }
-
-
     public boolean isTaskComplete() {
         return isTaskComplete;
-    }
-
-    public void setTaskComplete(){
-        setPropertyValue(QuestTaskPropertyType.IS_TASK_COMPLETE.toString(), "true");
-    }
-
-    public void resetAllProperties(){
-        taskPropertiesOld.put(QuestTaskPropertyType.IS_TASK_COMPLETE.toString(), "false");
-    }
-
-    public void setPropertyValue(String key, String value){
-        taskPropertiesOld.put(key, value);
-    }
-
-    public String getPropertyValue(String key){
-        Object propertyVal = taskPropertiesOld.get(key);
-        if( propertyVal == null ) return new String();
-        return propertyVal.toString();
     }
 
     public void setTaskComplete(boolean taskComplete) {

@@ -2,16 +2,19 @@ package com.mygdx.game.quest;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.entity.Entity;
 
 public class QuestTaskProperty {
 
     //GENERAL
+    private int numberEntities;
     private String targetLocation;
+    private Array<String> targetName;
     private Array<Vector2> targetsPositions;
-    private String targetName;
 
     //TALK
     private String conversationConfigPath;
+    private Entity.Direction direction;
 
     private String numOfConversation;
     private int targetSearchCount;
@@ -22,12 +25,28 @@ public class QuestTaskProperty {
         targetsPositions = new Array<>();
     }
 
+    public int getNumberEntities() {
+        return numberEntities;
+    }
+
+    public void setNumberEntities(int numberEntities) {
+        this.numberEntities = numberEntities;
+    }
+
     public String getTargetLocation() {
         return targetLocation;
     }
 
     public void setTargetLocation(String targetLocation) {
         this.targetLocation = targetLocation;
+    }
+
+    public Array<String> getTargetName() {
+        return targetName;
+    }
+
+    public void setTargetName(Array<String> targetName) {
+        this.targetName = targetName;
     }
 
     public Array<Vector2> getTargetsPositions() {
@@ -38,20 +57,20 @@ public class QuestTaskProperty {
         this.targetsPositions = targetsPositions;
     }
 
-    public String getTargetName() {
-        return targetName;
-    }
-
-    public void setTargetName(String targetName) {
-        this.targetName = targetName;
-    }
-
     public String getConversationConfigPath() {
         return conversationConfigPath;
     }
 
     public void setConversationConfigPath(String conversationConfigPath) {
         this.conversationConfigPath = conversationConfigPath;
+    }
+
+    public Entity.Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Entity.Direction direction) {
+        this.direction = direction;
     }
 
     public String getNumOfConversation() {

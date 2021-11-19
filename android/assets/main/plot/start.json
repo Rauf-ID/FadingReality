@@ -11,14 +11,12 @@
 		"taskType": "TALK",
 		"isTaskComplete": false,
 		"taskProperties": {
-			"targetName": "MERCENARIES_M1",
+			"numberEntities": 1,
 			"targetLocation": "SPACE_STATION",
-			"targetsPositions": [ 
-				{
-				"x": 890,
-				"y": 280,
-				} 
-			]
+			"targetName": [ "MERCENARIES_M1" ],
+			"targetsPositions": [ {"x": 890, "y": 280, } ],
+			"direction": "RIGHT",
+			"conversationConfigPath": "main/languages/english/npc_dialogs/dialog1.json"
 		},
 	},
 }

@@ -118,4 +118,17 @@ public class EntityFactory {
         return entity;
     }
 
+    public Entity getNPCByNameForQuest(EntityName entityName, Vector2 position, Entity.Direction direction, String conversationConfigPath){
+        EntityConfig config = new EntityConfig(entities.get(entityName.toString()));
+        config.setConversationConfigPath(conversationConfigPath);
+        Entity entity = Entity.initNPCForQuest(config, position, direction);
+        return entity;
+    }
+
+    public Entity getEnemyByNameForQuest(EntityName entityName){
+        EntityConfig config = new EntityConfig(entities.get(entityName.toString()));
+        Entity entity = Entity.initEnemyForQuest(config);
+        return entity;
+    }
+
 }

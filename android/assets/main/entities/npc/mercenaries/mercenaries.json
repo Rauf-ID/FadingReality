@@ -3,8 +3,8 @@
 entityID : MERCENARIES_M1
 entityName: Mercenari Jarvis
 direction : DOWN
-conversationConfigPath : "main/languages/english/npc_dialogs/dialog1.json"
-questConfigPath : "main/plot/the_first_step.json"
+conversationConfigPath : ""
+questConfigPath : ""
 currentQuestID : ""
 hitBox: { x: 0, y: 0 }
 imageBox: { x: 128, y: 128 }
