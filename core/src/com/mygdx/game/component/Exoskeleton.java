@@ -11,7 +11,7 @@ import com.mygdx.game.pathfinder.Node;
 import com.mygdx.game.world.MapManager;
 
 public class Exoskeleton extends Component{
-
+    //demo
     public Exoskeleton(){
         state = State.FREEZE;
         initEntityRangeBox();
