@@ -60,11 +60,10 @@ public class Enemy extends Component {
                 initBoundingBox(entityConfig.getBoundingBox());
 //                chaseRangeBox.set(currentEntityPosition.x-(entityConfig.getAttackRadiusBoxWidth()/2)+(boundingBox.width/2), currentEntityPosition.y-(entityConfig.getAttackRadiusBoxHeight()/2)+(boundingBox.height/2), entityConfig.getAttackRadiusBoxWidth(), entityConfig.getAttackRadiusBoxHeight());
             } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
-                EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
-                Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
+                EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
 
                 if (animationConfigs.size == 0) return;
-//g
+//gt
                 for(EntityConfig.AnimationConfig animationConfig : animationConfigs) {
                     float frameDuration = animationConfig.getFrameDuration();
                     ResourceManager.AtlasType atlasType = animationConfig.getAtlasType();
