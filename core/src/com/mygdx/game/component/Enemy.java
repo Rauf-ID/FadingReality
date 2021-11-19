@@ -64,7 +64,7 @@ public class Enemy extends Component {
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
 
                 if (animationConfigs.size == 0) return;
-//
+//gi
                 for(EntityConfig.AnimationConfig animationConfig : animationConfigs) {
                     float frameDuration = animationConfig.getFrameDuration();
                     ResourceManager.AtlasType atlasType = animationConfig.getAtlasType();
