@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.component.Component;
 import com.mygdx.game.component.Enemy;
+import com.mygdx.game.component.Exoskeleton;
 import com.mygdx.game.component.MapObject;
 import com.mygdx.game.component.NPC;
 import com.mygdx.game.component.Player;
@@ -20,7 +21,8 @@ public class EntityFactory {
         ENEMY,
         NPC,
         MAPOBJECT,
-        TESTPLAYER
+        TESTPLAYER,
+        EXOSKELETON
     }
 
     public static enum EntityName{
@@ -29,6 +31,7 @@ public class EntityFactory {
         MERCENARIES_M1,
         EARTHLINGS_D1, EARTHLINGS_D2, EARTHLINGS_G1, EARTHLINGS_E1, BARTENDER, HOLOGRAM_G2,
         ELITE_KNIGHT,
+        EXOSKELETON_M1
     }
 
     private static Json json = new Json();
@@ -62,6 +65,11 @@ public class EntityFactory {
         for(EntityConfig config: mercenariesConfig){
             entities.put(config.getEntityID(), config);
         }
+
+        Array<EntityConfig> exoskeletonConfig = Entity.getEntityConfigs(ResourceManager.EXOSKELETON_CONFIGS);
+        for(EntityConfig config: exoskeletonConfig){
+            entities.put(config.getEntityID(), config);
+        }
     }
 
     public static EntityFactory getInstance() {
@@ -85,6 +93,9 @@ public class EntityFactory {
                 return entity;
             case ENEMY:
                 entity = new Entity(new Enemy());
+                return entity;
+            case EXOSKELETON:
+                entity = new Entity(new Exoskeleton());
                 return entity;
             default:
                 return null;
@@ -129,6 +140,13 @@ public class EntityFactory {
         EntityConfig config = new EntityConfig(entities.get(entityName.toString()));
         Entity entity = Entity.initEnemyForQuest(config);
         return entity;
+    }
+
+    public Entity getExoskeletonByName(EntityName entityName){
+
+         EntityConfig config = new EntityConfig(entities.get(entityName.toString()));
+         return Entity.initExoskeleton(config);
+
     }
 
 }

@@ -1,9 +1,9 @@
 {
 state: IDLE
-direction: LEFT
+direction: RIGHT
 position: {
-	x: 936
-	y: 281
+	x: 1060.4891
+	y: -377.33463
 }
 currentMap: SPACE_STATION
 quests: [
@@ -17,6 +17,7 @@ quests: [
 				id: 1
 				taskPhrase: Talk to the Recruiter
 				taskType: TALK
+				isTaskComplete: true
 				taskProperties: {
 					numberEntities: 1
 					targetLocation: SPACE_STATION

@@ -282,6 +282,14 @@ public class Entity implements Comparable<Entity> {
         return entity;
     }
 
+    public static Entity initExoskeleton(EntityConfig entityConfig){
+        Json json = new Json();
+        Entity entity = EntityFactory.getEntity(EntityFactory.EntityType.EXOSKELETON);
+        entity.setEntityConfig(entityConfig);
+        return entity;
+
+    }
+
 
     public void dispose(){
         for(Message message : messages){
