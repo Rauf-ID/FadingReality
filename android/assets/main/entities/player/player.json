@@ -27,6 +27,9 @@ inventory : [
 	},
 	{
 		value: ALG
+	},
+	{
+		value: ANGEL_BLADE
 	},]
 animationConfig: [
 	{

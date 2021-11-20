@@ -31,6 +31,7 @@ public class EntityFactory {
         MERCENARIES_M1,
         EARTHLINGS_D1, EARTHLINGS_D2, EARTHLINGS_G1, EARTHLINGS_E1, BARTENDER, HOLOGRAM_G2,
         ELITE_KNIGHT,
+        MERCHANT,
         EXOSKELETON_M1
     }
 
@@ -63,6 +64,11 @@ public class EntityFactory {
 
         Array<EntityConfig> mercenariesConfig = Entity.getEntityConfigs(ResourceManager.MERCENARIES_CONFIGS);
         for(EntityConfig config: mercenariesConfig){
+            entities.put(config.getEntityID(), config);
+        }
+
+        Array<EntityConfig> merchants = Entity.getEntityConfigs(ResourceManager.MERCHANT_CONFIGS);
+        for(EntityConfig config: merchants){
             entities.put(config.getEntityID(), config);
         }
 

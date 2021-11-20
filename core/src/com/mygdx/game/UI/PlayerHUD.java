@@ -321,40 +321,27 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 QuestGraph questGraph = questUI.loadQuest(config.getQuestConfigPath());
 
                 if( questGraph != null ) {
-                    //Update conversation dialog
-//                    config.setConversationConfigPath(QuestUI.RETURN_QUEST);
-//                    config.setCurrentQuestID(questGraph.getQuestID());
-//                    ProfileManager.getInstance().setProperty(config.getEntityID(), config);
                     updateEntityObservers();
                 }
 
-                Timer.schedule( new Timer.Task(){
-                    @Override
-                    public void run() {
-                        conversationUI.setVisible(false);
-                        mapMgr.clearCurrentSelectedMapEntity();
-                    }
-                }, 1);
+                conversationUI.setVisible(false);
+                mapMgr.clearCurrentSelectedMapEntity();
                 break;
             case EXIT_CONVERSATION:
-                Timer.schedule(new Timer.Task(){
-                    @Override
-                    public void run() {
-                        conversationUI.setVisible(false);
-                        mapMgr.clearCurrentSelectedMapEntity();
-                    }
-                }, 1);
                 System.out.println("Exit conversation!");
+
+                conversationUI.setVisible(false);
+                mapMgr.clearCurrentSelectedMapEntity();
                 break;
             case TASK_COMPLETE:
                 questUI.updateQuests(mapMgr);
 
 //                Entity currentlyEntity2 = mapMgr.getCurrentMapEntity();
-//                if( currentlyEntity2 == null ){
-//                    break;
-//                }
 //                QuestGraph graph2 = json.fromJson(QuestGraph.class, Gdx.files.internal(currentlyEntity2.getEntityConfig().getQuestConfigPath()));
 //                questUI.questTaskComplete(graph2.getQuestID(), questTaskID);
+
+                conversationUI.setVisible(false);
+                mapMgr.clearCurrentSelectedMapEntity();
             case NONE:
                 break;
         }
@@ -421,6 +408,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     public void setPlayerPosition(Vector2 playerPosition) {
         this.playerPosition=playerPosition;
     }
+
 
 
     public void update() {

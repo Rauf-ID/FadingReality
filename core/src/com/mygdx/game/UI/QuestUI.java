@@ -93,8 +93,8 @@ public class QuestUI extends Window {
     }
 
     public QuestGraph loadQuest(String questConfigPath){
-        if( questConfigPath.isEmpty() || !Gdx.files.internal(questConfigPath).exists() ){
-            Gdx.app.debug(TAG, "Quest file does not exist!");
+        if(questConfigPath.isEmpty() || !Gdx.files.internal(questConfigPath).exists()){
+            System.out.println("Quest file does not exist!");
             return null;
         }
 
@@ -190,31 +190,19 @@ public class QuestUI extends Window {
     }
 
     public void updateQuests(MapManager mapMgr){
-        for( QuestGraph quest : quests){
-            if( !quest.isQuestComplete() ){
+        for(QuestGraph quest : quests){
+            if(!quest.isQuestComplete()){
                 quest.update(mapMgr);
             }
         }
 
-//        for (QuestGraph questGraph: quests) {
-//            int sizeTask = questGraph.getQuestTasks().size();
-//            int completeTask = 0;
-//            for (QuestTask questTask: questGraph.getAllQuestTasks()) {
-//                if (questTask.isTaskComplete()) {
-//                    completeTask++;
-//                }
-//            }
-//            if (sizeTask == completeTask) {
-//                questGraph.setQuestComplete(true);
-//            }
-//        }
-//
-//        for (int i = 0; i < quests.size; i++ ){
-//            if (quests.get(i).isQuestComplete()) {
-//                quests.removeIndex(i);
-////                loadQuest("main/plot/the_first_step.json");
-//            }
-//        }
+        for (int i = 0; i < quests.size; i++ ){
+            if (quests.get(i).areAllTasksComplete()) {
+                loadQuest(quests.get(i).getNextQuestConfigPath());
+                quests.removeIndex(i);
+            }
+        }
+
 //        ProfileManager.getInstance().getPlayerConfig().setQuests(quests); Think don't need, coz PlayerHUD save that
     }
 

@@ -16,13 +16,12 @@ import java.util.Set;
 
 public class QuestGraph {
 
-    private static final String TAG = QuestGraph.class.getSimpleName();
-
     private String questID;
     private String questTitle;
     private boolean isQuestComplete;
     private int goldReward;
     private int xpReward;
+    private String nextQuestConfigPath;
     private Hashtable<String, QuestTask> questTasks;
     private Hashtable<String, ArrayList<QuestTaskDependency>> questTaskDependencies;
 
@@ -45,8 +44,12 @@ public class QuestGraph {
         this.xpReward = xpReward;
     }
 
-    public void isQuestComplete2() {
+    public String getNextQuestConfigPath() {
+        return nextQuestConfigPath;
+    }
 
+    public void setNextQuestConfigPath(String nextQuestConfigPath) {
+        this.nextQuestConfigPath = nextQuestConfigPath;
     }
 
     public boolean isQuestComplete() {
@@ -76,7 +79,7 @@ public class QuestGraph {
     public boolean areAllTasksComplete(){
         ArrayList<QuestTask> tasks = getAllQuestTasks();
         for( QuestTask task: tasks ){
-            if( !task.isTaskComplete() ){
+            if(!task.isTaskComplete()){
                 return false;
             }
         }
@@ -239,8 +242,10 @@ public class QuestGraph {
                 case TALK:
                     QuestTaskProperty questTaskProperty = questTask.getTaskProperties();
                     for (int i = 0; i < questTaskProperty.getNumberEntities(); i++) {
-                        if (questTaskProperty.getTargetName().get(i).equals(mapMgr.getCurrentMapEntity().getEntityConfig().getEntityID())) {
-                            questTask.setTaskComplete(true);
+                        if (mapMgr.getCurrentMapEntity() != null) {
+                            if (questTaskProperty.getTargetName().get(i).equals(mapMgr.getCurrentMapEntity().getEntityConfig().getEntityID())) {
+                                questTask.setTaskComplete(true);
+                            }
                         }
                     }
                     break;
@@ -260,6 +265,9 @@ public class QuestGraph {
                     break;
             }
         }
+
+
+
     }
 
     public void init(MapManager mapMgr){
@@ -280,8 +288,6 @@ public class QuestGraph {
                     System.out.println(questTask.getTaskPhrase() + " INIT");
                     Array<Entity> questEntities = new Array<>();
                     QuestTaskProperty taskProperties = questTask.getTaskProperties();
-
-                    System.out.println(taskProperties.getTargetName());
 
                     for (int i = 0; i < taskProperties.getNumberEntities(); i++) {
                         EntityFactory.EntityName entityName = EntityFactory.EntityName.valueOf(taskProperties.getTargetName().get(i));
