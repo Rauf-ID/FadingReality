@@ -286,8 +286,8 @@ public class Entity implements Comparable<Entity> {
         Json json = new Json();
         Entity entity = EntityFactory.getEntity(EntityFactory.EntityType.EXOSKELETON);
         entity.setEntityConfig(entityConfig);
+        entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
         return entity;
-
     }
 
 

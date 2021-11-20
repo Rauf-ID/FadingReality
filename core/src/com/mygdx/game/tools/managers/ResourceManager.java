@@ -53,7 +53,7 @@ public class ResourceManager {
     public static String POLICE_CONFIGS = "main/entities/enemies/police/police.json";
     public static String MERCENARIES_CONFIGS = "main/entities/npc/mercenaries/mercenaries.json";
     public static String TOWN_FOLK_CONFIGS = "main/entities/town_folk.json";
-    public static String EXOSKELETON_CONFIGS="main/entities/exoskeletons/exoskeletons.json";
+    public static String EXOSKELETON_CONFIGS = "main/entities/exoskeletons/exoskeletons.json";
 
 
     //Animation

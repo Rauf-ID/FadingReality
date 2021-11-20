@@ -143,10 +143,8 @@ public class EntityFactory {
     }
 
     public Entity getExoskeletonByName(EntityName entityName){
-
-         EntityConfig config = new EntityConfig(entities.get(entityName.toString()));
-         return Entity.initExoskeleton(config);
-
+        EntityConfig config = new EntityConfig(entities.get(entityName.toString()));
+        return Entity.initExoskeleton(config);
     }
 
 }
