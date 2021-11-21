@@ -335,6 +335,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 break;
             case TASK_COMPLETE:
                 questUI.updateQuests(mapMgr);
+                mapMgr.setMapChanged(true);
 
 //                Entity currentlyEntity2 = mapMgr.getCurrentMapEntity();
 //                QuestGraph graph2 = json.fromJson(QuestGraph.class, Gdx.files.internal(currentlyEntity2.getEntityConfig().getQuestConfigPath()));

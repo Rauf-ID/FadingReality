@@ -1,7 +1,7 @@
 [
 {
-entityID : MERCHANT
-entityName: Merchant Jhon
+entityID : OVERSEER
+entityName: Overseer Jim
 direction : DOWN
 conversationConfigPath : ""
 questConfigPath : ""

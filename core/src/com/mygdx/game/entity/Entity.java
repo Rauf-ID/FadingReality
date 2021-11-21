@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.component.Component;
 import com.mygdx.game.observer.ComponentObserver;
+import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
@@ -238,6 +239,10 @@ public class Entity implements Comparable<Entity> {
         }
 
         return configs;
+    }
+
+    public static EntityConfig loadEntityConfigByPath(String entityConfigPath){
+        return Entity.getEntityConfig(entityConfigPath);
     }
 
     public static Entity initNPC(EntityConfig entityConfig){

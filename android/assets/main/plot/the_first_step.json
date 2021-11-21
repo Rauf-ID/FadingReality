@@ -28,7 +28,7 @@
 		"taskProperties": {
 			"numberEntities": 1,
 			"targetLocation": "SPACE_STATION",
-			"targetName": [ "MERCENARIES_M1" ],
+			"targetName": [ "OVERSEER" ],
 			"targetsPositions": [ {"x": 800, "y": 350} ],
 			"direction": "RIGHT",
 			"conversationConfigPath": "main/languages/english/npc_dialogs/dialog1.json"
@@ -36,17 +36,31 @@
 	},
 	"3": {
 		"id": 3,
+		"taskPhrase": "Talk to the Mechanic",
+		"taskType": "TALK",
+		"isTaskComplete": false,
+		"taskProperties": {
+			"numberEntities": 1,
+			"targetLocation": "SPACE_STATION",
+			"targetName": [ "MECHANIC" ],
+			"targetsPositions": [ {"x": 650, "y": 350} ],
+			"direction": "RIGHT",
+			"conversationConfigPath": "main/languages/english/npc_dialogs/dialog1.json"
+		},
+	},
+	"4": {
+		"id": 4,
 		"taskPhrase": "Talk to the Scientist",
 		"taskType": "TALK",
 		"isTaskComplete": false,
 		"taskProperties": {
 			"numberEntities": 1,
 			"targetLocation": "SPACE_STATION",
-			"targetName": [ "MERCENARIES_M1" ],
-			"targetsPositions": [ {"x": 650, "y": 350} ],
+			"targetName": [ "SCIENTIST" ],
+			"targetsPositions": [ {"x": 500, "y": 350} ],
 			"direction": "RIGHT",
 			"conversationConfigPath": "main/languages/english/npc_dialogs/dialog1.json"
 		},
-	},	
+	},
 }
 }

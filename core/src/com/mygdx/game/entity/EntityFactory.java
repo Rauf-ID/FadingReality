@@ -32,6 +32,9 @@ public class EntityFactory {
         EARTHLINGS_D1, EARTHLINGS_D2, EARTHLINGS_G1, EARTHLINGS_E1, BARTENDER, HOLOGRAM_G2,
         ELITE_KNIGHT,
         MERCHANT,
+        OVERSEER,
+        MECHANIC,
+        SCIENTIST,
         EXOSKELETON_M1
     }
 
@@ -69,6 +72,21 @@ public class EntityFactory {
 
         Array<EntityConfig> merchants = Entity.getEntityConfigs(ResourceManager.MERCHANT_CONFIGS);
         for(EntityConfig config: merchants){
+            entities.put(config.getEntityID(), config);
+        }
+
+        Array<EntityConfig> overseer = Entity.getEntityConfigs(ResourceManager.OVERSEER_CONFIGS);
+        for(EntityConfig config: overseer){
+            entities.put(config.getEntityID(), config);
+        }
+
+        Array<EntityConfig> mechanic = Entity.getEntityConfigs(ResourceManager.MECHANIC_CONFIGS);
+        for(EntityConfig config: mechanic){
+            entities.put(config.getEntityID(), config);
+        }
+
+        Array<EntityConfig> scientist = Entity.getEntityConfigs(ResourceManager.SCIENTIST_CONFIGS);
+        for(EntityConfig config: scientist){
             entities.put(config.getEntityID(), config);
         }
 

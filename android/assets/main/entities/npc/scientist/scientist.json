@@ -1,7 +1,7 @@
 [
 {
-entityID : MERCHANT
-entityName: Merchant Jhon
+entityID : SCIENTIST
+entityName: Scientist Nicj
 direction : DOWN
 conversationConfigPath : ""
 questConfigPath : ""

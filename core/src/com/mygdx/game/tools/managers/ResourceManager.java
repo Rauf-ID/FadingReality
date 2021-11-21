@@ -54,7 +54,11 @@ public class ResourceManager {
     public static String MERCENARIES_CONFIGS = "main/entities/npc/mercenaries/mercenaries.json";
     public static String TOWN_FOLK_CONFIGS = "main/entities/town_folk.json";
     public static String MERCHANT_CONFIGS = "main/entities/npc/merchants/merchants.json";
+    public static String OVERSEER_CONFIGS = "main/entities/npc/overseer/overseer.json";
+    public static String MECHANIC_CONFIGS = "main/entities/npc/mechanic/mechanic.json";
+    public static String SCIENTIST_CONFIGS = "main/entities/npc/scientist/scientist.json";
     public static String EXOSKELETON_CONFIGS = "main/entities/exoskeletons/exoskeletons.json";
+
 
 
     //Animation
