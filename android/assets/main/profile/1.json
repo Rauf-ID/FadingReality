@@ -2,11 +2,129 @@
 state: IDLE
 direction: RIGHT
 position: {
-	x: 1494.1025
-	y: 194.54616
+	x: 1076.2169
+	y: 81.95195
 }
 currentMap: SPACE_STATION
-quests: []
+quests: [
+	{
+		questID: 2
+		questTitle: The first step
+		goldReward: 100
+		xpReward: 100
+		nextQuestConfigPath: ""
+		questTasks: {
+			5: {
+				id: 5
+				taskPhrase: Talk to the Merchant
+				taskType: TALK
+				taskProperties: {
+					numberEntities: 1
+					targetLocation: SPACE_STATION
+					targetName: [
+						MERCHANT
+					]
+					targetsPositions: [
+						{
+							x: 950
+							y: 350
+						}
+					]
+					conversationConfigPath: main/languages/english/npc_dialogs/dialog1.json
+					direction: RIGHT
+				}
+			}
+			4: {
+				id: 4
+				taskPhrase: Talk to the Overseer
+				taskType: TALK
+				taskProperties: {
+					numberEntities: 1
+					targetLocation: SPACE_STATION
+					targetName: [
+						OVERSEER
+					]
+					targetsPositions: [
+						{
+							x: 800
+							y: 350
+						}
+					]
+					conversationConfigPath: main/languages/english/npc_dialogs/dialog1.json
+					direction: RIGHT
+				}
+			}
+			3: {
+				id: 3
+				taskPhrase: Talk to the Mechanic
+				taskType: TALK
+				taskProperties: {
+					numberEntities: 1
+					targetLocation: SPACE_STATION
+					targetName: [
+						MECHANIC
+					]
+					targetsPositions: [
+						{
+							x: 650
+							y: 350
+						}
+					]
+					conversationConfigPath: main/languages/english/npc_dialogs/dialog1.json
+					direction: RIGHT
+				}
+			}
+			2: {
+				id: 2
+				taskPhrase: Talk to the Scientist
+				taskType: TALK
+				taskProperties: {
+					numberEntities: 1
+					targetLocation: SPACE_STATION
+					targetName: [
+						SCIENTIST
+					]
+					targetsPositions: [
+						{
+							x: 500
+							y: 350
+						}
+					]
+					conversationConfigPath: main/languages/english/npc_dialogs/dialog1.json
+					direction: RIGHT
+				}
+			}
+			1: {
+				id: 1
+				taskPhrase: Shooting practice
+				taskType: KILL
+				taskProperties: {
+					numberEntities: 3
+					targetLocation: SPACE_STATION
+					targetName: [
+						POLICE_B1
+						POLICE_B1
+						POLICE_B1
+					]
+					targetsPositions: [
+						{
+							x: 1080
+							y: 120
+						}
+						{
+							x: 1080
+							y: 60
+						}
+						{
+							x: 1080
+						}
+					]
+					direction: LEFT
+				}
+			}
+		}
+	}
+]
 inventory: [
 	{
 		itemTypeAtLocation: ARMOR04

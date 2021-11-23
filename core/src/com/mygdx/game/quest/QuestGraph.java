@@ -238,9 +238,10 @@ public class QuestGraph {
             String targetLocation = questTask.getTaskProperties().getTargetLocation();
             if (targetLocation == null || targetLocation.isEmpty() || !targetLocation.equalsIgnoreCase(mapMgr.getCurrentMapType().toString())) continue;
 
+            QuestTaskProperty questTaskProperty = questTask.getTaskProperties();
+
             switch (questTask.getTaskType()) {
                 case TALK:
-                    QuestTaskProperty questTaskProperty = questTask.getTaskProperties();
                     for (int i = 0; i < questTaskProperty.getNumberEntities(); i++) {
                         if (mapMgr.getCurrentMapEntity() != null) {
                             if (questTaskProperty.getTargetName().get(i).equals(mapMgr.getCurrentMapEntity().getEntityConfig().getEntityID())) {
@@ -282,12 +283,14 @@ public class QuestGraph {
             String targetLocation = questTask.getTaskProperties().getTargetLocation();
             if (targetLocation == null || targetLocation.isEmpty() || !targetLocation.equalsIgnoreCase(mapMgr.getCurrentMapType().toString())) continue;
 
+            QuestTaskProperty taskProperties = questTask.getTaskProperties();
+
             switch (questTask.getTaskType()) {
 
                 case TALK:
                     System.out.println(questTask.getTaskPhrase() + " INIT");
-                    Array<Entity> questEntities = new Array<>();
-                    QuestTaskProperty taskProperties = questTask.getTaskProperties();
+
+                    Array<Entity> questTalkEntities = new Array<>();
 
                     for (int i = 0; i < taskProperties.getNumberEntities(); i++) {
                         EntityFactory.EntityName entityName = EntityFactory.EntityName.valueOf(taskProperties.getTargetName().get(i));
@@ -297,14 +300,30 @@ public class QuestGraph {
 
                         Entity entity = EntityFactory.getInstance().getNPCByNameForQuest(entityName, position, direction, conversationConfigPath);
 
-                        questEntities.add(entity);
+                        questTalkEntities.add(entity);
                     }
 
-                    mapMgr.addMapQuestEntities(questEntities);
+                    mapMgr.addMapQuestEntities(questTalkEntities);
                     break;
                 case FETCH:
                     break;
                 case KILL:
+                    System.out.println(questTask.getTaskPhrase() + " KILL");
+
+                    Array<Entity> questKillEntities = new Array<>();
+
+                    for (int i = 0; i < taskProperties.getNumberEntities(); i++) {
+                        EntityFactory.EntityName entityName = EntityFactory.EntityName.valueOf(taskProperties.getTargetName().get(i));
+                        Vector2 position = taskProperties.getTargetsPositions().get(i);
+                        Entity.Direction direction = taskProperties.getDirection();
+
+                        Entity entity = EntityFactory.getInstance().getEnemyByNameForQuest(entityName, position, direction);
+
+                        questKillEntities.add(entity);
+                    }
+
+                    mapMgr.addMapQuestEntities(questKillEntities);
+
                     break;
                 case DELIVERY:
                     break;

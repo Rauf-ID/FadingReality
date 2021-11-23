@@ -6,8 +6,8 @@
 "xpReward": 100,
 "nextQuestConfigPath": "",
 "questTasks": {
-	"1": {
-		"id": 1,
+	"5": {
+		"id": 5,
 		"taskPhrase": "Talk to the Merchant",
 		"taskType": "TALK",
 		"isTaskComplete": false,
@@ -20,8 +20,8 @@
 			"conversationConfigPath": "main/languages/english/npc_dialogs/dialog1.json"
 		},
 	},
-	"2": {
-		"id": 2,
+	"4": {
+		"id": 4,
 		"taskPhrase": "Talk to the Overseer",
 		"taskType": "TALK",
 		"isTaskComplete": false,
@@ -48,8 +48,8 @@
 			"conversationConfigPath": "main/languages/english/npc_dialogs/dialog1.json"
 		},
 	},
-	"4": {
-		"id": 4,
+	"2": {
+		"id": 2,
 		"taskPhrase": "Talk to the Scientist",
 		"taskType": "TALK",
 		"isTaskComplete": false,
@@ -60,6 +60,19 @@
 			"targetsPositions": [ {"x": 500, "y": 350} ],
 			"direction": "RIGHT",
 			"conversationConfigPath": "main/languages/english/npc_dialogs/dialog1.json"
+		},
+	},
+	"1": {
+		"id": 1,
+		"taskPhrase": "Shooting practice",
+		"taskType": "KILL",
+		"isTaskComplete": false,
+		"taskProperties": {
+			"numberEntities": 3,
+			"targetLocation": "SPACE_STATION",
+			"targetName": [ "POLICE_B1", "POLICE_B1", "POLICE_B1" ],
+			"targetsPositions": [ {"x": 1080, "y": 120}, {"x": 1080, "y": 60}, {"x": 1080, "y": 0} ],
+			"direction": "LEFT",
 		},
 	},
 }

@@ -274,13 +274,13 @@ public class Entity implements Comparable<Entity> {
         return entity;
     }
 
-    public static Entity initEnemyForQuest(EntityConfig entityConfig){
+    public static Entity initEnemyForQuest(EntityConfig entityConfig, Vector2 position, Entity.Direction direction){
         Json json = new Json();
         Entity entity = EntityFactory.getEntity(EntityFactory.EntityType.ENEMY);
         entity.setEntityConfig(entityConfig);
 
-        entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(new Vector2(890, 280)));
-        entity.sendMessage(Component.MESSAGE.CURRENT_DIRECTION, json.toJson(Direction.RIGHT));
+        entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
+        entity.sendMessage(Component.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
         entity.sendMessage(Message.MESSAGE.INIT_CONFIG, json.toJson(entity.getEntityConfig()));
         entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
 

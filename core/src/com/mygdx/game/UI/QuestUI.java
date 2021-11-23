@@ -200,6 +200,7 @@ public class QuestUI extends Window {
             if (quests.get(i).areAllTasksComplete()) {
                 loadQuest(quests.get(i).getNextQuestConfigPath());
                 quests.removeIndex(i);
+                updateQuestItemList();
             }
         }
 
