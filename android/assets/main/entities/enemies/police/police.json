@@ -6,7 +6,7 @@ conversationConfigPath : ""
 questConfigPath: ""
 currentQuestID: ""
 itemTypeID: NONE
-hitBox: { x: 0, y: 0 }
+hitBox: { x: 18, y: 64 }
 imageBox: { x: 128, y: 128 }
 boundingBox: { x: 32, y: 16 }
 activeZoneBox: { x: 0, y: 0 }

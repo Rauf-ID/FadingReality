@@ -67,6 +67,7 @@ public class Player extends Component {
 
             } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
+                initHitBox(entityConfig.getHitBox());
                 initImageBox(entityConfig.getImageBox());
                 initBoundingBox(entityConfig.getBoundingBox());
             } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
@@ -197,7 +198,8 @@ public class Player extends Component {
         } else{
         }
 
-//        System.out.println(currentFrame.getHeight());
+        updateHitBox();
+        updateImageBox();
         updateBoundingBox();
         updateEntityRangeBox(64,64);
 
@@ -528,7 +530,7 @@ public class Player extends Component {
             debugActive = !debugActive;
         }
         if (debugActive) {
-            debug(true, true);
+            debug(true, true,true,true);
         }
 
         batch.begin();
@@ -567,7 +569,7 @@ public class Player extends Component {
         batch.end();
     }
 
-    public void debug(boolean activeGrid, boolean activeBoundingBox) {
+    public void debug(boolean activeGrid, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox) {
         if (activeGrid) {
             Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
             if(grid == null && grid.size == 0) return;
@@ -589,15 +591,25 @@ public class Player extends Component {
             shapeRenderer2.end();
         }
 
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        if (activeHitBox) {
+            Rectangle rect = hitBox;
+            shapeRenderer.setColor(Color.GREEN);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        if (activeImageBox) {
+            Rectangle rect = imageBox;
+            shapeRenderer.setColor(0.5f, .92f, .75f, 1f);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
         if (activeBoundingBox) {
-            //Used to graphically debug boundingBox
             Rectangle rect = boundingBox;
-            shapeRenderer.setProjectionMatrix(camera.combined);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(Color.GRAY);
             shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-            shapeRenderer.end();
         }
+        shapeRenderer.end();
+
 
     }
 

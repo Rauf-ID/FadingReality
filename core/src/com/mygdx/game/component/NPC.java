@@ -185,7 +185,6 @@ public class NPC extends Component {
             shapeRenderer.setColor(Color.ORANGE);
             shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
         }
-
         shapeRenderer.end();
     }
 

@@ -162,6 +162,11 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 //        SplashScreen splashScreen = SplashScreen.getSplashScreen();
     }
 
+    protected void initHitBox(Vector2 size) {
+        hitBox.setWidth(size.x);
+        hitBox.setHeight(size.y);
+    }
+
     protected void initImageBox(Vector2 size) {
         imageBox.setWidth(size.x);
         imageBox.setHeight(size.y);
@@ -175,6 +180,12 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected void initActiveZoneBox(Vector2 size){
         activeZoneBox.setWidth(size.x);
         activeZoneBox.setHeight(size.y);
+    }
+
+    protected void updateHitBox() {
+        int middleImageWidth = (int) imageBox.getWidth() / 2;
+        int middleImageHeight = (int) imageBox.getHeight() / 2;
+        hitBox.setCenter(imageBox.x + middleImageWidth, imageBox.y + middleImageHeight);
     }
 
     protected void updateImageBox() {
