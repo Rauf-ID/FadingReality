@@ -113,15 +113,8 @@ public class Player extends Component {
     @Override
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
         camera = mapManager.getCamera();
-
         mapManager.getCamera().unproject(mouseCoordinates.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 //        updatePortalLayerActivation(mapManager, delta);
-
-        //Player has moved
-        if(previousPosition.x != currentEntityPosition.x || previousPosition.y != currentEntityPosition.y){
-            notify("", ComponentObserver.ComponentEvent.PLAYER_HAS_MOVED);
-            previousPosition = currentEntityPosition.cpy();
-        }
 
         weaponSystem.update(delta, this);
 
@@ -161,8 +154,6 @@ public class Player extends Component {
             Rumble.tick(Gdx.graphics.getDeltaTime());
             camera.translate(Rumble.getPos());
         } else if (pdaActive) {
-//            if (currentEntityPosition.x < currentEntityPosition.)
-//            camera.translate(1,0);
         } else {
             Vector2 screenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
             Vector2 normalizedScreen = new Vector2(screenPos.x / Gdx.graphics.getWidth(), screenPos.y / Gdx.graphics.getHeight());
@@ -178,20 +169,6 @@ public class Player extends Component {
         }
         camera.update();
 
-        //PDA SWITCH
-        if (pdaActive) {
-            if (camera.zoom  > ggov){
-                camera.zoom -= delta * speedCamMove * 0.03f;
-                camera.translate(1,1);
-            }
-        }
-        if (!pdaActive) {
-            if (camera.zoom  <= 0.1f){
-                camera.zoom += delta * speedCamMove * 0.03f;
-            }
-        }
-
-
         if (currentState == Entity.State.RUN){
         } else if(currentState == Entity.State.MELEE_ATTACK ) {
         } else if(currentState == Entity.State.USE_RUDIMENT ) {
@@ -202,55 +179,20 @@ public class Player extends Component {
         updateImageBox();
         updateBoundingBox();
         updateEntityRangeBox(64,64);
+//        updateSwordRangeBox(64,64);
 
         //GUN ACTIVE
         if(isGunActive) {
             getMouseDirectionForGun();
         }
 
-//        updateSwordRangeBox(64,64);
-
         //DASH
-        if(dashing) {
-            if(Gdx.graphics.getFrameId() % (int) ((Gdx.graphics.getFramesPerSecond()*.02f)+1) == 0) {  //def .05f
-                dashShadow.add(new Vector3(currentEntityPosition.x, currentEntityPosition.y, 1));
-                anInt1++;
-            }
-            dashTime += delta;
-        }
-        if(dashTime > 0.2f) {  //def .02f
-            dashTime = 0;
-            dashing = false;
-            anInt1 = 1;
-        }
-
         //GRAPHICS
         updateAnimations(delta);
 
-//        mapManager.getCurrentMap().updateGridOjc();
+        mapManager.getCurrentMap().updateGridOjc();
 
         this.mapManager = mapManager;
-    }
-
-    public boolean isCollisionWithMapLayer2(Entity entity, MapManager mapManager){
-        MapLayer mapCollisionLayer = mapManager.getCollisionLayer();
-
-        if( mapCollisionLayer == null ){
-            return false;
-        }
-
-        Rectangle rectangle = null;
-
-        for(MapObject object: mapCollisionLayer.getObjects()){
-            if(object instanceof RectangleMapObject) {
-                rectangle = ((RectangleMapObject)object).getRectangle();
-                if(boundingBox.overlaps(rectangle)){
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     private void input(Entity entity) {
@@ -524,49 +466,20 @@ public class Player extends Component {
         }
     }
 
-    @Override
-    public void draw(Batch batch, float delta) {
-        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) {
-            debugActive = !debugActive;
-        }
-        if (debugActive) {
-            debug(true, true,true,true);
-        }
-
-        batch.begin();
+    public void dash(float delta) {
         //DASH
-        for(Vector3 shadow : dashShadow) {
-            batch.setColor(0.05f,0.7f, 0.8f, shadow.z);
-            batch.draw(currentFrame, shadow.x, shadow.y);
-            shadow.z -= Gdx.graphics.getDeltaTime()*6;  //def *2
-        }
-        batch.setColor(Color.WHITE);
-        for(int i = 0; i < dashShadow.size; i++) {
-            if(dashShadow.get(i).z <= 0) {
-                dashShadow.removeIndex(i);
+        if(dashing) {
+            if(Gdx.graphics.getFrameId() % (int) ((Gdx.graphics.getFramesPerSecond()*.02f)+1) == 0) {  //def .05f
+                dashShadow.add(new Vector3(currentEntityPosition.x, currentEntityPosition.y, 1));
+                anInt1++;
             }
+            dashTime += delta;
         }
-
-        if(currentDirection == Entity.Direction.UP) {
-            if (weaponSystem.rangedIsActive()) {
-                if (isGunActive){
-                    weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
-                }
-                weaponSystem.getRangedWeapon().drawAmmo(batch);
-            }
-            batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
-            batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y);
-        } else {
-            batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y); // player
-            batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y); // blood
-            if (weaponSystem.rangedIsActive()) {
-                weaponSystem.getRangedWeapon().drawAmmo(batch);
-                if (isGunActive){
-                    weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
-                }
-            }
+        if(dashTime > 0.2f) {  //def .02f
+            dashTime = 0;
+            dashing = false;
+            anInt1 = 1;
         }
-        batch.end();
     }
 
     public void debug(boolean activeGrid, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox) {
@@ -611,6 +524,72 @@ public class Player extends Component {
         shapeRenderer.end();
 
 
+    }
+
+    public boolean isCollisionWithMapLayer2(Entity entity, MapManager mapManager){
+        MapLayer mapCollisionLayer = mapManager.getCollisionLayer();
+
+        if( mapCollisionLayer == null ){
+            return false;
+        }
+
+        Rectangle rectangle = null;
+
+        for(MapObject object: mapCollisionLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+                if(boundingBox.overlaps(rectangle)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public void draw(Batch batch, float delta) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) {
+            debugActive = !debugActive;
+        }
+        if (debugActive) {
+            debug(true, true,true,true);
+        }
+
+        batch.begin();
+        //DASH
+        for(Vector3 shadow : dashShadow) {
+            batch.setColor(0.05f,0.7f, 0.8f, shadow.z);
+            batch.draw(currentFrame, shadow.x, shadow.y);
+            shadow.z -= Gdx.graphics.getDeltaTime()*6;  //def *2
+        }
+        batch.setColor(Color.WHITE);
+        for(int i = 0; i < dashShadow.size; i++) {
+            if(dashShadow.get(i).z <= 0) {
+                dashShadow.removeIndex(i);
+            }
+        }
+
+        if(currentDirection == Entity.Direction.UP) {
+            if (weaponSystem.rangedIsActive()) {
+                if (isGunActive){
+                    weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
+                }
+                weaponSystem.getRangedWeapon().drawAmmo(batch);
+            }
+            batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
+            batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y);
+        } else {
+            batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y); // player
+            batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y); // blood
+            if (weaponSystem.rangedIsActive()) {
+                weaponSystem.getRangedWeapon().drawAmmo(batch);
+                if (isGunActive){
+                    weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
+                }
+            }
+        }
+        batch.end();
     }
 
     @Override
