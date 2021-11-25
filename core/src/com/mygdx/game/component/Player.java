@@ -39,6 +39,7 @@ public class Player extends Component {
     private boolean isLeftButtonPressed = false;
     private boolean isRightButtonPressed = false;
 
+
     private Vector2 previousPosition;
 
     public Player(){
@@ -46,6 +47,11 @@ public class Player extends Component {
         state = State.NORMAL;
         previousPosition = new Vector2(0,0);
         controlManager = new ControlManager();
+    }
+
+    public void equipExoskeleton(EntityConfig exoskeletonConfig){
+        walkVelocity.set(exoskeletonConfig.getWalkVelocity());
+        walkVelocityD.set(exoskeletonConfig.getWalkVelocityD());
     }
 
     @Override
@@ -57,6 +63,9 @@ public class Player extends Component {
         if(string.length == 2) {
             if(string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
                 currentEntityPosition = json.fromJson(Vector2.class, string[1]);
+            }else if(string[0].equalsIgnoreCase(MESSAGE.EQUIP_EXOSKELETON.toString())){
+                EntityConfig exoskeletonEntityConfig = json.fromJson(EntityConfig.class, string[1]);
+                this.equipExoskeleton(exoskeletonEntityConfig);
             } else if(string[0].equalsIgnoreCase(MESSAGE.CURRENT_POSITION.toString())) {
                 currentEntityPosition = json.fromJson(Vector2.class, string[1]);
             } else if(string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {

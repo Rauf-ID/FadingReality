@@ -645,8 +645,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         return mouseDirection;
     }
 
-
-
     protected boolean isCollisionWithMapEntities(Entity entity, MapManager mapMgr){
         tempEntities.clear();
         tempEntities.addAll(mapMgr.getCurrentMapEntities());

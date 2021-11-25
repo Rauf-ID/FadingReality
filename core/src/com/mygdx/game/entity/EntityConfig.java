@@ -25,6 +25,9 @@ public class EntityConfig {
     private Vector2 activeZoneBox;
     private Vector2 attackZoneBox;
 
+    private Vector2 walkVelocity;
+    private Vector2 walkVelocityD;
+
 
     EntityConfig() {
         inventory = new Array<ItemID>();
@@ -35,6 +38,8 @@ public class EntityConfig {
         boundingBox = new Vector2();
         activeZoneBox = new Vector2();
         attackZoneBox = new Vector2();
+        walkVelocity  = new Vector2();
+        walkVelocityD = new Vector2();
     }
 
     EntityConfig(EntityConfig config) {
@@ -58,6 +63,9 @@ public class EntityConfig {
         boundingBox = config.getBoundingBox();
         activeZoneBox = config.getActiveZoneBox();
         attackZoneBox = config.getAttackZoneBox();
+
+        walkVelocity = config.getWalkVelocity();
+        walkVelocityD = config.getWalkVelocityD();
     }
 
     public String getEntityID() {
@@ -179,6 +187,14 @@ public class EntityConfig {
     public void setAttackZoneBox(Vector2 attackZoneBox) {
         this.attackZoneBox = attackZoneBox;
     }
+
+    public Vector2 getWalkVelocity(){return walkVelocity;}
+
+    public void setWalkVelocity(Vector2 walkVelocity){this.walkVelocity = walkVelocity;}
+
+    public Vector2 getWalkVelocityD(){return walkVelocityD;}
+
+    public void setWalkVelocityD(Vector2 runVelocity){this.walkVelocity = walkVelocityD;}
 
     static public class AnimationConfig {
 
