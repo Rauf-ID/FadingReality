@@ -35,7 +35,8 @@ public class EntityFactory {
         OVERSEER,
         MECHANIC,
         SCIENTIST,
-        EXOSKELETON_M1
+        EXOSKELETON_M1,
+        EXOSKELETON_M2
     }
 
     private static Json json = new Json();

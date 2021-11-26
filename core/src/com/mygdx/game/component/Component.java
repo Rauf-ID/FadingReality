@@ -56,6 +56,9 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     protected Array<Entity> tempEntities;
 
+    protected boolean exoskeletonOn;
+    protected float damageResist;
+
     protected float health;
     protected String entityName = "";
     public Vector2 currentEntityPosition;
@@ -115,6 +118,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected int anInt1 = 1;
 
 
+
+
     Component() {
         json = new Json();
         shapeRenderer = new ShapeRenderer();
@@ -154,6 +159,18 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         weaponSystem = new WeaponSystem();
         pathFinder = new PathFinder();
 
+    }
+
+    public float getDamageResist(){return damageResist;}
+
+    public void setDamageResist(float damageResist){
+        this.damageResist=damageResist;
+    }
+
+    public boolean isExoskeletonOn(){return exoskeletonOn;}
+
+    public void setExoskeletonOn(boolean exoskeletonOn){
+        this.exoskeletonOn=exoskeletonOn;
     }
 
     protected void setCurrentPosition(Entity entity){
@@ -255,6 +272,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         attackRangeBox.setWidth(64);
         attackRangeBox.setHeight(64);
     }
+
 
     protected void updateAttackRangeBox(float width, float height) {
         attackRangeBox.setCenter(currentEntityPosition.x+width, currentEntityPosition.y+height);
@@ -475,6 +493,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         vector.y = MathUtils.sin(angleRadians);
         activeDash=true;
     }
+
+
 
     protected void activeDash(float delta) {
         if(activeDash){

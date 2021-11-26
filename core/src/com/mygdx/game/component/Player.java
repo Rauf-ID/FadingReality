@@ -52,6 +52,8 @@ public class Player extends Component {
     public void equipExoskeleton(EntityConfig exoskeletonConfig){
         walkVelocity.set(exoskeletonConfig.getWalkVelocity());
         walkVelocityD.set(exoskeletonConfig.getWalkVelocityD());
+        runVelocity.set(exoskeletonConfig.getRunVelocity());
+        runVelocityD.set(exoskeletonConfig.getRunVelocityD());
     }
 
     @Override
@@ -79,6 +81,9 @@ public class Player extends Component {
                 initHitBox(entityConfig.getHitBox());
                 initImageBox(entityConfig.getImageBox());
                 initBoundingBox(entityConfig.getBoundingBox());
+
+                setDamageResist(entityConfig.getDamageResist());
+                setExoskeletonOn(entityConfig.isExoskeletonOn());
             } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
                 java.util.Map<String, Integer> allAmmoCount = json.fromJson(HashMap.class, string[1]);
                 WeaponSystem.setBagAmmunition(allAmmoCount);

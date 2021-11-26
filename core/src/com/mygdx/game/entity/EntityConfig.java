@@ -27,6 +27,11 @@ public class EntityConfig {
 
     private Vector2 walkVelocity;
     private Vector2 walkVelocityD;
+    private Vector2 runVelocity;
+    private Vector2 runVelocityD;
+
+    private boolean exoskeletonOn;
+    private float damageResist;
 
 
     EntityConfig() {
@@ -38,8 +43,11 @@ public class EntityConfig {
         boundingBox = new Vector2();
         activeZoneBox = new Vector2();
         attackZoneBox = new Vector2();
+
         walkVelocity  = new Vector2();
         walkVelocityD = new Vector2();
+        runVelocity = new Vector2();
+        runVelocityD = new Vector2();
     }
 
     EntityConfig(EntityConfig config) {
@@ -66,7 +74,11 @@ public class EntityConfig {
 
         walkVelocity = config.getWalkVelocity();
         walkVelocityD = config.getWalkVelocityD();
+        runVelocity=config.getRunVelocity();
+        runVelocityD=config.getRunVelocityD();
     }
+
+
 
     public String getEntityID() {
         return entityID;
@@ -195,6 +207,26 @@ public class EntityConfig {
     public Vector2 getWalkVelocityD(){return walkVelocityD;}
 
     public void setWalkVelocityD(Vector2 runVelocity){this.walkVelocity = walkVelocityD;}
+
+    public Vector2 getRunVelocity() {return runVelocity;}
+
+    public Vector2 getRunVelocityD() {return runVelocityD;}
+
+    public boolean isExoskeletonOn() {
+        return exoskeletonOn;
+    }
+
+    public void setExoskeletonOn(boolean exoskeletonOn) {
+        this.exoskeletonOn = exoskeletonOn;
+    }
+
+    public float getDamageResist(){
+        return damageResist;
+    }
+
+    public void setDamageResist(float damageResist){
+        this.damageResist=damageResist;
+    }
 
     static public class AnimationConfig {
 

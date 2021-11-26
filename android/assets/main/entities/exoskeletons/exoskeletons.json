@@ -11,8 +11,10 @@
 "boundingBox": { "x": 32, "y": 16 },
 "activeZoneBox": { "x": 80, "y": 60 },
 "attackZoneBox": { "x": 0, "y": 0 },
-"walkVelocity": {"x": 2, "y": 2},
-"walkVelocityD": {"x": 1.4, "y": 1.4},
+"walkVelocity": {"x": 0.9, "y": 0.9},
+"walkVelocityD": {"x": 0.95, "y": 0.95},
+"runVelocity": {"x": 1.7, "y": 1.7},
+"runVelocityD": {"x": 1.3, "y": 1.3},
 "animationConfig": [
 	{
 	    "frameDuration": 0.2,
@@ -62,4 +64,70 @@
 	    "atlasType": "ATLAS_POLICE_B1",
 	    "playMode": "LOOP"
 	}]
-}]
+},
+	{
+		"entityID": "EXOSKELETON_M2",
+		"direction": "DOWN",
+		"conversationConfigPath" : "",
+		"questConfigPath": "",
+		"currentQuestID": "",
+		"itemTypeID": "NONE",
+		"hitBox": { "x": 0, "y": 0 },
+		"imageBox": { "x": 128, "y": 128 },
+		"boundingBox": { "x": 32, "y": 16 },
+		"activeZoneBox": { "x": 33, "y": 33 },
+		"attackZoneBox": { "x": 0, "y": 0 },
+		"walkVelocity": {"x": 1.2, "y": 1.2},
+		"walkVelocityD": {"x": 1.1, "y": 1.1},
+		"runVelocity": {"x": 2.6, "y": 2.6},
+		"runVelocityD": {"x": 1.6, "y": 1.6},
+		"animationConfig": [
+			{
+				"frameDuration": 0.2,
+				"animationType": "IDLE_RIGHT",
+				"atlasType": "ATLAS_POLICE_B1",
+				"playMode": "LOOP"
+			},
+			{
+				"frameDuration": 0.2,
+				"animationType": "IDLE_LEFT",
+				"atlasType": "ATLAS_POLICE_B1",
+				"playMode": "LOOP"
+			},
+			{
+				"frameDuration": 0.1,
+				"animationType": "RUN_RIGHT",
+				"atlasType": "ATLAS_POLICE_B1",
+				"playMode": "LOOP"
+			},
+			{
+				"frameDuration": 0.1,
+				"animationType": "RUN_LEFT",
+				"atlasType": "ATLAS_POLICE_B1",
+				"playMode": "LOOP"
+			},
+			{
+				"frameDuration": 0.06,
+				"animationType": "RANGED_ATTACK_RIGHT",
+				"atlasType": "ATLAS_POLICE_B1",
+				"playMode": "LOOP"
+			},
+			{
+				"frameDuration": 0.06,
+				"animationType": "RANGED_ATTACK_LEFT",
+				"atlasType": "ATLAS_POLICE_B1",
+				"playMode": "LOOP"
+			},
+			{
+				"frameDuration": 0.1,
+				"animationType": "LOOKED_AROUND",
+				"atlasType": "ATLAS_POLICE_B1",
+				"playMode": "NORMAL"
+			},
+			{
+				"frameDuration": 0.1,
+				"animationType": "DETENTION",
+				"atlasType": "ATLAS_POLICE_B1",
+				"playMode": "LOOP"
+			}]
+	}]
