@@ -383,7 +383,7 @@
 //    }
 //
 //    protected float getAngleCenterToPlayer(MapManager mapManager) {
-//        Rectangle playerRect = mapManager.getPlayer().getBoundingBox();
+//        Rectangle playerRect = mapManager.getPlayer().getVectorBoundingBox();
 //
 //        int screenWidth = Gdx.graphics.getWidth()/2;
 //        int screenHeight = Gdx.graphics.getHeight()/2;
@@ -596,7 +596,7 @@
 //                continue;
 //            }
 //
-//            Rectangle targetRect = mapEntity.getBoundingBox();
+//            Rectangle targetRect = mapEntity.getVectorBoundingBox();
 //            if (boundingBox.overlaps(targetRect) ){
 //                //Collision
 //                entity.sendMessage(MESSAGE.COLLISION_WITH_ENTITY);
@@ -615,7 +615,7 @@
 //            return false;
 //        }
 //
-//        if (entitySource.getBoundingBox().overlaps(entityTarget.getBoundingBox()) ){
+//        if (entitySource.getVectorBoundingBox().overlaps(entityTarget.getVectorBoundingBox()) ){
 //            //Collision
 //            entitySource.sendMessage(MESSAGE.COLLISION_WITH_ENTITY);
 //            isCollisionWithMapEntities = true;

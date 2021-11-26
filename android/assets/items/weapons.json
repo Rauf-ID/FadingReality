@@ -22,6 +22,7 @@
 	magazineSize: 15,
 	ammoID: CALIBER_9MM,
 	pathTextureAmmo: "bullet.png",
+	vectorBoundingBox: { x: 5, y: 2 }
 	ammoSpeed: 300,
 	hitRange: 360
 }
@@ -38,6 +39,7 @@
 	magazineSize: 30,
 	ammoID: CALIBER_5_55MM,
 	pathTextureAmmo: "bullet.png",
+	vectorBoundingBox: { x: 5, y: 2 }
 	ammoSpeed: 720,
 	hitRange: 360
 }

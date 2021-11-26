@@ -113,7 +113,7 @@
 //        Gdx.gl.glEnable(GL20.GL_BLEND);
 //        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 //        Camera camera = mapMgr.getCamera();
-//        Rectangle rect = entity.getBoundingBox();
+//        Rectangle rect = entity.getVectorBoundingBox();
 //        shapeRenderer.setProjectionMatrix(camera.combined);
 //        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 //        shapeRenderer.setColor(0.0f, 1.0f, 1.0f, 0.5f);

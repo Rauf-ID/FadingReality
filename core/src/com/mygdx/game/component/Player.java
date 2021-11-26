@@ -26,12 +26,14 @@ import com.mygdx.game.tools.Rumble;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.tools.managers.ControlManager;
 import com.mygdx.game.tools.managers.ResourceManager;
+import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.weapon.Weapon;
 import com.mygdx.game.weapon.WeaponFactory;
 import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.pathfinder.Node;
 import com.mygdx.game.world.MapManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -149,6 +151,10 @@ public class Player extends Component {
 //        updatePortalLayerActivation(mapManager, delta);
 
         weaponSystem.update(delta, this);
+
+        if (weaponSystem.getRangedWeapon().getActiveAmmo() != null) {
+            activeAmmo = weaponSystem.getRangedWeapon().getActiveAmmo();
+        }
 
         activeDash(delta);
         activeSwordAttackMove(delta);
@@ -607,7 +613,7 @@ public class Player extends Component {
                 if (isGunActive){
                     weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
                 }
-                weaponSystem.getRangedWeapon().drawAmmo(batch);
+                weaponSystem.getRangedWeapon().drawAmmo(batch, camera);
             }
             batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
             batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y);
@@ -615,7 +621,7 @@ public class Player extends Component {
             batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y); // player
             batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y); // blood
             if (weaponSystem.rangedIsActive()) {
-                weaponSystem.getRangedWeapon().drawAmmo(batch);
+                weaponSystem.getRangedWeapon().drawAmmo(batch, camera);
                 if (isGunActive){
                     weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
                 }

@@ -167,6 +167,10 @@ public class Entity implements Comparable<Entity> {
         return component.boundingBox;
     }
 
+    public  ArrayList<Ammo> getActiveAmmo(){
+        return component.activeAmmo;
+    }
+
     public Rectangle getCurrentEntityRangeBox() {
         return component.entityRangeBox;
     }

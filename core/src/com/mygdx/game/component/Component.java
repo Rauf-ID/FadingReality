@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -24,10 +25,12 @@ import com.mygdx.game.observer.ComponentSubject;
 import com.mygdx.game.pathfinder.PathFinder;
 import com.mygdx.game.tools.managers.ControlManager;
 import com.mygdx.game.tools.managers.ResourceManager;
+import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 import com.mygdx.game.pathfinder.Node;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public abstract class Component extends ComponentSubject implements Message, InputProcessor {
@@ -74,6 +77,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public Rectangle boundingBox;
     public Rectangle activeZoneBox;
     public Rectangle attackZoneBox;
+
+    public ArrayList<Ammo> activeAmmo;
 
     public Rectangle entityRangeBox;
     public Rectangle swordRangeBox;
@@ -148,6 +153,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         boundingBox = new Rectangle();
         activeZoneBox = new Rectangle();
         attackZoneBox = new Rectangle();
+
 
         entityRangeBox = new Rectangle();
         swordRangeBox = new Rectangle();

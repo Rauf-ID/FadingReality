@@ -1,16 +1,15 @@
 package com.mygdx.game.weapon;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.FadingReality;
-import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.inventory.InventoryItem.ItemID;
-import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
 public class Weapon {
@@ -27,6 +26,7 @@ public class Weapon {
     private int magazineSize;
     private AmmoID ammoID; // ID патрона
     private String pathTextureAmmo; // путь до текстуры боеприпаса
+    private Vector2 vectorBoundingBox; // ограничительная рамка
     private int ammoSpeed; // скорость патрона
     private int hitRange; // дальность поражения
 
@@ -53,6 +53,7 @@ public class Weapon {
             this.magazineSize = weapon.getMagazineSize();
             this.ammoID = weapon.getAmmoID();
             this.pathTextureAmmo = weapon.getPathTextureAmmo();
+            this.vectorBoundingBox = weapon.getVectorBoundingBox();
             this.ammoSpeed = weapon.getAmmoSpeed();
             this.hitRange = weapon.getHitRange();
 
@@ -110,9 +111,9 @@ public class Weapon {
         batch.draw(weaponSprite, pos.x + offsetX +  77, pos.y + offsetY + 74, 1, weaponSprite.getHeight() / 2, weaponSprite.getWidth(), weaponSprite.getHeight(), 1, 1, angle);
     }
 
-    public void drawAmmo(Batch batch) {
+    public void drawAmmo(Batch batch, OrthographicCamera camera) {
         for(Ammo a : activeAmmo){
-            a.draw(batch);
+            a.draw(batch, camera);
         }
     }
 
@@ -199,6 +200,14 @@ public class Weapon {
 
     public void setPathTextureAmmo(String pathTextureAmmo) {
         this.pathTextureAmmo = pathTextureAmmo;
+    }
+
+    public Vector2 getVectorBoundingBox() {
+        return vectorBoundingBox;
+    }
+
+    public void setVectorBoundingBox(Vector2 vectorBoundingBox) {
+        this.vectorBoundingBox = vectorBoundingBox;
     }
 
     public int getAmmoSpeed() {

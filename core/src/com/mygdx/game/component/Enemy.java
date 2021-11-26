@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -18,7 +20,10 @@ import com.mygdx.game.tools.Rumble;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.pathfinder.Node;
+import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.world.MapManager;
+
+import java.util.ArrayList;
 
 public class Enemy extends Component {
 
@@ -27,7 +32,6 @@ public class Enemy extends Component {
         initEntityRangeBox();
         initChaseRangeBox();
         initAttackRangeBox();
-        health = 100;
     }
 
     @Override
@@ -108,6 +112,16 @@ public class Enemy extends Component {
 
         Entity player = mapManager.getPlayer();
         Rectangle playerBoundingBox = player.getBoundingBox();
+        ArrayList<Ammo> activeAmmo = player.getActiveAmmo();
+
+        for(Ammo ammo: activeAmmo){
+            Polygon playerAmmoBoundingBox = ammo.getPolygon();
+            Polygon enemyHitBox = new Polygon(new float[] { 0, 0, hitBox.width, 0, hitBox.width, hitBox.height, 0, hitBox.height });
+            enemyHitBox.setPosition(hitBox.x, hitBox.y);
+            if (Intersector.overlapConvexPolygons(enemyHitBox, playerAmmoBoundingBox)) {
+                System.out.println("BULLET overlap ENEMY");
+            }
+        }
 
         switch (state) {
             case NORMAL:

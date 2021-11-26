@@ -113,7 +113,7 @@
 //        setSwordRangeBox(new Vector2(10000,10000),0,0);
 //
 //
-//        Rectangle playerBoundingBox = mapManager.getPlayer().getBoundingBox();
+//        Rectangle playerBoundingBox = mapManager.getPlayer().getVectorBoundingBox();
 //        Rectangle playerRangeBox = mapManager.getPlayer().getCurrentEntityRangeBox();
 //        Rectangle playerSwordRangeBox = mapManager.getPlayer().getCurrentSwordRangeBox();
 //
@@ -252,7 +252,7 @@
 //                            atkTime = 0f;
 //                            currentState = Entity.State.IDLE;
 //                        }
-//                    } else if (!boundingBox.overlaps(mapManager.getPlayer().getBoundingBox()) && chaseRangeBox.overlaps(playerBoundingBox) && !isCollisionWithMapEntities(entity, mapManager)) { //CHASE
+//                    } else if (!boundingBox.overlaps(mapManager.getPlayer().getVectorBoundingBox()) && chaseRangeBox.overlaps(playerBoundingBox) && !isCollisionWithMapEntities(entity, mapManager)) { //CHASE
 //                        long time = System.currentTimeMillis();
 //                        if (time > lastAttack + cooldownTime) {
 //                            // Do something
@@ -348,7 +348,7 @@
 ////        tempEntities.addAll(mapMgr.getCurrentMapQuestEntities());
 ////
 ////        for(Entity mapEntity: tempEntities){
-////            Rectangle mapEntityBoundingBox = mapEntity.getBoundingBox();
+////            Rectangle mapEntityBoundingBox = mapEntity.getVectorBoundingBox();
 ////
 ////            dx = currentEntityPosition.x - mapEntityBoundingBox.x;
 ////            dy = currentEntityPosition.y - mapEntityBoundingBox.y;
