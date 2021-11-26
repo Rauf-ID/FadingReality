@@ -29,6 +29,7 @@ public class ResourceManager {
         ATLAS_ELITE_KNIGHT,
         ATLAS_SECURITY_MECHANISM,
         ATLAS_MAP_OBJECTS,
+        ATLAS_EXOSKELETON_M1,
         NONE
     }
 
@@ -171,6 +172,7 @@ public class ResourceManager {
         assetManager.load("main/entities/npc/amelia/amelia.atlas", TextureAtlas.class);
         assetManager.load("main/entities/npc/king/king.atlas", TextureAtlas.class);
         assetManager.load("main/entities/npc/earthlings/earthlings.atlas", TextureAtlas.class);
+        assetManager.load("main/entities/exoskeletons/exoskeletonM1.atlas", TextureAtlas.class);
         assetManager.load("maps/mapObjects.atlas", TextureAtlas.class);
         assetManager.finishLoading();
 
@@ -325,6 +327,13 @@ public class ResourceManager {
                 textureAtlas = atlasTable.get(atlasType);
                 if( textureAtlas == null ){
                     textureAtlas = assetManager.get("main/entities/npc/mercenaries/mercenariesM1.atlas", TextureAtlas.class);
+                    atlasTable.put(atlasType, textureAtlas);
+                }
+                break;
+            case ATLAS_EXOSKELETON_M1:
+                textureAtlas = atlasTable.get(atlasType);
+                if( textureAtlas == null ){
+                    textureAtlas = assetManager.get("main/entities/exoskeletons/exoskeletonM1.atlas", TextureAtlas.class);
                     atlasTable.put(atlasType, textureAtlas);
                 }
                 break;

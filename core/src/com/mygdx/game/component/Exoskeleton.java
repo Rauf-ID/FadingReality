@@ -18,6 +18,7 @@ import com.mygdx.game.world.MapManager;
 
 
 public class Exoskeleton extends Component {
+
     private boolean playerInActiveZone = false;
     private boolean playerInActiveZone2 = true;
     private boolean aBoolean = true;
@@ -26,7 +27,6 @@ public class Exoskeleton extends Component {
 
     public Exoskeleton(){
         state = State.NORMAL;
-        health = 100;
     }
 
     @Override
@@ -93,7 +93,7 @@ public class Exoskeleton extends Component {
             mapManager.setCurrentMapEntity(entity); // Задать текущего персонажа на карте
             playerInActiveZone = true;
             if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-                player.sendMessage(MESSAGE.EQUIP_EXOSKELETON, json.toJson(entityConfig));
+                player.sendMessage(MESSAGE.EQUIP_EXOSKELETON, json.toJson(entityConfig.getEntityID()));
                 playerInActiveZone2 = false;
             }
         } else {

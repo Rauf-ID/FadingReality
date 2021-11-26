@@ -2,10 +2,10 @@
 state: IDLE
 direction: RIGHT
 position: {
-	x: 880.4618
-	y: 109.7139
+	x: 875.7028
+	y: 1070.2041
 }
-currentMap: SPACE_STATION
+currentMap: TIMULO
 quests: [
 	{
 		questID: 2
@@ -170,10 +170,17 @@ inventory: [
 		itemNameProperty: Player_Inventory
 	}
 	{
+		locationIndex: 4
+		itemTypeAtLocation: AHR
+		numberItemsAtLocation: 1
+		numberItemsInside: 27
+		itemNameProperty: Player_Inventory
+	}
+	{
 		locationIndex: 5
 		itemTypeAtLocation: ALG
 		numberItemsAtLocation: 1
-		numberItemsInside: 13
+		numberItemsInside: 10
 		itemNameProperty: Player_Inventory
 	}
 	{
@@ -183,18 +190,10 @@ inventory: [
 		itemNameProperty: Player_Inventory
 	}
 ]
-equipment: [
-	{
-		locationIndex: 2
-		itemTypeAtLocation: AHR
-		numberItemsAtLocation: 1
-		numberItemsInside: 19
-		itemNameProperty: Player_Inventory
-	}
-]
 bagAmmunition: {
 	class: java.util.HashMap
-	5.56 mm: 9970
-	9 mm: 9985
+	5.56 mm: 9925
+	9 mm: 9981
 }
+exoskeletonName: EXOSKELETON_M1
 }

@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.FadingReality;
 import com.mygdx.game.UI.pda.BrowserUI;
 import com.mygdx.game.component.Message;
@@ -39,7 +38,6 @@ import com.mygdx.game.weapon.Ammo.AmmoID;
 import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -246,6 +244,10 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     Entity.Direction direction = profileManager.getPlayerConfig().getDirection();
                     player.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(initPlayerPosition));
                     player.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
+                    if (profileManager.getPlayerConfig().getExoskeletonName() != null) {
+                        EntityFactory.EntityName exoskeletonName = profileManager.getPlayerConfig().getExoskeletonName();
+                        player.sendMessage(Message.MESSAGE.EQUIP_EXOSKELETON, json.toJson(exoskeletonName));
+                    }
                 }
                 break;
             case SAVING_PROFILE:
@@ -258,6 +260,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setPosition(player.getCurrentPosition());  // XY position
                 profileManager.getPlayerConfig().setDirection(player.getCurrentDirection());  // Direction
                 profileManager.getPlayerConfig().setState(player.getCurrentState());  // State
+                profileManager.getPlayerConfig().setExoskeletonName(player.getExoskeletonName()); // Exoskeleton name
                 break;
             case CLEAR_CURRENT_PROFILE:
                 System.out.println("PROFILE CONFIG CLEARING");

@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
+import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.inventory.InventoryItem;
 import com.mygdx.game.inventory.InventoryItem.ItemID;
 import com.mygdx.game.observer.ComponentObserver;
@@ -50,6 +51,7 @@ public class Player extends Component {
     }
 
     public void equipExoskeleton(EntityConfig exoskeletonConfig){
+//        setExoskeletonOn(true);
         walkVelocity.set(exoskeletonConfig.getWalkVelocity());
         walkVelocityD.set(exoskeletonConfig.getWalkVelocityD());
         runVelocity.set(exoskeletonConfig.getRunVelocity());
@@ -65,17 +67,34 @@ public class Player extends Component {
         if(string.length == 2) {
             if(string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
                 currentEntityPosition = json.fromJson(Vector2.class, string[1]);
-            }else if(string[0].equalsIgnoreCase(MESSAGE.EQUIP_EXOSKELETON.toString())){
-                EntityConfig exoskeletonEntityConfig = json.fromJson(EntityConfig.class, string[1]);
-                this.equipExoskeleton(exoskeletonEntityConfig);
             } else if(string[0].equalsIgnoreCase(MESSAGE.CURRENT_POSITION.toString())) {
                 currentEntityPosition = json.fromJson(Vector2.class, string[1]);
             } else if(string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
                 currentState = json.fromJson(Entity.State.class, string[1]);
             } else if(string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
                 currentDirection = json.fromJson(Entity.Direction.class, string[1]);
-            } else if(string[0].equalsIgnoreCase(MESSAGE.INTERACTION_WITH_ENTITY.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.EXOSKELETON_ON.toString())) {
+                setExoskeletonOn(json.fromJson(Boolean.class, string[1]));
+            } else if(string[0].equalsIgnoreCase(MESSAGE.EQUIP_EXOSKELETON.toString())){
+                setExoskeletonName(json.fromJson(EntityFactory.EntityName.class, string[1]));
+                Entity exoskeleton = EntityFactory.getInstance().getExoskeletonByName(getExoskeletonName());
+                EntityConfig exoskeletonEntityConfig = exoskeleton.getEntityConfig();
+                equipExoskeleton(exoskeletonEntityConfig);
 
+                Array<EntityConfig.AnimationConfig> animationConfigs = exoskeletonEntityConfig.getAnimationConfig();
+
+                if (animationConfigs.size == 0) return;
+
+                for(EntityConfig.AnimationConfig animationConfig : animationConfigs) {
+                    float frameDuration = animationConfig.getFrameDuration();
+                    ResourceManager.AtlasType atlasType = animationConfig.getAtlasType();
+                    Entity.AnimationType animationType = animationConfig.getAnimationType();
+                    Animation.PlayMode playMode = animationConfig.getPlayMode();
+
+                    Animation<Sprite> animation = null;
+                    animation = loadAnimation(frameDuration, atlasType, animationType, playMode);
+                    animations.put(animationType, animation);
+                }
             } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 initHitBox(entityConfig.getHitBox());
@@ -83,7 +102,6 @@ public class Player extends Component {
                 initBoundingBox(entityConfig.getBoundingBox());
 
                 setDamageResist(entityConfig.getDamageResist());
-                setExoskeletonOn(entityConfig.isExoskeletonOn());
             } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
                 java.util.Map<String, Integer> allAmmoCount = json.fromJson(HashMap.class, string[1]);
                 WeaponSystem.setBagAmmunition(allAmmoCount);

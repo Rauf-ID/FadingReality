@@ -3,6 +3,7 @@ package com.mygdx.game.profile;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.entity.Entity;
+import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.quest.QuestGraph;
 import com.mygdx.game.inventory.InventoryItemLocation;
 import com.mygdx.game.world.MapFactory;
@@ -20,6 +21,8 @@ public class PlayerConfig {
     private Array<InventoryItemLocation> inventory;
     private Array<InventoryItemLocation> equipment;
     private Map<String, Integer> bagAmmunition;
+    private boolean exoskeletonOn;
+    private EntityFactory.EntityName exoskeletonName;
     private int money;
     private int hp;
 
@@ -99,6 +102,22 @@ public class PlayerConfig {
 
     public void setBagAmmunition(Map<String, Integer> bagAmmunition) {
         this.bagAmmunition = bagAmmunition;
+    }
+
+    public boolean isExoskeletonOn() {
+        return exoskeletonOn;
+    }
+
+    public void setExoskeletonOn(boolean exoskeletonOn) {
+        this.exoskeletonOn = exoskeletonOn;
+    }
+
+    public EntityFactory.EntityName getExoskeletonName() {
+        return exoskeletonName;
+    }
+
+    public void setExoskeletonName(EntityFactory.EntityName exoskeletonName) {
+        this.exoskeletonName = exoskeletonName;
     }
 
     public int getMoney() {

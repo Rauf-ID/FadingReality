@@ -30,7 +30,6 @@ public class EntityConfig {
     private Vector2 runVelocity;
     private Vector2 runVelocityD;
 
-    private boolean exoskeletonOn;
     private float damageResist;
 
 
@@ -211,14 +210,6 @@ public class EntityConfig {
     public Vector2 getRunVelocity() {return runVelocity;}
 
     public Vector2 getRunVelocityD() {return runVelocityD;}
-
-    public boolean isExoskeletonOn() {
-        return exoskeletonOn;
-    }
-
-    public void setExoskeletonOn(boolean exoskeletonOn) {
-        this.exoskeletonOn = exoskeletonOn;
-    }
 
     public float getDamageResist(){
         return damageResist;

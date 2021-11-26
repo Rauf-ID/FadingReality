@@ -25,7 +25,7 @@ public class EntityFactory {
         EXOSKELETON
     }
 
-    public static enum EntityName{
+    public static enum EntityName {
         TOWN_FOL, TOWN_FOLK1, TOWN_FOLK2, TOWN_FOLK3, TOWN_FOLK4, TOWN_FOLK5, TOWN_FOLK7, TOWN_FOLK8, TOWN_FOLK9, TOWN_FOLK10, TOWN_FOLK11, TOWN_FOLK12, TOWN_FOLK13, TOWN_FOLK14, TOWN_FOLK15,
         POLICE_B1, POLICE_R1,
         MERCENARIES_M1,
