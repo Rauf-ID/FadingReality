@@ -2,8 +2,8 @@
 state: IDLE
 direction: RIGHT
 position: {
-	x: 964.3456
-	y: 117.41229
+	x: 1046.0466
+	y: 176.31203
 }
 currentMap: SPACE_STATION
 quests: [
@@ -188,12 +188,13 @@ equipment: [
 		locationIndex: 2
 		itemTypeAtLocation: ALG
 		numberItemsAtLocation: 1
+		numberItemsInside: 3
 		itemNameProperty: Player_Inventory
 	}
 ]
 bagAmmunition: {
 	class: java.util.HashMap
 	5.56 mm: 9719
-	9 mm: 9694
+	9 mm: 9619
 }
 }

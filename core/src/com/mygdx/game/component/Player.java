@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -53,7 +54,6 @@ public class Player extends Component {
     }
 
     public void equipExoskeleton(EntityConfig exoskeletonConfig){
-//        setExoskeletonOn(true);
         walkVelocity.set(exoskeletonConfig.getWalkVelocity());
         walkVelocityD.set(exoskeletonConfig.getWalkVelocityD());
         runVelocity.set(exoskeletonConfig.getRunVelocity());
@@ -174,7 +174,7 @@ public class Player extends Component {
                 state = State.FREEZE;
                 currentState = Entity.State.TAKING_DAMAGE;
 
-                Timer.schedule(new Timer.Task() {
+                Timer.schedule( new Timer.Task() {
                     @Override
                     public void run() {
                         state = State.NORMAL;
@@ -188,30 +188,7 @@ public class Player extends Component {
         input(entity);
 
         //PHYSICS
-        if (Rumble.getRumbleTimeLeft() > 0){
-            Rumble.tick(Gdx.graphics.getDeltaTime());
-            camera.translate(Rumble.getPos());
-        } else if (pdaActive) {
-        } else {
-            Vector2 screenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-            Vector2 normalizedScreen = new Vector2(screenPos.x / Gdx.graphics.getWidth(), screenPos.y / Gdx.graphics.getHeight());
-            normalizedScreen.sub(.5f, .5f);
-            float offset = 150;
-            Vector3 cameraMoved = new Vector3(Math.round(currentEntityPosition.x) + normalizedScreen.x * offset+64, Math.round(currentEntityPosition.y) - normalizedScreen.y * offset+64,0);
-            if(currentState == Entity.State.USE_RUDIMENT ) {
-                cameraMoved.set(currentEntityPosition.x + normalizedScreen.x * offset+128, currentEntityPosition.y - normalizedScreen.y * offset+128,0);
-            }
-            camera.position.lerp(cameraMoved, 0.1f); //0.05f //delta
-//            camera.position.set(cameraMoved);
-//            camera.position.set(currentEntityPosition.x+64, currentEntityPosition.y+64, 0f);
-        }
-        camera.update();
-
-        if (currentState == Entity.State.RUN){
-        } else if(currentState == Entity.State.MELEE_ATTACK ) {
-        } else if(currentState == Entity.State.USE_RUDIMENT ) {
-        } else{
-        }
+        updateCamera();
 
         updateHitBox();
         updateImageBox();
@@ -520,7 +497,28 @@ public class Player extends Component {
         }
     }
 
-    public void debug(boolean activeGrid, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox) {
+    public void updateCamera() {
+        if (Rumble.getRumbleTimeLeft() > 0){
+            Rumble.tick(Gdx.graphics.getDeltaTime());
+            camera.translate(Rumble.getPos());
+        } else if (pdaActive) {
+        } else {
+            Vector2 screenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+            Vector2 normalizedScreen = new Vector2(screenPos.x / Gdx.graphics.getWidth(), screenPos.y / Gdx.graphics.getHeight());
+            normalizedScreen.sub(.5f, .5f);
+            float offset = 150;
+            Vector3 cameraMoved = new Vector3(Math.round(currentEntityPosition.x) + normalizedScreen.x * offset+64, Math.round(currentEntityPosition.y) - normalizedScreen.y * offset+64,0);
+            if(currentState == Entity.State.USE_RUDIMENT ) {
+                cameraMoved.set(currentEntityPosition.x + normalizedScreen.x * offset+128, currentEntityPosition.y - normalizedScreen.y * offset+128,0);
+            }
+            camera.position.lerp(cameraMoved, 0.1f); //0.05f //delta
+//            camera.position.set(cameraMoved);
+//            camera.position.set(currentEntityPosition.x+64, currentEntityPosition.y+64, 0f);
+        }
+        camera.update();
+    }
+
+    public void debug(boolean activeGrid, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox, boolean activeAmmoDebug) {
         if (activeGrid) {
             Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
             if(grid == null && grid.size == 0) return;
@@ -559,6 +557,13 @@ public class Player extends Component {
             shapeRenderer.setColor(Color.GRAY);
             shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
         }
+        if (activeAmmoDebug) {
+            for(Ammo ammo: activeAmmo) {
+                Polygon ammoBoundingBox = ammo.getPolygon();
+                shapeRenderer.setColor(Color.RED);
+                shapeRenderer.polygon(ammoBoundingBox.getTransformedVertices());
+            }
+        }
         shapeRenderer.end();
 
 
@@ -591,7 +596,7 @@ public class Player extends Component {
             debugActive = !debugActive;
         }
         if (debugActive) {
-            debug(true, true,true,true);
+            debug(true, true,true,true, true);
         }
 
         batch.begin();

@@ -137,11 +137,6 @@ public class Ammo {
 
         if(sprite != null) batch.draw(sprite, pos.x, pos.y, 0, 0, width, height, 1, 1, angle);
 
-//        shapeRenderer.setProjectionMatrix(camera.combined);
-//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//        shapeRenderer.setColor(Color.RED);
-//        shapeRenderer.polygon(polygon.getTransformedVertices());
-//        shapeRenderer.end();
     }
 
 
