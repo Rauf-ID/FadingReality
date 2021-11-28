@@ -1,9 +1,9 @@
 {
 state: IDLE
-direction: RIGHT
+direction: LEFT
 position: {
-	x: 1046.0466
-	y: 176.31203
+	x: 1085.4016
+	y: 280.75204
 }
 currentMap: SPACE_STATION
 quests: [
@@ -170,31 +170,30 @@ inventory: [
 		itemNameProperty: Player_Inventory
 	}
 	{
-		locationIndex: 5
-		itemTypeAtLocation: AHR
+		locationIndex: 4
+		itemTypeAtLocation: ALG
 		numberItemsAtLocation: 1
-		numberItemsInside: 26
-		itemNameProperty: Player_Inventory
-	}
-	{
-		locationIndex: 6
-		itemTypeAtLocation: ANGEL_BLADE
-		numberItemsAtLocation: 1
+		numberItemsInside: 100000
 		itemNameProperty: Player_Inventory
 	}
 ]
 equipment: [
 	{
-		locationIndex: 2
-		itemTypeAtLocation: ALG
+		itemTypeAtLocation: ANGEL_BLADE
 		numberItemsAtLocation: 1
-		numberItemsInside: 3
+		itemNameProperty: Player_Inventory
+	}
+	{
+		locationIndex: 2
+		itemTypeAtLocation: AHR
+		numberItemsAtLocation: 1
+		numberItemsInside: 99932
 		itemNameProperty: Player_Inventory
 	}
 ]
 bagAmmunition: {
 	class: java.util.HashMap
-	5.56 mm: 9719
-	9 mm: 9619
+	5.56 mm: 9402
+	9 mm: 9475
 }
 }

@@ -431,7 +431,7 @@
 //        }
 //    }
 //
-//    protected void doGotHit() {
+//    protected void gotHit() {
 //        float angleRadians = MathUtils.degreesToRadians * getAngleCenterToMouse();
 //        vector.x = MathUtils.cos(angleRadians);
 //        vector.y = MathUtils.sin(angleRadians);
@@ -457,7 +457,7 @@
 //        }
 //    }
 //
-//    protected void doSwordAttackMove() {
+//    protected void meleeAttackMove() {
 //        float angleRadians = MathUtils.degreesToRadians * getAngleCenterToMouse();
 //        vector.x = MathUtils.cos(angleRadians);
 //        vector.y = MathUtils.sin(angleRadians);
@@ -482,7 +482,7 @@
 //        }
 //    }
 //
-//    protected void doSwordAttackMoveForEnemy(MapManager mapManager) {
+//    protected void meleeAttackMoveForEnemy(MapManager mapManager) {
 //        float angleRadians = MathUtils.degreesToRadians;
 //        vector.x = MathUtils.cos(angleRadians);
 //        vector.y = MathUtils.sin(angleRadians);

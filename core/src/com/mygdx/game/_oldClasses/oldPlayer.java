@@ -444,7 +444,7 @@
 //                            state = State.FREEZ;
 //                            currentState = Entity.State.MELEE_ATTACK;
 //                            getMouseDirection();
-//                            doSwordAttackMove();
+//                            meleeAttackMove();
 //
 //                            if (attackId == 0) {
 //                                frameAttack = 0.55f;

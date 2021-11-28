@@ -34,7 +34,6 @@ import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.pathfinder.Node;
 import com.mygdx.game.world.MapManager;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -43,13 +42,8 @@ public class Player extends Component {
     private boolean isLeftButtonPressed = false;
     private boolean isRightButtonPressed = false;
 
-
-    private Vector2 previousPosition;
-
     public Player(){
-        initEntityRangeBox();
         state = State.NORMAL;
-        previousPosition = new Vector2(0,0);
         controlManager = new ControlManager();
     }
 
@@ -152,14 +146,18 @@ public class Player extends Component {
 
         weaponSystem.update(delta, this);
 
-        if (weaponSystem.getRangedWeapon().getActiveAmmo() != null) {
-            activeAmmo = weaponSystem.getRangedWeapon().getActiveAmmo();
-        }
+        updateCamera();
+        updateHitBox();
+        updateImageBox();
+        updateBoundingBox();
+//        updateSwordRangeBox(64,64);
+        updateShifts(mapManager, delta, 40);
 
-        activeDash(delta);
-        activeSwordAttackMove(delta);
-        activeGotHit(delta);
         setSwordRangeBox(new Vector2(10000,10000), 0,0);
+
+        if(isGunActive) {
+            getMouseDirectionForGun();
+        }
 
         tempEntities.clear();
         tempEntities.addAll(mapManager.getCurrentMapEntities());
@@ -167,7 +165,7 @@ public class Player extends Component {
 
         for(Entity mapEntity : tempEntities) {
             Rectangle entitySwordRangeBox = mapEntity.getCurrentSwordRangeBox();
-            if (entitySwordRangeBox.overlaps(entityRangeBox)) {
+            if (entitySwordRangeBox.overlaps(hitBox)) {
                 stateTime = 0f;
                 playerGotHit(delta);
                 health-=25;
@@ -186,20 +184,6 @@ public class Player extends Component {
 
         //INPUT
         input(entity);
-
-        //PHYSICS
-        updateCamera();
-
-        updateHitBox();
-        updateImageBox();
-        updateBoundingBox();
-        updateEntityRangeBox(64,64);
-//        updateSwordRangeBox(64,64);
-
-        //GUN ACTIVE
-        if(isGunActive) {
-            getMouseDirectionForGun();
-        }
 
         //DASH
         //GRAPHICS
@@ -403,7 +387,7 @@ public class Player extends Component {
                             state = State.FREEZE;
                             currentState = Entity.State.MELEE_ATTACK;
                             getMouseDirection();
-                            doSwordAttackMove();
+                            meleeAttackMove();
 
                             if (attackId == 0) {
                                 frameAttack = 0.55f;
@@ -518,7 +502,7 @@ public class Player extends Component {
         camera.update();
     }
 
-    public void debug(boolean activeGrid, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox, boolean activeAmmoDebug) {
+    public void debug(boolean activeGrid, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox,  boolean activeAmmoDebug) {
         if (activeGrid) {
             Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
             if(grid == null && grid.size == 0) return;
@@ -596,7 +580,7 @@ public class Player extends Component {
             debugActive = !debugActive;
         }
         if (debugActive) {
-            debug(true, true,true,true, true);
+            debug(true, true,true, true, true);
         }
 
         batch.begin();

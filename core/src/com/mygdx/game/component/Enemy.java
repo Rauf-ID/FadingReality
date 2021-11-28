@@ -12,12 +12,8 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Timer;
-import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
-import com.mygdx.game.tools.Rumble;
-import com.mygdx.game.tools.Toast;
 import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.pathfinder.Node;
 import com.mygdx.game.weapon.Ammo;
@@ -29,7 +25,6 @@ public class Enemy extends Component {
 
     public Enemy(){
         state = State.FREEZE;
-        initEntityRangeBox();
         initChaseRangeBox();
         initAttackRangeBox();
     }
@@ -90,7 +85,6 @@ public class Enemy extends Component {
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
             enemyActive = !enemyActive;
         }
-
         if (enemyActive) {
             state = State.NORMAL;
         } else {
@@ -100,14 +94,9 @@ public class Enemy extends Component {
         updateHitBox();
         updateImageBox();
         updateBoundingBox();
-
-        updateEntityRangeBox(64,64);
         updateAttackRangeBox(64,64);
         updateChaseRangeBox(64,64);
-
-        //INPUT
-        activeGotHit(delta);
-        activeSwordAttackMoveForEnemy(delta);
+        updateShifts(mapManager, delta, 10);
         setSwordRangeBox(new Vector2(10000,10000),0,0);
 
         Entity player = mapManager.getPlayer();
@@ -120,6 +109,8 @@ public class Enemy extends Component {
             enemyHitBox.setPosition(hitBox.x, hitBox.y);
             if (Intersector.overlapConvexPolygons(enemyHitBox, playerAmmoBoundingBox)) {
                 System.out.println("BULLET overlap ENEMY");
+                gotHit();
+                ammo.setRemove(true);
             }
         }
 

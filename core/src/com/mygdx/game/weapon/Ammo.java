@@ -55,7 +55,7 @@ public class Ammo {
     private float width, height;
     private float distMoved;
     private float angle;
-    private boolean active, remove;
+    private boolean remove;
     private boolean dashing = false;
     private Rectangle boundingBox;
     private Polygon polygon;
@@ -73,7 +73,6 @@ public class Ammo {
 
         width = sprite.getWidth();
         height = sprite.getHeight();
-        active = true;
         dashing = true;
         boundingBox = new Rectangle();
         boundingBox.setSize(vectorBoundingBox.x, vectorBoundingBox.y);
@@ -96,44 +95,41 @@ public class Ammo {
     }
 
     public void tick(float delta){
-        if(active){
-            float dx = (delta * vector.x) * ammoSpeed;
-            float dy = (delta * vector.y) * ammoSpeed;
-            float dx2 = pos.x + dx;
-            float dy2 = pos.y + dy;
+        float dx = (delta * vector.x) * ammoSpeed;
+        float dy = (delta * vector.y) * ammoSpeed;
+        float dx2 = pos.x + dx;
+        float dy2 = pos.y + dy;
 
-            distMoved += Vector2.dst(pos.x, pos.y, dx2, dy2);
-            pos.set(dx2, dy2, 0);
+        distMoved += Vector2.dst(pos.x, pos.y, dx2, dy2);
+        pos.set(dx2, dy2, 0);
 
-            polygon.setRotation(angle);
-            polygon.setPosition(pos.x, pos.y);
+        polygon.setRotation(angle);
+        polygon.setPosition(pos.x, pos.y);
 
-            if(distMoved > hitRange){
-                remove = true;
-                active = false;
-                dashing = false;
-            }
+        if(distMoved > hitRange){
+            remove = true;
+            dashing = false;
         }
     }
 
     public void draw(Batch batch,  OrthographicCamera camera){
-//        if(dashing) {
-//            if(Gdx.graphics.getFrameId() % (int) ((Gdx.graphics.getFramesPerSecond()*.02f)+1) == 0) {  //def .05f
-//                ammoTrace.add(new Vector3(pos.x, pos.y, 1));
-//            }
-//        }
-//
-//        for(Vector3 trace : ammoTrace) {
-//            batch.setColor(0.05f,0.7f, 0.8f, trace.z);
-//            batch.draw(sprite, trace.x, trace.y,0, 0, width, height, 1, 1, angle);
-//            trace.z -= Gdx.graphics.getDeltaTime()*6;  //def *2 *6 *10
-//        }
-//        batch.setColor(Color.WHITE);
-//        for(int i = 0; i < ammoTrace.size(); i++) {
-//            if(ammoTrace.get(i).z <= 0) {
-//                ammoTrace.remove(i);
-//            }
-//        }
+        if(dashing) {
+            if(Gdx.graphics.getFrameId() % (int) ((Gdx.graphics.getFramesPerSecond()*.02f)+1) == 0) {  //def .05f
+                ammoTrace.add(new Vector3(pos.x, pos.y, 1));
+            }
+        }
+
+        for(Vector3 trace : ammoTrace) {
+            batch.setColor(0.05f,0.7f, 0.8f, trace.z);
+            batch.draw(sprite, trace.x, trace.y,0, 0, width, height, 1, 1, angle);
+            trace.z -= Gdx.graphics.getDeltaTime()*6;  //def *2 *6 *10
+        }
+        batch.setColor(Color.WHITE);
+        for(int i = 0; i < ammoTrace.size(); i++) {
+            if(ammoTrace.get(i).z <= 0) {
+                ammoTrace.remove(i);
+            }
+        }
 
         if(sprite != null) batch.draw(sprite, pos.x, pos.y, 0, 0, width, height, 1, 1, angle);
 

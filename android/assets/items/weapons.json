@@ -16,7 +16,7 @@
 	hitRange: 100,
 	minDamage: 100,
 	maxDamage: 100,
-	critChance: 100,
+	critChance: 300,
 	attackTime: 0.5,
 
 	magazineSize: 15,

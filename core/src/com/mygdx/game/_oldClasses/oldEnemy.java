@@ -121,7 +121,7 @@
 //
 //        if(playerSwordRangeBox.overlaps(entityRangeBox)){
 //            stateTime=0f;
-//            doGotHit();
+//            gotHit();
 //            health-=25;
 //            state = State.ATTAK;
 //            currentState = Entity.State.TAKING_DAMAGE;
@@ -222,7 +222,7 @@
 //                            currentState = Entity.State.MELEE_ATTACK;
 //                            lastAttack = time;
 //
-////                            doSwordAttackMoveForEnemy(mapManager);
+////                            meleeAttackMoveForEnemy(mapManager);
 //
 //                            if (entityName.equals(EntityFactory.EntityName.ELITE_KNIGHT.toString())) {
 //                                Timer.schedule(new Timer.Task() {

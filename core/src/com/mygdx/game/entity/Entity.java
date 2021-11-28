@@ -23,14 +23,6 @@ import java.util.Map;
 
 public class Entity implements Comparable<Entity> {
 
-    @Override
-    public int compareTo(Entity entity) {
-        float temp_y =  entity.getCurrentEntityRangeBox().y;
-        float compare_y = getCurrentEntityRangeBox().y;
-
-        return (temp_y < compare_y ) ? -1: (temp_y > compare_y) ? 1:0;
-    }
-
     public enum MouseDirection {
         UP,
         RIGHT,
@@ -171,10 +163,6 @@ public class Entity implements Comparable<Entity> {
         return component.activeAmmo;
     }
 
-    public Rectangle getCurrentEntityRangeBox() {
-        return component.entityRangeBox;
-    }
-
     public Rectangle getCurrentSwordRangeBox() {
         return component.swordRangeBox;
     }
@@ -307,6 +295,14 @@ public class Entity implements Comparable<Entity> {
         return entity;
     }
 
+
+    @Override
+    public int compareTo(Entity entity) {
+        float temp_y =  entity.getBoundingBox().y;
+        float compare_y = getBoundingBox().y;
+
+        return (temp_y < compare_y ) ? -1: (temp_y > compare_y) ? 1:0;
+    }
 
     public void dispose(){
         for(Message message : messages){

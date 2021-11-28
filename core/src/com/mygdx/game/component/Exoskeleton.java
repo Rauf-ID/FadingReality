@@ -58,7 +58,6 @@ public class Exoskeleton extends Component {
                 initImageBox(entityConfig.getImageBox());
                 initBoundingBox(entityConfig.getBoundingBox());
                 initActiveZoneBox(entityConfig.getActiveZoneBox());
-                initEntityRangeBox();
             } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
@@ -84,7 +83,6 @@ public class Exoskeleton extends Component {
         updateImageBox();
         updateBoundingBox();
         updateActiveZoneBox();
-        updateEntityRangeBox(60,60);
 
         Entity player = mapManager.getPlayer();
         Rectangle playerBoundingBox = player.getBoundingBox();

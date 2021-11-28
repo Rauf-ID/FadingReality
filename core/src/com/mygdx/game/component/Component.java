@@ -80,7 +80,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     public ArrayList<Ammo> activeAmmo;
 
-    public Rectangle entityRangeBox;
     public Rectangle swordRangeBox;
     protected Rectangle chaseRangeBox;
     protected Rectangle attackRangeBox;
@@ -154,8 +153,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         activeZoneBox = new Rectangle();
         attackZoneBox = new Rectangle();
 
+        activeAmmo = new ArrayList<>();
 
-        entityRangeBox = new Rectangle();
         swordRangeBox = new Rectangle();
         chaseRangeBox = new Rectangle();
         attackRangeBox = new Rectangle();
@@ -244,17 +243,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         activeZoneBox.setCenter(boundingBox.x + middleBoundingBoxWidth, boundingBox.y + middleBoundingBoxHeight);
     }
 
-    protected void initEntityRangeBox() {
-        entityRangeBox.setWidth(24);
-        entityRangeBox.setHeight(54);
-    }
-
     protected void initBoundingBoxForObject(float width, float height){
-        entityRangeBox.set(currentEntityPosition.x, currentEntityPosition.y, width, height);
-    }
-
-    protected void updateEntityRangeBox(float width, float height) {
-        entityRangeBox.setCenter(currentEntityPosition.x+width, currentEntityPosition.y+height+10);
+        boundingBox.set(currentEntityPosition.x, currentEntityPosition.y, width, height);
     }
 
     protected void setSwordRangeBox(Vector2 position, float width, float height) {
@@ -291,7 +281,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         attackRangeBox.setWidth(64);
         attackRangeBox.setHeight(64);
     }
-
 
     protected void updateAttackRangeBox(float width, float height) {
         attackRangeBox.setCenter(currentEntityPosition.x+width, currentEntityPosition.y+height);
@@ -462,10 +451,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         return animation;
     }
 
-    public void setGunActive2(boolean gunActive2) {
-        isGunActive2 = gunActive2;
-    }
-
     protected float getAngleCenterToMouse() {
         float screenX = Gdx.input.getX();
         float screenY = Gdx.input.getY();
@@ -513,9 +498,28 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         activeDash=true;
     }
 
+    protected void gotHit() {
+        float angleRadians = MathUtils.degreesToRadians * getAngleCenterToMouse();
+        vector.x = MathUtils.cos(angleRadians);
+        vector.y = MathUtils.sin(angleRadians);
+        activeGotHit = true;
+    }
 
+    protected void meleeAttackMove() {
+        float angleRadians = MathUtils.degreesToRadians * getAngleCenterToMouse();
+        vector.x = MathUtils.cos(angleRadians);
+        vector.y = MathUtils.sin(angleRadians);
+        activeSwordAttackMove=true;
+    }
 
-    protected void activeDash(float delta) {
+    protected void meleeAttackMoveForEnemy(MapManager mapManager) {
+        float angleRadians = MathUtils.degreesToRadians;
+        vector.x = MathUtils.cos(angleRadians);
+        vector.y = MathUtils.sin(angleRadians);
+        activeSwordAttackMoveForEnemy=true;
+    }
+
+    protected void updateShifts(MapManager mapManager, float delta, float repulsionDistance) {
         if(activeDash){
             float dx = (delta * vector.x) * 500;
             float dy = (delta * vector.y) * 500;
@@ -531,16 +535,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 activeDash = false;
             }
         }
-    }
-
-    protected void doGotHit() {
-        float angleRadians = MathUtils.degreesToRadians * getAngleCenterToMouse();
-        vector.x = MathUtils.cos(angleRadians);
-        vector.y = MathUtils.sin(angleRadians);
-        activeGotHit=true;
-    }
-
-    protected void activeGotHit(float delta) {
         if(activeGotHit){
             float dx = (delta * vector.x) * 200;
             float dy = (delta * vector.y) * 200;
@@ -551,22 +545,11 @@ public abstract class Component extends ComponentSubject implements Message, Inp
             currentEntityPosition.x+=dx;
             currentEntityPosition.y+=dy;
 
-
-            if(distMoved > 40){
+            if(distMoved > repulsionDistance){
                 distMoved=0;
                 activeGotHit = false;
             }
         }
-    }
-
-    protected void doSwordAttackMove() {
-        float angleRadians = MathUtils.degreesToRadians * getAngleCenterToMouse();
-        vector.x = MathUtils.cos(angleRadians);
-        vector.y = MathUtils.sin(angleRadians);
-        activeSwordAttackMove=true;
-    }
-
-    protected void activeSwordAttackMove(float delta) {
         if(activeSwordAttackMove){
             float dx = (delta * vector.x) * 300;
             float dy = (delta * vector.y) * 300;
@@ -582,16 +565,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 activeSwordAttackMove = false;
             }
         }
-    }
-
-    protected void doSwordAttackMoveForEnemy(MapManager mapManager) {
-        float angleRadians = MathUtils.degreesToRadians;
-        vector.x = MathUtils.cos(angleRadians);
-        vector.y = MathUtils.sin(angleRadians);
-        activeSwordAttackMoveForEnemy=true;
-    }
-
-    protected void activeSwordAttackMoveForEnemy(float delta) {
         if(activeSwordAttackMoveForEnemy){
             float dx = (delta * vector.x) * 300;
             float dy = (delta * vector.y) * 300;
@@ -656,7 +629,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     }
 
     protected Entity.MouseDirection getMouseDirectionForGun() {
-
         float screenX = Gdx.input.getX();
         float screenY = Gdx.input.getY();
 

@@ -6,6 +6,8 @@ import java.util.Map;
 import com.badlogic.gdx.Gdx;
 import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.component.Component;
+import com.mygdx.game.entity.Entity;
+import com.mygdx.game.tools.Rumble;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
 
@@ -38,7 +40,19 @@ public class WeaponSystem {
                 Ammo bullet = new Ammo(rangedWeapon);
                 rangedWeapon.addActiveAmmo(bullet);
                 shootTimer = 0;
+                if(player.currentDirection == Entity.Direction.LEFT) {
+                    Rumble.rumble(-1f, .06f, 0, Rumble.State.GUN);
+                } else if (player.currentDirection == Entity.Direction.RIGHT) {
+                    Rumble.rumble(1f, .06f, 0, Rumble.State.GUN);
+                } else if (player.currentDirection == Entity.Direction.UP) {
+                    Rumble.rumble(1f, .1f, 1, Rumble.State.GUN);
+                } else if (player.currentDirection == Entity.Direction.DOWN) {
+                    Rumble.rumble(-1f, .1f, 1, Rumble.State.GUN);
+                }
             }
+
+            player.activeAmmo = rangedWeapon.getActiveAmmo();
+
         }
 
     }
