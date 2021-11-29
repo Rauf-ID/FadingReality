@@ -102,7 +102,7 @@ public class Player extends Component {
                 initHitBox(entityConfig.getHitBox());
                 initImageBox(entityConfig.getImageBox());
                 initBoundingBox(entityConfig.getBoundingBox());
-                setDamageResist(entityConfig.getDamageResist());
+//                setDamageResist(entityConfig.getDamageResist());
                 unEquipExoskeleton(entityConfig);
             } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
                 java.util.Map<String, Integer> allAmmoCount = json.fromJson(HashMap.class, string[1]);
@@ -190,7 +190,7 @@ public class Player extends Component {
             if (entitySwordRangeBox.overlaps(hitBox)) {
                 stateTime = 0f;
                 playerGotHit(delta);
-                health-=25;
+                reduceHealth(25);
                 state = State.FREEZE;
                 currentState = Entity.State.TAKING_DAMAGE;
 

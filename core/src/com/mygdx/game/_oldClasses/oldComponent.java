@@ -252,7 +252,7 @@
 //            case MECHANISM_OPEN_GATE:
 //                currentFrame = FadingReality.resourceManager.securityMechanismAnimOpenGate.getKeyFrame(stateTime, false);
 //                break;
-//            case DEATH:
+//            case DEAD:
 //                currentFrame = FadingReality.resourceManager.kingAnimDeath.getKeyFrame(stateTime, false);
 //                break;
 //            case DANCE:

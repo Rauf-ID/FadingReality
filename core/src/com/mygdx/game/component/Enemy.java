@@ -14,9 +14,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
+import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.pathfinder.Node;
 import com.mygdx.game.weapon.Ammo;
+import com.mygdx.game.weapon.Weapon;
 import com.mygdx.game.world.MapManager;
 
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 public class Enemy extends Component {
 
     public Enemy(){
-        state = State.FREEZE;
+        state = State.NORMAL;
         initChaseRangeBox();
         initAttackRangeBox();
     }
@@ -58,6 +60,7 @@ public class Enemy extends Component {
                 initHitBox(entityConfig.getHitBox());
                 initImageBox(entityConfig.getImageBox());
                 initBoundingBox(entityConfig.getBoundingBox());
+                setHealth(entityConfig.getHealth());
 //                chaseRangeBox.set(currentEntityPosition.x-(entityConfig.getAttackRadiusBoxWidth()/2)+(boundingBox.width/2), currentEntityPosition.y-(entityConfig.getAttackRadiusBoxHeight()/2)+(boundingBox.height/2), entityConfig.getAttackRadiusBoxWidth(), entityConfig.getAttackRadiusBoxHeight());
             } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
@@ -82,14 +85,14 @@ public class Enemy extends Component {
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
         this.camera = mapManager.getCamera();
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
-            enemyActive = !enemyActive;
-        }
-        if (enemyActive) {
-            state = State.NORMAL;
-        } else {
-            state = State.FREEZE;
-        }
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
+//            enemyActive = !enemyActive;
+//        }
+//        if (enemyActive) {
+//            state = State.NORMAL;
+//        } else {
+//            state = State.FREEZE;
+//        }
 
         updateHitBox();
         updateImageBox();
@@ -99,48 +102,56 @@ public class Enemy extends Component {
         updateShifts(mapManager, delta, 10);
         setSwordRangeBox(new Vector2(10000,10000),0,0);
 
-        Entity player = mapManager.getPlayer();
-        Rectangle playerBoundingBox = player.getBoundingBox();
-        ArrayList<Ammo> activeAmmo = player.getActiveAmmo();
 
-        for(Ammo ammo: activeAmmo){
-            Polygon playerAmmoBoundingBox = ammo.getPolygon();
-            Polygon enemyHitBox = new Polygon(new float[] { 0, 0, hitBox.width, 0, hitBox.width, hitBox.height, 0, hitBox.height });
-            enemyHitBox.setPosition(hitBox.x, hitBox.y);
-            if (Intersector.overlapConvexPolygons(enemyHitBox, playerAmmoBoundingBox)) {
-                System.out.println("BULLET overlap ENEMY");
-                gotHit();
-                ammo.setRemove(true);
-            }
-        }
 
         switch (state) {
             case NORMAL:
-                Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
+                Entity player = mapManager.getPlayer();
+                Rectangle playerBoundingBox = player.getBoundingBox();
+                ArrayList<Ammo> activeAmmo = player.getActiveAmmo();
+                Weapon weapon = player.getRangeWeapon();
 
-                pathFinder.setGrid(grid);
-                for (int y = 0; y < grid.size; y++) {
-                    for (int x = 0; x < grid.get(y).size; x++) {
-                        if (grid.get(y).get(x).rectangle.contains(boundingBox.x + boundingBox.width / 2, boundingBox.y)) {
-                            startNode = grid.get(y).get(x);
-                            startNode.setType(Node.GridType.START);
-                            pathFinder.setGridNode(startNode, Node.GridType.START);
-                        }
-                        if (grid.get(y).get(x).rectangle.contains(playerBoundingBox.x + playerBoundingBox.width / 2, playerBoundingBox.y + playerBoundingBox.height / 2)) {
-                            endNode = grid.get(y).get(x);
-                            endNode.setType(Node.GridType.END);
-                            pathFinder.setGridNode(endNode, Node.GridType.END);
-                        }
+//                Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
+//                pathFinder.setGrid(grid);
+//                for (int y = 0; y < grid.size; y++) {
+//                    for (int x = 0; x < grid.get(y).size; x++) {
+//                        if (grid.get(y).get(x).rectangle.contains(boundingBox.x + boundingBox.width / 2, boundingBox.y)) {
+//                            startNode = grid.get(y).get(x);
+//                            startNode.setType(Node.GridType.START);
+//                            pathFinder.setGridNode(startNode, Node.GridType.START);
+//                        }
+//                        if (grid.get(y).get(x).rectangle.contains(playerBoundingBox.x + playerBoundingBox.width / 2, playerBoundingBox.y + playerBoundingBox.height / 2)) {
+//                            endNode = grid.get(y).get(x);
+//                            endNode.setType(Node.GridType.END);
+//                            pathFinder.setGridNode(endNode, Node.GridType.END);
+//                        }
+//                    }
+//                }
+//                pathFinder.findPath();
+//                followPath();
+
+                for(Ammo ammo: activeAmmo){
+                    Polygon playerAmmoBoundingBox = ammo.getPolygon();
+                    Polygon enemyHitBox = new Polygon(new float[] { 0, 0, hitBox.width, 0, hitBox.width, hitBox.height, 0, hitBox.height });
+                    enemyHitBox.setPosition(hitBox.x, hitBox.y);
+                    if (Intersector.overlapConvexPolygons(enemyHitBox, playerAmmoBoundingBox)) {
+//                        gotHit();
+                        reduceHealth(weapon.getRandomDamage());
+                        ammo.setRemove(true);
                     }
                 }
-                pathFinder.findPath();
 
-                followPath();
+                if (getHealth() <= 0) {
+                    mapManager.setCurrentMapEntity(entity); // Задать текущего персонажа на карте
+                    notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.ENEMY_DEAD);
+                    state = State.DEAD;
+                }
 
-                break;
-            case FREEZE:
                 break;
             case DEAD:
+                currentState = Entity.State.DEAD;
+                break;
+            case FREEZE:
                 break;
         }
 

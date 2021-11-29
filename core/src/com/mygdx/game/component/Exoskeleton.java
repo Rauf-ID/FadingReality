@@ -88,7 +88,6 @@ public class Exoskeleton extends Component {
         Rectangle playerBoundingBox = player.getBoundingBox();
 
         if (playerBoundingBox.overlaps(activeZoneBox)) {
-            mapManager.setCurrentMapEntity(entity); // Задать текущего персонажа на карте
             playerInActiveZone = true;
             if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
                 player.sendMessage(MESSAGE.EQUIP_EXOSKELETON, json.toJson(entityConfig.getEntityID()));

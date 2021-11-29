@@ -8,7 +8,8 @@ public interface ComponentObserver {
         QUEST_LOCATION_DISCOVERED,
         ENEMY_SPAWN_LOCATION_CHANGED,
         PLAYER_HAS_MOVED,
-        PLAYER_SHOT
+        PLAYER_SHOT,
+        ENEMY_DEAD,
     }
 
     void onNotify(final String value, ComponentEvent event);

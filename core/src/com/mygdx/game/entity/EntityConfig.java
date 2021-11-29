@@ -30,8 +30,8 @@ public class EntityConfig {
     private Vector2 runVelocity;
     private Vector2 runVelocityD;
 
-    private float damageResist;
-
+    private int health;
+    private int damageResist;
 
     EntityConfig() {
         inventory = new Array<ItemID>();
@@ -75,6 +75,9 @@ public class EntityConfig {
         walkVelocityD = config.getWalkVelocityD();
         runVelocity=config.getRunVelocity();
         runVelocityD=config.getRunVelocityD();
+
+        health = config.getHealth();
+        damageResist = config.getDamageResist();
     }
 
 
@@ -211,12 +214,20 @@ public class EntityConfig {
 
     public Vector2 getRunVelocityD() {return runVelocityD;}
 
-    public float getDamageResist(){
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getDamageResist(){
         return damageResist;
     }
 
-    public void setDamageResist(float damageResist){
-        this.damageResist=damageResist;
+    public void setDamageResist(int damageResist){
+        this.damageResist = damageResist;
     }
 
     static public class AnimationConfig {

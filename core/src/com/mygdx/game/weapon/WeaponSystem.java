@@ -117,7 +117,6 @@ public class WeaponSystem {
 
 
 
-
     public boolean meleeIsActive() {
         return meleeWeapon != null;
     }

@@ -117,6 +117,11 @@ public class Weapon {
         }
     }
 
+    public int getRandomDamage() {
+        int randomDamage = (int) ((Math.random() * (maxDamage - minDamage)) + minDamage);
+        return randomDamage;
+    }
+
 
 
 

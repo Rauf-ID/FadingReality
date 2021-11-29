@@ -4,8 +4,8 @@
 	isRangedWeapon: false,
 	knockback: 100,
 	hitRange: 100,
-	minDamage: 100,
-	maxDamage: 100,
+	minDamage: 10,
+	maxDamage: 20,
 	critChance: 100,
 	attackTime: 100,
 }
@@ -14,8 +14,8 @@
 	isRangedWeapon: true,
 	knockback: 100,
 	hitRange: 100,
-	minDamage: 100,
-	maxDamage: 100,
+	minDamage: 10,
+	maxDamage: 20,
 	critChance: 300,
 	attackTime: 0.5,
 
@@ -31,8 +31,8 @@
 	isRangedWeapon: true,
 	knockback: 100,
 	hitRange: 100,
-	minDamage: 100,
-	maxDamage: 100,
+	minDamage: 10,
+	maxDamage: 20,
 	critChance: 100,
 	attackTime: 0.3,
 

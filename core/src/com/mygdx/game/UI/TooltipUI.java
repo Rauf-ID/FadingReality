@@ -10,7 +10,6 @@ import com.mygdx.game.FadingReality;
 
 public class TooltipUI extends Window {
 
-    private Array<Label> labels = new Array<>();
     private Array<Tooltip> tooltips = new Array<>();
     private Array<Tooltip> currentTooltips = new Array<>();
 
@@ -27,7 +26,6 @@ public class TooltipUI extends Window {
         Label label = new Label(text, FadingReality.getUiSkin());
         Tooltip tooltip = new Tooltip(label,tooltips.size%3,0,true);
         tooltips.add(tooltip);
-//        labels.add(label);
         if (currentTooltips.size < 3) {
             makeTooltipCurrent(tooltip);
         }
@@ -43,11 +41,12 @@ public class TooltipUI extends Window {
     @Override
     public void act(float delta) {
         super.act(delta);
-        for (Tooltip tooltip:currentTooltips){
-            tooltip.timer+=delta;
-            if(tooltip.timer>3 && tooltip.active){
-                tooltip.active=false;
-                if(tooltips.size>0){
+
+        for (Tooltip tooltip: currentTooltips){
+            tooltip.timer += delta;
+            if(tooltip.timer > 3 && tooltip.active){
+                tooltip.active = false;
+                if(tooltips.size > 0){
                     tooltips.removeIndex(0);
                 }
                 currentTooltips.removeIndex(0);
@@ -57,11 +56,6 @@ public class TooltipUI extends Window {
 
                 System.out.println("removed");
                 getChild(1).remove();
-
-
-
-
-
             }
         }
 

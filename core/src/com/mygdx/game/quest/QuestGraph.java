@@ -253,6 +253,15 @@ public class QuestGraph {
                 case FETCH:
                     break;
                 case KILL:
+                    if (mapMgr.getCurrentMapEntity() != null) {
+                        if (questTaskProperty.getTargetName().contains(mapMgr.getCurrentMapEntity().getEntityConfig().getEntityID(), false)) {
+                            questTaskProperty.setNumberEntities(questTaskProperty.getNumberEntities()-1);
+                            questTaskProperty.getTargetName().removeValue(mapMgr.getCurrentMapEntity().getEntityConfig().getEntityID(), false);
+                        }
+                    }
+                    if (questTaskProperty.getNumberEntities() == 0) {
+                        questTask.setTaskComplete(true);
+                    }
                     break;
                 case DELIVERY:
                     break;

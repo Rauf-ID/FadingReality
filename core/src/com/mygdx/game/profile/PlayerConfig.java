@@ -21,7 +21,6 @@ public class PlayerConfig {
     private Array<InventoryItemLocation> inventory;
     private Array<InventoryItemLocation> equipment;
     private Map<String, Integer> bagAmmunition;
-    private boolean exoskeletonOn;
     private EntityFactory.EntityName exoskeletonName;
     private int money;
     private int hp;
@@ -32,6 +31,8 @@ public class PlayerConfig {
     private int maxExp;
     private int minDamage;
     private int maxDamage;
+
+    private int health;
 
     PlayerConfig() {
         inventory = new Array<>();
@@ -104,14 +105,6 @@ public class PlayerConfig {
         this.bagAmmunition = bagAmmunition;
     }
 
-    public boolean isExoskeletonOn() {
-        return exoskeletonOn;
-    }
-
-    public void setExoskeletonOn(boolean exoskeletonOn) {
-        this.exoskeletonOn = exoskeletonOn;
-    }
-
     public EntityFactory.EntityName getExoskeletonName() {
         return exoskeletonName;
     }
@@ -182,5 +175,13 @@ public class PlayerConfig {
 
     public void setMaxDamage(int maxDamage) {
         this.maxDamage = maxDamage;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 }

@@ -315,6 +315,11 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 Integer ammoCountInMagazine = json.fromJson(Integer.class, value);
                 inventoryUI.getItemFromWeaponRangedWeaponSlot().setNumberItemsInside(ammoCountInMagazine);
                 break;
+            case ENEMY_DEAD:
+                questUI.updateQuests(mapMgr);
+//                mapMgr.setMapChanged(true);
+                mapMgr.clearCurrentSelectedMapEntity();
+                break;
             default:
                 break;
         }

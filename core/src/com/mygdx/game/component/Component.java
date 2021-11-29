@@ -59,11 +59,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     protected Array<Entity> tempEntities;
 
-
     protected EntityFactory.EntityName exoskeletonName = EntityFactory.EntityName.NONE;
-    protected float damageResist;
 
-    protected float health;
     protected String entityName = "";
     public Vector2 currentEntityPosition;
     protected Vector2 runVelocity, runVelocityD;
@@ -77,6 +74,9 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public Rectangle boundingBox;
     public Rectangle activeZoneBox;
     public Rectangle attackZoneBox;
+
+    protected int health;
+    protected int damageResist;
 
     public ArrayList<Ammo> activeAmmo;
 
@@ -122,10 +122,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected float dashTime = 0;
     protected int anInt1 = 1;
 
-
-
-
-
     Component() {
         json = new Json();
         shapeRenderer = new ShapeRenderer();
@@ -139,6 +135,10 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
         currentEntityPosition = new Vector2();
         tempEntities = new Array<Entity>();
+        runVelocity = new Vector2();
+        runVelocityD = new Vector2();
+        walkVelocity = new  Vector2();
+        walkVelocityD = new Vector2();
 
         dashShadow = new Array<>();
 
@@ -161,19 +161,25 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         controlManager = new ControlManager();
         weaponSystem = new WeaponSystem();
         pathFinder = new PathFinder();
-
-        runVelocity = new Vector2();
-        runVelocityD = new Vector2();
-        walkVelocity = new  Vector2();
-        walkVelocityD = new Vector2();
-
     }
 
-    public float getDamageResist(){
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public void reduceHealth(int damage) {
+        health -= damage;
+    }
+
+    public int getDamageResist() {
         return damageResist;
     }
 
-    public void setDamageResist(float damageResist) {
+    public void setDamageResist(int damageResist) {
         this.damageResist = damageResist;
     }
 

@@ -14,6 +14,7 @@ import com.mygdx.game.component.Component;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.weapon.Ammo;
+import com.mygdx.game.weapon.Weapon;
 import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 
@@ -161,6 +162,10 @@ public class Entity implements Comparable<Entity> {
 
     public  ArrayList<Ammo> getActiveAmmo(){
         return component.activeAmmo;
+    }
+
+    public Weapon getRangeWeapon() {
+        return component.weaponSystem.getRangedWeapon();
     }
 
     public Rectangle getCurrentSwordRangeBox() {
