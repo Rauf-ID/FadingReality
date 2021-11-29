@@ -60,7 +60,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected Array<Entity> tempEntities;
 
 
-    protected EntityFactory.EntityName exoskeletonName;
+    protected EntityFactory.EntityName exoskeletonName = EntityFactory.EntityName.NONE;
     protected float damageResist;
 
     protected float health;

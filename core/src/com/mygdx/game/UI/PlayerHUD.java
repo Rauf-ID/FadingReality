@@ -262,7 +262,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             case SAVING_PROFILE:
                 System.out.println("PROFILE CONFIG SAVING");
                 profileManager.getSettingsConfig().setLastActiveAccount(profileManager.getProfileName());
-                profileManager.getPlayerConfig().setQuests(questUI.getQuests());  // Quests
+                profileManager.getPlayerConfig().setQuests(questUI.getQuests()); // Quests
                 profileManager.getPlayerConfig().setBagAmmunition(player.getBagAmmunition()); // Bag Ammunition
                 profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable())); // Inventory
                 profileManager.getPlayerConfig().setEquipment(InventoryUI.getInventory(inventoryUI.getEquipSlotTable())); // Equipment
