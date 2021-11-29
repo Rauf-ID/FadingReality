@@ -154,6 +154,8 @@ public class ResourceManager {
 
     public Texture dialogueImg;
 
+    public Texture textureNone;
+
 
 
     public ResourceManager() {
@@ -279,6 +281,8 @@ public class ResourceManager {
         lightClubGreen = ATLAS_MAP_OBJECTS.createSprite("LIGHT_CLUB_GREEN",1);
 
         dialogueImg = new Texture(Gdx.files.internal("dialogue2.png"));
+
+        textureNone = new Texture(Gdx.files.internal("none.png"));
 
         texture = new Texture(Gdx.files.internal("stats.png"));
         texture2 = new Texture(Gdx.files.internal("items.png"));

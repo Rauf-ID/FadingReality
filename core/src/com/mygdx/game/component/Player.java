@@ -176,6 +176,9 @@ public class Player extends Component {
             }
         }
 
+        if(Gdx.input.isKeyJustPressed(Input.Keys.V)) {
+            notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.PLAYER_HAS_MOVED);
+        }
 
 
         tempEntities.clear();

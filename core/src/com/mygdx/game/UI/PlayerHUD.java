@@ -112,7 +112,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         tooltipUI = new TooltipUI();
         tooltipUI.setMovable(true);
         tooltipUI.setVisible(true);
-        tooltipUI.setSize(250,100);
+        tooltipUI.setSize(250, Gdx.graphics.getHeight());
         tooltipUI.setPosition(Gdx.graphics.getWidth(), 10);
 
         inventoryUI = new InventoryUI();
@@ -309,6 +309,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             case ENEMY_SPAWN_LOCATION_CHANGED:
                 break;
             case PLAYER_HAS_MOVED:
+                tooltipUI.addTooltip("Hello");
                 break;
             case PLAYER_SHOT:
                 Integer ammoCountInMagazine = json.fromJson(Integer.class, value);
