@@ -52,6 +52,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
     private HealthBar healthBar;
 
+    private TooltipUI tooltipUI;
     private InventoryUI inventoryUI;
     public ConversationUI conversationUI;
     private QuestUI questUI;
@@ -108,6 +109,12 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         healthBar = new HealthBar(180, 20);
         healthBar.setPosition(Gdx.graphics.getWidth()- 200, Gdx.graphics.getHeight() - 50);
 
+        tooltipUI = new TooltipUI();
+        tooltipUI.setMovable(true);
+        tooltipUI.setVisible(true);
+        tooltipUI.setSize(500,100);
+        tooltipUI.setPosition(Gdx.graphics.getWidth(), 100);
+
         inventoryUI = new InventoryUI();
         inventoryUI.setKeepWithinStage(false);
         inventoryUI.setMovable(true);
@@ -156,6 +163,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 //        image.setPosition(500,500);
 //        image.setSize(128,128);
 
+        this.addActor(tooltipUI);
         this.addActor(inventoryUI);
         this.addActor(conversationUI);
         this.addActor(questUI);
@@ -416,7 +424,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
 
     public void update() {
-
         if (!browserUI.isVisible()) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
                 pdaui.setVisible(pdaui.isVisible() ? false : true);
@@ -431,13 +438,10 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             }
         }
 
-
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             browserUI.setVisible(false);
             pdaui.setVisible(true);
         }
-
-
     }
 
     public void render(float delta) {
