@@ -125,6 +125,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
 
 
+
     Component() {
         json = new Json();
         shapeRenderer = new ShapeRenderer();
@@ -138,10 +139,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
         currentEntityPosition = new Vector2();
         tempEntities = new Array<Entity>();
-        runVelocity = new Vector2(2f,2f);
-        runVelocityD = new Vector2(1.4f,1.4f);
-        walkVelocity = new  Vector2(2f/2,2f/2);
-        walkVelocityD = new Vector2(1.4f/2,1.4f/2);
 
         dashShadow = new Array<>();
 
@@ -164,6 +161,11 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         controlManager = new ControlManager();
         weaponSystem = new WeaponSystem();
         pathFinder = new PathFinder();
+
+        runVelocity = new Vector2();
+        runVelocityD = new Vector2();
+        walkVelocity = new  Vector2();
+        walkVelocityD = new Vector2();
 
     }
 

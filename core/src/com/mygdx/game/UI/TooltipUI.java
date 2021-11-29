@@ -12,8 +12,9 @@ public class TooltipUI extends Window {
 
     private Array<Label> labels = new Array<>();
     private Array<Tooltip> tooltips = new Array<>();
+    private Array<Tooltip> currentTooltips = new Array<>();
 
-    private float timer1 = 0, timer2 = 0, timer3 = 0;
+
 
     public TooltipUI() {
         super("", FadingReality.getUiSkin());
@@ -24,51 +25,50 @@ public class TooltipUI extends Window {
 
     public void addTooltip(String text) {
         Label label = new Label(text, FadingReality.getUiSkin());
-        tooltips.add(new Tooltip(label, tooltips.size + 1, 3));
+        Tooltip tooltip = new Tooltip(label,tooltips.size%3,0,true);
+        tooltips.add(tooltip);
 //        labels.add(label);
-        if (tooltips.size < 3) {
-            this.add(label);
-            this.row();
+        if (currentTooltips.size < 3) {
+            makeTooltipCurrent(tooltip);
         }
+    }
+
+    public void makeTooltipCurrent(Tooltip tooltip){
+        currentTooltips.add(tooltip);
+        System.out.println(currentTooltips.size + "sixze");
+        this.add(tooltip.label);
+        this.row();
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
+        for (Tooltip tooltip:currentTooltips){
+            tooltip.timer+=delta;
+            if(tooltip.timer>3 && tooltip.active){
+                tooltip.active=false;
+                if(tooltips.size>0){
+                    tooltips.removeIndex(0);
+                }
+                currentTooltips.removeIndex(0);
+                try {
+                    currentTooltips.add(tooltips.get(0));
+                }catch (IndexOutOfBoundsException e){}
 
-//        int q = 0;
-//        if (labels.size > 0) {
-//            if (timer1 == 0) {
-//                timer1 += delta;
-//            }
-//        }
-
-
-        if (labels.size == 1) {
-            timer1 += delta;
-            if (timer1 > 3) {
-                System.out.println(getChild(0).getZIndex());
+                System.out.println("removed");
                 getChild(1).remove();
-                labels.removeIndex(0);
-                timer1 = 0;
+
+
+
+
+
             }
         }
-        if (labels.size == 2) {
-            timer2 += delta;
-            if (timer2 > 3) {
-                getChild(2).remove();
-                labels.removeIndex(1);
-                timer2 = 0;
-            }
-        }
-        if (labels.size == 3) {
-            timer3 += delta;
-            if (timer3 > 3) {
-                getChild(3).remove();
-                labels.removeIndex(2);
-                timer3 = 0;
-            }
-        }
+
+
+
+
+
 
     }
 
