@@ -112,8 +112,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         tooltipUI = new TooltipUI();
         tooltipUI.setMovable(true);
         tooltipUI.setVisible(true);
-        tooltipUI.setSize(500,100);
-        tooltipUI.setPosition(Gdx.graphics.getWidth(), 100);
+        tooltipUI.setSize(250,100);
+        tooltipUI.setPosition(Gdx.graphics.getWidth(), 10);
 
         inventoryUI = new InventoryUI();
         inventoryUI.setKeepWithinStage(false);
@@ -227,6 +227,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
                     profileManager.getPlayerConfig().setPosition(new Vector2(1188,281));
                     profileManager.getPlayerConfig().setDirection(Entity.Direction.LEFT);
+                    profileManager.getPlayerConfig().setExoskeletonName(EntityFactory.EntityName.NONE);
 
                     Vector2 initPlayerPosition = profileManager.getPlayerConfig().getPosition();
                     Entity.Direction direction = profileManager.getPlayerConfig().getDirection();
@@ -252,7 +253,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     Entity.Direction direction = profileManager.getPlayerConfig().getDirection();
                     player.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(initPlayerPosition));
                     player.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
-                    if (profileManager.getPlayerConfig().getExoskeletonName() != null) {
+                    if (profileManager.getPlayerConfig().getExoskeletonName() != EntityFactory.EntityName.NONE) {
                         EntityFactory.EntityName exoskeletonName = profileManager.getPlayerConfig().getExoskeletonName();
                         player.sendMessage(Message.MESSAGE.EQUIP_EXOSKELETON, json.toJson(exoskeletonName));
                     }
