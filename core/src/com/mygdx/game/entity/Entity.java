@@ -187,9 +187,6 @@ public class Entity implements Comparable<Entity> {
         return component.currentState;
     }
 
-    public boolean getExoskeletonOn() {
-        return component.isExoskeletonOn();
-    }
 
     public EntityFactory.EntityName getExoskeletonName() {
         return component.getExoskeletonName();

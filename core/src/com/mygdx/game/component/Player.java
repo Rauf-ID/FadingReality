@@ -41,6 +41,7 @@ public class Player extends Component {
 
     private boolean isLeftButtonPressed = false;
     private boolean isRightButtonPressed = false;
+    private float timer;
 
     public Player(){
         state = State.NORMAL;
@@ -52,6 +53,13 @@ public class Player extends Component {
         walkVelocityD.set(exoskeletonConfig.getWalkVelocityD());
         runVelocity.set(exoskeletonConfig.getRunVelocity());
         runVelocityD.set(exoskeletonConfig.getRunVelocityD());
+    }
+
+    public void unEquipExoskeleton(EntityConfig playerConfig) {
+        walkVelocity.set(playerConfig.getWalkVelocity());
+        walkVelocityD.set(playerConfig.getWalkVelocityD());
+        runVelocity.set(playerConfig.getRunVelocity());
+        runVelocityD.set(playerConfig.getRunVelocityD());
     }
 
     @Override
@@ -69,8 +77,6 @@ public class Player extends Component {
                 currentState = json.fromJson(Entity.State.class, string[1]);
             } else if(string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
                 currentDirection = json.fromJson(Entity.Direction.class, string[1]);
-            } else if(string[0].equalsIgnoreCase(MESSAGE.EXOSKELETON_ON.toString())) {
-                setExoskeletonOn(json.fromJson(Boolean.class, string[1]));
             } else if(string[0].equalsIgnoreCase(MESSAGE.EQUIP_EXOSKELETON.toString())){
                 setExoskeletonName(json.fromJson(EntityFactory.EntityName.class, string[1]));
                 Entity exoskeleton = EntityFactory.getInstance().getExoskeletonByName(getExoskeletonName());
@@ -96,8 +102,8 @@ public class Player extends Component {
                 initHitBox(entityConfig.getHitBox());
                 initImageBox(entityConfig.getImageBox());
                 initBoundingBox(entityConfig.getBoundingBox());
-
                 setDamageResist(entityConfig.getDamageResist());
+                unEquipExoskeleton(entityConfig);
             } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
                 java.util.Map<String, Integer> allAmmoCount = json.fromJson(HashMap.class, string[1]);
                 WeaponSystem.setBagAmmunition(allAmmoCount);
@@ -158,6 +164,19 @@ public class Player extends Component {
         if(isGunActive) {
             getMouseDirectionForGun();
         }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.E) && exoskeletonName!=null){
+            timer+=delta;
+            if(timer>=2){
+                System.out.println("exoskeleton off");
+                entity.sendMessage(MESSAGE.INIT_CONFIG, json.toJson(entity.getEntityConfig()));
+                entity.sendMessage(MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
+                exoskeletonName = EntityFactory.EntityName.NONE;
+                timer=0;
+            }
+        }
+
+
 
         tempEntities.clear();
         tempEntities.addAll(mapManager.getCurrentMapEntities());
@@ -342,6 +361,7 @@ public class Player extends Component {
                                 }}, 0.38f);
                         }
 
+
                         //RUDIMENT
                         if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
                             currentEntityPosition.x -= 64;
@@ -365,6 +385,8 @@ public class Player extends Component {
                                     state = State.NORMAL;
                                 }}, 1.1f);
                         }
+
+
 
                         //MELEE ATTACK
                         if (isLeftButtonPressed && weaponSystem.meleeIsActive()) {
@@ -631,6 +653,9 @@ public class Player extends Component {
 
     @Override
     public boolean keyUp(int keycode) {
+        if(keycode==Input.Keys.E){
+            timer=0;
+        }
         return false;
     }
 

@@ -59,7 +59,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     protected Array<Entity> tempEntities;
 
-    protected boolean exoskeletonOn;
+
     protected EntityFactory.EntityName exoskeletonName;
     protected float damageResist;
 
@@ -171,16 +171,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         return damageResist;
     }
 
-    public void setDamageResist(float damageResist){
-        this.damageResist=damageResist;
-    }
-
-    public boolean isExoskeletonOn(){
-        return exoskeletonOn;
-    }
-
-    public void setExoskeletonOn(boolean exoskeletonOn){
-        this.exoskeletonOn=exoskeletonOn;
+    public void setDamageResist(float damageResist) {
+        this.damageResist = damageResist;
     }
 
     public EntityFactory.EntityName getExoskeletonName() {

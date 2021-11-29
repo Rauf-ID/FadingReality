@@ -8,7 +8,11 @@ hitBox: { x: 18, y: 64 }
 imageBox: { x: 128, y: 128 }
 boundingBox: { x: 26, y: 16 }
 activeZoneBox: { x: 0, y: 0 }
-attackZoneBox: { x: 0, y: 0 }
+attackZoneBox: { x: 0, y: 0 },
+"walkVelocity": {"x": 2, "y": 2},
+"walkVelocityD": {"x": 1.4, "y": 1.4},
+"runVelocity": {"x": 2, "y": 2},
+"runVelocityD": {"x": 1.4, "y": 1.4},
 damageResist: 0
 inventory : [
 	{
