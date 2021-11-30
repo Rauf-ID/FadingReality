@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.FadingReality;
+import jdk.javadoc.internal.doclets.toolkit.util.InternalException;
 
 public class TooltipUI extends Window {
 
@@ -24,7 +25,7 @@ public class TooltipUI extends Window {
 
     public void addTooltip(String text) {
         Label label = new Label(text, FadingReality.getUiSkin());
-        Tooltip tooltip = new Tooltip(label,tooltips.size%3,0,true);
+        Tooltip tooltip = new Tooltip(label,currentTooltips.size%3,0,true);
         tooltips.add(tooltip);
         if (currentTooltips.size < 3) {
             makeTooltipCurrent(tooltip);
@@ -33,7 +34,8 @@ public class TooltipUI extends Window {
 
     public void makeTooltipCurrent(Tooltip tooltip){
         currentTooltips.add(tooltip);
-        System.out.println(currentTooltips.size + "sixze");
+        tooltips.removeIndex(0);
+        System.out.println(currentTooltips.size + " - size");
         this.add(tooltip.label);
         this.row();
     }
@@ -42,31 +44,24 @@ public class TooltipUI extends Window {
     public void act(float delta) {
         super.act(delta);
 
-        for (Tooltip tooltip: currentTooltips){
-            tooltip.timer += delta;
-            if(tooltip.timer > 3 && tooltip.active){
-                tooltip.active = false;
-                if(tooltips.size > 0){
-                    tooltips.removeIndex(0);
+        for (Tooltip tooltip : currentTooltips) {
+                tooltip.timer += delta;
+                System.out.println("time: " + tooltip.timer + " index:" + tooltip.index);
+                if (tooltip.timer > 3 && tooltip.active) {
+                    tooltip.active = false;
+                    getChild(1).remove();
+
+                    if (tooltips.size > 0) {
+                        makeTooltipCurrent(tooltips.get(0));
+
+                        System.out.println("added new");
+                    }
+                    System.out.println("removed" + currentTooltips.size);
+                    currentTooltips.removeIndex(0);
+                    System.out.println("removed" + currentTooltips.size);
+
+
                 }
-                currentTooltips.removeIndex(0);
-                try {
-                    currentTooltips.add(tooltips.get(0));
-                }catch (IndexOutOfBoundsException e){}
-
-                System.out.println("removed");
-                getChild(1).remove();
-            }
         }
-
-
-
-
-
-
     }
-
-
-
-
 }
