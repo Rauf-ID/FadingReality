@@ -10,6 +10,7 @@ public interface ComponentObserver {
         PLAYER_HAS_MOVED,
         PLAYER_SHOT,
         ENEMY_DEAD,
+        ITEM_PICK_UP
     }
 
     void onNotify(final String value, ComponentEvent event);

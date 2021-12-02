@@ -21,6 +21,7 @@ import com.mygdx.game.UI.pda.BrowserUI;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.inventory.InventoryItem;
+import com.mygdx.game.inventory.InventoryItemFactory;
 import com.mygdx.game.quest.QuestGraph;
 import com.mygdx.game.UI.pda.PDAUI;
 import com.mygdx.game.observer.InventoryObserver;
@@ -52,6 +53,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
     private HealthBar healthBar;
 
+    private int iis;
     private TooltipUI tooltipUI;
     private InventoryUI inventoryUI;
     public ConversationUI conversationUI;
@@ -112,8 +114,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         tooltipUI = new TooltipUI();
         tooltipUI.setMovable(true);
         tooltipUI.setVisible(true);
-        tooltipUI.setSize(250, Gdx.graphics.getHeight());
-        tooltipUI.setPosition(Gdx.graphics.getWidth(), 10);
+        tooltipUI.setSize(300, Gdx.graphics.getHeight());
+        tooltipUI.setPosition(Gdx.graphics.getWidth(), 0);
+        tooltipUI.right().bottom();
 
         inventoryUI = new InventoryUI();
         inventoryUI.setKeepWithinStage(false);
@@ -309,7 +312,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             case ENEMY_SPAWN_LOCATION_CHANGED:
                 break;
             case PLAYER_HAS_MOVED:
-                tooltipUI.addTooltip("Hello");
                 break;
             case PLAYER_SHOT:
                 Integer ammoCountInMagazine = json.fromJson(Integer.class, value);
@@ -320,6 +322,10 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 //                mapMgr.setMapChanged(true);
                 mapMgr.clearCurrentSelectedMapEntity();
                 break;
+            case ITEM_PICK_UP:
+                InventoryItem inventoryItem = InventoryItemFactory.getInstance().getInventoryItem(InventoryItem.ItemID.POTIONS01);
+                iis++;
+                tooltipUI.addTooltip(  iis + " ITEM added to inventory");
             default:
                 break;
         }
