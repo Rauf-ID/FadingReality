@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.FadingReality;
-import jdk.javadoc.internal.doclets.toolkit.util.InternalException;
+//import jdk.javadoc.internal.doclets.toolkit.util.InternalException;
 
 public class TooltipUI extends Window {
 

@@ -389,8 +389,6 @@ public class Player extends Component {
                                 }}, 1.1f);
                         }
 
-
-
                         //MELEE ATTACK
                         if (isLeftButtonPressed && weaponSystem.meleeIsActive()) {
                             isLeftButtonPressed = false;
