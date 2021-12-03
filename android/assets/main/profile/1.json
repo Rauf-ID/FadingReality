@@ -1,9 +1,9 @@
 {
 state: IDLE
-direction: LEFT
+direction: RIGHT
 position: {
-	x: 1085.4016
-	y: 280.75204
+	x: 1123.4125
+	y: 123.37973
 }
 currentMap: SPACE_STATION
 quests: [
@@ -187,7 +187,7 @@ equipment: [
 		locationIndex: 2
 		itemTypeAtLocation: AHR
 		numberItemsAtLocation: 1
-		numberItemsInside: 99932
+		numberItemsInside: 98933
 		itemNameProperty: Player_Inventory
 	}
 ]
@@ -196,4 +196,5 @@ bagAmmunition: {
 	5.56 mm: 9402
 	9 mm: 9475
 }
+exoskeletonName: NONE
 }

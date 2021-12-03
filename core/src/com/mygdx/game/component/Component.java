@@ -495,7 +495,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         float angleRadians = MathUtils.degreesToRadians * getAngleCenterToMouse();
         vector.x = MathUtils.cos(angleRadians);
         vector.y = MathUtils.sin(angleRadians);
-        activeDash=true;
+        activeDash = true;
     }
 
     protected void gotHit() {
@@ -509,14 +509,14 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         float angleRadians = MathUtils.degreesToRadians * getAngleCenterToMouse();
         vector.x = MathUtils.cos(angleRadians);
         vector.y = MathUtils.sin(angleRadians);
-        activeSwordAttackMove=true;
+        activeSwordAttackMove = true;
     }
 
     protected void meleeAttackMoveForEnemy(MapManager mapManager) {
         float angleRadians = MathUtils.degreesToRadians;
         vector.x = MathUtils.cos(angleRadians);
         vector.y = MathUtils.sin(angleRadians);
-        activeSwordAttackMoveForEnemy=true;
+        activeSwordAttackMoveForEnemy = true;
     }
 
     protected void updateShifts(MapManager mapManager, float delta, float repulsionDistance) {

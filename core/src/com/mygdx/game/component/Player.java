@@ -48,20 +48,6 @@ public class Player extends Component {
         controlManager = new ControlManager();
     }
 
-    public void equipExoskeleton(EntityConfig exoskeletonConfig){
-        walkVelocity.set(exoskeletonConfig.getWalkVelocity());
-        walkVelocityD.set(exoskeletonConfig.getWalkVelocityD());
-        runVelocity.set(exoskeletonConfig.getRunVelocity());
-        runVelocityD.set(exoskeletonConfig.getRunVelocityD());
-    }
-
-    public void unEquipExoskeleton(EntityConfig playerConfig) {
-        walkVelocity.set(playerConfig.getWalkVelocity());
-        walkVelocityD.set(playerConfig.getWalkVelocityD());
-        runVelocity.set(playerConfig.getRunVelocity());
-        runVelocityD.set(playerConfig.getRunVelocityD());
-    }
-
     @Override
     public void receiveMessage(String message) {
         String[] string = message.split(MESSAGE_TOKEN);
@@ -180,34 +166,10 @@ public class Player extends Component {
             notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.ITEM_PICK_UP);
         }
 
-
-        tempEntities.clear();
-        tempEntities.addAll(mapManager.getCurrentMapEntities());
-        tempEntities.addAll(mapManager.getCurrentMapQuestEntities());
-
-        for(Entity mapEntity : tempEntities) {
-            Rectangle entitySwordRangeBox = mapEntity.getCurrentSwordRangeBox();
-            if (entitySwordRangeBox.overlaps(hitBox)) {
-                stateTime = 0f;
-                playerGotHit(delta);
-                reduceHealth(25);
-                state = State.FREEZE;
-                currentState = Entity.State.TAKING_DAMAGE;
-
-                Timer.schedule( new Timer.Task() {
-                    @Override
-                    public void run() {
-                        state = State.NORMAL;
-                    }}, 0.3f);
-                Rumble.rumble(5, .1f, 0, Rumble.State.SWORD);
-                PlayerHUD.toastShort("Enemy HIT", Toast.Length.SHORT);
-            }
-        }
-
         //INPUT
         input(entity);
 
-        //DASH
+        //DASH SHADOW
         //GRAPHICS
         updateAnimations(delta);
 
@@ -350,12 +312,11 @@ public class Player extends Component {
                         //DASH
                         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
                             stateTime = 0f;
+                            dashing = true;
                             state = State.FREEZE;
                             currentState = Entity.State.DASH;
                             getMouseDirection();
                             doDash();
-
-                            dashing = true;
 
                             Timer.schedule(new Timer.Task() {
                                 @Override
@@ -488,7 +449,7 @@ public class Player extends Component {
         }
     }
 
-    public void dash(float delta) {
+    public void dashShadow(float delta) {
         //DASH
         if(dashing) {
             if(Gdx.graphics.getFrameId() % (int) ((Gdx.graphics.getFramesPerSecond()*.02f)+1) == 0) {  //def .05f
@@ -502,6 +463,20 @@ public class Player extends Component {
             dashing = false;
             anInt1 = 1;
         }
+    }
+
+    public void equipExoskeleton(EntityConfig exoskeletonConfig){
+        walkVelocity.set(exoskeletonConfig.getWalkVelocity());
+        walkVelocityD.set(exoskeletonConfig.getWalkVelocityD());
+        runVelocity.set(exoskeletonConfig.getRunVelocity());
+        runVelocityD.set(exoskeletonConfig.getRunVelocityD());
+    }
+
+    public void unEquipExoskeleton(EntityConfig playerConfig) {
+        walkVelocity.set(playerConfig.getWalkVelocity());
+        walkVelocityD.set(playerConfig.getWalkVelocityD());
+        runVelocity.set(playerConfig.getRunVelocity());
+        runVelocityD.set(playerConfig.getRunVelocityD());
     }
 
     public void updateCamera() {
