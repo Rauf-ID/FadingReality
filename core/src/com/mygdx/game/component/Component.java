@@ -77,6 +77,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     protected int health;
     protected int damageResist;
+    protected float dashCharge;
 
     public ArrayList<Ammo> activeAmmo;
 
@@ -190,6 +191,10 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public void setExoskeletonName(EntityFactory.EntityName exoskeletonName) {
         this.exoskeletonName = exoskeletonName;
     }
+
+    public void setDashCharge(float dashCharge){this.dashCharge=dashCharge;}
+
+    public float getDashCharge(){return this.dashCharge;}
 
     protected void setCurrentPosition(Entity entity){
         currentEntityPosition.x = 0;

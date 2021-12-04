@@ -31,6 +31,7 @@ public class PlayerConfig {
     private int maxExp;
     private int minDamage;
     private int maxDamage;
+    private float dashCharges;
 
     private int health;
 
@@ -176,6 +177,10 @@ public class PlayerConfig {
     public void setMaxDamage(int maxDamage) {
         this.maxDamage = maxDamage;
     }
+
+    public float getDashCharges(){return dashCharges;}
+
+    public void setDashCharges(float dashCharges){this.dashCharges=dashCharges;}
 
     public int getHealth() {
         return health;

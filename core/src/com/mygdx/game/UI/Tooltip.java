@@ -16,11 +16,9 @@ public class Tooltip {
     private Window tooltipBox;
 
     private float timer;
-    private int index;
     private boolean active;
 
-    public Tooltip(String text, int index, float timer, boolean active) {
-        this.index = index;
+    public Tooltip(String text,  float timer, boolean active) {
         this.timer = timer;
         this.active = active;
 
@@ -43,14 +41,6 @@ public class Tooltip {
 
     public void setTimer(float delta) {
         this.timer += delta;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 
     public boolean isActive() {

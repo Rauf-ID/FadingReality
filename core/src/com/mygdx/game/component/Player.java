@@ -151,6 +151,10 @@ public class Player extends Component {
             getMouseDirectionForGun();
         }
 
+        if(this.dashCharge<4 && !dashing){
+            this.dashCharge+=delta/2;
+        }
+
         if(Gdx.input.isKeyPressed(Input.Keys.E) && exoskeletonName!=null){
             timer+=delta;
             if(timer>=2){
@@ -310,9 +314,12 @@ public class Player extends Component {
                         }
 
                         //DASH
-                        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-                            stateTime = 0f;
+                        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && this.dashCharge>=1) {
+                            dashCharge-=1;
                             dashing = true;
+                            System.out.println("Dash: " + dashCharge);
+                            stateTime = 0f;
+
                             state = State.FREEZE;
                             currentState = Entity.State.DASH;
                             getMouseDirection();
@@ -323,6 +330,8 @@ public class Player extends Component {
                                 public void run() {
                                     state = State.NORMAL;
                                 }}, 0.38f);
+                            System.out.println("After dash: " + dashCharge);
+                            dashing = false;
                         }
 
 

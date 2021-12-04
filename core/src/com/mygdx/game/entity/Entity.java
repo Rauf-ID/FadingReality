@@ -213,6 +213,10 @@ public class Entity implements Comparable<Entity> {
         return component.currentDirection;
     }
 
+    public void setDashCharge(float dashCharge){component.setDashCharge(dashCharge);}
+
+    public float getDashCharge(){return component.getDashCharge();}
+
     public InputProcessor getInputProcessor(){
         return component;
     }
