@@ -54,6 +54,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     private HealthBar healthBar;
 
     private int iis;
+
+    private StatusUI statusUI;
     private TooltipUI tooltipUI;
     private InventoryUI inventoryUI;
     public ConversationUI conversationUI;
@@ -90,26 +92,14 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
         json = new Json();
 
-        Drawable drawable = new TextureRegionDrawable(new TextureRegion(FadingReality.resourceManager.texture));
-        Drawable drawable2 = new TextureRegionDrawable(new TextureRegion(FadingReality.resourceManager.texture2));
-        Drawable drawable3 = new TextureRegionDrawable(new TextureRegion(FadingReality.resourceManager.texture3));
-
-
-        button = new ImageButton(drawable3);
-        button.setPosition(50,50);
-
-        button2 = new ImageButton(drawable);
-        button2.setPosition(25,25);
-
-        button3 = new ImageButton(drawable2);
-        button3.setPosition(1550,25);
-
-//        this.addActor(button);
-//        this.addActor(button2);
-//        this.addActor(button3);
-
         healthBar = new HealthBar(180, 20);
         healthBar.setPosition(Gdx.graphics.getWidth()- 200, Gdx.graphics.getHeight() - 50);
+
+        statusUI = new StatusUI();
+        statusUI.setVisible(true);
+        statusUI.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        statusUI.setPosition(0, 0);
+//        statusUI.bottom();
 
         tooltipUI = new TooltipUI();
         tooltipUI.setMovable(true);
@@ -166,7 +156,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 //        image.setPosition(500,500);
 //        image.setSize(128,128);
 
-        this.addActor(tooltipUI);
+        this.addActor(statusUI);
         this.addActor(inventoryUI);
         this.addActor(conversationUI);
         this.addActor(questUI);
@@ -176,6 +166,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         this.addActor(tooltip1);
         this.addActor(tooltip2);
         this.addActor(labelMapName);
+        this.addActor(tooltipUI);
 //        this.addActor(image);
 
         //add tooltips to the stage
@@ -383,17 +374,21 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             case ADDED:
                 if(item.isInventoryItemOffensiveMelee()) {
                     InventoryItem.ItemID itemID = item.getItemID();
+                    statusUI.setMeleeWeapon(itemID);
                     player.sendMessage(Message.MESSAGE.SET_MELEE_WEAPON, json.toJson(itemID.toString()));
                 } else if(item.isInventoryItemOffensiveRanged()) {
                     String itemID = item.getItemID().toString();
                     int ammoCountInMagazine = item.getNumberItemsInside();
+                    statusUI.setRangeWeapon(item.getItemID());
                     player.sendMessage(Message.MESSAGE.SET_RANGED_WEAPON, json.toJson(itemID + Message.MESSAGE_TOKEN_2 + ammoCountInMagazine));
                 }
                 break;
             case REMOVED:
                 if(item.isInventoryItemOffensiveMelee()) {
+                    statusUI.clearMeleeWeapon();
                     player.sendMessage(Message.MESSAGE.REMOVE_MELEE_WEAPON, json.toJson("null"));
                 } else if(item.isInventoryItemOffensiveRanged()) {
+                    statusUI.clearRangeWeapon();
                     player.sendMessage(Message.MESSAGE.REMOVE_RANGED_WEAPON, json.toJson("null"));
                 }
                 break;

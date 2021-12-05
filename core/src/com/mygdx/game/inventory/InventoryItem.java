@@ -25,6 +25,7 @@ public class InventoryItem extends Image {
         ARMOR,
         MELEE_WEAPON,
         RANGED_WEAPON,
+        MEDIC_KIT,
         NONE
     }
 

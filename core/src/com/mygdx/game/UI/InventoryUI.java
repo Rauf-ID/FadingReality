@@ -45,7 +45,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     private Array<Actor> inventoryActors;
     private InventorySlotTooltip inventorySlotTooltip;
 
-    private InventorySlot meleeWeaponSlot, armorSlot, rangedWeaponSlot;
+    private InventorySlot meleeWeaponSlot, armorSlot, rangedWeaponSlot, medicKit;
 
     public InventoryUI(){
         super("Inventory", FadingReality.getUiSkin());
@@ -69,18 +69,22 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         meleeWeaponSlot = new InventorySlot(ItemUseType.MELEE_WEAPON, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_melee")));
         armorSlot = new InventorySlot(ItemUseType.ARMOR, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_chest")));
         rangedWeaponSlot = new InventorySlot(ItemUseType.RANGED_WEAPON, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_ranged")));
+        medicKit = new InventorySlot(ItemUseType.MEDIC_KIT, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("none")));
 
         meleeWeaponSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
         armorSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
         rangedWeaponSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
+        medicKit.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
 
         meleeWeaponSlot.addObserver(this);
         armorSlot.addObserver(this);
         rangedWeaponSlot.addObserver(this);
+        medicKit.addObserver(this);
 
         dragAndDrop.addTarget(new InventorySlotTarget(meleeWeaponSlot));
         dragAndDrop.addTarget(new InventorySlotTarget(armorSlot));
         dragAndDrop.addTarget(new InventorySlotTarget(rangedWeaponSlot));
+        dragAndDrop.addTarget(new InventorySlotTarget(medicKit));
 
         //layout
         for(int i = 1; i <= numSlots; i++){
@@ -91,23 +95,22 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
             inventorySlotTable.add(inventorySlot).size(slotWidth, slotHeight).pad(2);
 
             inventorySlot.addListener(new ClickListener() {
-                                          @Override
-                                          public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                              super.touchUp(event, x, y, pointer, button);
-                                              if(getTapCount() == 2){ // если нажал дважды на предмет
-                                                  InventorySlot slot = (InventorySlot)event.getListenerActor();
-                                                  if(slot.hasItem()){
-                                                      InventoryItem item = slot.getTopInventoryItem();
-                                                      if(item.isConsumable()){
-                                                          System.out.println("Used");
-                                                          InventoryUI.this.notify(item, InventoryObserver.InventoryEvent.ITEM_CONSUMED);
-                                                          slot.remove(item);
-                                                      }
-                                                  }
-                                              }
-                                          }
-                                      }
-            );
+                  @Override
+                  public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                      super.touchUp(event, x, y, pointer, button);
+                      if(getTapCount() == 2){ // если нажал дважды на предмет
+                          InventorySlot slot = (InventorySlot)event.getListenerActor();
+                          if(slot.hasItem()){
+                              InventoryItem item = slot.getTopInventoryItem();
+                              if(item.isConsumable()){
+                                  System.out.println("Used");
+                                  InventoryUI.this.notify(item, InventoryObserver.InventoryEvent.ITEM_CONSUMED);
+                                  slot.remove(item);
+                              }
+                          }
+                      }
+                  }
+            });
 
             if(i % lengthSlotRow == 0) inventorySlotTable.row();
 
@@ -115,14 +118,16 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
 
         equipSlots.add(meleeWeaponSlot).size(slotWidth, slotHeight);
         equipSlots.add(armorSlot).size(slotWidth, slotHeight);
-        equipSlots.add(rangedWeaponSlot).size(slotWidth, slotHeight);
+        equipSlots.add(rangedWeaponSlot).size(slotWidth, slotHeight).row();
+        equipSlots.add();
+        equipSlots.add(medicKit).size(slotWidth, slotHeight);
 
         playerSlotsTable.add(equipSlots);
         inventoryActors.add(inventorySlotTooltip);
 
-        this.add(playerSlotsTable).padBottom(20);
-        this.row();
+//        this.row();
         this.add(inventorySlotTable).colspan(2);
+        this.add(playerSlotsTable).padBottom(20);
         this.row();
         this.pack();
     }
@@ -142,7 +147,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
 
                 if( itemName == null || itemName.isEmpty() ){ // задаем имя предмету
                     item.setName(defaultName);
-                }else{
+                } else{
                     item.setName(itemName);
                 }
 
