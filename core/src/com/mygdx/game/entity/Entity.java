@@ -213,9 +213,14 @@ public class Entity implements Comparable<Entity> {
         return component.currentDirection;
     }
 
-    public void setDashCharge(float dashCharge){component.setDashCharge(dashCharge);}
+    public void setDashCharge(int dashCharge){component.setDashCharge(dashCharge);}
 
-    public float getDashCharge(){return component.getDashCharge();}
+    public int getDashCharge(){return component.getDashCharge();}
+
+    public void setMaxDashCharges(int maxDashCharges){component.setMaxDashCharges(maxDashCharges);}
+
+    public int getMaxDashCharges(){return component.getMaxDashCharges();}
+
 
     public InputProcessor getInputProcessor(){
         return component;

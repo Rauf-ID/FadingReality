@@ -42,8 +42,10 @@ public class Player extends Component {
     private boolean isLeftButtonPressed = false;
     private boolean isRightButtonPressed = false;
     private float timer;
+    private float dashTimer;
 
     public Player(){
+        this.rudimentCharge=4;
         state = State.NORMAL;
         controlManager = new ControlManager();
     }
@@ -151,8 +153,16 @@ public class Player extends Component {
             getMouseDirectionForGun();
         }
 
-        if(this.dashCharge<4 && !dashing){
-            this.dashCharge+=delta/2;
+        if(this.rudimentCharge<4){
+            rudimentCharge+=delta;
+        }
+
+        if(this.dashCharge<this.maxDashCharges && !dashing){
+            dashTimer+=delta;
+            if(dashTimer>=2){
+                dashCharge+=1;
+                dashTimer=0;
+            }
         }
 
         if(Gdx.input.isKeyPressed(Input.Keys.E) && exoskeletonName!=null){
@@ -336,12 +346,14 @@ public class Player extends Component {
 
 
                         //RUDIMENT
-                        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) {
+                        if (Gdx.input.isKeyJustPressed(Input.Keys.F) && this.rudimentCharge>=1) {
                             currentEntityPosition.x -= 64;
                             currentEntityPosition.y -= 64;
                             stateTime = 0f;
                             state = State.FREEZE;
                             currentState = Entity.State.USE_RUDIMENT;
+                            //
+                            rudimentCharge-=1;
                             PlayerHUD.toastShort("Use Rudiment", Toast.Length.SHORT);
 
                             Timer.schedule(new Timer.Task() {

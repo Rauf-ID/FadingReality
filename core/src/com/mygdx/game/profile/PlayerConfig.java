@@ -31,7 +31,9 @@ public class PlayerConfig {
     private int maxExp;
     private int minDamage;
     private int maxDamage;
-    private float dashCharges;
+    private int dashCharges;
+    private int maxDashCharges;
+    private float rudimentCharge;
 
     private int health;
 
@@ -178,9 +180,17 @@ public class PlayerConfig {
         this.maxDamage = maxDamage;
     }
 
-    public float getDashCharges(){return dashCharges;}
+    public int getDashCharges(){return dashCharges;}
 
-    public void setDashCharges(float dashCharges){this.dashCharges=dashCharges;}
+    public void setDashCharges(int dashCharges){this.dashCharges=dashCharges;}
+
+    public int getMaxDashCharges(){return maxDashCharges;}
+
+    public void setMaxDashCharges(int maxDashCharges){this.maxDashCharges=maxDashCharges;}
+
+    public float getRudimentCharge(){return rudimentCharge;}
+
+    public void setRudimentCharge(float rudimentCharge){this.rudimentCharge=rudimentCharge;}
 
     public int getHealth() {
         return health;

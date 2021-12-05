@@ -36,7 +36,6 @@ public class TooltipUI extends Window {
     @Override
     public void act(float delta) {
         super.act(delta);
-
         for (Tooltip tooltip : currentTooltips) {
                 tooltip.setTimer(delta);
                 if (tooltip.getTimer() > 3 && tooltip.isActive()) {

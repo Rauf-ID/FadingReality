@@ -77,7 +77,9 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     protected int health;
     protected int damageResist;
-    protected float dashCharge;
+    protected int dashCharge;
+    protected int maxDashCharges;
+    protected float rudimentCharge;
 
     public ArrayList<Ammo> activeAmmo;
 
@@ -192,9 +194,17 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         this.exoskeletonName = exoskeletonName;
     }
 
-    public void setDashCharge(float dashCharge){this.dashCharge=dashCharge;}
+    public void setDashCharge(int dashCharge){this.dashCharge=dashCharge;}
 
-    public float getDashCharge(){return this.dashCharge;}
+    public int getDashCharge(){return this.dashCharge;}
+
+    public void setMaxDashCharges(int maxDashCharges){this.maxDashCharges=maxDashCharges;}
+
+    public int getMaxDashCharges(){return this.dashCharge;}
+
+    public void setRudimentCharge(float rudimentCharge){this.rudimentCharge=rudimentCharge;}
+
+    public float getRudimentCharge(){return this.rudimentCharge;}
 
     protected void setCurrentPosition(Entity entity){
         currentEntityPosition.x = 0;
