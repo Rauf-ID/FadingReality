@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import com.mygdx.game.Skills.Skill;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.component.Component;
 import com.mygdx.game.observer.ComponentObserver;
@@ -251,6 +252,7 @@ public class Entity implements Comparable<Entity> {
 
         return configs;
     }
+
 
     public static EntityConfig loadEntityConfigByPath(String entityConfigPath){
         return Entity.getEntityConfig(entityConfigPath);

@@ -16,6 +16,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
+import com.mygdx.game.Skills.Skill;
+import com.mygdx.game.Skills.SkillFactory;
 import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
@@ -41,13 +43,24 @@ public class Player extends Component {
 
     private boolean isLeftButtonPressed = false;
     private boolean isRightButtonPressed = false;
-    private float timer;
-    private float dashTimer;
+    private float timer, dashTimer;
+    private int currentExperience;
+    private Skill[] playerSkills;
+
+    private Skill testSkill;
 
     public Player(){
         this.rudimentCharge=4;
+        testSkill=SkillFactory.getInstance().getSkill(1);
+
         state = State.NORMAL;
         controlManager = new ControlManager();
+    }
+
+    public void tryUnlockSkill(){
+        System.out.println("Trying to unlock the skill...");
+        testSkill.setDashCharges(1);
+        testSkill.unlockSkill(currentExperience,this);
     }
 
     @Override
@@ -327,23 +340,18 @@ public class Player extends Component {
                         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && this.dashCharge>=1) {
                             dashCharge-=1;
                             dashing = true;
-                            System.out.println("Dash: " + dashCharge);
                             stateTime = 0f;
-
                             state = State.FREEZE;
                             currentState = Entity.State.DASH;
                             getMouseDirection();
                             doDash();
-
                             Timer.schedule(new Timer.Task() {
                                 @Override
                                 public void run() {
                                     state = State.NORMAL;
                                 }}, 0.38f);
-                            System.out.println("After dash: " + dashCharge);
                             dashing = false;
                         }
-
 
                         //RUDIMENT
                         if (Gdx.input.isKeyJustPressed(Input.Keys.F) && this.rudimentCharge>=1) {
@@ -369,6 +377,10 @@ public class Player extends Component {
                                     currentEntityPosition.y += 64;
                                     state = State.NORMAL;
                                 }}, 1.1f);
+                        }
+
+                        if(Gdx.input.isKeyJustPressed(Input.Keys.P)){
+                            this.tryUnlockSkill();
                         }
 
                         //MELEE ATTACK

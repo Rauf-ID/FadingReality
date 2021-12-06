@@ -223,12 +223,14 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     profileManager.getPlayerConfig().setDirection(Entity.Direction.LEFT);
                     profileManager.getPlayerConfig().setExoskeletonName(EntityFactory.EntityName.NONE);
                     profileManager.getPlayerConfig().setDashCharges(4);
+                    profileManager.getPlayerConfig().setMaxDashCharges(4);
 
                     Vector2 initPlayerPosition = profileManager.getPlayerConfig().getPosition();
                     Entity.Direction direction = profileManager.getPlayerConfig().getDirection();
                     player.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(initPlayerPosition));
                     player.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
                     player.setDashCharge(profileManager.getPlayerConfig().getDashCharges());
+                    player.setMaxDashCharges(profileManager.getPlayerConfig().getMaxDashCharges());
                 } else {
                     Map<String, Integer> allAmmoCount = profileManager.getPlayerConfig().getBagAmmunition();
                     WeaponSystem.setBagAmmunition(allAmmoCount);
@@ -250,6 +252,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(initPlayerPosition));
                     player.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
                     player.setDashCharge(profileManager.getPlayerConfig().getDashCharges());
+                    player.setMaxDashCharges(profileManager.getPlayerConfig().getMaxDashCharges());
                     if (profileManager.getPlayerConfig().getExoskeletonName() != EntityFactory.EntityName.NONE) {
                         EntityFactory.EntityName exoskeletonName = profileManager.getPlayerConfig().getExoskeletonName();
                         player.sendMessage(Message.MESSAGE.EQUIP_EXOSKELETON, json.toJson(exoskeletonName));
@@ -268,6 +271,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setState(player.getCurrentState());  // State
                 profileManager.getPlayerConfig().setExoskeletonName(player.getExoskeletonName()); // Exoskeleton name
                 profileManager.getPlayerConfig().setDashCharges(player.getDashCharge()); // Dash charges
+                profileManager.getPlayerConfig().setMaxDashCharges(player.getMaxDashCharges()); // Max dash charges
                 break;
             case CLEAR_CURRENT_PROFILE:
                 System.out.println("PROFILE CONFIG CLEARING");

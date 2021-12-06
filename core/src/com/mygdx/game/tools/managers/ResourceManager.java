@@ -59,7 +59,7 @@ public class ResourceManager {
     public static String MECHANIC_CONFIGS = "main/entities/npc/mechanic/mechanic.json";
     public static String SCIENTIST_CONFIGS = "main/entities/npc/scientist/scientist.json";
     public static String EXOSKELETON_CONFIGS = "main/entities/exoskeletons/exoskeletons.json";
-
+    public static String SKILLS_CONFIG = "main/skills/skills.json";
 
 
     //Animation

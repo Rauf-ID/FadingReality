@@ -14,7 +14,7 @@ public class DesktopLauncher {
 		FadingReality fadingReality = new FadingReality();
 		fadingReality.setSplashWorker(new DesktopSplashWorker());
 //		config.forceExit=false;
-		config.fullscreen=true;
+		config.fullscreen=false;
 //		config.resizable=true;
 //		config.useGL30=true;
 //		config.foregroundFPS = 9999;
