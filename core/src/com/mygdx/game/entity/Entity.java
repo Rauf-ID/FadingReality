@@ -9,18 +9,15 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.mygdx.game.Skills.Skill;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.component.Component;
 import com.mygdx.game.observer.ComponentObserver;
-import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.weapon.Weapon;
 import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Entity implements Comparable<Entity> {

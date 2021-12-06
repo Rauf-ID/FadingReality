@@ -16,8 +16,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
-import com.mygdx.game.Skills.Skill;
-import com.mygdx.game.Skills.SkillFactory;
+import com.mygdx.game.skills.Skill;
+import com.mygdx.game.skills.SkillFactory;
 import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
@@ -351,6 +351,7 @@ public class Player extends Component {
                                     state = State.NORMAL;
                                 }}, 0.38f);
                             dashing = false;
+                            notify("", ComponentObserver.ComponentEvent.PLAYER_DASH);
                         }
 
                         //RUDIMENT

@@ -2,7 +2,6 @@ package com.mygdx.game.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,9 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.FadingReality;
@@ -33,7 +31,7 @@ import com.mygdx.game.dialogs.ConversationGraph;
 import com.mygdx.game.observer.ConversationGraphObserver;
 import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.profile.ProfileManager;
-import com.mygdx.game.tools.HealthBar;
+import com.mygdx.game.tools.ProgressBarNew;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
 import com.mygdx.game.weapon.WeaponSystem;
@@ -51,7 +49,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
     private Entity player;
 
-    private HealthBar healthBar;
+    private ProgressBarNew healthBar;
+    private ProgressBarNew progressBar;
 
     private int iis;
 
@@ -92,8 +91,11 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
         json = new Json();
 
-        healthBar = new HealthBar(180, 20);
+        healthBar = new ProgressBarNew(180, 20, 0f,1f, 0.01f, false);
         healthBar.setPosition(Gdx.graphics.getWidth()- 200, Gdx.graphics.getHeight() - 50);
+
+        progressBar = new ProgressBarNew(292, 10, 0f,1f, 0.01f, false);
+        progressBar.setPosition(16+113, 55);
 
         statusUI = new StatusUI();
         statusUI.setVisible(true);
@@ -156,16 +158,18 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 //        image.setPosition(500,500);
 //        image.setSize(128,128);
 
+        this.addActor(progressBar);
         this.addActor(statusUI);
+
         this.addActor(inventoryUI);
         this.addActor(conversationUI);
         this.addActor(questUI);
         this.addActor(pdaui);
         this.addActor(healthBar);
         this.addActor(browserUI);
-        this.addActor(tooltip1);
-        this.addActor(tooltip2);
         this.addActor(labelMapName);
+//        this.addActor(tooltip1);
+//        this.addActor(tooltip2);
         this.addActor(tooltipUI);
 //        this.addActor(image);
 
@@ -325,6 +329,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 InventoryItem inventoryItem = InventoryItemFactory.getInstance().getInventoryItem(InventoryItem.ItemID.POTIONS01);
                 iis++;
                 tooltipUI.addTooltip(  iis + " ITEM added to inventory");
+            case PLAYER_DASH:
+                progressBar.minusValue(0.25f);
+                break;
             default:
                 break;
         }

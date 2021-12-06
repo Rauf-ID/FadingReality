@@ -1,4 +1,4 @@
-package com.mygdx.game.Skills;
+package com.mygdx.game.skills;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;

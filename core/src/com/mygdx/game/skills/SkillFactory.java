@@ -1,10 +1,7 @@
-package com.mygdx.game.Skills;
+package com.mygdx.game.skills;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.mygdx.game.entity.Entity;
-import com.mygdx.game.entity.EntityConfig;
-import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.tools.managers.ResourceManager;
 
 import java.util.Hashtable;

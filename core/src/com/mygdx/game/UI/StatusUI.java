@@ -15,12 +15,14 @@ import com.mygdx.game.tools.Utility;
 
 public class StatusUI extends Group {
 
-    private ImageButton button, button2, button3;
+    private ImageButton button1, button2;
 
     private Stack stackIchor;
     private Stack stackMedicKit;
     private Stack stackRangeWeapon;
     private Stack stackMeleeWeapon;
+
+
 
     public StatusUI() {
 //        super("", FadingReality.getUiSkin());
@@ -33,11 +35,11 @@ public class StatusUI extends Group {
         Image image4 = new Image(new NinePatch(Utility.STATUSUI.createPatch("testBox3")));
 
         stackIchor = new Stack();
-        stackIchor.setPosition(Gdx.graphics.getWidth()-500,32);
+        stackIchor.setPosition(Gdx.graphics.getWidth()-500,16);
         stackIchor.setSize(64, 64);
 
         stackMedicKit = new Stack();
-        stackMedicKit.setPosition(Gdx.graphics.getWidth()-600,32);
+        stackMedicKit.setPosition(Gdx.graphics.getWidth()-600,16);
         stackMedicKit.setSize(64, 64);
 
         stackMeleeWeapon = new Stack();
@@ -53,6 +55,8 @@ public class StatusUI extends Group {
         stackRangeWeapon.add(image4);
         stackMeleeWeapon.add(image3);
 
+
+
         this.addActor(stackIchor);
         this.addActor(stackMedicKit);
         this.addActor(stackMeleeWeapon);
@@ -63,20 +67,15 @@ public class StatusUI extends Group {
 
         Drawable drawable1 = new TextureRegionDrawable(new TextureRegion(FadingReality.resourceManager.texture));
         Drawable drawable2 = new TextureRegionDrawable(new TextureRegion(FadingReality.resourceManager.texture2));
-        Drawable drawable3 = new TextureRegionDrawable(new TextureRegion(FadingReality.resourceManager.texture3));
 
-        button = new ImageButton(drawable3);
-        button.setPosition(50,50);
+        button1 = new ImageButton(drawable1);
+        button1.setPosition(16,16);
 
-        button2 = new ImageButton(drawable1);
-        button2.setPosition(300,25);
+        button2 = new ImageButton(drawable2);
+        button2.setPosition(600,16);
 
-        button3 = new ImageButton(drawable2);
-        button3.setPosition(600,25);
-
-//        this.addActor(button);
+        this.addActor(button1);
 //        this.addActor(button2);
-//        this.addActor(button3);
 
     }
 
@@ -104,6 +103,5 @@ public class StatusUI extends Group {
     public void clearRangeWeapon() {
         stackRangeWeapon.removeActorAt(1,true);
     }
-
 
 }
