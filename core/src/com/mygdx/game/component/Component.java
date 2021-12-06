@@ -200,7 +200,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     public void setMaxDashCharges(int maxDashCharges){this.maxDashCharges=maxDashCharges;}
 
-    public int getMaxDashCharges(){return this.dashCharge;}
+    public int getMaxDashCharges(){return this.maxDashCharges;}
 
     public void setRudimentCharge(float rudimentCharge){this.rudimentCharge=rudimentCharge;}
 

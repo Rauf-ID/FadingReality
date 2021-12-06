@@ -47,12 +47,13 @@ public class Player extends Component {
     private int currentExperience;
     private Skill[] playerSkills;
 
+
+
     private Skill testSkill;
 
     public Player(){
         this.rudimentCharge=4;
-        testSkill=SkillFactory.getInstance().getSkill(1);
-
+        testSkill = SkillFactory.getInstance().getSkill(1);
         state = State.NORMAL;
         controlManager = new ControlManager();
     }
@@ -61,6 +62,7 @@ public class Player extends Component {
         System.out.println("Trying to unlock the skill...");
         testSkill.setDashCharges(1);
         testSkill.unlockSkill(currentExperience,this);
+
     }
 
     @Override
