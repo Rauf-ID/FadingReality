@@ -13,6 +13,7 @@ public class Skill {
     private int cost;
     private boolean unlocked;
     private SkillType skillType;
+    private int property;
 
     public static enum SkillType{
         ACTIVE,
@@ -38,21 +39,58 @@ public class Skill {
         return skill;
     }
 
-    private int dashCharges, hp, rudimentCooldown;
+    /*private int dashCharges, hp, rudimentCooldown;
 
     private int rangedDamage, meleeDamage, weaponSpeed, critChance;
 
-    private int heal, execution, damageBoost, damageResist;
+    private int heal, execution, damageBoost, damageResist;*/
 
     public void unlockSkill(int exp, Player player){
         if(exp>=this.cost && !this.unlocked){
             this.unlocked=true;
-            switch (skillType){
+            switch (this.getType()){
                 case DASH:
-                    player.setMaxDashCharges(player.getMaxDashCharges()+this.getDashCharges());
+                    player.setMaxDashCharges(player.getMaxDashCharges()+this.getSkillProperty());
                     System.out.println("Skill unlocked!" + " Max dash charges increased");
-                default:
-
+                    break;
+                case DMGBOOST:
+                    player.setDamageBoost(player.getDamageBoost() + this.getSkillProperty());
+                    System.out.println("Skill unlocked!" + this.getType());
+                    break;
+                case MELEEDMG:
+                    player.setMeleeDamageBoost(player.getMeleeDamageBoost() + this.getSkillProperty());
+                    System.out.println("Skill unlocked!" + this.getType());
+                    break;
+                case RANGEDMG:
+                    player.setRangedDamageBoost(player.getRangedDamageBoost() + this.getSkillProperty());
+                    System.out.println("Skill unlocked!" + this.getType());
+                    break;
+                case DMGRESIST:
+                    player.setDamageResist(player.getDamageResist() + this.getSkillProperty());
+                    System.out.println("Skill unlocked!" + this.getType());
+                    break;
+                case WEAPONSPEED:
+                    player.setWeaponSpeed(player.getWeaponSpeed() + this.getSkillProperty());
+                    System.out.println("Skill unlocked!" + this.getType());
+                    break;
+                case HP:
+                    player.setMaxHealth(player.getMaxHealth() + this.getSkillProperty());
+                    System.out.println("Skill unlocked!" + this.getType());
+                    break;
+                case ACTIVE:
+                    break;
+                case HEAL:
+                    player.setHealAmount(player.getHealAmount() + this.getSkillProperty());
+                    break;
+                case EXECUTION:
+                    player.setExecutionThreshold(player.getExecutionThreshold() + this.getSkillProperty());
+                    break;
+                case CRITCHANCE:
+                    player.setCritChanсe(player.getCritChanсe() + this.getSkillProperty());
+                    break;
+                case RUDIMENTCD:
+                    player.setRudimentCooldown(player.getRudimentCooldown() + this.getSkillProperty());
+                    break;
             }
 
         }
@@ -60,10 +98,7 @@ public class Skill {
 
     }
 
-    public int getDashCharges(){
-        return this.dashCharges;
-    }
-    public void setDashCharges(int dashCharges){this.dashCharges=dashCharges;}
+
 
     public int getId(){return this.id;}
     public void setId(int id){this.id=id;}
@@ -71,13 +106,11 @@ public class Skill {
     public SkillType getType(){return this.skillType;}
     public void setSkillType(SkillType skillType){this.skillType=skillType;}
 
-    public int getSkillProperty(SkillType skillType){
-        switch (skillType){
-            case DASH:
-                return getDashCharges();
-            default:
-                return 0;
-        }
+    public int getSkillProperty(){
+        return property;
+    }
+    public void setSkillProperty(int property){
+        this.property=property;
     }
 
     static public Array<Skill> getSkillsConfig(String configFilePath){

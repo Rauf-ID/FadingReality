@@ -76,10 +76,19 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public Rectangle attackZoneBox;
 
     protected int health;
+    protected int maxHealth;
     protected int damageResist;
     protected int dashCharge;
     protected int maxDashCharges;
     protected float rudimentCharge;
+    private int meleeDamageBoost;
+    private int rangedDamageBoost;
+    private int rudimentCooldown;
+    private int weaponSpeed;
+    private int critChanсe;
+    private int healAmount;
+    private int executionThreshold;
+    private int damageBoost;
 
     public ArrayList<Ammo> activeAmmo;
 
@@ -205,6 +214,74 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public void setRudimentCharge(float rudimentCharge){this.rudimentCharge=rudimentCharge;}
 
     public float getRudimentCharge(){return this.rudimentCharge;}
+
+    public int getMaxHealth() {return maxHealth;}
+
+    public void setMaxHealth(int maxHealth) {this.maxHealth = maxHealth;}
+
+    public int getMeleeDamageBoost() {
+        return meleeDamageBoost;
+    }
+
+    public void setMeleeDamageBoost(int meleeDamageBoost) {
+        this.meleeDamageBoost = meleeDamageBoost;
+    }
+
+    public int getRangedDamageBoost() {
+        return rangedDamageBoost;
+    }
+
+    public void setRangedDamageBoost(int rangedDamageBoost) {
+        this.rangedDamageBoost = rangedDamageBoost;
+    }
+
+    public int getRudimentCooldown() {
+        return rudimentCooldown;
+    }
+
+    public void setRudimentCooldown(int rudimentCooldown) {
+        this.rudimentCooldown = rudimentCooldown;
+    }
+
+    public int getWeaponSpeed() {
+        return weaponSpeed;
+    }
+
+    public void setWeaponSpeed(int weaponSpeed) {
+        this.weaponSpeed = weaponSpeed;
+    }
+
+    public int getCritChanсe() {
+        return critChanсe;
+    }
+
+    public void setCritChanсe(int critChanсe) {
+        this.critChanсe = critChanсe;
+    }
+
+    public int getHealAmount() {
+        return healAmount;
+    }
+
+    public void setHealAmount(int healAmount) {
+        this.healAmount = healAmount;
+    }
+
+    public int getExecutionThreshold() {
+        return executionThreshold;
+    }
+
+    public void setExecutionThreshold(int executionThreshold) {
+        this.executionThreshold = executionThreshold;
+    }
+
+    public int getDamageBoost() {
+        return damageBoost;
+    }
+
+    public void setDamageBoost(int damageBoost) {
+        this.damageBoost = damageBoost;
+    }
 
     protected void setCurrentPosition(Entity entity){
         currentEntityPosition.x = 0;

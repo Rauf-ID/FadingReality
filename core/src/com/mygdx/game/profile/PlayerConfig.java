@@ -33,7 +33,17 @@ public class PlayerConfig {
     private int maxDamage;
     private int dashCharges;
     private int maxDashCharges;
+    private int damageResist;
+    private int meleeDamageBoost;
+    private int rangedDamageBoost;
+    private int rudimentCooldown;
+    private int weaponSpeed;
+    private int critChanсe;
+    private int healAmount;
+    private int executionThreshold;
+    private int damageBoost;
     private float rudimentCharge;
+
 
     private int health;
 
@@ -198,5 +208,77 @@ public class PlayerConfig {
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public int getDamageResist() {
+        return damageResist;
+    }
+
+    public void setDamageResist(int damageResist) {
+        this.damageResist = damageResist;
+    }
+
+    public int getMeleeDamageBoost() {
+        return meleeDamageBoost;
+    }
+
+    public void setMeleeDamageBoost(int meleeDamageBoost) {
+        this.meleeDamageBoost = meleeDamageBoost;
+    }
+
+    public int getRangedDamageBoost() {
+        return rangedDamageBoost;
+    }
+
+    public void setRangedDamageBoost(int rangedDamageBoost) {
+        this.rangedDamageBoost = rangedDamageBoost;
+    }
+
+    public int getRudimentCooldown() {
+        return rudimentCooldown;
+    }
+
+    public void setRudimentCooldown(int rudimentCooldown) {
+        this.rudimentCooldown = rudimentCooldown;
+    }
+
+    public int getWeaponSpeed() {
+        return weaponSpeed;
+    }
+
+    public void setWeaponSpeed(int weaponSpeed) {
+        this.weaponSpeed = weaponSpeed;
+    }
+
+    public int getCritChanсe() {
+        return critChanсe;
+    }
+
+    public void setCritChanсe(int critChanсe) {
+        this.critChanсe = critChanсe;
+    }
+
+    public int getHealAmount() {
+        return healAmount;
+    }
+
+    public void setHealAmount(int healAmount) {
+        this.healAmount = healAmount;
+    }
+
+    public int getExecutionThreshold() {
+        return executionThreshold;
+    }
+
+    public void setExecutionThreshold(int executionThreshold) {
+        this.executionThreshold = executionThreshold;
+    }
+
+    public int getDamageBoost() {
+        return damageBoost;
+    }
+
+    public void setDamageBoost(int damageBoost) {
+        this.damageBoost = damageBoost;
     }
 }

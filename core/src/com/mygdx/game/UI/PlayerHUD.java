@@ -228,6 +228,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     profileManager.getPlayerConfig().setExoskeletonName(EntityFactory.EntityName.NONE);
                     profileManager.getPlayerConfig().setDashCharges(4);
                     profileManager.getPlayerConfig().setMaxDashCharges(4);
+                    profileManager.getPlayerConfig().setMaxHp(100);
+                    profileManager.getPlayerConfig().setDamageResist(0);
 
                     Vector2 initPlayerPosition = profileManager.getPlayerConfig().getPosition();
                     Entity.Direction direction = profileManager.getPlayerConfig().getDirection();
@@ -235,6 +237,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
                     player.setDashCharge(profileManager.getPlayerConfig().getDashCharges());
                     player.setMaxDashCharges(profileManager.getPlayerConfig().getMaxDashCharges());
+                    player.setMaxHealth(profileManager.getPlayerConfig().getMaxHp());
+                    player.setHealth(profileManager.getPlayerConfig().getMaxHp());
+
                 } else {
                     Map<String, Integer> allAmmoCount = profileManager.getPlayerConfig().getBagAmmunition();
                     WeaponSystem.setBagAmmunition(allAmmoCount);
@@ -257,6 +262,16 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
                     player.setDashCharge(profileManager.getPlayerConfig().getDashCharges());
                     player.setMaxDashCharges(profileManager.getPlayerConfig().getMaxDashCharges());
+                    player.setCritChanсe(profileManager.getPlayerConfig().getCritChanсe());
+                    player.setExecutionThreshold(profileManager.getPlayerConfig().getExecutionThreshold());
+                    player.setHealAmount(profileManager.getPlayerConfig().getHealAmount());
+                    player.setMeleeDamageBoost(profileManager.getPlayerConfig().getMeleeDamageBoost());
+                    player.setRangedDamageBoost(profileManager.getPlayerConfig().getRangedDamageBoost());
+                    player.setWeaponSpeed(profileManager.getPlayerConfig().getWeaponSpeed());
+                    player.setRudimentCooldown(profileManager.getPlayerConfig().getRudimentCooldown());
+                    player.setDamageBoost(profileManager.getPlayerConfig().getDamageBoost());
+                    player.setDamageResist(profileManager.getPlayerConfig().getDamageResist());
+
                     if (profileManager.getPlayerConfig().getExoskeletonName() != EntityFactory.EntityName.NONE) {
                         EntityFactory.EntityName exoskeletonName = profileManager.getPlayerConfig().getExoskeletonName();
                         player.sendMessage(Message.MESSAGE.EQUIP_EXOSKELETON, json.toJson(exoskeletonName));
@@ -276,6 +291,17 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setExoskeletonName(player.getExoskeletonName()); // Exoskeleton name
                 profileManager.getPlayerConfig().setDashCharges(player.getDashCharge()); // Dash charges
                 profileManager.getPlayerConfig().setMaxDashCharges(player.getMaxDashCharges()); // Max dash charges
+                profileManager.getPlayerConfig().setCritChanсe(player.getCritChanсe());
+                profileManager.getPlayerConfig().setDamageBoost(player.getDamageBoost());
+                profileManager.getPlayerConfig().setMeleeDamageBoost(player.getMeleeDamageBoost());
+                profileManager.getPlayerConfig().setRangedDamageBoost(player.getRangedDamageBoost());
+                profileManager.getPlayerConfig().setExecutionThreshold(player.getExecutionThreshold());
+                profileManager.getPlayerConfig().setHealAmount(player.getHealAmount());
+                profileManager.getPlayerConfig().setDamageResist(player.getDamageBoost());
+                profileManager.getPlayerConfig().setWeaponSpeed(player.getWeaponSpeed());
+                profileManager.getPlayerConfig().setRudimentCooldown(player.getRudimentCooldown());
+                profileManager.getPlayerConfig().setHealth(player.getHealth());
+                profileManager.getPlayerConfig().setMaxHp(player.getMaxHealth());
                 break;
             case CLEAR_CURRENT_PROFILE:
                 System.out.println("PROFILE CONFIG CLEARING");

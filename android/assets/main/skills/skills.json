@@ -2,9 +2,24 @@
   {
     "id": 1,
     "cost": 0,
-    "dashCharges": 1,
+    "property": 1,
     "unlocked": false,
     "skillType": "DASH"
+
+  },
+  {
+    "id": 2,
+    "cost": 0,
+    "property": 50,
+    "unlocked": false,
+    "skillType": "HP"
+  },
+  {
+    "id": 3,
+    "cost": 0,
+    "property": 20,
+    "unlocked": false,
+    "skillType": "DMGRESIST"
 
   }
 ]

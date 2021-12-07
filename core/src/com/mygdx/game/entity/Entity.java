@@ -219,6 +219,75 @@ public class Entity implements Comparable<Entity> {
 
     public int getMaxDashCharges(){return component.getMaxDashCharges();}
 
+    public int getMeleeDamageBoost() {
+        return component.getMeleeDamageBoost();
+    }
+
+    public void setMeleeDamageBoost(int meleeDamageBoost) {
+        component.setMeleeDamageBoost(meleeDamageBoost);
+    }
+
+    public int getRangedDamageBoost() {
+        return component.getRangedDamageBoost();
+    }
+
+    public void setRangedDamageBoost(int rangedDamageBoost) {
+        component.setRangedDamageBoost(rangedDamageBoost);
+    }
+
+    public int getRudimentCooldown() {
+        return component.getRudimentCooldown();
+    }
+
+    public void setRudimentCooldown(int rudimentCooldown) {
+        component.setRudimentCooldown(rudimentCooldown);
+    }
+
+    public int getWeaponSpeed() {
+        return component.getWeaponSpeed();
+    }
+
+    public void setWeaponSpeed(int weaponSpeed) {
+        component.setWeaponSpeed(weaponSpeed);
+    }
+
+    public int getCritChanсe() {
+        return component.getCritChanсe();
+    }
+
+    public void setCritChanсe(int critChanсe) {
+        component.setCritChanсe(critChanсe);
+    }
+
+    public int getHealAmount() {return component.getHealAmount();}
+
+    public void setHealAmount(int healAmount) {
+        component.setHealAmount(healAmount);
+    }
+
+    public int getExecutionThreshold() {
+        return component.getExecutionThreshold();
+    }
+
+    public void setExecutionThreshold(int executionThreshold) {
+        component.setExecutionThreshold(executionThreshold);
+    }
+
+    public int getDamageBoost() {return component.getDamageBoost();}
+
+    public void setDamageBoost(int damageBoost) {component.setDamageBoost(damageBoost);}
+
+    public int getDamageResist(){return component.getDamageResist();}
+
+    public void setDamageResist(int damageResist){component.setDamageResist(damageResist);}
+
+    public int getMaxHealth(){return component.getMaxHealth();}
+
+    public void setMaxHealth(int maxHealth){component.setMaxHealth(maxHealth);}
+
+    public int getHealth(){return component.getHealth();}
+
+    public void setHealth(int health){component.setHealth(health);}
 
     public InputProcessor getInputProcessor(){
         return component;

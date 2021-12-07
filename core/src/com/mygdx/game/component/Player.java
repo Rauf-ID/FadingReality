@@ -43,25 +43,27 @@ public class Player extends Component {
 
     private boolean isLeftButtonPressed = false;
     private boolean isRightButtonPressed = false;
+    private boolean usingRudiment = false;
     private float timer, dashTimer;
     private int currentExperience;
     private Skill[] playerSkills;
-
-
-
-    private Skill testSkill;
+    private Skill testSkill1, testSkill2, testSkill3;
 
     public Player(){
         this.rudimentCharge=4;
-        testSkill = SkillFactory.getInstance().getSkill(1);
+        testSkill1 = SkillFactory.getInstance().getSkill(1);
+        testSkill2 = SkillFactory.getInstance().getSkill(2);
+        testSkill3 = SkillFactory.getInstance().getSkill(3);
         state = State.NORMAL;
         controlManager = new ControlManager();
     }
 
     public void tryUnlockSkill(){
         System.out.println("Trying to unlock the skill...");
-        testSkill.setDashCharges(1);
-        testSkill.unlockSkill(currentExperience,this);
+        testSkill1.unlockSkill(currentExperience, this);
+        testSkill2.unlockSkill(currentExperience,this);
+        testSkill3.unlockSkill(currentExperience,this);
+
 
     }
 
@@ -168,7 +170,7 @@ public class Player extends Component {
             getMouseDirectionForGun();
         }
 
-        if(this.rudimentCharge<4){
+        if(this.rudimentCharge<4 && !usingRudiment){
             rudimentCharge+=delta;
         }
 
@@ -358,6 +360,7 @@ public class Player extends Component {
 
                         //RUDIMENT
                         if (Gdx.input.isKeyJustPressed(Input.Keys.F) && this.rudimentCharge>=1) {
+                            usingRudiment=true;
                             currentEntityPosition.x -= 64;
                             currentEntityPosition.y -= 64;
                             stateTime = 0f;
@@ -667,9 +670,13 @@ public class Player extends Component {
     public boolean keyUp(int keycode) {
         if(keycode==Input.Keys.E){
             timer=0;
+        }else if(keycode==Input.Keys.F){
+            usingRudiment=false;
         }
         return false;
     }
+
+
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
