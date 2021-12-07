@@ -9,6 +9,34 @@ none
   orig: 52, 52
   offset: 0, 0
   index: -1
+ANGEL_BLADE
+  rotate: false
+  xy: 433, 55
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
+AHR
+  rotate: false
+  xy: 271, 1
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
+ALG
+  rotate: false
+  xy: 325, 55
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
+ICHOR
+  rotate: false
+  xy: 496, 0
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
 ARMOR01
   rotate: false
   xy: 1, 217
@@ -324,25 +352,5 @@ WEAPON05
   orig: 52, 52
   offset: 0, 0
   index: -1
-ANGEL_BLADE
-  rotate: false
-  xy: 433, 55
-  size: 52, 52
-  orig: 52, 52
-  offset: 0, 0
-  index: -1
-AHR
-  rotate: false
-  xy: 271, 1
-  size: 52, 52
-  orig: 52, 52
-  offset: 0, 0
-  index: -1
-ALG
-  rotate: false
-  xy: 325, 55
-  size: 52, 52
-  orig: 52, 52
-  offset: 0, 0
-  index: -1
+
 

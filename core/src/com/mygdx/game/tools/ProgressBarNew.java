@@ -19,14 +19,41 @@ public class ProgressBarNew extends ProgressBar {
         setWidth(width);
         setHeight(height);
 
-        setValue(1f);
-        setAnimateDuration(0.25f);
+        setValue(0f);
+        setAnimateDuration(0.5f);
     }
 
     public void minusValue(float minus) {
         float value = getValue();
         value -= minus;
         setValue(value);
+        if (getValue() == 0.75f) {
+
+        }
+    }
+
+    public void plusValue(float plus) {
+        float value = getValue();
+        value += plus;
+        setValue(value);
+    }
+
+    public void setValue(int value) {
+        for (int i = 0; i < value; i++) {
+            plusValue(0.25f);
+        }
+    }
+
+    public void setBackground(int width, int height, Color color) {
+        getStyle().background = Utils.getColoredDrawable(width, height, color);
+    }
+
+    public void setKnob(int width, int height, Color color) {
+        getStyle().knob = Utils.getColoredDrawable(width, height, color);
+    }
+
+    public void setKnobBefore(int width, int height, Color color) {
+        getStyle().knobBefore = Utils.getColoredDrawable(width, height, color);
     }
 
 }

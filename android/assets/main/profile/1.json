@@ -2,8 +2,8 @@
 state: IDLE
 direction: RIGHT
 position: {
-	x: 1123.4125
-	y: 123.37973
+	x: 1297.7542
+	y: 173.80579
 }
 currentMap: SPACE_STATION
 quests: [
@@ -165,29 +165,30 @@ inventory: [
 	}
 	{
 		locationIndex: 3
-		itemTypeAtLocation: POTIONS01
+		itemTypeAtLocation: ICHOR
 		numberItemsAtLocation: 1
 		itemNameProperty: Player_Inventory
 	}
 	{
-		locationIndex: 4
-		itemTypeAtLocation: ALG
-		numberItemsAtLocation: 1
-		numberItemsInside: 100000
-		itemNameProperty: Player_Inventory
-	}
-]
-equipment: [
-	{
+		locationIndex: 19
 		itemTypeAtLocation: ANGEL_BLADE
 		numberItemsAtLocation: 1
 		itemNameProperty: Player_Inventory
 	}
 	{
+		locationIndex: 29
+		itemTypeAtLocation: ALG
+		numberItemsAtLocation: 1
+		numberItemsInside: 30
+		itemNameProperty: Player_Inventory
+	}
+]
+equipment: [
+	{
 		locationIndex: 2
 		itemTypeAtLocation: AHR
 		numberItemsAtLocation: 1
-		numberItemsInside: 98933
+		numberItemsInside: 98824
 		itemNameProperty: Player_Inventory
 	}
 ]
@@ -197,4 +198,7 @@ bagAmmunition: {
 	9 mm: 9475
 }
 exoskeletonName: NONE
+dashCharges: 5
+maxDashCharges: 5
+damageResist: 40
 }

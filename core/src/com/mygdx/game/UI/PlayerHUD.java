@@ -34,6 +34,8 @@ import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.tools.ProgressBarNew;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
+import com.mygdx.game.weapon.Weapon;
+import com.mygdx.game.weapon.WeaponFactory;
 import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 
@@ -42,6 +44,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import static com.mygdx.game.component.Message.MESSAGE_TOKEN_2;
 
 public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserver, ConversationGraphObserver, InventoryObserver {
 
@@ -236,6 +240,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(initPlayerPosition));
                     player.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
                     player.setDashCharge(profileManager.getPlayerConfig().getDashCharges());
+                    progressBar.setValue(profileManager.getPlayerConfig().getDashCharges());
                     player.setMaxDashCharges(profileManager.getPlayerConfig().getMaxDashCharges());
                     player.setMaxHealth(profileManager.getPlayerConfig().getMaxHp());
                     player.setHealth(profileManager.getPlayerConfig().getMaxHp());
@@ -261,6 +266,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(initPlayerPosition));
                     player.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
                     player.setDashCharge(profileManager.getPlayerConfig().getDashCharges());
+                    progressBar.setValue(profileManager.getPlayerConfig().getDashCharges());
                     player.setMaxDashCharges(profileManager.getPlayerConfig().getMaxDashCharges());
                     player.setCritChanсe(profileManager.getPlayerConfig().getCritChanсe());
                     player.setExecutionThreshold(profileManager.getPlayerConfig().getExecutionThreshold());
@@ -297,7 +303,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setRangedDamageBoost(player.getRangedDamageBoost());
                 profileManager.getPlayerConfig().setExecutionThreshold(player.getExecutionThreshold());
                 profileManager.getPlayerConfig().setHealAmount(player.getHealAmount());
-                profileManager.getPlayerConfig().setDamageResist(player.getDamageBoost());
+                profileManager.getPlayerConfig().setDamageResist(player.getDamageResist());
                 profileManager.getPlayerConfig().setWeaponSpeed(player.getWeaponSpeed());
                 profileManager.getPlayerConfig().setRudimentCooldown(player.getRudimentCooldown());
                 profileManager.getPlayerConfig().setHealth(player.getHealth());
@@ -346,6 +352,11 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 Integer ammoCountInMagazine = json.fromJson(Integer.class, value);
                 inventoryUI.getItemFromWeaponRangedWeaponSlot().setNumberItemsInside(ammoCountInMagazine);
                 break;
+            case RANGE_WEAPON_UPDATE:
+                String string = json.fromJson(String.class, value);
+                String[] splitStr = string.split(MESSAGE_TOKEN_2);
+                statusUI.setLabelAmmoCountText(splitStr[0] + "/" + splitStr[1]);
+                break;
             case ENEMY_DEAD:
                 questUI.updateQuests(mapMgr);
 //                mapMgr.setMapChanged(true);
@@ -357,6 +368,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 tooltipUI.addTooltip(  iis + " ITEM added to inventory");
             case PLAYER_DASH:
                 progressBar.minusValue(0.25f);
+                break;
+            case PLAYER_DASH_UPDATE:
+                progressBar.plusValue(0.25f);
                 break;
             default:
                 break;
@@ -416,8 +430,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 } else if(item.isInventoryItemOffensiveRanged()) {
                     String itemID = item.getItemID().toString();
                     int ammoCountInMagazine = item.getNumberItemsInside();
-                    statusUI.setRangeWeapon(item.getItemID());
-                    player.sendMessage(Message.MESSAGE.SET_RANGED_WEAPON, json.toJson(itemID + Message.MESSAGE_TOKEN_2 + ammoCountInMagazine));
+                    statusUI.setRangeWeapon(item);
+                    player.sendMessage(Message.MESSAGE.SET_RANGED_WEAPON, json.toJson(itemID + MESSAGE_TOKEN_2 + ammoCountInMagazine));
                 }
                 break;
             case REMOVED:

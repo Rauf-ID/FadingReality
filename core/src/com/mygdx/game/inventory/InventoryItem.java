@@ -26,6 +26,9 @@ public class InventoryItem extends Image {
         MELEE_WEAPON,
         RANGED_WEAPON,
         MEDIC_KIT,
+        RUDIMENT_ONE,
+        RUDIMENT_TWO,
+        UNIQUE_RUDIMENT,
         NONE
     }
 
@@ -42,6 +45,7 @@ public class InventoryItem extends Image {
         ALG, PREDATOR,
         AHR,
         ANGEL_BLADE,
+        ICHOR,
         NONE
     }
 

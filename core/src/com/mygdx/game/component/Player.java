@@ -49,6 +49,8 @@ public class Player extends Component {
     private Skill[] playerSkills;
     private Skill testSkill1, testSkill2, testSkill3;
 
+    private int iiii = 0;
+
     public Player(){
         this.rudimentCharge=4;
         testSkill1 = SkillFactory.getInstance().getSkill(1);
@@ -174,11 +176,12 @@ public class Player extends Component {
             rudimentCharge+=delta;
         }
 
-        if(this.dashCharge<this.maxDashCharges && !dashing){
-            dashTimer+=delta;
+        if(this.dashCharge < this.maxDashCharges && !dashing){
+            dashTimer += delta;
             if(dashTimer>=2){
                 dashCharge+=1;
                 dashTimer=0;
+                notify("", ComponentObserver.ComponentEvent.PLAYER_DASH_UPDATE);
             }
         }
 
@@ -437,6 +440,8 @@ public class Player extends Component {
                             isGunActive = true;
 
                             notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() - 1), ComponentObserver.ComponentEvent.PLAYER_SHOT);
+                            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine()+":::"+weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.RANGE_WEAPON_UPDATE);
+
 
                             state = State.FREEZE;
                             Timer.schedule(new Timer.Task() {
@@ -464,10 +469,12 @@ public class Player extends Component {
 
                         if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive() && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() == 0) {
                             notify(json.toJson(0), ComponentObserver.ComponentEvent.PLAYER_SHOT);
+                            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine()+":::"+weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.RANGE_WEAPON_UPDATE);
                         }
                         if (reloaded) {
                             reloaded = false;
                             notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
+                            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine()+":::"+weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.RANGE_WEAPON_UPDATE);
                         }
 
                     }

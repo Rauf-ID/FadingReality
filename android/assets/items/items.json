@@ -55,4 +55,12 @@
 	itemUseTypeValue: 709090,
 	itemValue: 25,
 },
+{
+	itemID: ICHOR,
+	itemShortDescription: That potions,
+	itemUseType: ITEM_RESTORE_HEALTH,
+	itemAttributes: [CONSUMABLE, STACKABLE],
+	itemUseTypeValue: 10,
+	itemValue: 10,
+},
 ]

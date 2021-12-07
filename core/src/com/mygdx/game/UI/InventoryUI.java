@@ -45,7 +45,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     private Array<Actor> inventoryActors;
     private InventorySlotTooltip inventorySlotTooltip;
 
-    private InventorySlot meleeWeaponSlot, armorSlot, rangedWeaponSlot, medicKit;
+    private InventorySlot meleeWeaponSlot, armorSlot, rangedWeaponSlot, medicKit, rudimentOne, rudimentTwo, uniqueRudiment;
 
     public InventoryUI(){
         super("Inventory", FadingReality.getUiSkin());
@@ -70,21 +70,34 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         armorSlot = new InventorySlot(ItemUseType.ARMOR, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_chest")));
         rangedWeaponSlot = new InventorySlot(ItemUseType.RANGED_WEAPON, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_ranged")));
         medicKit = new InventorySlot(ItemUseType.MEDIC_KIT, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("none")));
+        rudimentOne = new InventorySlot(ItemUseType.RUDIMENT_ONE, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("none")));
+        rudimentTwo = new InventorySlot(ItemUseType.RUDIMENT_TWO, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("none")));
+        uniqueRudiment = new InventorySlot(ItemUseType.UNIQUE_RUDIMENT, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("none")));
 
         meleeWeaponSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
         armorSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
         rangedWeaponSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
         medicKit.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
+        rudimentOne.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
+        rudimentTwo.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
+        uniqueRudiment.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
 
         meleeWeaponSlot.addObserver(this);
         armorSlot.addObserver(this);
         rangedWeaponSlot.addObserver(this);
         medicKit.addObserver(this);
+        rudimentOne.addObserver(this);
+        rudimentTwo.addObserver(this);
+        uniqueRudiment.addObserver(this);
 
         dragAndDrop.addTarget(new InventorySlotTarget(meleeWeaponSlot));
         dragAndDrop.addTarget(new InventorySlotTarget(armorSlot));
         dragAndDrop.addTarget(new InventorySlotTarget(rangedWeaponSlot));
         dragAndDrop.addTarget(new InventorySlotTarget(medicKit));
+        dragAndDrop.addTarget(new InventorySlotTarget(rudimentOne));
+        dragAndDrop.addTarget(new InventorySlotTarget(rudimentTwo));
+        dragAndDrop.addTarget(new InventorySlotTarget(uniqueRudiment));
+
 
         //layout
         for(int i = 1; i <= numSlots; i++){
@@ -121,6 +134,11 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         equipSlots.add(rangedWeaponSlot).size(slotWidth, slotHeight).row();
         equipSlots.add();
         equipSlots.add(medicKit).size(slotWidth, slotHeight);
+        equipSlots.add().row();
+        equipSlots.add(rudimentOne).size(slotWidth, slotHeight);
+        equipSlots.add(rudimentTwo).size(slotWidth, slotHeight);
+        equipSlots.add(uniqueRudiment).size(slotWidth, slotHeight);
+
 
         playerSlotsTable.add(equipSlots);
         inventoryActors.add(inventorySlotTooltip);
