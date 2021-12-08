@@ -165,37 +165,39 @@ public class Player extends Component {
         updateBoundingBox();
 //        updateSwordRangeBox(64,64);
         updateShifts(mapManager, delta, 40);
-
         setSwordRangeBox(new Vector2(10000,10000), 0,0);
 
         if(isGunActive) {
             getMouseDirectionForGun();
         }
 
-        if(this.rudimentCharge<4 && !usingRudiment){
-            rudimentCharge+=delta;
+        //RUDIMENT CHARGE
+        if(this.rudimentCharge < 4 && !usingRudiment){
+            rudimentCharge += delta;
         }
 
+        //DASH CHARGE
         if(this.dashCharge < this.maxDashCharges && !dashing){
             dashTimer += delta;
-            if(dashTimer>=2){
-                dashCharge+=1;
-                dashTimer=0;
+            if(dashTimer >= 2){
+                dashCharge += 1;
+                dashTimer = 0;
                 notify("", ComponentObserver.ComponentEvent.PLAYER_DASH_UPDATE);
             }
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.E) && exoskeletonName!=null){
-            timer+=delta;
-            if(timer>=2){
-                System.out.println("exoskeleton off");
+        //EXO OFF
+        if(Gdx.input.isKeyPressed(Input.Keys.E) && exoskeletonName != null){
+            timer += delta;
+            if(timer >= 2){
                 entity.sendMessage(MESSAGE.INIT_CONFIG, json.toJson(entity.getEntityConfig()));
                 entity.sendMessage(MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
                 exoskeletonName = EntityFactory.EntityName.NONE;
-                timer=0;
+                timer = 0;
             }
         }
 
+        //TEST TOOLTIP
         if(Gdx.input.isKeyJustPressed(Input.Keys.V)) {
             notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.ITEM_PICK_UP);
         }
@@ -439,8 +441,7 @@ public class Player extends Component {
                             isGunActive2 = true;
                             isGunActive = true;
 
-                            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() - 1), ComponentObserver.ComponentEvent.PLAYER_SHOT);
-                            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine()+":::"+weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.RANGE_WEAPON_UPDATE);
+                            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() - 1 + ":::" + weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
 
 
                             state = State.FREEZE;
@@ -468,13 +469,11 @@ public class Player extends Component {
                         }
 
                         if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive() && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() == 0) {
-                            notify(json.toJson(0), ComponentObserver.ComponentEvent.PLAYER_SHOT);
-                            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine()+":::"+weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.RANGE_WEAPON_UPDATE);
+                            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() + ":::" + weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
                         }
                         if (reloaded) {
                             reloaded = false;
-                            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
-                            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine()+":::"+weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.RANGE_WEAPON_UPDATE);
+                            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() + ":::" + weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
                         }
 
                     }

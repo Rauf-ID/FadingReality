@@ -32,8 +32,8 @@ public class FadingReality extends Game {
         None
     }
 
-    public static final int WIDTH = 1920;  //480  //1024  //1920 //3840
-    public static final int HEIGHT = 1080;  //270  //768   //1080 //2160
+    public static final int WIDTH = 1024;  //480  //1024  //1920 //3840
+    public static final int HEIGHT = 768;  //270  //768   //1080 //2160
     private static final String VERSION = "0.0.1";
     public static final String TITLE = "Fading Reality " + VERSION;
 

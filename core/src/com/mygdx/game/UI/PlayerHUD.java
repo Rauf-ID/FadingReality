@@ -349,13 +349,10 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             case PLAYER_HAS_MOVED:
                 break;
             case PLAYER_SHOT:
-                Integer ammoCountInMagazine = json.fromJson(Integer.class, value);
-                inventoryUI.getItemFromWeaponRangedWeaponSlot().setNumberItemsInside(ammoCountInMagazine);
-                break;
-            case RANGE_WEAPON_UPDATE:
                 String string = json.fromJson(String.class, value);
                 String[] splitStr = string.split(MESSAGE_TOKEN_2);
                 statusUI.setLabelAmmoCountText(splitStr[0] + "/" + splitStr[1]);
+                inventoryUI.getItemFromWeaponRangedWeaponSlot().setNumberItemsInside(Integer.parseInt(splitStr[0]));
                 break;
             case ENEMY_DEAD:
                 questUI.updateQuests(mapMgr);

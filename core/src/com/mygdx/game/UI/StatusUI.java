@@ -21,7 +21,7 @@ import com.mygdx.game.weapon.WeaponSystem;
 
 public class StatusUI extends Group {
 
-    private ImageButton button1, button2;
+    private ImageButton button2;
 
     private Stack stackIchor;
     private Stack stackMedicKit;
@@ -38,23 +38,28 @@ public class StatusUI extends Group {
 //        background(drawable);
 //        Image image1 = new Image(new NinePatch(Utility.STATUSUI.createPatch("testBox1")));
 
+
+        Drawable drawableUIForStats = new TextureRegionDrawable(new TextureRegion(new Texture("stats.png")));
         Drawable drawableUIForConsumables = new TextureRegionDrawable(new TextureRegion(new Texture("UIForConsumables.png")));
         Drawable drawableUIForWeapons = new TextureRegionDrawable(new TextureRegion(new Texture("UIForWeapons.png")));
 
+        Image imageStats = new Image(drawableUIForStats);
+        imageStats.setPosition(16,16);
+
         Image imageIchor = new Image(drawableUIForConsumables);
-        imageIchor.setPosition(Gdx.graphics.getWidth()-500,16);
+        imageIchor.setPosition(Gdx.graphics.getWidth()-400,16);
         imageIchor.setSize(64, 64);
 
         stackIchor = new Stack();
-        stackIchor.setPosition(Gdx.graphics.getWidth()-500,16);
+        stackIchor.setPosition(Gdx.graphics.getWidth()-400,16);
         stackIchor.setSize(64, 64);
 
         Image imageMedicKit = new Image(drawableUIForConsumables);
-        imageMedicKit.setPosition(Gdx.graphics.getWidth()-600,16);
+        imageMedicKit.setPosition(Gdx.graphics.getWidth()-500,16);
         imageMedicKit.setSize(64, 64);
 
         stackMedicKit = new Stack();
-        stackMedicKit.setPosition(Gdx.graphics.getWidth()-600,16);
+        stackMedicKit.setPosition(Gdx.graphics.getWidth()-500,16);
         stackMedicKit.setSize(64, 64);
 
         Image imageMeleeWeapon = new Image(drawableUIForWeapons);
@@ -73,6 +78,7 @@ public class StatusUI extends Group {
         stackRangeWeapon.setPosition(imageRangeWeapon.getX() + 32, imageRangeWeapon.getY()+ 32);
         stackRangeWeapon.setSize(64, 64);
 
+        this.addActor(imageStats);
         this.addActor(imageIchor);
         this.addActor(stackIchor);
         this.addActor(imageMedicKit);
@@ -82,28 +88,17 @@ public class StatusUI extends Group {
         this.addActor(imageRangeWeapon);
         this.addActor(stackRangeWeapon);
 
-
-
-
-
-        Drawable drawable1 = new TextureRegionDrawable(new TextureRegion(FadingReality.resourceManager.texture));
-        Drawable drawable2 = new TextureRegionDrawable(new TextureRegion(FadingReality.resourceManager.texture2));
-
-        button1 = new ImageButton(drawable1);
-        button1.setPosition(16,16);
-
-        button2 = new ImageButton(drawable2);
-        button2.setPosition(600,16);
-
-        this.addActor(button1);
+//        Drawable drawable2 = new TextureRegionDrawable(new TextureRegion(FadingReality.resourceManager.texture2));
+//        button2 = new ImageButton(drawable2);
+//        button2.setPosition(600,16);
 //        this.addActor(button2);
 
     }
 
     public void setIchor(InventoryItem.ItemID ichor) {
         stackIchor.clear();
-        Image imageMeleeWeapon = new Image(new TextureRegionDrawable(Utility.ITEMS_TEXTUREATLAS.findRegion(ichor.toString())));
-        stackIchor.add(imageMeleeWeapon);
+        Image imageIchor = new Image(new TextureRegionDrawable(Utility.ITEMS_TEXTUREATLAS.findRegion(ichor.toString())));
+        stackIchor.add(imageIchor);
     }
 
     public void setDrawableImageMedicKit(InventoryItem.ItemID medicKit) {
