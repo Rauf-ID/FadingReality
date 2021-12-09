@@ -135,14 +135,16 @@ public class Enemy extends Component {
                     Polygon enemyHitBox = new Polygon(new float[] { 0, 0, hitBox.width, 0, hitBox.width, hitBox.height, 0, hitBox.height });
                     enemyHitBox.setPosition(hitBox.x, hitBox.y);
                     if (Intersector.overlapConvexPolygons(enemyHitBox, playerAmmoBoundingBox)) {
-//                        gotHit();
-                        reduceHealth(weapon.getRandomDamage());
+//                      gotHit();
+                        reduceHealth(weapon.getRandomDamage() + player.getRangedDamageBoost() + player.getDamageBoost());
                         ammo.setRemove(true);
                     }
                 }
 
                 if (getHealth() <= 0) {
                     mapManager.setCurrentMapEntity(entity); // Задать текущего персонажа на карте
+                    player.sendMessage(MESSAGE.ENEMY_KILLED);
+
                     notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.ENEMY_DEAD);
                     state = State.DEAD;
                 }

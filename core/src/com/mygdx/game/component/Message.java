@@ -27,7 +27,8 @@ public interface Message {
         ATTAKING_IS_DONE,
         ACTIVATE_ANIM_MECHAN,
         EQUIP_EXOSKELETON,
-        EXOSKELETON_ON
+        EXOSKELETON_ON,
+        ENEMY_KILLED
     }
 
     void dispose();

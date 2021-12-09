@@ -47,7 +47,7 @@ public class Player extends Component {
     private boolean rudimentLock = false;
     private float timer, dashTimer;
     private int currentExperience;
-    private Skill testSkill1, testSkill2, testSkill3;
+    private Skill testSkill1, testSkill2, testSkill3, testSkill4;
 
     private int iiii = 0;
 
@@ -56,6 +56,7 @@ public class Player extends Component {
         testSkill1 = SkillFactory.getInstance().getSkill(1);
         testSkill2 = SkillFactory.getInstance().getSkill(2);
         testSkill3 = SkillFactory.getInstance().getSkill(3);
+        testSkill4 = SkillFactory.getInstance().getSkill(4);
         state = State.NORMAL;
         controlManager = new ControlManager();
     }
@@ -65,6 +66,7 @@ public class Player extends Component {
         testSkill1.unlockSkill(currentExperience, this);
         testSkill2.unlockSkill(currentExperience,this);
         testSkill3.unlockSkill(currentExperience,this);
+        testSkill4.unlockSkill(currentExperience,this);
     }
 
     @Override
@@ -72,6 +74,17 @@ public class Player extends Component {
         String[] string = message.split(MESSAGE_TOKEN);
 
         if(string.length == 0) return;
+
+        if(string.length==1) {
+            if (string[0].equalsIgnoreCase(MESSAGE.ENEMY_KILLED.toString())) {
+
+                setHealth(getHealth() + getHealAmount());
+                if(getHealth()>getMaxHealth()){
+                    setHealth(getMaxHealth());
+                }
+                System.out.println("Heal:" + 4);
+            }
+        }
 
         if(string.length == 2) {
             if(string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {

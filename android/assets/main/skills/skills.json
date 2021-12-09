@@ -21,5 +21,13 @@
     "unlocked": false,
     "skillType": "DMGRESIST"
 
+  },
+  {
+    "id": 4,
+    "cost": 0,
+    "property": 5,
+    "unlocked": false,
+    "skillType": "HEAL"
   }
+
 ]
