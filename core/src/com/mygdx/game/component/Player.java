@@ -44,6 +44,7 @@ public class Player extends Component {
     private boolean isLeftButtonPressed = false;
     private boolean isRightButtonPressed = false;
     private boolean usingRudiment = false;
+    private boolean rudimentLock = false;
     private float timer, dashTimer;
     private int currentExperience;
     private Skill testSkill1, testSkill2, testSkill3;
@@ -673,11 +674,13 @@ public class Player extends Component {
     public boolean keyUp(int keycode) {
         if(keycode==Input.Keys.E){
             timer=0;
-        }else if(keycode==Input.Keys.F) {
+        }else if(keycode==Input.Keys.F && !rudimentLock) {
+            rudimentLock=true;
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
                     usingRudiment=false;
+                    rudimentLock=false;
                 }}, 4);
         };
         return false;
