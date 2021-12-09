@@ -6,6 +6,7 @@ import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.quest.QuestGraph;
 import com.mygdx.game.inventory.InventoryItemLocation;
+import com.mygdx.game.skills.Skill;
 import com.mygdx.game.world.MapFactory;
 
 import java.util.HashMap;
@@ -43,6 +44,7 @@ public class PlayerConfig {
     private int executionThreshold;
     private int damageBoost;
     private float rudimentCharge;
+    private Array<Integer> playerSkills;
 
 
     private int health;
@@ -281,4 +283,9 @@ public class PlayerConfig {
     public void setDamageBoost(int damageBoost) {
         this.damageBoost = damageBoost;
     }
+
+    public Array<Integer> getPlayerSkills(){return this.playerSkills;}
+
+    public void setPlayerSkills(Array<Integer> playerSkills){this.playerSkills=playerSkills;}
+
 }

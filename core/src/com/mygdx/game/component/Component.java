@@ -23,6 +23,7 @@ import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.observer.ComponentSubject;
 import com.mygdx.game.pathfinder.PathFinder;
+import com.mygdx.game.skills.Skill;
 import com.mygdx.game.tools.managers.ControlManager;
 import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.weapon.Ammo;
@@ -89,6 +90,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     private int healAmount;
     private int executionThreshold;
     private int damageBoost;
+    private Array<Integer> playerSkills;
 
     public ArrayList<Ammo> activeAmmo;
 
@@ -184,7 +186,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     }
 
     public void reduceHealth(int damage) {
-        health -= damage;
+        health -= damage*((100-this.getDamageResist())/100);
     }
 
     public int getDamageResist() {
@@ -282,6 +284,10 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public void setDamageBoost(int damageBoost) {
         this.damageBoost = damageBoost;
     }
+
+    public Array<Integer> getPlayerSkills() {return playerSkills;}
+
+    public void setPlayerSkills(Array<Integer> playerSkills) {this.playerSkills = playerSkills;}
 
     protected void setCurrentPosition(Entity entity){
         currentEntityPosition.x = 0;

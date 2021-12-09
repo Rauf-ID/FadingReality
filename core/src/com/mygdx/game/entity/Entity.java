@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.component.Component;
 import com.mygdx.game.observer.ComponentObserver;
+import com.mygdx.game.skills.Skill;
 import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.weapon.Weapon;
 import com.mygdx.game.weapon.WeaponSystem;
@@ -288,6 +289,10 @@ public class Entity implements Comparable<Entity> {
     public int getHealth(){return component.getHealth();}
 
     public void setHealth(int health){component.setHealth(health);}
+
+    public Array<Integer> getPlayerSkills(){return component.getPlayerSkills();}
+
+    public void setPlayerSkills(Array<Integer> playerSkills){ component.setPlayerSkills(playerSkills);}
 
     public InputProcessor getInputProcessor(){
         return component;

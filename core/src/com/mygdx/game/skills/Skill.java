@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.Null;
 import com.mygdx.game.component.Player;
 
 import java.util.ArrayList;
@@ -46,8 +47,8 @@ public class Skill {
     private int heal, execution, damageBoost, damageResist;*/
 
     public void unlockSkill(int exp, Player player){
-        if(exp>=this.cost && !this.unlocked){
-            this.unlocked=true;
+        if(exp>=this.cost && (!player.getPlayerSkills().contains(this.id,true))){
+
             switch (this.getType()){
                 case DASH:
                     player.setMaxDashCharges(player.getMaxDashCharges()+this.getSkillProperty());
@@ -93,9 +94,15 @@ public class Skill {
                     break;
             }
 
+
+            player.getPlayerSkills().add(this.id);
+
+
+
+
+
+
         }
-
-
     }
 
 

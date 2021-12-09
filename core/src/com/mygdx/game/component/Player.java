@@ -46,7 +46,6 @@ public class Player extends Component {
     private boolean usingRudiment = false;
     private float timer, dashTimer;
     private int currentExperience;
-    private Skill[] playerSkills;
     private Skill testSkill1, testSkill2, testSkill3;
 
     private int iiii = 0;
@@ -65,8 +64,6 @@ public class Player extends Component {
         testSkill1.unlockSkill(currentExperience, this);
         testSkill2.unlockSkill(currentExperience,this);
         testSkill3.unlockSkill(currentExperience,this);
-
-
     }
 
     @Override
@@ -364,7 +361,7 @@ public class Player extends Component {
                         }
 
                         //RUDIMENT
-                        if (Gdx.input.isKeyJustPressed(Input.Keys.F) && this.rudimentCharge>=1) {
+                        if (Gdx.input.isKeyJustPressed(Input.Keys.F) && this.rudimentCharge>=1 && !usingRudiment) {
                             usingRudiment=true;
                             currentEntityPosition.x -= 64;
                             currentEntityPosition.y -= 64;
@@ -676,9 +673,13 @@ public class Player extends Component {
     public boolean keyUp(int keycode) {
         if(keycode==Input.Keys.E){
             timer=0;
-        }else if(keycode==Input.Keys.F){
-            usingRudiment=false;
-        }
+        }else if(keycode==Input.Keys.F) {
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    usingRudiment=false;
+                }}, 4);
+        };
         return false;
     }
 

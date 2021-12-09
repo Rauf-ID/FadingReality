@@ -31,6 +31,7 @@ import com.mygdx.game.dialogs.ConversationGraph;
 import com.mygdx.game.observer.ConversationGraphObserver;
 import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.profile.ProfileManager;
+import com.mygdx.game.skills.Skill;
 import com.mygdx.game.tools.ProgressBarNew;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
@@ -244,6 +245,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setMaxDashCharges(profileManager.getPlayerConfig().getMaxDashCharges());
                     player.setMaxHealth(profileManager.getPlayerConfig().getMaxHp());
                     player.setHealth(profileManager.getPlayerConfig().getMaxHp());
+                    player.setPlayerSkills(new Array<Integer>());
 
                 } else {
                     Map<String, Integer> allAmmoCount = profileManager.getPlayerConfig().getBagAmmunition();
@@ -277,6 +279,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setRudimentCooldown(profileManager.getPlayerConfig().getRudimentCooldown());
                     player.setDamageBoost(profileManager.getPlayerConfig().getDamageBoost());
                     player.setDamageResist(profileManager.getPlayerConfig().getDamageResist());
+                    player.setMaxHealth(profileManager.getPlayerConfig().getMaxHp());
+                    player.setHealth(profileManager.getPlayerConfig().getHealth());
+                    player.setPlayerSkills(profileManager.getPlayerConfig().getPlayerSkills());
 
                     if (profileManager.getPlayerConfig().getExoskeletonName() != EntityFactory.EntityName.NONE) {
                         EntityFactory.EntityName exoskeletonName = profileManager.getPlayerConfig().getExoskeletonName();
@@ -308,6 +313,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setRudimentCooldown(player.getRudimentCooldown());
                 profileManager.getPlayerConfig().setHealth(player.getHealth());
                 profileManager.getPlayerConfig().setMaxHp(player.getMaxHealth());
+                profileManager.getPlayerConfig().setPlayerSkills(player.getPlayerSkills());
                 break;
             case CLEAR_CURRENT_PROFILE:
                 System.out.println("PROFILE CONFIG CLEARING");
