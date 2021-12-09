@@ -25,7 +25,6 @@ public class PDAUI extends Window {
         super(title, skin);
 
 
-        Drawable drawable = new TextureRegionDrawable(new TextureRegion(FadingReality.resourceManager.texture));
         Drawable drawable2 = new TextureRegionDrawable(new TextureRegion(FadingReality.resourceManager.texture4));
 
         Drawable backgroundPDA = new TextureRegionDrawable(new TextureRegion(FadingReality.resourceManager.textureBackgroundPDA));
@@ -74,14 +73,13 @@ public class PDAUI extends Window {
 
         //Listeners
         button.addListener(new ClickListener() {
-                               @Override
-                               public void clicked (InputEvent event, float x, float y) {
-                                   System.out.println("PRESSED");
-                                   PlayerHUD.browserUI.setVisible(true);
-                                   setVisible(false);
-                               }
-                           }
-        );
+            @Override
+            public void clicked (InputEvent event, float x, float y) {
+                System.out.println("PRESSED");
+                PlayerHUD.browserUI.setVisible(true);
+                setVisible(false);
+            }
+        });
 
         button2.addListener(new ClickListener() {
                                 @Override

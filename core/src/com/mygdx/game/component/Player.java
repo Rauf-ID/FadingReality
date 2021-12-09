@@ -215,6 +215,10 @@ public class Player extends Component {
 
         //INPUT
         input(entity);
+        if (!isCollisionWithMapEntities(entity, mapManager)){
+        } else{
+            updateBoundingBoxPosition(currentEntityPosition);
+        }
 
         //DASH SHADOW
         //GRAPHICS

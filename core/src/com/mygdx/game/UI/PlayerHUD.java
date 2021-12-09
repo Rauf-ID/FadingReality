@@ -135,11 +135,10 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         questUI.setVisible(false);
         questUI.setKeepWithinStage(false);
 
-        browserUI = new BrowserUI("BB", FadingReality.getUiSkin());
+        browserUI = new BrowserUI();
         browserUI.setSize(1800,950);
         browserUI.setPosition(50, 60);
         browserUI.setVisible(false);
-        browserUI.setResizable(true);
 
         pdaui = new PDAUI("", FadingReality.getUiSkin());
         pdaui.setMovable(true);

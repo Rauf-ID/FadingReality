@@ -817,6 +817,13 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         return false;
     }
 
+    protected void updateBoundingBoxPosition(Vector2 position){
+        float minX = position.x;
+        float minY = position.y;
+
+        boundingBox.setCenter(minX, minY);
+    }
+
     public abstract void update(Entity entity, MapManager mapManager, Batch batch, float delta);
 
     public abstract void draw(Batch batch, float delta);

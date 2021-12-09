@@ -39,6 +39,8 @@ public class StatusUI extends Group {
 //        Image image1 = new Image(new NinePatch(Utility.STATUSUI.createPatch("testBox1")));
 
 
+
+
         Drawable drawableUIForStats = new TextureRegionDrawable(new TextureRegion(new Texture("stats.png")));
         Drawable drawableUIForConsumables = new TextureRegionDrawable(new TextureRegion(new Texture("UIForConsumables.png")));
         Drawable drawableUIForWeapons = new TextureRegionDrawable(new TextureRegion(new Texture("UIForWeapons.png")));
