@@ -76,6 +76,16 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public Rectangle activeZoneBox;
     public Rectangle attackZoneBox;
 
+    public Rectangle topBoundingBox;
+    public Rectangle bottomBoundingBox;
+    public Rectangle leftBoundingBox;
+    public Rectangle rightBoundingBox;
+
+    public boolean boolTopBoundingBox = false;
+    public boolean boolBottomBoundingBox = false;
+    public boolean boolLeftBoundingBox = false;
+    public boolean boolRightBoundingBox = false;
+
     protected int health;
     protected int maxHealth;
     protected int damageResist;
@@ -163,6 +173,11 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         boundingBox = new Rectangle();
         activeZoneBox = new Rectangle();
         attackZoneBox = new Rectangle();
+
+        topBoundingBox = new Rectangle();
+        bottomBoundingBox = new Rectangle();
+        leftBoundingBox = new Rectangle();
+        rightBoundingBox = new Rectangle();
 
         activeAmmo = new ArrayList<>();
 
@@ -315,6 +330,13 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         activeZoneBox.setHeight(size.y);
     }
 
+    protected void initBorderBoundingBox(Vector2 size){
+        topBoundingBox.setSize(size.x, 1);
+        bottomBoundingBox.setSize(size.x, 1);
+        leftBoundingBox.setSize(1, size.y);
+        rightBoundingBox.setSize(1, size.y);
+    }
+
     protected void updateHitBox() {
         int middleImageWidth = (int) imageBox.getWidth() / 2;
         int middleImageHeight = (int) imageBox.getHeight() / 2;
@@ -333,6 +355,13 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         int middleBoundingBoxWidth = (int) boundingBox.getWidth() / 2;
         int boundingBoxHeight = (int) boundingBox.getHeight() * 2;
         boundingBox.setPosition(entityX + middleImageWidth - middleBoundingBoxWidth, entityY + middleImageHeight - boundingBoxHeight);
+    }
+
+    protected void updateBorderBoundingBox() {
+        topBoundingBox.setPosition(boundingBox.x, boundingBox.y + boundingBox.getHeight());
+        bottomBoundingBox.setPosition(boundingBox.x, boundingBox.y - 1);
+        leftBoundingBox.setPosition(boundingBox.x - 1, boundingBox.y);
+        rightBoundingBox.setPosition(boundingBox.x + boundingBox.getWidth(), boundingBox.y);
     }
 
     protected void updateActiveZoneBox() {
@@ -776,6 +805,34 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         }
         tempEntities.clear();
         return isCollisionWithMapEntities;
+    }
+
+    protected void updateCollisionWithMapEntities(Entity entity, MapManager mapMgr){
+        tempEntities.clear();
+        tempEntities.addAll(mapMgr.getCurrentMapEntities());
+        tempEntities.addAll(mapMgr.getCurrentMapQuestEntities());
+
+        for(Entity mapEntity: tempEntities){
+            if( mapEntity.equals(entity) ){
+                continue;
+            }
+
+            Rectangle targetRect = mapEntity.getBoundingBox();
+
+            if (topBoundingBox.overlaps(targetRect) ){
+                boolTopBoundingBox = true;
+            }
+            if (bottomBoundingBox.overlaps(targetRect) ){
+                boolBottomBoundingBox = true;
+            }
+            if (leftBoundingBox.overlaps(targetRect) ){
+                boolLeftBoundingBox = true;
+            }
+            if (rightBoundingBox.overlaps(targetRect) ){
+                boolRightBoundingBox = true;
+            }
+        }
+        tempEntities.clear();
     }
 
     protected boolean isCollision(Entity entitySource, Entity entityTarget){

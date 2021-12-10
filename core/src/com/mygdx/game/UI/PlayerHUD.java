@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
@@ -31,12 +30,9 @@ import com.mygdx.game.dialogs.ConversationGraph;
 import com.mygdx.game.observer.ConversationGraphObserver;
 import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.profile.ProfileManager;
-import com.mygdx.game.skills.Skill;
 import com.mygdx.game.tools.ProgressBarNew;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
-import com.mygdx.game.weapon.Weapon;
-import com.mygdx.game.weapon.WeaponFactory;
 import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 
@@ -64,7 +60,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     private InventoryUI inventoryUI;
     public ConversationUI conversationUI;
     private QuestUI questUI;
-    public static PDAUI pdaui;
+    public static PDAUI pdaUI;
     public static BrowserUI browserUI;
     private Image image;
 
@@ -78,12 +74,11 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     private Vector3 mouseCoordinates;
     private float zoom;
     private Vector2 playerPosition;
+    private String mapName;
+
 
     private ImageButton button, button2, button3;
     private Label labelTextTest;
-
-    private Label labelMapName;
-    private String mapName;
 
     public static List<Toast> toasts = new LinkedList<Toast>();
     private static Toast.ToastFactory toastFactory;
@@ -106,7 +101,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         statusUI.setVisible(true);
         statusUI.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         statusUI.setPosition(0, 0);
-//        statusUI.bottom();
 
         tooltipUI = new TooltipUI();
         tooltipUI.setMovable(true);
@@ -140,13 +134,12 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         browserUI.setPosition(50, 60);
         browserUI.setVisible(false);
 
-        pdaui = new PDAUI("", FadingReality.getUiSkin());
-        pdaui.setMovable(true);
-        pdaui.setVisible(false);
-        pdaui.setResizable(true);
-        pdaui.setSize(468,790);
-        pdaui.setPosition(1250, 200);
-//        pdaui.setDebug(true);
+        pdaUI = new PDAUI("", FadingReality.getUiSkin());
+        pdaUI.setMovable(true);
+        pdaUI.setVisible(false);
+        pdaUI.setResizable(true);
+        pdaUI.setSize(468,790);
+        pdaUI.setPosition(1250, 200);
 
         //Delta, FPS and other stats
         tooltip1 = new Label("", FadingReality.getUiSkin());
@@ -155,23 +148,18 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         tooltip2 = new Label("Tab - PDA \n" + "Z - Inventory \n" + "X - QuestList \n" + "NUMPAD_1 - Activate Enemy \n " + "NUMPAD_2 - Shader1 & Speed \n " + "NUMPAD_3 - Shader2 \n " + "NUMPAD_4 - Activate Debug", FadingReality.getUiSkin());
         tooltip2.setPosition(0, 0);
 
-        labelMapName = new Label("", FadingReality.getUiSkin());
-        labelMapName.setPosition(Gdx.graphics.getWidth() - 500, Gdx.graphics.getHeight() - 50);
-
 //        image = new Image(new TextureRegion(NonameGame.resourceManager.texture2));
 //        image.setPosition(500,500);
 //        image.setSize(128,128);
 
-        this.addActor(progressBar);
-        this.addActor(statusUI);
-
+//        this.addActor(progressBar);
+//        this.addActor(healthBar);
+//        this.addActor(statusUI);
         this.addActor(inventoryUI);
         this.addActor(conversationUI);
         this.addActor(questUI);
-        this.addActor(pdaui);
-        this.addActor(healthBar);
+        this.addActor(pdaUI);
         this.addActor(browserUI);
-        this.addActor(labelMapName);
 //        this.addActor(tooltip1);
 //        this.addActor(tooltip2);
         this.addActor(tooltipUI);
@@ -491,7 +479,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     public void update() {
         if (!browserUI.isVisible()) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-                pdaui.setVisible(pdaui.isVisible() ? false : true);
+                pdaUI.setVisible(pdaUI.isVisible() ? false : true);
             }
 
             if(Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
@@ -505,7 +493,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             browserUI.setVisible(false);
-            pdaui.setVisible(true);
+            pdaUI.setVisible(true);
         }
     }
 
@@ -518,8 +506,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 "Ammo = " + player.getAmmoCountInMagazine() + "\n" +
                 "Mouse Cord = X: " + Math.round(mouseCoordinates.x) + " Y: " + Math.round(mouseCoordinates.y) + "\n" +
                 "Camera Zoom = " + zoom + "\n" +
-                "Player Position = X: " + playerPosition.x + " Y: " + playerPosition.y);
-        labelMapName.setText(mapName);
+                "Player Position = X: " + playerPosition.x + " Y: " + playerPosition.y + "\n" +
+                "Map = " + mapName);
 
         // handle toast queue and display
         Iterator<Toast> it = toasts.iterator();

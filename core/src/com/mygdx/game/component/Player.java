@@ -120,6 +120,7 @@ public class Player extends Component {
                 initHitBox(entityConfig.getHitBox());
                 initImageBox(entityConfig.getImageBox());
                 initBoundingBox(entityConfig.getBoundingBox());
+                initBorderBoundingBox(entityConfig.getBoundingBox());
 //                setDamageResist(entityConfig.getDamageResist());
                 unEquipExoskeleton(entityConfig);
             } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
@@ -174,6 +175,7 @@ public class Player extends Component {
         updateHitBox();
         updateImageBox();
         updateBoundingBox();
+        updateBorderBoundingBox();
 //        updateSwordRangeBox(64,64);
         updateShifts(mapManager, delta, 40);
         setSwordRangeBox(new Vector2(10000,10000), 0,0);
@@ -211,14 +213,13 @@ public class Player extends Component {
         //TEST TOOLTIP
         if(Gdx.input.isKeyJustPressed(Input.Keys.V)) {
             notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.ITEM_PICK_UP);
+            boolTopBoundingBox = false;
         }
 
         //INPUT
+        updateCollisionWithMapEntities(entity, mapManager);
         input(entity);
-        if (!isCollisionWithMapEntities(entity, mapManager)){
-        } else{
-            updateBoundingBoxPosition(currentEntityPosition);
-        }
+
 
         //DASH SHADOW
         //GRAPHICS
@@ -248,14 +249,14 @@ public class Player extends Component {
                         }
                     }
 
-                    if (!PlayerHUD.pdaui.isVisible() && !PlayerHUD.browserUI.isVisible()) {
-                        if (Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
+                    if (!PlayerHUD.pdaUI.isVisible() && !PlayerHUD.browserUI.isVisible()) {
+                        if (Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolTopBoundingBox) {
                             currentState = Entity.State.RUN;
-                            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolTopBoundingBox) {
                                 currentDirection = Entity.Direction.RIGHT;
                                 currentEntityPosition.y += runVelocityD.y;
                                 currentEntityPosition.x += runVelocityD.x;
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolTopBoundingBox) {
                                 currentDirection = Entity.Direction.LEFT;
                                 currentEntityPosition.y += runVelocityD.y;
                                 currentEntityPosition.x -= runVelocityD.x;
@@ -263,13 +264,13 @@ public class Player extends Component {
                                 currentDirection = Entity.Direction.UP;
                                 currentEntityPosition.y += runVelocity.y;
                             }
-                        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolBottomBoundingBox) {
                             currentState = Entity.State.RUN;
-                            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolBottomBoundingBox) {
                                 currentDirection = Entity.Direction.RIGHT;
                                 currentEntityPosition.y -= runVelocityD.y;
                                 currentEntityPosition.x += runVelocityD.x;
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolBottomBoundingBox) {
                                 currentDirection = Entity.Direction.LEFT;
                                 currentEntityPosition.y -= runVelocityD.y;
                                 currentEntityPosition.x -= runVelocityD.x;
@@ -277,38 +278,21 @@ public class Player extends Component {
                                 currentDirection = Entity.Direction.DOWN;
                                 currentEntityPosition.y -= runVelocity.y;
                             }
-                        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolLeftBoundingBox) {
                             currentState = Entity.State.RUN;
                             currentDirection = Entity.Direction.LEFT;
-                            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                                currentEntityPosition.x -= runVelocityD.x;
-                                currentEntityPosition.y += runVelocityD.y;
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                                currentEntityPosition.x -= runVelocityD.x;
-                                currentEntityPosition.y -= runVelocityD.y;
-                            } else {
-                                currentEntityPosition.x -= runVelocity.x;
-                            }
-                        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
+                            currentEntityPosition.x -= runVelocity.x;
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolRightBoundingBox) {
                             currentState = Entity.State.RUN;
                             currentDirection = Entity.Direction.RIGHT;
-                            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                                currentEntityPosition.x += runVelocityD.x;
-                                currentEntityPosition.y += runVelocityD.y;
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                                currentEntityPosition.x += runVelocityD.x;
-                                currentEntityPosition.y -= runVelocityD.y;
-                            } else {
-                                currentEntityPosition.x += runVelocity.x;
-                            }
-
-                        } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                            currentEntityPosition.x += runVelocity.x;
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.W) && !boolTopBoundingBox) {
                             currentState = Entity.State.WALK;
-                            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolTopBoundingBox) {
                                 currentDirection = Entity.Direction.RIGHT;
                                 currentEntityPosition.y += walkVelocityD.y;
                                 currentEntityPosition.x += walkVelocityD.x;
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolTopBoundingBox) {
                                 currentDirection = Entity.Direction.LEFT;
                                 currentEntityPosition.y += walkVelocityD.y;
                                 currentEntityPosition.x -= walkVelocityD.x;
@@ -316,13 +300,13 @@ public class Player extends Component {
                                 currentDirection = Entity.Direction.UP;
                                 currentEntityPosition.y += walkVelocity.y;
                             }
-                        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && !boolBottomBoundingBox) {
                             currentState = Entity.State.WALK;
-                            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolBottomBoundingBox) {
                                 currentDirection = Entity.Direction.RIGHT;
                                 currentEntityPosition.y -= walkVelocityD.y;
                                 currentEntityPosition.x += walkVelocityD.x;
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolBottomBoundingBox) {
                                 currentDirection = Entity.Direction.LEFT;
                                 currentEntityPosition.y -= walkVelocityD.y;
                                 currentEntityPosition.x -= walkVelocityD.x;
@@ -330,32 +314,20 @@ public class Player extends Component {
                                 currentDirection = Entity.Direction.DOWN;
                                 currentEntityPosition.y -= walkVelocity.y;
                             }
-                        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolLeftBoundingBox) {
                             currentState = Entity.State.WALK;
                             currentDirection = Entity.Direction.LEFT;
-                            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                                currentEntityPosition.x -= walkVelocityD.x;
-                                currentEntityPosition.y += walkVelocityD.y;
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                                currentEntityPosition.x -= walkVelocityD.x;
-                                currentEntityPosition.y -= walkVelocityD.y;
-                            } else {
-                                currentEntityPosition.x -= walkVelocity.x;
-                            }
-                        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                            currentEntityPosition.x -= walkVelocity.x;
+                        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolRightBoundingBox) {
                             currentState = Entity.State.WALK;
                             currentDirection = Entity.Direction.RIGHT;
-                            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                                currentEntityPosition.x += walkVelocityD.x;
-                                currentEntityPosition.y += walkVelocityD.y;
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                                currentEntityPosition.x += walkVelocityD.x;
-                                currentEntityPosition.y -= walkVelocityD.y;
-                            } else {
-                                currentEntityPosition.x += walkVelocity.x;
-                            }
+                            currentEntityPosition.x += walkVelocity.x;
                         } else {
                             currentState = Entity.State.IDLE;
+                            boolTopBoundingBox = false;
+                            boolBottomBoundingBox = false;
+                            boolLeftBoundingBox = false;
+                            boolRightBoundingBox = false;
                             isGunActive2 = false;
                             isGunActive = false;
                         }
@@ -560,7 +532,7 @@ public class Player extends Component {
         camera.update();
     }
 
-    public void debug(boolean activeGrid, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox,  boolean activeAmmoDebug) {
+    public void debug(boolean activeGrid, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox, boolean activeTopBoundingBox, boolean activeBottomBoundingBox, boolean activeLeftBoundingBox, boolean activeRightBoundingBox, boolean activeAmmoDebug) {
         if (activeGrid) {
             Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
             if(grid == null && grid.size == 0) return;
@@ -597,6 +569,26 @@ public class Player extends Component {
         if (activeBoundingBox) {
             Rectangle rect = boundingBox;
             shapeRenderer.setColor(Color.GRAY);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        if (activeTopBoundingBox) {
+            Rectangle rect = topBoundingBox;
+            shapeRenderer.setColor(Color.BLUE);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        if (activeBottomBoundingBox) {
+            Rectangle rect = bottomBoundingBox;
+            shapeRenderer.setColor(Color.BLUE);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        if (activeLeftBoundingBox) {
+            Rectangle rect = leftBoundingBox;
+            shapeRenderer.setColor(Color.BLUE);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        if (activeRightBoundingBox) {
+            Rectangle rect = rightBoundingBox;
+            shapeRenderer.setColor(Color.BLUE);
             shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
         }
         if (activeAmmoDebug) {
@@ -638,7 +630,7 @@ public class Player extends Component {
             debugActive = !debugActive;
         }
         if (debugActive) {
-            debug(true, true,true, true, true);
+            debug(true, true,true, true, true, true, true, true, true);
         }
 
         batch.begin();

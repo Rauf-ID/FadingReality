@@ -63,7 +63,7 @@ public class BrowserUI extends Group {
 //            @Override
 //            public void clicked(InputEvent event, float x, float y) {
 ////                window.remove();
-//                PlayerHUD.pdaui.setVisible(true);
+//                PlayerHUD.pdaUI.setVisible(true);
 //                window.setVisible(false);
 //                super.clicked(event, x, y);
 //            }

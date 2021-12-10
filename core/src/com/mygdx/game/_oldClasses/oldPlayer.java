@@ -243,7 +243,7 @@
 //                        }
 //                    }
 //
-//                    if (!PlayerHUD.pdaui.isVisible() && !PlayerHUD.browserUI.isVisible()) {
+//                    if (!PlayerHUD.pdaUI.isVisible() && !PlayerHUD.browserUI.isVisible()) {
 //
 //                        if (Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
 //                            currentState = Entity.State.RUN;
