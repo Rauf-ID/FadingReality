@@ -187,7 +187,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         }
     }
 
-    public static Array<InventoryItemLocation> getInventory(Table targetTable){ // получить весь инвентарь
+    public static Array<InventoryItemLocation> getInventory(Table targetTable){ // получить все предметы инвентаря
         Array<Cell> cells = targetTable.getCells();
         Array<InventoryItemLocation> items = new Array<InventoryItemLocation>();
         for(int i = 0; i < cells.size; i++){

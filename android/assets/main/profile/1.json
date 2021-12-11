@@ -2,8 +2,8 @@
 state: IDLE
 direction: RIGHT
 position: {
-	x: 1297.7542
-	y: 173.80579
+	x: 1138.7142
+	y: 269.61276
 }
 currentMap: SPACE_STATION
 quests: [
@@ -147,31 +147,20 @@ quests: [
 ]
 inventory: [
 	{
-		itemTypeAtLocation: ARMOR04
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		locationIndex: 1
+		locationIndex: 2
 		itemTypeAtLocation: BOOTS03
 		numberItemsAtLocation: 1
 		itemNameProperty: Player_Inventory
 	}
 	{
-		locationIndex: 2
+		locationIndex: 3
 		itemTypeAtLocation: HELMET05
 		numberItemsAtLocation: 1
 		itemNameProperty: Player_Inventory
 	}
 	{
-		locationIndex: 3
-		itemTypeAtLocation: ICHOR
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
 		locationIndex: 19
-		itemTypeAtLocation: ANGEL_BLADE
+		itemTypeAtLocation: ICHOR
 		numberItemsAtLocation: 1
 		itemNameProperty: Player_Inventory
 	}
@@ -179,26 +168,42 @@ inventory: [
 		locationIndex: 29
 		itemTypeAtLocation: ALG
 		numberItemsAtLocation: 1
-		numberItemsInside: 30
+		numberItemsInside: 10
 		itemNameProperty: Player_Inventory
 	}
 ]
 equipment: [
 	{
-		locationIndex: 2
+		locationIndex: 3
+		itemTypeAtLocation: ANGEL_BLADE
+		numberItemsAtLocation: 1
+		itemNameProperty: Player_Inventory
+	}
+	{
+		locationIndex: 4
+		itemTypeAtLocation: ARMOR04
+		numberItemsAtLocation: 1
+		itemNameProperty: Player_Inventory
+	}
+	{
+		locationIndex: 5
 		itemTypeAtLocation: AHR
 		numberItemsAtLocation: 1
-		numberItemsInside: 98824
+		numberItemsInside: 98185
 		itemNameProperty: Player_Inventory
 	}
 ]
 bagAmmunition: {
 	class: java.util.HashMap
 	5.56 mm: 9402
-	9 mm: 9475
+	9 mm: 9415
 }
 exoskeletonName: NONE
+maxHp: 150
 dashCharges: 5
 maxDashCharges: 5
-damageResist: 40
+damageResist: 20
+healAmount: 5
+playerSkills: [ 1, 2, 3, 4 ]
+health: 100
 }
