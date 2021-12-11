@@ -44,7 +44,7 @@ public class PlayerConfig {
     private int executionThreshold;
     private int damageBoost;
     private float rudimentCharge;
-    private Array<Integer> playerSkills;
+    private Array<Integer> playerSkills, availableSkills;
 
 
     private int health;
@@ -287,5 +287,9 @@ public class PlayerConfig {
     public Array<Integer> getPlayerSkills(){return this.playerSkills;}
 
     public void setPlayerSkills(Array<Integer> playerSkills){this.playerSkills=playerSkills;}
+
+    public Array<Integer> getAvailableSkills(){return this.availableSkills;}
+
+    public void setAvailableSkills(Array<Integer> availableSkills){this.availableSkills=availableSkills;}
 
 }

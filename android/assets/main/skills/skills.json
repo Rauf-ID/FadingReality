@@ -1,33 +1,44 @@
 [
   {
+    "id": 0,
+    "cost": 0,
+    "property": 0,
+    "nextSkills": [1,2,3,4],
+    "skillType": "DASH"
+  },
+  {
     "id": 1,
     "cost": 0,
     "property": 1,
-    "unlocked": false,
-    "skillType": "DASH"
-
+    "skillType": "HP",
+    "nextSkills": []
   },
   {
     "id": 2,
     "cost": 0,
     "property": 50,
-    "unlocked": false,
-    "skillType": "HP"
+    "skillType": "HP",
+    "nextSkills": []
   },
   {
     "id": 3,
     "cost": 0,
     "property": 20,
-    "unlocked": false,
-    "skillType": "DMGRESIST"
-
+    "skillType": "RUDIMENTCD",
+    "nextSkills": []
   },
   {
     "id": 4,
+    "cost": 10,
+    "property": 5,
+    "skillType": "RANGEDMG",
+    "nextSkills": []
+  },
+  {
+    "id": 5,
     "cost": 0,
     "property": 5,
-    "unlocked": false,
-    "skillType": "HEAL"
+    "skillType": "WEAPONSPEED",
+    "nextSkills": []
   }
-
 ]

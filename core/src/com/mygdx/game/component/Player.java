@@ -47,7 +47,7 @@ public class Player extends Component {
     private boolean rudimentLock = false;
     private float timer, dashTimer;
     private int currentExperience;
-    private Skill testSkill1, testSkill2, testSkill3, testSkill4;
+    private Skill testSkill1, testSkill2, testSkill3, testSkill4, testSkill5;
 
     private int iiii = 0;
 
@@ -57,6 +57,7 @@ public class Player extends Component {
         testSkill2 = SkillFactory.getInstance().getSkill(2);
         testSkill3 = SkillFactory.getInstance().getSkill(3);
         testSkill4 = SkillFactory.getInstance().getSkill(4);
+        testSkill5  = SkillFactory.getInstance().getSkill(5);
         state = State.NORMAL;
         controlManager = new ControlManager();
     }
@@ -67,6 +68,8 @@ public class Player extends Component {
         testSkill2.unlockSkill(currentExperience,this);
         testSkill3.unlockSkill(currentExperience,this);
         testSkill4.unlockSkill(currentExperience,this);
+        testSkill5.unlockSkill(currentExperience, this);
+        System.out.println("Inaccessible skills:" + Skill.getInaccessibleSkills(this));
     }
 
     @Override
@@ -77,12 +80,13 @@ public class Player extends Component {
 
         if(string.length==1) {
             if (string[0].equalsIgnoreCase(MESSAGE.ENEMY_KILLED.toString())) {
-
                 setHealth(getHealth() + getHealAmount());
                 if(getHealth()>getMaxHealth()){
                     setHealth(getMaxHealth());
                 }
-                System.out.println("Heal:" + 4);
+            }else if(string[0].equalsIgnoreCase(MESSAGE.UNLOCK_FIRST_SKILL.toString())){
+                Skill firstSkill = SkillFactory.getInstance().getSkill(0);
+                firstSkill.unlockSkill(currentExperience,this);
             }
         }
 

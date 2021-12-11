@@ -28,7 +28,8 @@ public interface Message {
         ACTIVATE_ANIM_MECHAN,
         EQUIP_EXOSKELETON,
         EXOSKELETON_ON,
-        ENEMY_KILLED
+        ENEMY_KILLED,
+        UNLOCK_FIRST_SKILL
     }
 
     void dispose();

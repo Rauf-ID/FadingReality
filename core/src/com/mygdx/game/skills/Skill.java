@@ -10,11 +10,12 @@ import com.mygdx.game.component.Player;
 import java.util.ArrayList;
 
 public class Skill {
-    private int id;
-    private int cost;
+    private int id, cost, property;
     private boolean unlocked;
     private SkillType skillType;
-    private int property;
+
+
+    private Array<Integer> nextSkills;
 
     public static enum SkillType{
         ACTIVE,
@@ -47,36 +48,28 @@ public class Skill {
     private int heal, execution, damageBoost, damageResist;*/
 
     public void unlockSkill(int exp, Player player){
-        if(exp>=this.cost && (!player.getPlayerSkills().contains(this.id,true))){
-
+        if(player.getAvailableSkills().contains(this.getId(),true) && exp>=this.cost && (!player.getPlayerSkills().contains(this.id,true))){
             switch (this.getType()){
                 case DASH:
                     player.setMaxDashCharges(player.getMaxDashCharges()+this.getSkillProperty());
-                    System.out.println("Skill unlocked!" + " Max dash charges increased");
                     break;
                 case DMGBOOST:
                     player.setDamageBoost(player.getDamageBoost() + this.getSkillProperty());
-                    System.out.println("Skill unlocked!" + this.getType());
                     break;
                 case MELEEDMG:
                     player.setMeleeDamageBoost(player.getMeleeDamageBoost() + this.getSkillProperty());
-                    System.out.println("Skill unlocked!" + this.getType());
                     break;
                 case RANGEDMG:
                     player.setRangedDamageBoost(player.getRangedDamageBoost() + this.getSkillProperty());
-                    System.out.println("Skill unlocked!" + this.getType());
                     break;
                 case DMGRESIST:
                     player.setDamageResist(player.getDamageResist() + this.getSkillProperty());
-                    System.out.println("Skill unlocked!" + this.getType());
                     break;
                 case WEAPONSPEED:
                     player.setWeaponSpeed(player.getWeaponSpeed() + this.getSkillProperty());
-                    System.out.println("Skill unlocked!" + this.getType());
                     break;
                 case HP:
                     player.setMaxHealth(player.getMaxHealth() + this.getSkillProperty());
-                    System.out.println("Skill unlocked!" + this.getType());
                     break;
                 case ACTIVE:
                     break;
@@ -93,19 +86,24 @@ public class Skill {
                     player.setRudimentCooldown(player.getRudimentCooldown() + this.getSkillProperty());
                     break;
             }
-
-
             player.getPlayerSkills().add(this.id);
-
-
-
-
-
-
+            player.getAvailableSkills().removeValue(this.getId(),true);
+            for (int nextSkill: nextSkills){
+                player.getAvailableSkills().add(nextSkill);
+            }
         }
     }
 
-
+    public static Array<Integer> getInaccessibleSkills(Player player){
+        Array<Integer> inaccessibleSkills =  SkillFactory.getInstance().getAllSkills();
+        for(int skill:player.getAvailableSkills()){
+            inaccessibleSkills.removeValue(skill,true);
+        }
+        for(int skill:player.getPlayerSkills()){
+            inaccessibleSkills.removeValue(skill,true);
+        }
+        return inaccessibleSkills;
+    }
 
     public int getId(){return this.id;}
     public void setId(int id){this.id=id;}
@@ -118,6 +116,14 @@ public class Skill {
     }
     public void setSkillProperty(int property){
         this.property=property;
+    }
+
+    public Array<Integer> getNextSkills() {
+        return nextSkills;
+    }
+
+    public void setNextSkills(Array<Integer> nextSkills) {
+        this.nextSkills = nextSkills;
     }
 
     static public Array<Skill> getSkillsConfig(String configFilePath){
