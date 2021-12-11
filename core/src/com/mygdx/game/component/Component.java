@@ -100,7 +100,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     private int healAmount;
     private int executionThreshold;
     private int damageBoost;
-    private Array<Integer> playerSkills;
+    private Array<Integer> playerSkills, availableSkills;
 
     public ArrayList<Ammo> activeAmmo;
 
@@ -303,6 +303,10 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public Array<Integer> getPlayerSkills() {return playerSkills;}
 
     public void setPlayerSkills(Array<Integer> playerSkills) {this.playerSkills = playerSkills;}
+
+    public Array<Integer> getAvailableSkills() {return availableSkills;}
+
+    public void setAvailableSkills(Array<Integer> availableSkills) {this.availableSkills = availableSkills;}
 
     protected void setCurrentPosition(Entity entity){
         currentEntityPosition.x = 0;

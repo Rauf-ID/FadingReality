@@ -294,6 +294,10 @@ public class Entity implements Comparable<Entity> {
 
     public void setPlayerSkills(Array<Integer> playerSkills){ component.setPlayerSkills(playerSkills);}
 
+    public Array<Integer> getAvailableSkills() {return component.getAvailableSkills();}
+
+    public void setAvailableSkills(Array<Integer> availableSkills) {component.setAvailableSkills(availableSkills);}
+
     public InputProcessor getInputProcessor(){
         return component;
     }

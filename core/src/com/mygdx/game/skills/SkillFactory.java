@@ -32,4 +32,13 @@ public class SkillFactory {
     public Skill getSkill(int id){
         return skillArray.get(id);
     }
+
+    public Array<Integer> getAllSkills(){
+        Array<Integer> skillIds = new Array<>();
+        Array<Skill> skills = Skill.getSkillsConfig(ResourceManager.SKILLS_CONFIG);
+        for (Skill skill: skills){
+            skillIds.add(skill.getId());
+        }
+        return skillIds;
+    }
 }

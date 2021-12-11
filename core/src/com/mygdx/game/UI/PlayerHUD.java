@@ -233,7 +233,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setMaxHealth(profileManager.getPlayerConfig().getMaxHp());
                     player.setHealth(profileManager.getPlayerConfig().getMaxHp());
                     player.setPlayerSkills(new Array<Integer>());
-
+                    player.setAvailableSkills(new Array<Integer>());
+                    player.getAvailableSkills().add(0);
+                    player.sendMessage(Message.MESSAGE.UNLOCK_FIRST_SKILL);
                 } else {
                     Map<String, Integer> allAmmoCount = profileManager.getPlayerConfig().getBagAmmunition();
                     WeaponSystem.setBagAmmunition(allAmmoCount);
@@ -269,6 +271,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setMaxHealth(profileManager.getPlayerConfig().getMaxHp());
                     player.setHealth(profileManager.getPlayerConfig().getHealth());
                     player.setPlayerSkills(profileManager.getPlayerConfig().getPlayerSkills());
+                    player.setAvailableSkills(profileManager.getPlayerConfig().getAvailableSkills());
 
                     if (profileManager.getPlayerConfig().getExoskeletonName() != EntityFactory.EntityName.NONE) {
                         EntityFactory.EntityName exoskeletonName = profileManager.getPlayerConfig().getExoskeletonName();
@@ -301,6 +304,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setHealth(player.getHealth());
                 profileManager.getPlayerConfig().setMaxHp(player.getMaxHealth());
                 profileManager.getPlayerConfig().setPlayerSkills(player.getPlayerSkills());
+                profileManager.getPlayerConfig().setAvailableSkills(player.getAvailableSkills());
                 break;
             case CLEAR_CURRENT_PROFILE:
                 System.out.println("PROFILE CONFIG CLEARING");
