@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="2048" tileheight="2048" infinite="0" nextlayerid="15" nextobjectid="84">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="1" height="1" tilewidth="2048" tileheight="2048" infinite="0" nextlayerid="16" nextobjectid="84">
  <tileset firstgid="1" name="Timulo2LayerTest" tilewidth="1721" tileheight="1793" tilecount="1" columns="1">
   <image source="Timulo2LayerTest.png" width="1721" height="1793"/>
  </tileset>
@@ -68,7 +68,8 @@
   <object id="43" gid="13" x="408" y="1135" width="153" height="176"/>
   <object id="44" gid="14" x="481" y="1071.15" width="89" height="218"/>
  </objectgroup>
- <objectgroup id="13" name="COLLISION_LAYER">
+ <objectgroup id="15" name="COLLISION_LAYER"/>
+ <objectgroup id="13" name="CLOSED_NODES_LAYER">
   <object id="74" x="483" y="1220" width="380.727" height="39"/>
   <object id="78" x="945.25" y="1219" width="303.75" height="40"/>
   <object id="79" x="701.792" y="356.667" width="395.417" height="425"/>

@@ -26,8 +26,9 @@ public class Map {
     public final static String FRONT_LAYER = "FRONT_LAYER";
     public final static String LIGHT_LAYER = "LIGHT_LAYER";
 
-    private final static String MAP_OBJECTS_LAYER = "MAP_OBJECTS_LAYER";
+    private final static String     CLOSED_NODES_LAYER = "CLOSED_NODES_LAYER";
     private final static String COLLISION_LAYER = "COLLISION_LAYER";
+    private final static String MAP_OBJECTS_LAYER = "MAP_OBJECTS_LAYER";
     private final static String PORTAL_LAYER = "PORTAL_LAYER";
 
     protected Json json;
@@ -40,6 +41,7 @@ public class Map {
     private MapFactory.MapType currentMapType;
     private Vector2 playerStart;
 
+    private MapLayer closedNodesLayer = null;
     private MapLayer collisionLayer = null;
     private MapLayer mapObjectsLayer = null;
     private MapLayer portalLayer = null;
@@ -66,6 +68,11 @@ public class Map {
         mapObjectsLayer = currentMap.getLayers().get(MAP_OBJECTS_LAYER);
         if( mapObjectsLayer == null ){
             Gdx.app.debug(TAG, "No Map Objects layer!");
+        }
+
+        closedNodesLayer = currentMap.getLayers().get(CLOSED_NODES_LAYER);
+        if(closedNodesLayer == null){
+            Gdx.app.debug(TAG, "No collision layer!");
         }
 
         collisionLayer = currentMap.getLayers().get(COLLISION_LAYER);
@@ -98,14 +105,14 @@ public class Map {
     }
 
     public void updateGridOjc() {
-        if( collisionLayer == null ){
+        if( closedNodesLayer == null ){
             return;
         }
 
         Rectangle rectangle = null;
         for (int y = 0; y < grid.size; y++) {
             for (int x = 0; x < grid.get(y).size; x++) {
-                for(MapObject object: collisionLayer.getObjects()){
+                for(MapObject object: closedNodesLayer.getObjects()){
                     if(object instanceof RectangleMapObject) {
                         rectangle = ((RectangleMapObject)object).getRectangle();
                         if(grid.get(y).get(x).rectangle.overlaps(rectangle)){
@@ -146,6 +153,10 @@ public class Map {
 
     public MapLayer getMapObjectsLayer(){
         return mapObjectsLayer;
+    }
+
+    public MapLayer getClosedNodesLayer(){
+        return closedNodesLayer;
     }
 
     public MapLayer getCollisionLayer(){

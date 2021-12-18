@@ -2,24 +2,28 @@ package com.mygdx.game.component;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.world.MapManager;
 
 public class MapObject extends Component {
 
     private TextureRegion textureRegion;
+    private TextureMapObject textureMapObject;
     private float x,y;
 
-    public MapObject(TextureRegion textureRegion, float x, float y, float width, float height) {
-        this.textureRegion = textureRegion;
-        currentEntityPosition.x = x;
-        currentEntityPosition.y = y;
-        initBoundingBoxForObject(width, height);
+    public MapObject(TextureMapObject textureMapObject) {
+        this.textureMapObject = textureMapObject;
+        textureRegion = textureMapObject.getTextureRegion();
+        currentEntityPosition.x = textureMapObject.getX();
+        currentEntityPosition.y = textureMapObject.getY();
+        initBoundingBoxForObject(textureMapObject.getTextureRegion().getRegionWidth(), textureMapObject.getTextureRegion().getRegionHeight());
     }
 
     @Override
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
-
+        String doorID = (String) textureMapObject.getProperties().get("doorID");
+        System.out.println(doorID);
     }
 
     @Override

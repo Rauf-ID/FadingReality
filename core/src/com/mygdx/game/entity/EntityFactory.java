@@ -132,11 +132,7 @@ public class EntityFactory {
         Entity entity = null;
         switch(entityType){
             case MAPOBJECT:
-                entity = new Entity(new MapObject(textureMapObject.getTextureRegion(),
-                        textureMapObject.getX(),
-                        textureMapObject.getY(),
-                        textureMapObject.getTextureRegion().getRegionWidth(),
-                        textureMapObject.getTextureRegion().getRegionHeight()));
+                entity = new Entity(new MapObject(textureMapObject));
                 return entity;
             default:
                 return null;
