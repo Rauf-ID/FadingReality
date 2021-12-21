@@ -174,6 +174,7 @@ public class Player extends Component {
 //        updatePortalLayerActivation(mapManager, delta);
 
         weaponSystem.update(delta, this);
+        updateCurrentCollision(mapManager);
 
         updateCamera();
         updateHitBox();

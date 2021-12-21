@@ -191,6 +191,10 @@ public class Entity implements Comparable<Entity> {
         return component.currentState;
     }
 
+    public String getCurrentCollision() {
+        return component.currentCollision;
+    }
+
 
     public EntityFactory.EntityName getExoskeletonName() {
         return component.getExoskeletonName();

@@ -2,8 +2,8 @@
 state: IDLE
 direction: RIGHT
 position: {
-	x: 1138.7142
-	y: 269.61276
+	x: 1029.4358
+	y: 360.22787
 }
 currentMap: SPACE_STATION
 quests: [
@@ -165,31 +165,31 @@ inventory: [
 		itemNameProperty: Player_Inventory
 	}
 	{
+		locationIndex: 28
+		itemTypeAtLocation: AHR
+		numberItemsAtLocation: 1
+		numberItemsInside: 97966
+		itemNameProperty: Player_Inventory
+	}
+	{
 		locationIndex: 29
 		itemTypeAtLocation: ALG
 		numberItemsAtLocation: 1
 		numberItemsInside: 10
 		itemNameProperty: Player_Inventory
 	}
-]
-equipment: [
 	{
-		locationIndex: 3
+		locationIndex: 39
 		itemTypeAtLocation: ANGEL_BLADE
 		numberItemsAtLocation: 1
 		itemNameProperty: Player_Inventory
 	}
+]
+equipment: [
 	{
 		locationIndex: 4
 		itemTypeAtLocation: ARMOR04
 		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		locationIndex: 5
-		itemTypeAtLocation: AHR
-		numberItemsAtLocation: 1
-		numberItemsInside: 98185
 		itemNameProperty: Player_Inventory
 	}
 ]

@@ -123,6 +123,10 @@ public class MapManager implements ProfileObserver {
         currentMap.getMapQuestEntities().addAll(entities);
     }
 
+    public void addMapObject(Entity entities){
+        currentMap.getMapObjects().add(entities);
+    }
+
     public void clearAllMapQuestEntities(){
         currentMap.getMapQuestEntities().clear();
     }
@@ -137,6 +141,10 @@ public class MapManager implements ProfileObserver {
 
     public final Array<Entity> getCurrentMapQuestEntities(){
         return currentMap.getMapQuestEntities();
+    }
+
+    public final Array<Entity> getCurrentMapObjects(){
+        return currentMap.getMapObjects();
     }
 
     public void clearCurrentSelectedMapEntity(){

@@ -10,7 +10,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
@@ -85,6 +87,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public boolean boolBottomBoundingBox = false;
     public boolean boolLeftBoundingBox = false;
     public boolean boolRightBoundingBox = false;
+
+    public String currentCollision = null;
 
     protected int health;
     protected int maxHealth;
@@ -873,6 +877,44 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                     return true;
                 }
             }
+        }
+
+        return false;
+    }
+
+    protected void updateCurrentCollision(MapManager mapMgr) {
+        MapLayer mapCollisionLayer = mapMgr.getCollisionLayer();
+
+        if( mapCollisionLayer == null ){
+            return;
+        }
+
+        Rectangle rectangle = null;
+
+        for( MapObject object: mapCollisionLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+                if( boundingBox.overlaps(rectangle) ){
+                    currentCollision = (String) object.getProperties().get("objectType");
+                } else {
+                    currentCollision = null;
+                }
+            }
+        }
+    }
+
+    protected boolean updateDoorCollision(Entity entity, MapManager mapMgr){
+        MapLayer mapObjectsLayer = mapMgr.getMapObjectsLayer();
+
+        if( mapObjectsLayer == null ){
+            return false;
+        }
+
+        Rectangle rectangle = null;
+
+        for( MapObject object: mapObjectsLayer.getObjects()){
+            TextureMapObject textureMapObject = (TextureMapObject) object;
+
         }
 
         return false;

@@ -26,7 +26,7 @@ public class Map {
     public final static String FRONT_LAYER = "FRONT_LAYER";
     public final static String LIGHT_LAYER = "LIGHT_LAYER";
 
-    private final static String     CLOSED_NODES_LAYER = "CLOSED_NODES_LAYER";
+    private final static String CLOSED_NODES_LAYER = "CLOSED_NODES_LAYER";
     private final static String COLLISION_LAYER = "COLLISION_LAYER";
     private final static String MAP_OBJECTS_LAYER = "MAP_OBJECTS_LAYER";
     private final static String PORTAL_LAYER = "PORTAL_LAYER";
@@ -49,6 +49,7 @@ public class Map {
 
     protected Array<Entity> mapEntities;
     protected Array<Entity> mapQuestEntities;
+    protected Array<Entity> mapObjects;
 
     public Map (MapFactory.MapType mapType, String fullMapPath) {
         json = new Json();
@@ -56,6 +57,7 @@ public class Map {
         playerStart = new Vector2(0,0);
         mapEntities = new Array<>(10);
         mapQuestEntities = new Array<>();
+        mapObjects = new Array<>();
         grid = new Array<>();
 
         if( fullMapPath == null || fullMapPath.isEmpty() ) {
@@ -131,6 +133,9 @@ public class Map {
         for( int i=0; i < mapQuestEntities.size; i++){
             mapQuestEntities.get(i).update(mapMgr, batch, delta);
         }
+        for( int i=0; i < mapObjects.size; i++){
+            mapObjects.get(i).update(mapMgr, batch, delta);
+        }
     }
 
 
@@ -175,6 +180,10 @@ public class Map {
         return mapQuestEntities;
     }
 
+    public Array<Entity> getMapObjects(){
+        return mapObjects;
+    }
+
     public int getMapWidth() {
         return mapWidth;
     }
@@ -213,6 +222,9 @@ public class Map {
         }
         for( int i=0; i < mapQuestEntities.size; i++){
             mapQuestEntities.get(i).dispose();
+        }
+        for( int i=0; i < mapObjects.size; i++){
+            mapObjects.get(i).dispose();
         }
     }
 

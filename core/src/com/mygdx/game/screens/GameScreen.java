@@ -138,8 +138,11 @@ public class GameScreen implements Screen {
                 MapObjects objects = mapCollisionLayer.getObjects();
                 for(MapObject object: objects) {
                     TextureMapObject textureMapObject = (TextureMapObject) object;
-                    entities.add(EntityFactory.getInstance().getEntity(EntityFactory.EntityType.MAPOBJECT, textureMapObject));
+                    mapMgr.addMapObject(EntityFactory.getInstance().getEntity(EntityFactory.EntityType.MAPOBJECT, textureMapObject));
                 }
+            }
+            for (Entity entity: mapMgr.getCurrentMapObjects()){
+                entities.add(entity);
             }
             entities.add(player);
             for (Entity entity: mapMgr.getCurrentMapEntities()){
