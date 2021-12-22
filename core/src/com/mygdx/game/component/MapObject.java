@@ -7,17 +7,19 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.world.MapManager;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 public class MapObject extends Component {
 
     private TextureRegion textureRegion;
     private TextureMapObject textureMapObject;
-    private float x,y;
 
+    private float startX;
+
+    //Door
     private String side;
     private boolean active = false;
-    private float startX;
+    private boolean open = false;
+
 
 
     public MapObject(TextureMapObject textureMapObject) {
@@ -31,12 +33,10 @@ public class MapObject extends Component {
 
     @Override
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
-//        String doorID = (String) textureMapObject.getProperties().get("side");
-//        System.out.println(doorID);
-
         Entity player = mapManager.getPlayer();
         String currentCollision = player.getCurrentCollision();
-        if (textureMapObject.getProperties().get("objectType").equals(currentCollision)) {
+        System.out.println(currentCollision);
+        if (textureMapObject.getProperties().get("objectID").equals(currentCollision)) {
             if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
                 active = true;
                 side = (String) textureMapObject.getProperties().get("side");
@@ -52,11 +52,17 @@ public class MapObject extends Component {
     public void openDoor(String side, int distance, int speed, float delta) {
         if (side.equals("left")) {
             if ( textureMapObject.getX() >  startX - distance) {
-                currentEntityPosition.x -= delta*speed;
+                currentEntityPosition.x -= Math.round(delta * speed);
                 textureMapObject.setX(currentEntityPosition.x);
-            } else {
-                active = false;
             }
+        } else if (side.equals("right")) {
+            if ( textureMapObject.getX() <  startX + distance) {
+                currentEntityPosition.x += Math.round(delta * speed);
+                textureMapObject.setX(currentEntityPosition.x);
+            }
+        } else {
+            open = true;
+            active = false;
         }
     }
 

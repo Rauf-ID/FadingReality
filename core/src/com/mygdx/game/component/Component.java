@@ -88,7 +88,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public boolean boolLeftBoundingBox = false;
     public boolean boolRightBoundingBox = false;
 
-    public String currentCollision = null;
+    public String currentIdCollision = null;
 
     protected int health;
     protected int maxHealth;
@@ -895,9 +895,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
             if(object instanceof RectangleMapObject) {
                 rectangle = ((RectangleMapObject)object).getRectangle();
                 if( boundingBox.overlaps(rectangle) ){
-                    currentCollision = (String) object.getProperties().get("objectType");
-                } else {
-                    currentCollision = null;
+                    currentIdCollision = (String) object.getProperties().get("objectID");
                 }
             }
         }

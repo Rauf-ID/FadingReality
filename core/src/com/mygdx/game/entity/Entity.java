@@ -192,7 +192,7 @@ public class Entity implements Comparable<Entity> {
     }
 
     public String getCurrentCollision() {
-        return component.currentCollision;
+        return component.currentIdCollision;
     }
 
 

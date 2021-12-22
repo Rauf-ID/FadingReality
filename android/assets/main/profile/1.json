@@ -1,9 +1,9 @@
 {
 state: IDLE
-direction: RIGHT
+direction: LEFT
 position: {
-	x: 1029.4358
-	y: 360.22787
+	x: 601.95
+	y: 287.169
 }
 currentMap: SPACE_STATION
 quests: [
