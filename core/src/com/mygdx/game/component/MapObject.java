@@ -35,7 +35,6 @@ public class MapObject extends Component {
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
         Entity player = mapManager.getPlayer();
         String currentCollision = player.getCurrentCollision();
-        System.out.println(currentCollision);
         if (textureMapObject.getProperties().get("objectID").equals(currentCollision)) {
             if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
                 active = true;
@@ -72,8 +71,6 @@ public class MapObject extends Component {
 
     @Override
     public void draw(Batch batch, float delta) {
-//        currentEntityPosition.x += 1 * delta;
-//        textureMapObject.setX(currentEntityPosition.x);
         batch.begin();
         batch.draw(this.textureRegion, currentEntityPosition.x, currentEntityPosition.y);
         batch.end();
