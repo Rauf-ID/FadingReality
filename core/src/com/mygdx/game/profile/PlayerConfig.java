@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityFactory;
+import com.mygdx.game.inventory.Item;
 import com.mygdx.game.quest.QuestGraph;
 import com.mygdx.game.inventory.InventoryItemLocation;
-import com.mygdx.game.skills.Skill;
 import com.mygdx.game.world.MapFactory;
 
 import java.util.HashMap;
@@ -21,6 +21,7 @@ public class PlayerConfig {
     private Array<QuestGraph> quests;
     private Array<InventoryItemLocation> inventory;
     private Array<InventoryItemLocation> equipment;
+    private Array<Item.ItemID> shopItems;
     private Map<String, Integer> bagAmmunition;
     private EntityFactory.EntityName exoskeletonName;
     private int money;
@@ -52,6 +53,7 @@ public class PlayerConfig {
     PlayerConfig() {
         inventory = new Array<>();
         equipment = new Array<>();
+        shopItems = new Array<>();
         bagAmmunition = new HashMap<String, Integer>();
     }
 
@@ -110,6 +112,14 @@ public class PlayerConfig {
 
     public void setEquipment(Array<InventoryItemLocation> equipment) {
         this.equipment = equipment;
+    }
+
+    public Array<Item.ItemID> getShopItems() {
+        return shopItems;
+    }
+
+    public void setShopItems(Array<Item.ItemID> shopItems) {
+        this.shopItems = shopItems;
     }
 
     public Map<String, Integer> getBagAmmunition() {

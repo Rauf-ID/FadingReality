@@ -17,7 +17,29 @@ inventory : [
 	{
 		value: BOOTS03
 	},
+	{	
+		value: HELMET05
+	},
 	{
+		value: POTIONS01
+	},
+	{
+		value: AHR
+	},
+	{
+		value: ALG
+	},
+	{
+		value: ANGEL_BLADE
+	}]
+shopItems : [
+	{
+		value: ARMOR04
+	},
+	{
+		value: BOOTS03
+	},
+	{	
 		value: HELMET05
 	},
 	{

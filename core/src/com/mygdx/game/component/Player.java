@@ -22,8 +22,8 @@ import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
 import com.mygdx.game.entity.EntityFactory;
-import com.mygdx.game.inventory.InventoryItem;
-import com.mygdx.game.inventory.InventoryItem.ItemID;
+import com.mygdx.game.inventory.Item;
+import com.mygdx.game.inventory.Item.ItemID;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.tools.Rumble;
 import com.mygdx.game.tools.Toast;
@@ -132,13 +132,13 @@ public class Player extends Component {
                 WeaponSystem.setBagAmmunition(allAmmoCount);
             } else if(string[0].equalsIgnoreCase(MESSAGE.SET_MELEE_WEAPON.toString())) {
                 String weaponIDStr = json.fromJson(String.class, string[1]);
-                ItemID weaponID = InventoryItem.ItemID.valueOf(weaponIDStr);
+                ItemID weaponID = Item.ItemID.valueOf(weaponIDStr);
                 Weapon weapon = WeaponFactory.getInstance().getWeapon(weaponID);
                 weaponSystem.setMeleeWeapon(weapon);
             } else if(string[0].equalsIgnoreCase(MESSAGE.SET_RANGED_WEAPON.toString())) {
                 String weaponIDStr = json.fromJson(String.class, string[1]);
                 String[] splitStr = weaponIDStr.split(MESSAGE_TOKEN_2);
-                ItemID weaponID = InventoryItem.ItemID.valueOf(splitStr[0]);
+                ItemID weaponID = Item.ItemID.valueOf(splitStr[0]);
                 Weapon weapon = WeaponFactory.getInstance().getWeapon(weaponID);
                 weaponSystem.setRangedWeapon(weapon);
                 weaponSystem.setStartAmmoCountInMagazine(Integer.parseInt(splitStr[1]));

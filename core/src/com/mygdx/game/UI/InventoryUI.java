@@ -14,15 +14,15 @@ import com.mygdx.game.FadingReality;
 import com.mygdx.game.observer.InventoryObserver;
 import com.mygdx.game.observer.InventorySlotObserver;
 import com.mygdx.game.observer.InventorySubject;
-import com.mygdx.game.inventory.InventoryItem;
-import com.mygdx.game.inventory.InventoryItemFactory;
+import com.mygdx.game.inventory.Item;
+import com.mygdx.game.inventory.ItemFactory;
 import com.mygdx.game.inventory.InventoryItemLocation;
 import com.mygdx.game.inventory.InventorySlot;
 import com.mygdx.game.inventory.InventorySlotSource;
 import com.mygdx.game.inventory.InventorySlotTarget;
 import com.mygdx.game.inventory.InventorySlotTooltip;
-import com.mygdx.game.inventory.InventoryItem.ItemID;
-import com.mygdx.game.inventory.InventoryItem.ItemUseType;
+import com.mygdx.game.inventory.Item.ItemID;
+import com.mygdx.game.inventory.Item.ItemUseType;
 import com.mygdx.game.inventory.InventorySlotTooltipListener;
 import com.mygdx.game.tools.Utility;
 
@@ -118,7 +118,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
                       if(getTapCount() == 2){ // если нажал дважды на предмет
                           InventorySlot slot = (InventorySlot)event.getListenerActor();
                           if(slot.hasItem()){
-                              InventoryItem item = slot.getTopInventoryItem();
+                              Item item = slot.getTopInventoryItem();
                               if(item.isConsumable()){
                                   System.out.println("Used");
                                   InventoryUI.this.notify(item, InventoryObserver.InventoryEvent.ITEM_CONSUMED);
@@ -163,7 +163,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
             InventorySlot inventorySlot = (InventorySlot) cells.get(itemLocation.getLocationIndex()).getActor();
 
             for(int index = 0; index < itemLocation.getNumberItemsAtLocation(); index++ ){ // каждую ед. предмета добавляем в слот
-                InventoryItem item = InventoryItemFactory.getInstance().getInventoryItem(itemID);
+                Item item = ItemFactory.getInstance().getInventoryItem(itemID);
                 String itemName =  itemLocation.getItemNameProperty();
 
                 if( itemName == null || itemName.isEmpty() ){ // задаем имя предмету
@@ -196,7 +196,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
 
             int numItems = inventorySlot.getNumItems();
 
-            InventoryItem item = inventorySlot.getTopInventoryItem();
+            Item item = inventorySlot.getTopInventoryItem();
             if( item == null ) continue;
 
             int numberItemsInside = 0;
@@ -253,7 +253,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         return equipSlots;
     }
 
-    public InventoryItem getItemFromWeaponRangedWeaponSlot() {
+    public Item getItemFromWeaponRangedWeaponSlot() {
         return rangedWeaponSlot.getTopInventoryItem();
     }
 
@@ -262,12 +262,12 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     public void onNotify(InventorySlot slot, SlotEvent event) {
         switch(event) {
             case ADDED_ITEM:
-                InventoryItem addItem = slot.getTopInventoryItem();
+                Item addItem = slot.getTopInventoryItem();
                 if(addItem == null) return;
                 notify(addItem, InventoryObserver.InventoryEvent.ADDED);
                 break;
             case REMOVED_ITEM:
-                InventoryItem removeItem = slot.getTopInventoryItem();
+                Item removeItem = slot.getTopInventoryItem();
                 if(removeItem == null) return;
                 notify(removeItem, InventoryObserver.InventoryEvent.REMOVED);
                 break;
@@ -294,7 +294,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     }
 
     @Override
-    public void notify(InventoryItem item, InventoryObserver.InventoryEvent event) {
+    public void notify(Item item, InventoryObserver.InventoryEvent event) {
         for(InventoryObserver observer: observers){
             observer.onNotify(item, event);
         }

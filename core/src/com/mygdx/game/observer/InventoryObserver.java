@@ -1,6 +1,6 @@
 package com.mygdx.game.observer;
 
-import com.mygdx.game.inventory.InventoryItem;
+import com.mygdx.game.inventory.Item;
 
 public interface InventoryObserver {
     public static enum InventoryEvent {
@@ -14,5 +14,5 @@ public interface InventoryObserver {
         NONE
     }
 
-    void onNotify(final InventoryItem item, InventoryEvent event);
+    void onNotify(final Item item, InventoryEvent event);
 }

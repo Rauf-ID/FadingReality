@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.FadingReality;
-import com.mygdx.game.inventory.InventoryItem.ItemID;
+import com.mygdx.game.inventory.Item.ItemID;
 import com.mygdx.game.weapon.Ammo.AmmoID;
 
 import java.util.ArrayList;

@@ -3,8 +3,8 @@ package com.mygdx.game.weapon;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.mygdx.game.inventory.InventoryItem;
-import com.mygdx.game.inventory.InventoryItem.ItemID;
+import com.mygdx.game.inventory.Item;
+import com.mygdx.game.inventory.Item.ItemID;
 import com.mygdx.game.tools.managers.ResourceManager;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class WeaponFactory {
         return instance;
     }
 
-    public Weapon getWeapon(InventoryItem.ItemID inventoryItemType){
+    public Weapon getWeapon(Item.ItemID inventoryItemType){
         return new Weapon(weaponList.get(inventoryItemType));
     }
 

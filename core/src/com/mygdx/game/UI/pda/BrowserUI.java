@@ -17,10 +17,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.FadingReality;
 import com.mygdx.game.UI.PlayerHUD;
+import com.mygdx.game.inventory.Item;
+import com.mygdx.game.inventory.ItemFactory;
 
 public class BrowserUI extends Group {
+
+    private Array<Item.ItemID> shopItems;
 
     private int lengthSlotRow = 5;
     private Table start = new Table();
@@ -28,6 +33,7 @@ public class BrowserUI extends Group {
 
 
     public BrowserUI() {
+        shopItems = new Array<>();
 
         Drawable drawableBrowserUI = new TextureRegionDrawable(new TextureRegion(new Texture("BrowserUI.png")));
         Image imageBackground = new Image(drawableBrowserUI);
@@ -94,6 +100,7 @@ public class BrowserUI extends Group {
         this.addActor(imageButtonBack);
         this.addActor(imageButtonForward);
         this.addActor(start);
+
     }
 
     private void openSite1() {
@@ -101,15 +108,16 @@ public class BrowserUI extends Group {
         site1 = new Table();
         Drawable drawableSite2 = new TextureRegionDrawable(new TextureRegion(new Texture("itemTest.png")));
         Table tableItems = new Table();
-        for (int i = 1; i <= 50; i++) {
+        for (int i = 1; i <= shopItems.size; i++) {
             Table tableItemInfo = new Table();
-            Image image = new Image(drawableSite2);
-            Label labelPrice = new Label("1050 T", FadingReality.getUiSkin());
-            Label name = new Label("Item Name", FadingReality.getUiSkin());
+            Item item = ItemFactory.getInstance().getInventoryItem(shopItems.get(i-1));
+//            Image image = new Image(drawableSite2);
+            Label labelPrice = new Label(item.getItemValue() + " T", FadingReality.getUiSkin());
+            Label name = new Label(item.getItemID().toString(), FadingReality.getUiSkin());
             TextButton button = new TextButton("Buy", FadingReality.getUiSkin());
 
 
-            tableItemInfo.add(image).width(128).height(128).pad(20).row();
+            tableItemInfo.add(item).width(128).height(128).pad(20).row();
             tableItemInfo.add(labelPrice).row();
             tableItemInfo.add(name).row();
             tableItemInfo.add(button).width(128).row();
@@ -125,6 +133,7 @@ public class BrowserUI extends Group {
             });
 
             tableItems.add(tableItemInfo).pad(20);
+            tableItemInfo.debug();
 
             if(i % lengthSlotRow == 0){
                 tableItems.row();
@@ -135,11 +144,20 @@ public class BrowserUI extends Group {
         site1.setPosition(200, 0);
         site1.setSize(1340,855);
         site1.add(scroller);
+        site1.debug();
 
         this.addActor(site1);
     }
 
-//    public static void addCloseButtonToWindow (final Group window) {
+    public Array<Item.ItemID> getShopItems() {
+        return shopItems;
+    }
+
+    public void setShopItems(Array<Item.ItemID> shopItems) {
+        this.shopItems = shopItems;
+    }
+
+    //    public static void addCloseButtonToWindow (final Group window) {
 //        TextButton closeButton = new TextButton("x", FadingReality.getUiSkin());
 //        closeButton.addListener(new ClickListener() {
 //            @Override

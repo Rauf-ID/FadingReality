@@ -3,7 +3,7 @@ package com.mygdx.game.entity;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.game.inventory.InventoryItem.ItemID;
+import com.mygdx.game.inventory.Item.ItemID;
 import com.mygdx.game.tools.managers.ResourceManager;
 
 public class EntityConfig {
@@ -17,6 +17,7 @@ public class EntityConfig {
     private String currentQuestID;
     private String itemTypeID;
     private Array<ItemID> inventory;
+    private Array<ItemID> shopItems;
     private Array<AnimationConfig> animationConfig;
 
     private Vector2 hitBox;
@@ -35,6 +36,7 @@ public class EntityConfig {
 
     EntityConfig() {
         inventory = new Array<ItemID>();
+        shopItems = new Array<ItemID>();
         animationConfig = new Array<AnimationConfig>();
 
         hitBox = new Vector2();
@@ -61,6 +63,9 @@ public class EntityConfig {
 
         inventory = new Array<ItemID>();
         inventory.addAll(config.getInventory());
+
+        shopItems = new Array<ItemID>();
+        shopItems.addAll(config.getShopItems());
 
         animationConfig = new Array<AnimationConfig>();
         animationConfig.addAll(config.getAnimationConfig());
@@ -152,6 +157,14 @@ public class EntityConfig {
 
     public void setInventory(Array<ItemID> inventory) {
         this.inventory = inventory;
+    }
+
+    public Array<ItemID> getShopItems() {
+        return shopItems;
+    }
+
+    public void setShopItems(Array<ItemID> shopItems) {
+        this.shopItems = shopItems;
     }
 
     public Array<AnimationConfig> getAnimationConfig() {

@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.SnapshotArray;
 import com.mygdx.game.observer.InventorySlotObserver;
 import com.mygdx.game.observer.InventorySlotSubject;
 import com.mygdx.game.tools.Utility;
-import com.mygdx.game.inventory.InventoryItem.ItemUseType;
+import com.mygdx.game.inventory.Item.ItemUseType;
 
 public class InventorySlot extends Stack implements InventorySlotSubject {
 
@@ -208,12 +208,12 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         }
     }
 
-    public InventoryItem getTopInventoryItem(){ // берем последний элемент в стеке предмета
-        InventoryItem actor = null;
+    public Item getTopInventoryItem(){ // берем последний элемент в стеке предмета
+        Item actor = null;
         if( hasChildren() ){
             SnapshotArray<Actor> items = this.getChildren();
             if( items.size > 2 ){
-                actor = (InventoryItem) items.peek();
+                actor = (Item) items.peek();
             }
         }
         return actor;
@@ -227,7 +227,7 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         }
     }
 
-    static public void swapSlots(InventorySlot inventorySlotSource, InventorySlot inventorySlotTarget, InventoryItem dragActor, InventoryItem targetActor){
+    static public void swapSlots(InventorySlot inventorySlotSource, InventorySlot inventorySlotTarget, Item dragActor, Item targetActor){
         //check if items can accept each other, otherwise, no swap
         if( !inventorySlotTarget.doesAcceptItemUseType(dragActor.getItemUseType()) || !inventorySlotSource.doesAcceptItemUseType(inventorySlotTarget.getTopInventoryItem().getItemUseType())) {
             inventorySlotSource.add(dragActor);

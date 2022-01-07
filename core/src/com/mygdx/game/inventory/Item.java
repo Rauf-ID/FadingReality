@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 
-public class InventoryItem extends Image {
+public class Item extends Image {
 
     public enum ItemAttribute{
         CONSUMABLE,
@@ -60,11 +60,11 @@ public class InventoryItem extends Image {
     // изменяемые настройки предмета
     private int numberItemsInside;
 
-    public InventoryItem(){
+    public Item(){
         super();
     }
 
-    public InventoryItem(TextureRegion textureRegion, ItemID itemID, ItemUseType itemUseType, Array<ItemAttribute> itemAttribute, int itemUseTypeValue, int itemValue){
+    public Item(TextureRegion textureRegion, ItemID itemID, ItemUseType itemUseType, Array<ItemAttribute> itemAttribute, int itemUseTypeValue, int itemValue){
         super(textureRegion);
 
         this.itemID = itemID;
@@ -74,14 +74,14 @@ public class InventoryItem extends Image {
         this.itemValue = itemValue;
     }
 
-    public InventoryItem(InventoryItem inventoryItem){
+    public Item(Item item){
         super();
-        this.itemID = inventoryItem.getItemID();
-        this.itemShortDescription = inventoryItem.getItemShortDescription();
-        this.itemUseType = inventoryItem.getItemUseType();
-        this.itemAttributes = inventoryItem.getItemAttributes();
-        this.itemUseTypeValue = inventoryItem.getItemUseTypeValue();
-        this.itemValue = inventoryItem.getItemValue();
+        this.itemID = item.getItemID();
+        this.itemShortDescription = item.getItemShortDescription();
+        this.itemUseType = item.getItemUseType();
+        this.itemAttributes = item.getItemAttributes();
+        this.itemUseTypeValue = item.getItemUseTypeValue();
+        this.itemValue = item.getItemValue();
     }
 
     public int getItemUseTypeValue() {
@@ -150,8 +150,8 @@ public class InventoryItem extends Image {
     }
 
 
-    public boolean isSameItemType(InventoryItem candidateInventoryItem){ //Если два предмета одного типа
-        return itemID == candidateInventoryItem.getItemID();
+    public boolean isSameItemType(Item candidateItem){ //Если два предмета одного типа
+        return itemID == candidateItem.getItemID();
     }
 
     public int getTradeValue(){

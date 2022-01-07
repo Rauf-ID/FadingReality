@@ -17,8 +17,8 @@ import com.mygdx.game.FadingReality;
 import com.mygdx.game.UI.pda.BrowserUI;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.entity.EntityFactory;
-import com.mygdx.game.inventory.InventoryItem;
-import com.mygdx.game.inventory.InventoryItemFactory;
+import com.mygdx.game.inventory.Item;
+import com.mygdx.game.inventory.ItemFactory;
 import com.mygdx.game.quest.QuestGraph;
 import com.mygdx.game.UI.pda.PDAUI;
 import com.mygdx.game.observer.InventoryObserver;
@@ -130,7 +130,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         questUI.setKeepWithinStage(false);
 
         browserUI = new BrowserUI();
-        browserUI.setSize(1800,950);
+        browserUI.setSize(1756,946);
         browserUI.setPosition(50, 60);
         browserUI.setVisible(false);
 
@@ -204,13 +204,17 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     }
                     WeaponSystem.setBagAmmunition(allAmmoCount);
 
-                    Array<InventoryItem.ItemID> items = player.getEntityConfig().getInventory(); // дефолтные предметы из EntityConfig
+                    Array<Item.ItemID> inventoryItems = player.getEntityConfig().getInventory(); // дефолтные предметы из EntityConfig
                     Array<InventoryItemLocation> itemLocations = new Array<InventoryItemLocation>();
-                    for( int i = 0; i < items.size; i++){
-                        itemLocations.add(new InventoryItemLocation(i, items.get(i).toString(), 1, 0, InventoryUI.PLAYER_INVENTORY)); // расставляем предметы
+                    for( int i = 0; i < inventoryItems.size; i++){
+                        itemLocations.add(new InventoryItemLocation(i, inventoryItems.get(i).toString(), 1, 0, InventoryUI.PLAYER_INVENTORY)); // расставляем предметы
                     }
                     InventoryUI.populateInventory(inventoryUI.getInventorySlotTable(), itemLocations, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
                     profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable()));
+
+                    Array<Item.ItemID> shopItems = player.getEntityConfig().getShopItems(); // дефолтные предметы из EntityConfig
+                    profileManager.getPlayerConfig().setShopItems(shopItems);
+                    browserUI.setShopItems(shopItems);
 
 //                    questUI.setQuests(new Array<QuestGraph>());
                     questUI.loadQuest("main/plot/start.json");
@@ -248,6 +252,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     if( equipment != null && equipment.size > 0 ){
                         InventoryUI.populateInventory(inventoryUI.getEquipSlotTable(), equipment, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
                     }
+
+                    Array<Item.ItemID> shopItems = profileManager.getPlayerConfig().getShopItems();
+                    browserUI.setShopItems(shopItems);
 
                     Array<QuestGraph> quests = profileManager.getPlayerConfig().getQuests();
                     questUI.setQuests(quests);
@@ -357,7 +364,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 mapMgr.clearCurrentSelectedMapEntity();
                 break;
             case ITEM_PICK_UP:
-                InventoryItem inventoryItem = InventoryItemFactory.getInstance().getInventoryItem(InventoryItem.ItemID.POTIONS01);
+                Item item = ItemFactory.getInstance().getInventoryItem(Item.ItemID.POTIONS01);
                 iis++;
                 tooltipUI.addTooltip(  iis + " ITEM added to inventory");
             case PLAYER_DASH:
@@ -414,11 +421,11 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     }
 
     @Override
-    public void onNotify(InventoryItem item, InventoryEvent event) {
+    public void onNotify(Item item, InventoryEvent event) {
         switch (event) {
             case ADDED:
                 if(item.isInventoryItemOffensiveMelee()) {
-                    InventoryItem.ItemID itemID = item.getItemID();
+                    Item.ItemID itemID = item.getItemID();
                     statusUI.setMeleeWeapon(itemID);
                     player.sendMessage(Message.MESSAGE.SET_MELEE_WEAPON, json.toJson(itemID.toString()));
                 } else if(item.isInventoryItemOffensiveRanged()) {

@@ -3,7 +3,6 @@ package com.mygdx.game.inventory;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.weapon.Weapon;
 import com.mygdx.game.weapon.WeaponFactory;
 import com.mygdx.game.weapon.WeaponSystem;
@@ -40,7 +39,7 @@ public class InventorySlotTooltip extends Window {
     public void updateDescription(InventorySlot inventorySlot){
         if( inventorySlot.hasItem() ){
             StringBuilder string = new StringBuilder();
-            InventoryItem item = inventorySlot.getTopInventoryItem();
+            Item item = inventorySlot.getTopInventoryItem();
             string.append(item.getItemShortDescription());
 
 

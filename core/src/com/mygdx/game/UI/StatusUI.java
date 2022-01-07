@@ -2,7 +2,6 @@ package com.mygdx.game.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -13,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.FadingReality;
-import com.mygdx.game.inventory.InventoryItem;
+import com.mygdx.game.inventory.Item;
 import com.mygdx.game.tools.Utility;
 import com.mygdx.game.weapon.Weapon;
 import com.mygdx.game.weapon.WeaponFactory;
@@ -97,22 +96,22 @@ public class StatusUI extends Group {
 
     }
 
-    public void setIchor(InventoryItem.ItemID ichor) {
+    public void setIchor(Item.ItemID ichor) {
         stackIchor.clear();
         Image imageIchor = new Image(new TextureRegionDrawable(Utility.ITEMS_TEXTUREATLAS.findRegion(ichor.toString())));
         stackIchor.add(imageIchor);
     }
 
-    public void setDrawableImageMedicKit(InventoryItem.ItemID medicKit) {
+    public void setDrawableImageMedicKit(Item.ItemID medicKit) {
     }
 
-    public void setMeleeWeapon(InventoryItem.ItemID meleeWeapon) {
+    public void setMeleeWeapon(Item.ItemID meleeWeapon) {
         stackMeleeWeapon.clear();
         Image imageMeleeWeapon = new Image(new TextureRegionDrawable(Utility.ITEMS_TEXTUREATLAS.findRegion(meleeWeapon.toString())));
         stackMeleeWeapon.add(imageMeleeWeapon);
     }
 
-    public void setRangeWeapon(InventoryItem rangeWeapon) {
+    public void setRangeWeapon(Item rangeWeapon) {
         stackRangeWeapon.clear();
 
         Weapon weapon = WeaponFactory.getInstance().getWeapon(rangeWeapon.getItemID());
