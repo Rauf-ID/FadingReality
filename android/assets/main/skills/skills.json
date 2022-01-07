@@ -3,42 +3,48 @@
     "id": 0,
     "cost": 0,
     "property": 0,
+    "skillType": "DASH",
     "nextSkills": [1,2,3,4],
-    "skillType": "DASH"
+    "description": "DASH"
   },
   {
     "id": 1,
     "cost": 0,
     "property": 1,
     "skillType": "HP",
-    "nextSkills": []
+    "nextSkills": [],
+    "description": "DASH"
   },
   {
     "id": 2,
     "cost": 0,
     "property": 50,
     "skillType": "HP",
-    "nextSkills": []
+    "nextSkills": [],
+    "description": "BOASH"
   },
   {
     "id": 3,
     "cost": 0,
     "property": 20,
     "skillType": "RUDIMENTCD",
-    "nextSkills": []
+    "nextSkills": [],
+    "description": "DPAFO"
   },
   {
     "id": 4,
     "cost": 10,
     "property": 5,
     "skillType": "RANGEDMG",
-    "nextSkills": []
+    "nextSkills": [],
+    "description": "DASfe"
   },
   {
     "id": 5,
     "cost": 0,
     "property": 5,
     "skillType": "WEAPONSPEED",
-    "nextSkills": []
+    "nextSkills": [],
+    "description": "DASH"
   }
 ]
