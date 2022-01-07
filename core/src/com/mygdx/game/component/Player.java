@@ -61,7 +61,7 @@ public class Player extends Component {
         state = State.NORMAL;
         controlManager = new ControlManager();
     }
-
+    
     public void tryUnlockSkill(){
         System.out.println("Trying to unlock the skill...");
         testSkill1.unlockSkill(currentExperience, this);

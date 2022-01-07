@@ -13,6 +13,7 @@ public class Skill {
     private int id, cost, property;
     private boolean unlocked;
     private SkillType skillType;
+    private String description;
 
 
     private Array<Integer> nextSkills;
@@ -105,6 +106,14 @@ public class Skill {
         return inaccessibleSkills;
     }
 
+    public static Array<Integer> getAccessibleSkills(Player player){
+        return player.getAvailableSkills();
+    }
+
+    public static Array<Integer> getLearnedSkills(Player player){
+        return player.getPlayerSkills();
+    }
+
     public int getId(){return this.id;}
     public void setId(int id){this.id=id;}
 
@@ -117,6 +126,9 @@ public class Skill {
     public void setSkillProperty(int property){
         this.property=property;
     }
+
+    public String getDescription() {return description;}
+    public void setDescription(String description) {this.description = description;}
 
     public Array<Integer> getNextSkills() {
         return nextSkills;
