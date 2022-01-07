@@ -35,7 +35,8 @@ public class MapObject extends Component {
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
         Entity player = mapManager.getPlayer();
         String currentCollision = player.getCurrentCollision();
-        if (textureMapObject.getProperties().get("objectID").equals(currentCollision)) {
+
+        if (textureMapObject.getProperties().get("objectID") != null && textureMapObject.getProperties().get("objectID").equals(currentCollision)) {
             if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
                 active = true;
                 side = (String) textureMapObject.getProperties().get("side");
