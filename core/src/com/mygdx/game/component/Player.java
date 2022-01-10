@@ -84,7 +84,7 @@ public class Player extends Component {
                 if(getHealth()>getMaxHealth()){
                     setHealth(getMaxHealth());
                 }
-            }else if(string[0].equalsIgnoreCase(MESSAGE.UNLOCK_FIRST_SKILL.toString())){
+            }else if(string[0].equalsIgnoreCase(MESSAGE.UNLOCK_FIRST_SKILLS.toString())){
                 Skill firstSkill = SkillFactory.getInstance().getSkill(0);
                 firstSkill.unlockSkill(currentExperience,this);
             }

@@ -239,7 +239,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setPlayerSkills(new Array<Integer>());
                     player.setAvailableSkills(new Array<Integer>());
                     player.getAvailableSkills().add(0);
-                    player.sendMessage(Message.MESSAGE.UNLOCK_FIRST_SKILL);
+                    player.sendMessage(Message.MESSAGE.UNLOCK_FIRST_SKILLS);
                 } else {
                     Map<String, Integer> allAmmoCount = profileManager.getPlayerConfig().getBagAmmunition();
                     WeaponSystem.setBagAmmunition(allAmmoCount);

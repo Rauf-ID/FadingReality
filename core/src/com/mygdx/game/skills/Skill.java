@@ -11,8 +11,9 @@ import java.util.ArrayList;
 
 public class Skill {
     private int id, cost, property;
-    private boolean unlocked;
     private SkillType skillType;
+    private TreePosition treePosition;
+    private BranchPosition branchPosition;
     private String description;
 
 
@@ -31,6 +32,17 @@ public class Skill {
         EXECUTION,
         DMGBOOST,
         DMGRESIST
+    }
+
+    public static enum TreePosition{
+        BRANCH_RIGHT,
+        BRANCH_MIDDLE,
+        BRANCH_LEFT,
+    }
+    public static enum BranchPosition{
+        POS_LEFT,
+        POS_MIDDLE,
+        POS_RIGHT
     }
 
     public Skill(){
@@ -136,6 +148,24 @@ public class Skill {
 
     public void setNextSkills(Array<Integer> nextSkills) {
         this.nextSkills = nextSkills;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+    public int getProperty() {
+        return property;
+    }
+    public void setProperty(int property) {
+        this.property = property;
+    }
+
+    public SkillType getSkillType() {
+        return skillType;
     }
 
     static public Array<Skill> getSkillsConfig(String configFilePath){
