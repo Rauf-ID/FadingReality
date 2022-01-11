@@ -3,6 +3,10 @@
 *.class
 *.war
 *.ear
+*.png
+*.ase
+*.tmx
+*.mp3
 hs_err_pid*
 
 ## Robovm
