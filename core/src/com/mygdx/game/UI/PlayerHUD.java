@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.FadingReality;
 import com.mygdx.game.UI.pda.BrowserUI;
+import com.mygdx.game.UI.skillUI.SkillUI;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.inventory.Item;
@@ -60,6 +61,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     private InventoryUI inventoryUI;
     public ConversationUI conversationUI;
     private QuestUI questUI;
+    private SkillUI skillUI;
     public static PDAUI pdaUI;
     public static BrowserUI browserUI;
     private Image image;
@@ -129,6 +131,12 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         questUI.setVisible(false);
         questUI.setKeepWithinStage(false);
 
+        skillUI = new SkillUI();
+        skillUI.setPosition(FadingReality.WIDTH / 4, 50);
+        skillUI.setSize(1920,1080);
+        skillUI.setMovable(true);
+        skillUI.setVisible(false);
+
         browserUI = new BrowserUI();
         browserUI.setSize(1756,946);
         browserUI.setPosition(50, 60);
@@ -158,6 +166,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         this.addActor(inventoryUI);
         this.addActor(conversationUI);
         this.addActor(questUI);
+        this.addActor(skillUI);
         this.addActor(pdaUI);
         this.addActor(browserUI);
 //        this.addActor(tooltip1);
@@ -499,6 +508,10 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
                 questUI.setVisible(questUI.isVisible() ? false : true);
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
+                skillUI.setVisible(skillUI.isVisible() ? false : true);
             }
         }
 
