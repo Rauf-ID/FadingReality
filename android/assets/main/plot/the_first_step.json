@@ -1,0 +1,93 @@
+{
+"questID": 2,
+"questTitle": "The first step",
+"isQuestComplete": false,
+"goldReward": 100,
+"xpReward": 100,
+"nextQuestConfigPath": "",
+"questTasks": {
+	"6": {
+		"id": 6,
+		"taskPhrase": "Talk to the Merchant",
+		"taskType": "TALK",
+		"isTaskComplete": false,
+		"taskProperties": {
+			"numberEntities": 1,
+			"targetLocation": "SPACE_STATION",
+			"targetName": [ "MERCHANT" ],
+			"targetsPositions": [ {"x": 950, "y": 350} ],
+			"direction": "RIGHT",
+			"conversationConfigPath": "main/languages/english/npc_dialogs/dialog1.json"
+		},
+	},
+	"5": {
+		"id": 5,
+		"taskPhrase": "Talk to the Overseer",
+		"taskType": "TALK",
+		"isTaskComplete": false,
+		"taskProperties": {
+			"numberEntities": 1,
+			"targetLocation": "SPACE_STATION",
+			"targetName": [ "OVERSEER" ],
+			"targetsPositions": [ {"x": 800, "y": 350} ],
+			"direction": "RIGHT",
+			"conversationConfigPath": "main/languages/english/npc_dialogs/dialog1.json"
+		},
+	},
+	"4": {
+		"id": 4,
+		"taskPhrase": "Talk to the Mechanic",
+		"taskType": "TALK",
+		"isTaskComplete": false,
+		"taskProperties": {
+			"numberEntities": 1,
+			"targetLocation": "SPACE_STATION",
+			"targetName": [ "MECHANIC" ],
+			"targetsPositions": [ {"x": 650, "y": 350} ],
+			"direction": "RIGHT",
+			"conversationConfigPath": "main/languages/english/npc_dialogs/dialog1.json"
+		},
+	},
+	"3": {
+		"id": 3,
+		"taskPhrase": "Talk to the Scientist",
+		"taskType": "TALK",
+		"isTaskComplete": false,
+		"taskProperties": {
+			"numberEntities": 1,
+			"targetLocation": "SPACE_STATION",
+			"targetName": [ "SCIENTIST" ],
+			"targetsPositions": [ {"x": 500, "y": 350} ],
+			"direction": "RIGHT",
+			"conversationConfigPath": "main/languages/english/npc_dialogs/dialog1.json"
+		},
+	},
+	"2": {
+		"id": 2,
+		"taskPhrase": "Shooting practice",
+		"taskType": "KILL",
+		"isTaskComplete": false,
+		"taskProperties": {
+			"numberEntities": 3,
+			"targetLocation": "SPACE_STATION",
+			"targetName": [ "POLICE_B1", "POLICE_B1", "POLICE_B1" ],
+			"targetsPositions": [ {"x": 1080, "y": 120}, {"x": 1080, "y": 60}, {"x": 1080, "y": 0} ],
+			"direction": "LEFT",
+		},
+	},
+	"1": {
+		"id": 1,
+		"taskPhrase": "Back to the Recruiter",
+		"taskType": "TALK",
+		"isTaskComplete": false,
+		"taskProperties": {
+			"numberEntities": 1,
+			"targetLocation": "SPACE_STATION",
+			"targetName": [ "MERCENARIES_M1" ],
+			"targetsPositions": [ {"x": 1000, "y": 280} ],
+			"direction": "RIGHT",
+			"conversationConfigPath": "main/languages/english/npc_dialogs/dialog1.json"
+		},
+	},
+}
+}

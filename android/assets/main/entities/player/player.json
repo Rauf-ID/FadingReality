@@ -1,0 +1,214 @@
+{
+entityID : PLAYER
+direction : DOWN
+hitBox: { x: 18, y: 64 }
+imageBox: { x: 128, y: 128 }
+boundingBox: { x: 26, y: 16 }
+activeZoneBox: { x: 0, y: 0 }
+attackZoneBox: { x: 0, y: 0 },
+"walkVelocity": {"x": 1, "y": 1},
+"walkVelocityD": {"x": 0.7, "y": 0.7},
+"runVelocity": {"x": 2, "y": 2},
+"runVelocityD": {"x": 1.4, "y": 1.4},
+inventory : [
+	{
+		value: ARMOR04
+	},
+	{
+		value: BOOTS03
+	},
+	{	
+		value: HELMET05
+	},
+	{
+		value: POTIONS01
+	},
+	{
+		value: AHR
+	},
+	{
+		value: ALG
+	},
+	{
+		value: ANGEL_BLADE
+	}]
+shopItems : [
+	{
+		value: ARMOR04
+	},
+	{
+		value: BOOTS03
+	},
+	{	
+		value: HELMET05
+	},
+	{
+		value: POTIONS01
+	},
+	{
+		value: AHR
+	},
+	{
+		value: ALG
+	},
+	{
+		value: ANGEL_BLADE
+	}]
+animationConfig: [
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE_RIGHT
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE_LEFT
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE_UP
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.06
+	    animationType: IDLE_DOWN
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.14
+	    animationType: WALK_RIGHT
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.14
+	    animationType: WALK_LEFT
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.06
+	    animationType: RUN_RIGHT
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.06
+	    animationType: RUN_LEFT
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.06
+	    animationType: RUN_UP
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.06
+	    animationType: RUN_DOWN
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.09
+	    animationType: RANGED_ATTACK_RIGHT
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.09
+	    animationType: RANGED_ATTACK_LEFT
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.06
+	    animationType: RANGED_ATTACK_UP
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.06
+	    animationType: RANGED_ATTACK_DOWN
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.06
+	    animationType: RIFLE_RIGHT
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.06
+	    animationType: RIFLE_LEFT
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.05
+	    animationType: MELEE_ATTACK_RIGHT
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.05
+	    animationType: MELEE_ATTACK_LEFT
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.05
+	    animationType: MELEE_ATTACK_UP
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.05
+	    animationType: MELEE_ATTACK_DOWN
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.05
+	    animationType: MELEE_ATTACK_RIGHT_2
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.05
+	    animationType: MELEE_ATTACK_LEFT_2
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.045
+	    animationType: DASH_RIGHT
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.12
+	    animationType: BAR_DRINK
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.14
+	    animationType: HURT_AMELIA
+	    atlasType: ATLAS
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.05
+	    animationType: USE_RUDIMENT_1
+	    atlasType: ATLAS
+	    playMode: LOOP
+	}]
+}

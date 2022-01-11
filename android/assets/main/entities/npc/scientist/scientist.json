@@ -1,0 +1,28 @@
+[
+{
+entityID : SCIENTIST
+entityName: Scientist Nicj
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+hitBox: { x: 0, y: 0 }
+imageBox: { x: 128, y: 128 }
+boundingBox: { x: 20, y: 16 }
+activeZoneBox: { x: 80, y: 60 }
+attackZoneBox: { x: 0, y: 0 }
+animationConfig: [
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE_RIGHT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE_LEFT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},]
+}
+]
