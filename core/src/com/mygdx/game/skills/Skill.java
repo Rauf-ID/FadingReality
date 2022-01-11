@@ -4,22 +4,22 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.Null;
 import com.mygdx.game.component.Player;
+import com.mygdx.game.entity.Entity;
 
 import java.util.ArrayList;
 
 public class Skill {
     private int id, cost, property;
     private SkillType skillType;
-    private TreePosition treePosition;
+    private RootNode rootNode;
     private BranchPosition branchPosition;
     private String description;
 
 
     private Array<Integer> nextSkills;
 
-    public static enum SkillType{
+    public enum SkillType{
         ACTIVE,
         DASH,
         HP,
@@ -34,12 +34,12 @@ public class Skill {
         DMGRESIST
     }
 
-    public static enum TreePosition{
+    public enum RootNode {
         BRANCH_RIGHT,
         BRANCH_MIDDLE,
         BRANCH_LEFT,
     }
-    public static enum BranchPosition{
+    public enum BranchPosition{
         POS_LEFT,
         POS_MIDDLE,
         POS_RIGHT
@@ -107,22 +107,22 @@ public class Skill {
         }
     }
 
-    public static Array<Integer> getInaccessibleSkills(Player player){
+    public static Array<Integer> getInaccessibleSkills(Entity player){
         Array<Integer> inaccessibleSkills =  SkillFactory.getInstance().getAllSkills();
-        for(int skill:player.getAvailableSkills()){
+        for(int skill: player.getAvailableSkills()){
             inaccessibleSkills.removeValue(skill,true);
         }
-        for(int skill:player.getPlayerSkills()){
+        for(int skill: player.getPlayerSkills()){
             inaccessibleSkills.removeValue(skill,true);
         }
         return inaccessibleSkills;
     }
 
-    public static Array<Integer> getAccessibleSkills(Player player){
+    public static Array<Integer> getAccessibleSkills(Entity player){
         return player.getAvailableSkills();
     }
 
-    public static Array<Integer> getLearnedSkills(Player player){
+    public static Array<Integer> getLearnedSkills(Entity player){
         return player.getPlayerSkills();
     }
 

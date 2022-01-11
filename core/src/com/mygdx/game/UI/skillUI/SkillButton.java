@@ -9,45 +9,9 @@ import com.mygdx.game.skills.Skill;
 
 public class SkillButton extends ImageButton {
 
-    private Label skillLabel;
-    private int id;
 
     public SkillButton(Skin skin, Skill skill) {
         super(skin);
-        skillLabel.setText(skill.getDescription());
-        this.id=skill.getId();
-    }
-
-    public SkillButton(Skin skin) {
-        super(skin);
-    }
-
-    public SkillButton(Skin skin, String styleName) {
-        super(skin, styleName);
-    }
-
-    public SkillButton(ImageButtonStyle style) {
-        super(style);
-    }
-
-    public SkillButton(Drawable imageUp) {
-        super(imageUp);
-    }
-
-    public SkillButton(Drawable imageUp, Drawable imageDown) {
-        super(imageUp, imageDown);
-    }
-
-    public SkillButton(Drawable imageUp, Drawable imageDown, Drawable imageChecked) {
-        super(imageUp, imageDown, imageChecked);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void mark(int style) {

@@ -69,7 +69,7 @@ public class Player extends Component {
         testSkill3.unlockSkill(currentExperience,this);
         testSkill4.unlockSkill(currentExperience,this);
         testSkill5.unlockSkill(currentExperience, this);
-        System.out.println("Inaccessible skills:" + Skill.getInaccessibleSkills(this));
+//        System.out.println("Inaccessible skills:" + Skill.getInaccessibleSkills(this)); // Doesn't work now !
     }
 
     @Override
@@ -84,7 +84,7 @@ public class Player extends Component {
                 if(getHealth()>getMaxHealth()){
                     setHealth(getMaxHealth());
                 }
-            }else if(string[0].equalsIgnoreCase(MESSAGE.UNLOCK_FIRST_SKILLS.toString())){
+            } else if(string[0].equalsIgnoreCase(MESSAGE.UNLOCK_FIRST_SKILLS.toString())){
                 Skill firstSkill = SkillFactory.getInstance().getSkill(0);
                 firstSkill.unlockSkill(currentExperience,this);
             }

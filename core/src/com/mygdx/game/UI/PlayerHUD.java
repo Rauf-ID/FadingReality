@@ -131,9 +131,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         questUI.setVisible(false);
         questUI.setKeepWithinStage(false);
 
-        skillUI = new SkillUI();
-        skillUI.setPosition(FadingReality.WIDTH / 4, 50);
-        skillUI.setSize(1920,1080);
+        skillUI = new SkillUI(player);
+        skillUI.setPosition(FadingReality.WIDTH / 10, 200);
+        skillUI.setSize(1500,600);
         skillUI.setMovable(true);
         skillUI.setVisible(false);
 
@@ -249,6 +249,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setAvailableSkills(new Array<Integer>());
                     player.getAvailableSkills().add(0);
                     player.sendMessage(Message.MESSAGE.UNLOCK_FIRST_SKILLS);
+                    skillUI.createSkillTree(player);
                 } else {
                     Map<String, Integer> allAmmoCount = profileManager.getPlayerConfig().getBagAmmunition();
                     WeaponSystem.setBagAmmunition(allAmmoCount);
@@ -293,6 +294,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                         EntityFactory.EntityName exoskeletonName = profileManager.getPlayerConfig().getExoskeletonName();
                         player.sendMessage(Message.MESSAGE.EQUIP_EXOSKELETON, json.toJson(exoskeletonName));
                     }
+                    skillUI.createSkillTree(player);
                 }
                 break;
             case SAVING_PROFILE:

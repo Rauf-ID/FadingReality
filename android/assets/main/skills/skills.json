@@ -6,7 +6,7 @@
     "skillType": "DASH",
     "nextSkills": [3,4,5],
     "description": "Adaptability",
-    "treePosition": "BRANCH_LEFT",
+    "rootNode": "BRANCH_LEFT",
     "branchPosition": "POS_MIDDLE"
   },
   {
@@ -16,7 +16,7 @@
     "skillType": "HP",
     "nextSkills": [6,7,8],
     "description": "Weapon art",
-    "treePosition": "BRANCH_MIDDLE",
+    "rootNode": "BRANCH_MIDDLE",
     "branchPosition": "POS_MIDDLE"
   },
   {
@@ -26,7 +26,7 @@
     "skillType": "HP",
     "nextSkills": [9,10,11],
     "description": "Execution",
-    "treePosition": "BRANCH_RIGHT",
+    "rootNode": "BRANCH_RIGHT",
     "branchPosition": "POS_MIDDLE"
   },
   {
@@ -36,7 +36,7 @@
     "skillType": "RUDIMENTCD",
     "nextSkills": [12],
     "description": "Bro",
-    "treePosition": "BRANCH_LEFT",
+    "rootNode": "BRANCH_LEFT",
     "branchPosition": "POS_LEFT"
   },
   {
@@ -46,7 +46,7 @@
     "skillType": "RANGEDMG",
     "nextSkills": [13],
     "description": "DASfe",
-    "treePosition": "BRANCH_LEFT",
+    "rootNode": "BRANCH_LEFT",
     "branchPosition": "POS_MIDDLE"
   },
   {
@@ -56,7 +56,7 @@
     "skillType": "WEAPONSPEED",
     "nextSkills": [14],
     "description": "DASH",
-    "treePosition": "BRANCH_LEFT",
+    "rootNode": "BRANCH_LEFT",
     "branchPosition": "POS_RIGHT"
   },
   {
@@ -66,7 +66,7 @@
     "skillType": "DASH",
     "nextSkills": [15],
     "description": "DASH",
-    "treePosition": "BRANCH_MIDDLE",
+    "rootNode": "BRANCH_MIDDLE",
     "branchPosition": "POS_LEFT"
   },
   {
@@ -76,7 +76,7 @@
     "skillType": "HP",
     "nextSkills": [16],
     "description": "DASH",
-    "treePosition": "BRANCH_MIDDLE",
+    "rootNode": "BRANCH_MIDDLE",
     "branchPosition": "POS_MIDDLE"
   },
   {
@@ -86,7 +86,7 @@
     "skillType": "HP",
     "nextSkills": [17],
     "description": "BOASH",
-    "treePosition": "BRANCH_MIDDLE",
+    "rootNode": "BRANCH_MIDDLE",
     "branchPosition": "POS_RIGHT"
   },
   {
@@ -96,7 +96,7 @@
     "skillType": "RUDIMENTCD",
     "nextSkills": [18],
     "description": "DPAFO",
-    "treePosition": "BRANCH_RIGHT",
+    "rootNode": "BRANCH_RIGHT",
     "branchPosition": "POS_LEFT"
   },
   {
@@ -106,7 +106,7 @@
     "skillType": "RANGEDMG",
     "nextSkills": [19],
     "description": "DASfe",
-    "treePosition": "BRANCH_RIGHT",
+    "rootNode": "BRANCH_RIGHT",
     "branchPosition": "POS_MIDDLE"
   },
   {
@@ -116,7 +116,7 @@
     "skillType": "WEAPONSPEED",
     "nextSkills": [20],
     "description": "DASH",
-    "treePosition": "BRANCH_RIGHT",
+    "rootNode": "BRANCH_RIGHT",
     "branchPosition": "POS_RIGHT"
   },
   {
@@ -126,7 +126,7 @@
     "skillType": "WEAPONSPEED",
     "nextSkills": [21],
     "description": "DASH",
-    "treePosition": "BRANCH_LEFT",
+    "rootNode": "BRANCH_LEFT",
     "branchPosition": "POS_LEFT"
   },
   {
@@ -136,7 +136,7 @@
     "skillType": "DASH",
     "nextSkills": [22],
     "description": "Adaptability",
-    "treePosition": "BRANCH_LEFT",
+    "rootNode": "BRANCH_LEFT",
     "branchPosition": "POS_MIDDLE"
   },
   {
@@ -146,7 +146,7 @@
     "skillType": "HP",
     "nextSkills": [23],
     "description": "DAS1fe",
-    "treePosition": "BRANCH_LEFT",
+    "rootNode": "BRANCH_LEFT",
     "branchPosition": "POS_RIGHT"
   },
   {
@@ -156,7 +156,7 @@
     "skillType": "HP",
     "nextSkills": [24],
     "description": "DASfe",
-    "treePosition": "BRANCH_MIDDLE",
+    "rootNode": "BRANCH_MIDDLE",
     "branchPosition": "POS_LEFT"
   },
   {
@@ -166,7 +166,7 @@
     "skillType": "RUDIMENTCD",
     "nextSkills": [25],
     "description": "DASfe",
-    "treePosition": "BRANCH_MIDDLE",
+    "rootNode": "BRANCH_MIDDLE",
     "branchPosition": "POS_MIDDLE"
   },
   {
@@ -176,7 +176,7 @@
     "skillType": "RANGEDMG",
     "nextSkills": [26],
     "description": "DASfe",
-    "treePosition": "BRANCH_MIDDLE",
+    "rootNode": "BRANCH_MIDDLE",
     "branchPosition": "POS_RIGHT"
   },
   {
@@ -186,7 +186,7 @@
     "skillType": "WEAPONSPEED",
     "nextSkills": [27],
     "description": "DASH",
-    "treePosition": "BRANCH_RIGHT",
+    "rootNode": "BRANCH_RIGHT",
     "branchPosition": "POS_LEFT"
   },
   {
@@ -196,7 +196,7 @@
     "skillType": "DASH",
     "nextSkills": [28],
     "description": "DASH",
-    "treePosition": "BRANCH_RIGHT",
+    "rootNode": "BRANCH_RIGHT",
     "branchPosition": "POS_MIDDLE"
   },
   {
@@ -206,7 +206,7 @@
     "skillType": "HP",
     "nextSkills": [29],
     "description": "DASH",
-    "treePosition": "BRANCH_RIGHT",
+    "rootNode": "BRANCH_RIGHT",
     "branchPosition": "POS_RIGHT"
   },
   {
@@ -216,7 +216,7 @@
     "skillType": "HP",
     "nextSkills": [30],
     "description": "BOASH",
-    "treePosition": "BRANCH_LEFT",
+    "rootNode": "BRANCH_LEFT",
     "branchPosition": "POS_LEFT"
   },
   {
@@ -226,7 +226,7 @@
     "skillType": "RUDIMENTCD",
     "nextSkills": [31],
     "description": "DPAFO",
-    "treePosition": "BRANCH_LEFT",
+    "rootNode": "BRANCH_LEFT",
     "branchPosition": "POS_MIDDLE"
   },
   {
@@ -236,7 +236,7 @@
     "skillType": "RANGEDMG",
     "nextSkills": [32],
     "description": "DASfe",
-    "treePosition": "BRANCH_LEFT",
+    "rootNode": "BRANCH_LEFT",
     "branchPosition": "POS_RIGHT"
   },
   {
@@ -246,7 +246,7 @@
     "skillType": "WEAPONSPEED",
     "nextSkills": [33],
     "description": "DASH",
-    "treePosition": "BRANCH_MIDDLE",
+    "rootNode": "BRANCH_MIDDLE",
     "branchPosition": "POS_LEFT"
   },
   {
@@ -256,7 +256,7 @@
     "skillType": "WEAPONSPEED",
     "nextSkills": [34],
     "description": "DASH",
-    "treePosition": "BRANCH_MIDDLE",
+    "rootNode": "BRANCH_MIDDLE",
     "branchPosition": "POS_MIDDLE"
   },
   {
@@ -266,7 +266,7 @@
     "skillType": "DASH",
     "nextSkills": [35],
     "description": "Adaptability",
-    "treePosition": "BRANCH_MIDDLE",
+    "rootNode": "BRANCH_MIDDLE",
     "branchPosition": "POS_RIGHT"
   },
   {
@@ -276,7 +276,7 @@
     "skillType": "HP",
     "nextSkills": [36],
     "description": "BRAA",
-    "treePosition": "BRANCH_RIGHT",
+    "rootNode": "BRANCH_RIGHT",
     "branchPosition": "POS_LEFT"
   },
   {
@@ -286,7 +286,7 @@
     "skillType": "HP",
     "nextSkills": [37],
     "description": "FFOFO",
-    "treePosition": "BRANCH_RIGHT",
+    "rootNode": "BRANCH_RIGHT",
     "branchPosition": "POS_MIDDLE"
   },
   {
@@ -296,7 +296,7 @@
     "skillType": "RUDIMENTCD",
     "nextSkills": [38],
     "description": "RIGHT",
-    "treePosition": "BRANCH_RIGHT",
+    "rootNode": "BRANCH_RIGHT",
     "branchPosition": "POS_RIGHT"
   },
   {
@@ -306,7 +306,7 @@
     "skillType": "RANGEDMG",
     "nextSkills": [],
     "description": "DASfe",
-    "treePosition": "BRANCH_LEFT",
+    "rootNode": "BRANCH_LEFT",
     "branchPosition": "POS_LEFT"
   },
   {
@@ -316,7 +316,7 @@
     "skillType": "WEAPONSPEED",
     "nextSkills": [],
     "description": "DASH",
-    "treePosition": "BRANCH_LEFT",
+    "rootNode": "BRANCH_LEFT",
     "branchPosition": "POS_MIDDLE"
   },
   {
@@ -326,7 +326,7 @@
     "skillType": "DASH",
     "nextSkills": [],
     "description": "DASH",
-    "treePosition": "BRANCH_LEFT",
+    "rootNode": "BRANCH_LEFT",
     "branchPosition": "POS_RIGHT"
   },
   {
@@ -336,7 +336,7 @@
     "skillType": "HP",
     "nextSkills": [],
     "description": "DASH",
-    "treePosition": "BRANCH_MIDDLE",
+    "rootNode": "BRANCH_MIDDLE",
     "branchPosition": "POS_LEFT"
   },
   {
@@ -346,7 +346,7 @@
     "skillType": "HP",
     "nextSkills": [],
     "description": "BOASH",
-    "treePosition": "BRANCH_MIDDLE",
+    "rootNode": "BRANCH_MIDDLE",
     "branchPosition": "POS_MIDDLE"
   },
   {
@@ -356,7 +356,7 @@
     "skillType": "RUDIMENTCD",
     "nextSkills": [],
     "description": "DPAFO",
-    "treePosition": "BRANCH_MIDDLE",
+    "rootNode": "BRANCH_MIDDLE",
     "branchPosition": "POS_RIGHT"
   },
   {
@@ -366,7 +366,7 @@
     "skillType": "RANGEDMG",
     "nextSkills": [],
     "description": "DASfe",
-    "treePosition": "BRANCH_RIGHT",
+    "rootNode": "BRANCH_RIGHT",
     "branchPosition": "POS_LEFT"
   },
   {
@@ -376,7 +376,7 @@
     "skillType": "WEAPONSPEED",
     "nextSkills": [],
     "description": "DASH",
-    "treePosition": "BRANCH_RIGHT",
+    "rootNode": "BRANCH_RIGHT",
     "branchPosition": "POS_MIDDLE"
   },
   {
@@ -386,7 +386,7 @@
     "skillType": "WEAPONSPEED",
     "nextSkills": [],
     "description": "DASH",
-    "treePosition": "BRANCH_RIGHT",
+    "rootNode": "BRANCH_RIGHT",
     "branchPosition": "POS_RIGHT"
   }
 ]
