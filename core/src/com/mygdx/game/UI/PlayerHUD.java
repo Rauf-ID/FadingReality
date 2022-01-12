@@ -33,6 +33,7 @@ import com.mygdx.game.observer.ConversationGraphObserver;
 import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.skills.Skill;
+import com.mygdx.game.skills.SkillFactory;
 import com.mygdx.game.tools.ProgressBarNew;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
@@ -239,7 +240,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setPlayerSkills(new Array<Integer>());
                     player.setAvailableSkills(new Array<Integer>());
                     player.getAvailableSkills().add(0);
-                    player.sendMessage(Message.MESSAGE.UNLOCK_FIRST_SKILLS);
+                    Skill firstSkill = SkillFactory.getInstance().getSkill(0);
+                    firstSkill.unlockSkill(0,player);
                     skillUI.createSkillTree(player);
                     this.addActor(skillUI.getSkillTooltip());
                 } else {

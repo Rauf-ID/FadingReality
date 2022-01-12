@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.component.Player;
 import com.mygdx.game.entity.Entity;
 
+
 public class Skill {
 
     public enum RootNode {
@@ -22,22 +23,22 @@ public class Skill {
         ACTIVE,
         DASH,
         HP,
-        RUDIMENTCD,
-        RANGEDMG,
-        MELEEDMG,
-        WEAPONSPEED,
-        CRITCHANCE,
+        RUDIMENT_CD,
+        RANGE_DMG,
+        MELEE_DMG,
+        WEAPON_SPEED,
+        CRIT_CHANCE,
         HEAL,
         EXECUTION,
-        DMGBOOST,
-        DMGRESIST
+        DMG_BOOST,
+        DMG_RESIST
     }
 
     private RootNode rootNode;
     private BranchPosition branchPosition;
     private int id, cost, property;
     private SkillType skillType;
-    private String description;
+    private String title,description;
     private Array<Integer> nextSkills;
 
     /*private int dashCharges, hp, rudimentCooldown;
@@ -57,19 +58,19 @@ public class Skill {
                 case DASH:
                     player.setMaxDashCharges(player.getMaxDashCharges()+this.getProperty());
                     break;
-                case DMGBOOST:
+                case DMG_BOOST:
                     player.setDamageBoost(player.getDamageBoost() + this.getProperty());
                     break;
-                case MELEEDMG:
+                case MELEE_DMG:
                     player.setMeleeDamageBoost(player.getMeleeDamageBoost() + this.getProperty());
                     break;
-                case RANGEDMG:
+                case RANGE_DMG:
                     player.setRangedDamageBoost(player.getRangedDamageBoost() + this.getProperty());
                     break;
-                case DMGRESIST:
+                case DMG_RESIST:
                     player.setDamageResist(player.getDamageResist() + this.getProperty());
                     break;
-                case WEAPONSPEED:
+                case WEAPON_SPEED:
                     player.setWeaponSpeed(player.getWeaponSpeed() + this.getProperty());
                     break;
                 case HP:
@@ -83,10 +84,10 @@ public class Skill {
                 case EXECUTION:
                     player.setExecutionThreshold(player.getExecutionThreshold() + this.getProperty());
                     break;
-                case CRITCHANCE:
+                case CRIT_CHANCE:
                     player.setCritChanсe(player.getCritChanсe() + this.getProperty());
                     break;
-                case RUDIMENTCD:
+                case RUDIMENT_CD:
                     player.setRudimentCooldown(player.getRudimentCooldown() + this.getProperty());
                     break;
             }
@@ -174,6 +175,14 @@ public class Skill {
         this.description = description;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public Array<Integer> getNextSkills() {
         return nextSkills;
     }
@@ -181,5 +190,6 @@ public class Skill {
     public void setNextSkills(Array<Integer> nextSkills) {
         this.nextSkills = nextSkills;
     }
+
 
 }

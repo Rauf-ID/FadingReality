@@ -61,16 +61,6 @@ public class Player extends Component {
         state = State.NORMAL;
         controlManager = new ControlManager();
     }
-    
-    public void tryUnlockSkill(){
-        System.out.println("Trying to unlock the skill...");
-        testSkill1.unlockSkill(currentExperience, this);
-        testSkill2.unlockSkill(currentExperience,this);
-        testSkill3.unlockSkill(currentExperience,this);
-        testSkill4.unlockSkill(currentExperience,this);
-        testSkill5.unlockSkill(currentExperience, this);
-//        System.out.println("Inaccessible skills:" + Skill.getInaccessibleSkills(this)); // Doesn't work now !
-    }
 
     @Override
     public void receiveMessage(String message) {
@@ -84,9 +74,6 @@ public class Player extends Component {
                 if(getHealth()>getMaxHealth()){
                     setHealth(getMaxHealth());
                 }
-            } else if(string[0].equalsIgnoreCase(MESSAGE.UNLOCK_FIRST_SKILLS.toString())){
-                Skill firstSkill = SkillFactory.getInstance().getSkill(0);
-                firstSkill.unlockSkill(currentExperience,this);
             }
         }
 
@@ -380,10 +367,6 @@ public class Player extends Component {
                                     currentEntityPosition.y += 64;
                                     state = State.NORMAL;
                                 }}, 1.1f);
-                        }
-
-                        if(Gdx.input.isKeyJustPressed(Input.Keys.P)){
-                            this.tryUnlockSkill();
                         }
 
                         //MELEE ATTACK
