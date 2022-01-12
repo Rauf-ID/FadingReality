@@ -51,7 +51,7 @@ public class Skill {
         return skill;
     }
 
-    public void unlockSkill(int exp, Player player){
+    public void unlockSkill(int exp, Entity player){
         if(player.getAvailableSkills().contains(this.getId(),true) && exp>=this.cost && (!player.getPlayerSkills().contains(this.id,true))){
             switch (this.getSkillType()){
                 case DASH:
