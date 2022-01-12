@@ -1,9 +1,13 @@
 package com.mygdx.game.skills;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
+import com.mygdx.game.inventory.Item;
 import com.mygdx.game.tools.managers.ResourceManager;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class SkillFactory {
@@ -16,15 +20,15 @@ public class SkillFactory {
         if (instance == null) {
             instance = new SkillFactory();
         }
-
         return instance;
     }
 
     private SkillFactory(){
-        skillArray = new Hashtable<Integer, Skill>();
+        ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal(ResourceManager.SKILLS_CONFIG));
+        skillArray = new Hashtable<>();
 
-        Array<Skill> skills = Skill.getSkillsConfig(ResourceManager.SKILLS_CONFIG);
-        for(Skill skill: skills){
+        for (JsonValue jsonVal : list) {
+            Skill skill = json.readValue(Skill.class, jsonVal);
             skillArray.put(skill.getId(), skill);
         }
     }
@@ -33,12 +37,19 @@ public class SkillFactory {
         return skillArray.get(id);
     }
 
-    public Array<Integer> getAllSkills(){
-        Array<Integer> skillIds = new Array<>();
-        Array<Skill> skills = Skill.getSkillsConfig(ResourceManager.SKILLS_CONFIG);
-        for (Skill skill: skills){
-            skillIds.add(skill.getId());
+    public Array<Integer> getAllSkillsID() {
+        Array<Integer> skillIDs = new Array<>();
+        for (Skill skill: skillArray.values()) {
+            skillIDs.add(skill.getId());
         }
-        return skillIds;
+        return skillIDs;
+    }
+
+    public Array<Skill> getAllSkills(){
+        Array<Skill> skills = new Array<>();
+        for (Skill skill: skillArray.values()) {
+            skills.add(skill);
+        }
+        return skills;
     }
 }

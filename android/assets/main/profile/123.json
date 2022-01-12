@@ -2,8 +2,8 @@
 state: IDLE
 direction: LEFT
 position: {
-	x: 1150.6296
-	y: 280.9287
+	x: 1135.4114
+	y: 281.7403
 }
 currentMap: SPACE_STATION
 quests: [
@@ -67,15 +67,17 @@ inventory: [
 		numberItemsAtLocation: 1
 		itemNameProperty: Player_Inventory
 	}
+]
+equipment: [
 	{
-		locationIndex: 5
-		itemTypeAtLocation: AHR
+		locationIndex: 3
+		itemTypeAtLocation: ANGEL_BLADE
 		numberItemsAtLocation: 1
 		itemNameProperty: Player_Inventory
 	}
 	{
-		locationIndex: 6
-		itemTypeAtLocation: ANGEL_BLADE
+		locationIndex: 5
+		itemTypeAtLocation: AHR
 		numberItemsAtLocation: 1
 		itemNameProperty: Player_Inventory
 	}

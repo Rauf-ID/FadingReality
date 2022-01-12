@@ -1,23 +1,22 @@
 package com.mygdx.game.skills;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.game.component.Player;
 import com.mygdx.game.entity.Entity;
 
-import java.util.ArrayList;
-
 public class Skill {
-    private int id, cost, property;
-    private SkillType skillType;
-    private RootNode rootNode;
-    private BranchPosition branchPosition;
-    private String description;
 
+    public enum RootNode {
+        ROOT_LEFT,
+        ROOT_MIDDLE,
+        ROOT_RIGHT,
+    }
 
-    private Array<Integer> nextSkills;
+    public enum BranchPosition{
+        BRANCH_LEFT,
+        BRANCH_MIDDLE,
+        BRANCH_RIGHT
+    }
 
     public enum SkillType{
         ACTIVE,
@@ -34,69 +33,61 @@ public class Skill {
         DMGRESIST
     }
 
-    public enum RootNode {
-        BRANCH_RIGHT,
-        BRANCH_MIDDLE,
-        BRANCH_LEFT,
-    }
-    public enum BranchPosition{
-        POS_LEFT,
-        POS_MIDDLE,
-        POS_RIGHT
-    }
+    private RootNode rootNode;
+    private BranchPosition branchPosition;
+    private int id, cost, property;
+    private SkillType skillType;
+    private String description;
+    private Array<Integer> nextSkills;
 
-    public Skill(){
+    /*private int dashCharges, hp, rudimentCooldown;
+    private int rangedDamage, meleeDamage, weaponSpeed, critChance;
+    private int heal, execution, damageBoost, damageResist;*/
 
-    }
+    public Skill() {}
 
-    public Skill loadSkill(){
+    public Skill loadSkill() {
         Skill skill = new Skill();
         return skill;
     }
 
-    /*private int dashCharges, hp, rudimentCooldown;
-
-    private int rangedDamage, meleeDamage, weaponSpeed, critChance;
-
-    private int heal, execution, damageBoost, damageResist;*/
-
     public void unlockSkill(int exp, Player player){
         if(player.getAvailableSkills().contains(this.getId(),true) && exp>=this.cost && (!player.getPlayerSkills().contains(this.id,true))){
-            switch (this.getType()){
+            switch (this.getSkillType()){
                 case DASH:
-                    player.setMaxDashCharges(player.getMaxDashCharges()+this.getSkillProperty());
+                    player.setMaxDashCharges(player.getMaxDashCharges()+this.getProperty());
                     break;
                 case DMGBOOST:
-                    player.setDamageBoost(player.getDamageBoost() + this.getSkillProperty());
+                    player.setDamageBoost(player.getDamageBoost() + this.getProperty());
                     break;
                 case MELEEDMG:
-                    player.setMeleeDamageBoost(player.getMeleeDamageBoost() + this.getSkillProperty());
+                    player.setMeleeDamageBoost(player.getMeleeDamageBoost() + this.getProperty());
                     break;
                 case RANGEDMG:
-                    player.setRangedDamageBoost(player.getRangedDamageBoost() + this.getSkillProperty());
+                    player.setRangedDamageBoost(player.getRangedDamageBoost() + this.getProperty());
                     break;
                 case DMGRESIST:
-                    player.setDamageResist(player.getDamageResist() + this.getSkillProperty());
+                    player.setDamageResist(player.getDamageResist() + this.getProperty());
                     break;
                 case WEAPONSPEED:
-                    player.setWeaponSpeed(player.getWeaponSpeed() + this.getSkillProperty());
+                    player.setWeaponSpeed(player.getWeaponSpeed() + this.getProperty());
                     break;
                 case HP:
-                    player.setMaxHealth(player.getMaxHealth() + this.getSkillProperty());
+                    player.setMaxHealth(player.getMaxHealth() + this.getProperty());
                     break;
                 case ACTIVE:
                     break;
                 case HEAL:
-                    player.setHealAmount(player.getHealAmount() + this.getSkillProperty());
+                    player.setHealAmount(player.getHealAmount() + this.getProperty());
                     break;
                 case EXECUTION:
-                    player.setExecutionThreshold(player.getExecutionThreshold() + this.getSkillProperty());
+                    player.setExecutionThreshold(player.getExecutionThreshold() + this.getProperty());
                     break;
                 case CRITCHANCE:
-                    player.setCritChanсe(player.getCritChanсe() + this.getSkillProperty());
+                    player.setCritChanсe(player.getCritChanсe() + this.getProperty());
                     break;
                 case RUDIMENTCD:
-                    player.setRudimentCooldown(player.getRudimentCooldown() + this.getSkillProperty());
+                    player.setRudimentCooldown(player.getRudimentCooldown() + this.getProperty());
                     break;
             }
             player.getPlayerSkills().add(this.id);
@@ -107,8 +98,16 @@ public class Skill {
         }
     }
 
+    public static Array<Integer> getLearnedSkills(Entity player){
+        return player.getPlayerSkills();
+    }
+
+    public static Array<Integer> getAccessibleSkills(Entity player){
+        return player.getAvailableSkills();
+    }
+
     public static Array<Integer> getInaccessibleSkills(Entity player){
-        Array<Integer> inaccessibleSkills =  SkillFactory.getInstance().getAllSkills();
+        Array<Integer> inaccessibleSkills = SkillFactory.getInstance().getAllSkillsID();
         for(int skill: player.getAvailableSkills()){
             inaccessibleSkills.removeValue(skill,true);
         }
@@ -118,41 +117,35 @@ public class Skill {
         return inaccessibleSkills;
     }
 
-    public static Array<Integer> getAccessibleSkills(Entity player){
-        return player.getAvailableSkills();
+
+    public RootNode getRootNode() {
+        return rootNode;
     }
 
-    public static Array<Integer> getLearnedSkills(Entity player){
-        return player.getPlayerSkills();
+    public void setRootNode(RootNode rootNode) {
+        this.rootNode = rootNode;
     }
 
-    public int getId(){return this.id;}
-    public void setId(int id){this.id=id;}
-
-    public SkillType getType(){return this.skillType;}
-    public void setSkillType(SkillType skillType){this.skillType=skillType;}
-
-    public int getSkillProperty(){
-        return property;
-    }
-    public void setSkillProperty(int property){
-        this.property=property;
+    public BranchPosition getBranchPosition() {
+        return branchPosition;
     }
 
-    public String getDescription() {return description;}
-    public void setDescription(String description) {this.description = description;}
-
-    public Array<Integer> getNextSkills() {
-        return nextSkills;
+    public void setBranchPosition(BranchPosition branchPosition) {
+        this.branchPosition = branchPosition;
     }
 
-    public void setNextSkills(Array<Integer> nextSkills) {
-        this.nextSkills = nextSkills;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getCost() {
         return cost;
     }
+
     public void setCost(int cost) {
         this.cost = cost;
     }
@@ -160,6 +153,7 @@ public class Skill {
     public int getProperty() {
         return property;
     }
+
     public void setProperty(int property) {
         this.property = property;
     }
@@ -168,18 +162,24 @@ public class Skill {
         return skillType;
     }
 
-    static public Array<Skill> getSkillsConfig(String configFilePath){
-        Json json = new Json();
-        Array<Skill> skills = new Array<>();
-
-        ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal(configFilePath));
-
-        for (JsonValue jsonVal: list){
-            skills.add(json.readValue(Skill.class, jsonVal));
-        }
-
-        return skills;
+    public void setSkillType(SkillType skillType) {
+        this.skillType = skillType;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Array<Integer> getNextSkills() {
+        return nextSkills;
+    }
+
+    public void setNextSkills(Array<Integer> nextSkills) {
+        this.nextSkills = nextSkills;
+    }
 
 }

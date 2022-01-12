@@ -1,4 +1,4 @@
-package com.mygdx.game.plot;
+package com.mygdx.game._oldClasses.plot;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;

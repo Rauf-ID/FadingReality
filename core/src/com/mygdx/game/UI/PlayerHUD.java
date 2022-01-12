@@ -2,6 +2,7 @@ package com.mygdx.game.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -15,7 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.FadingReality;
 import com.mygdx.game.UI.pda.BrowserUI;
-import com.mygdx.game.UI.skillUI.SkillUI;
+import com.mygdx.game.UI.pda.SkillUI;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.inventory.Item;
@@ -31,6 +32,7 @@ import com.mygdx.game.dialogs.ConversationGraph;
 import com.mygdx.game.observer.ConversationGraphObserver;
 import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.profile.ProfileManager;
+import com.mygdx.game.skills.Skill;
 import com.mygdx.game.tools.ProgressBarNew;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
@@ -56,15 +58,15 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
     private int iis;
 
+    private SkillUI skillUI;
+    private QuestUI questUI;
+    public static PDAUI pdaUI;
     private StatusUI statusUI;
     private TooltipUI tooltipUI;
     private InventoryUI inventoryUI;
     public ConversationUI conversationUI;
-    private QuestUI questUI;
-    private SkillUI skillUI;
-    public static PDAUI pdaUI;
     public static BrowserUI browserUI;
-    private Image image;
+
 
     private Json json;
     private MapManager mapMgr;
@@ -77,10 +79,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     private float zoom;
     private Vector2 playerPosition;
     private String mapName;
-
-
-    private ImageButton button, button2, button3;
-    private Label labelTextTest;
 
     public static List<Toast> toasts = new LinkedList<Toast>();
     private static Toast.ToastFactory toastFactory;
@@ -105,10 +103,11 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         statusUI.setPosition(0, 0);
 
         tooltipUI = new TooltipUI();
-        tooltipUI.setMovable(true);
-        tooltipUI.setVisible(true);
         tooltipUI.setSize(300, Gdx.graphics.getHeight());
         tooltipUI.setPosition(Gdx.graphics.getWidth(), 0);
+        tooltipUI.setMovable(true);
+        tooltipUI.setVisible(true);
+
         tooltipUI.right().bottom();
 
         inventoryUI = new InventoryUI();
@@ -119,21 +118,21 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         inventoryUI.setPosition(0, 100);
 
         conversationUI = new ConversationUI(FadingReality.getUiSkin());
-        conversationUI.setPosition(FadingReality.HEIGHT / 1.5f,50);
         conversationUI.setSize(500,300);
+        conversationUI.setPosition(FadingReality.HEIGHT / 1.5f,50);
         conversationUI.setMovable(true);
         conversationUI.setVisible(false);
 
         questUI = new QuestUI();
-        questUI.setPosition(FadingReality.WIDTH / 4, 50);
         questUI.setSize(500,300);
+        questUI.setPosition(FadingReality.WIDTH / 4, 50);
         questUI.setMovable(true);
         questUI.setVisible(false);
         questUI.setKeepWithinStage(false);
 
         skillUI = new SkillUI(player);
-        skillUI.setPosition(FadingReality.WIDTH / 10, 200);
-        skillUI.setSize(1500,600);
+        skillUI.setSize(1756,946);
+        skillUI.setPosition(50, 60);
         skillUI.setMovable(true);
         skillUI.setVisible(false);
 
@@ -156,10 +155,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         tooltip2 = new Label("Tab - PDA \n" + "Z - Inventory \n" + "X - QuestList \n" + "NUMPAD_1 - Activate Enemy \n " + "NUMPAD_2 - Shader1 & Speed \n " + "NUMPAD_3 - Shader2 \n " + "NUMPAD_4 - Activate Debug", FadingReality.getUiSkin());
         tooltip2.setPosition(0, 0);
 
-//        image = new Image(new TextureRegion(NonameGame.resourceManager.texture2));
-//        image.setPosition(500,500);
-//        image.setSize(128,128);
-
 //        this.addActor(progressBar);
 //        this.addActor(healthBar);
 //        this.addActor(statusUI);
@@ -172,13 +167,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 //        this.addActor(tooltip1);
 //        this.addActor(tooltip2);
         this.addActor(tooltipUI);
-//        this.addActor(image);
 
         //add tooltips to the stage
-        Array<Actor> actors = inventoryUI.getInventoryActors();
-        for(Actor actor : actors){
-            this.addActor(actor);
-        }
+        this.addActor(inventoryUI.getInventorySlotTooltip());
 
         //Observers
         player.registerObserver(this);
@@ -250,6 +241,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.getAvailableSkills().add(0);
                     player.sendMessage(Message.MESSAGE.UNLOCK_FIRST_SKILLS);
                     skillUI.createSkillTree(player);
+                    this.addActor(skillUI.getSkillTooltip());
                 } else {
                     Map<String, Integer> allAmmoCount = profileManager.getPlayerConfig().getBagAmmunition();
                     WeaponSystem.setBagAmmunition(allAmmoCount);
@@ -295,6 +287,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                         player.sendMessage(Message.MESSAGE.EQUIP_EXOSKELETON, json.toJson(exoskeletonName));
                     }
                     skillUI.createSkillTree(player);
+                    this.addActor(skillUI.getSkillTooltip());
                 }
                 break;
             case SAVING_PROFILE:
@@ -468,8 +461,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     }
 
     public void setHourMin(int hour, int min) {
-        this.hour=hour;
-        this.min=min;
+        this.hour = hour;
+        this.min = min;
     }
 
     public void setCurrentState(String curentState){
@@ -495,8 +488,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     public void setPlayerPosition(Vector2 playerPosition) {
         this.playerPosition=playerPosition;
     }
-
-
 
     public void update() {
         if (!browserUI.isVisible()) {
