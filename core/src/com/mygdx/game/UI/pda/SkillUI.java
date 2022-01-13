@@ -1,5 +1,6 @@
 package com.mygdx.game.UI.pda;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -19,45 +20,51 @@ import com.mygdx.game.skills.SkillTooltipListener;
 public class SkillUI extends Window {
 
     private SkillTooltip skillTooltip;
+    private Array<Integer> learnedSkills;
+    private Array<Integer> accessibleSkills;
+    private Array<Integer> inaccessibleSkills;
+    private Drawable buttonNoneSkill1;
+    private Drawable buttonNoneSkill2;
+    private Drawable buttonNoneSkill3;
 
-    public SkillUI(Entity player) {
+    public SkillUI() {
         super("Skill UI", FadingReality.getUiSkin());
-
         skillTooltip = new SkillTooltip();
     }
 
-    public void createSkillTree(Entity player) {
+    public void createSkillTree(final Entity player) {
         this.clear();
 
-//        Array<Integer> allSkills =  SkillFactory.getInstance().getAllIDSkills();
-//        System.out.println(allSkills);
-//
-//        Array<Integer> learnedSkills = Skill.getLearnedSkills(player);
-//        System.out.println(learnedSkills);
-//        Array<Integer> accessibleSkills = Skill.getAccessibleSkills(player);
-//        System.out.println(accessibleSkills);
-//        Array<Integer> inaccessibleSkills = Skill.getInaccessibleSkills(player);
-//        System.out.println(inaccessibleSkills);
+        learnedSkills = Skill.getLearnedSkills(player);
+        accessibleSkills = Skill.getAccessibleSkills(player);
+        inaccessibleSkills = Skill.getInaccessibleSkills(player);
 
-        Drawable buttonNone = new TextureRegionDrawable(new TextureRegion(FadingReality.resourceManager.textureButtonNonePDA));
+        buttonNoneSkill1 = new TextureRegionDrawable(new TextureRegion(new Texture("textures/ButtonNoneSkill1.png")));
+        buttonNoneSkill2 = new TextureRegionDrawable(new TextureRegion(new Texture("textures/ButtonNoneSkill2.png")));
+        buttonNoneSkill3 = new TextureRegionDrawable(new TextureRegion(new Texture("textures/ButtonNoneSkill3.png")));
+
         for (Skill.RootNode rootNode : Skill.RootNode.values()) {
             Table unified = new Table();
             unified.add();
-            SkillButton rootSkill = new SkillButton(buttonNone);
+            SkillButton rootSkill = new SkillButton(buttonNoneSkill1);
             unified.add(rootSkill).padBottom(30).row();
             Array<Skill> listSkillsForRootNode = getListSkillsForRootNode(rootNode);
             for (Skill.BranchPosition branchPosition: Skill.BranchPosition.values()) {
                 Table tableVertical = new Table();
                 Array<Skill> listSkillsForBranchPosition = getListSkillsForBranchPosition(branchPosition, listSkillsForRootNode);
+                listSkillsForBranchPosition.reverse();
                 for (int i = 0; i < listSkillsForBranchPosition.size; i++) {
-                    Skill skill = listSkillsForBranchPosition.get(i);
-                    SkillButton skillButton = new SkillButton(buttonNone, skill);
+                    final Skill skill = listSkillsForBranchPosition.get(i);
+                    Drawable mark = getDrawableForMark(skill.getId());
+                    SkillButton skillButton = new SkillButton(mark, skill);
                     skillButton.addListener(new SkillTooltipListener(skillTooltip));
                     tableVertical.add(skillButton).pad(5).row();
                     skillButton.addListener(new ClickListener() {
                         @Override
                         public void clicked (InputEvent event, float x, float y) {
-                            System.out.println("PRESSED");
+                            skill.unlockSkill(120, player);
+                            clear();
+                            createSkillTree(player);
                         }
                     });
                 }
@@ -87,6 +94,16 @@ public class SkillUI extends Window {
             }
         }
         return listSkillsForBranchPosition;
+    }
+
+    private Drawable getDrawableForMark(int id) {
+        if (learnedSkills.contains(id, true)) {
+            return buttonNoneSkill1;
+        } else if (accessibleSkills.contains(id, true)) {
+            return buttonNoneSkill2;
+        } else {
+            return buttonNoneSkill3;
+        }
     }
 
     public SkillTooltip getSkillTooltip() {

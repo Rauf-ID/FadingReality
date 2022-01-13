@@ -131,7 +131,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         questUI.setVisible(false);
         questUI.setKeepWithinStage(false);
 
-        skillUI = new SkillUI(player);
+        skillUI = new SkillUI();
         skillUI.setSize(1756,946);
         skillUI.setPosition(50, 60);
         skillUI.setMovable(true);
@@ -165,7 +165,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         this.addActor(skillUI);
         this.addActor(pdaUI);
         this.addActor(browserUI);
-//        this.addActor(tooltip1);
+        this.addActor(tooltip1);
 //        this.addActor(tooltip2);
         this.addActor(tooltipUI);
 

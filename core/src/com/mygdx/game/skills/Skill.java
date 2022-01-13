@@ -1,7 +1,6 @@
 package com.mygdx.game.skills;
 
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.game.component.Player;
 import com.mygdx.game.entity.Entity;
 
 
@@ -13,50 +12,45 @@ public class Skill {
         ROOT_RIGHT,
     }
 
-    public enum BranchPosition{
+    public enum BranchPosition {
         BRANCH_LEFT,
         BRANCH_MIDDLE,
         BRANCH_RIGHT
     }
 
-    public enum SkillType{
-        ACTIVE,
-        DASH,
+    public enum SkillType {
         HP,
-        RUDIMENT_CD,
+        DASH,
+        HEAL,
+        ACTIVE,
         RANGE_DMG,
         MELEE_DMG,
-        WEAPON_SPEED,
-        CRIT_CHANCE,
-        HEAL,
         EXECUTION,
         DMG_BOOST,
-        DMG_RESIST
+        DMG_RESIST,
+        RUDIMENT_CD,
+        CRIT_CHANCE,
+        WEAPON_SPEED,
     }
 
     private RootNode rootNode;
     private BranchPosition branchPosition;
-    private int id, cost, property;
+    private int id;
+    private int cost;
+    private int property;
+    private String title;
+    private String description;
     private SkillType skillType;
-    private String title,description;
     private Array<Integer> nextSkills;
 
-    /*private int dashCharges, hp, rudimentCooldown;
-    private int rangedDamage, meleeDamage, weaponSpeed, critChance;
-    private int heal, execution, damageBoost, damageResist;*/
 
     public Skill() {}
 
-    public Skill loadSkill() {
-        Skill skill = new Skill();
-        return skill;
-    }
-
     public void unlockSkill(int exp, Entity player){
-        if(player.getAvailableSkills().contains(this.getId(),true) && exp>=this.cost && (!player.getPlayerSkills().contains(this.id,true))){
+        if(player.getAvailableSkills().contains(this.getId(),true) && exp >= this.cost && (!player.getPlayerSkills().contains(this.id,true))){
             switch (this.getSkillType()){
                 case DASH:
-                    player.setMaxDashCharges(player.getMaxDashCharges()+this.getProperty());
+                    player.setMaxDashCharges(player.getMaxDashCharges() + this.getProperty());
                     break;
                 case DMG_BOOST:
                     player.setDamageBoost(player.getDamageBoost() + this.getProperty());
