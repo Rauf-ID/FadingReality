@@ -39,46 +39,42 @@ quests: [
 ]
 inventory: [
 	{
+		itemTypeAtLocation: ARMOR04
+		numberItemsAtLocation: 1
+		itemNameProperty: Player_Inventory
+	}
+	{
+		locationIndex: 1
+		itemTypeAtLocation: BOOTS03
+		numberItemsAtLocation: 1
+		itemNameProperty: Player_Inventory
+	}
+	{
+		locationIndex: 2
+		itemTypeAtLocation: HELMET05
+		numberItemsAtLocation: 1
+		itemNameProperty: Player_Inventory
+	}
+	{
+		locationIndex: 3
+		itemTypeAtLocation: POTIONS01
+		numberItemsAtLocation: 1
+		itemNameProperty: Player_Inventory
+	}
+	{
 		locationIndex: 4
 		itemTypeAtLocation: AHR
 		numberItemsAtLocation: 1
-		numberItemsInside: 30
 		itemNameProperty: Player_Inventory
 	}
 	{
 		locationIndex: 5
 		itemTypeAtLocation: ALG
 		numberItemsAtLocation: 1
-		numberItemsInside: 7
 		itemNameProperty: Player_Inventory
 	}
 	{
-		locationIndex: 40
-		itemTypeAtLocation: POTIONS01
-		numberItemsAtLocation: 9
-		itemNameProperty: Player_Inventory
-	}
-	{
-		locationIndex: 41
-		itemTypeAtLocation: BOOTS03
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		locationIndex: 42
-		itemTypeAtLocation: HELMET05
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-	{
-		locationIndex: 43
-		itemTypeAtLocation: ARMOR04
-		numberItemsAtLocation: 1
-		itemNameProperty: Player_Inventory
-	}
-]
-equipment: [
-	{
+		locationIndex: 6
 		itemTypeAtLocation: ANGEL_BLADE
 		numberItemsAtLocation: 1
 		itemNameProperty: Player_Inventory
@@ -95,14 +91,17 @@ shopItems: [
 ]
 bagAmmunition: {
 	class: java.util.HashMap
-	5.56 mm: 102
-	9 mm: 105
+	5.56 mm: 0
+	9 mm: 0
 }
 exoskeletonName: NONE
-maxHp: 100
+maxHp: 140
 dashCharges: 4
-maxDashCharges: 4
-playerSkills: [ 0 ]
-availableSkills: [ 3, 4, 5 ]
+maxDashCharges: 9
+experience: 5
+rudimentCooldown: 5
+damageBoost: 50
+playerSkills: [ 0, 3, 5, 14, 23, 32, 12, 21, 30 ]
+availableSkills: [ 4 ]
 health: 100
 }

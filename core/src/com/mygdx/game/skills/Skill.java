@@ -46,8 +46,8 @@ public class Skill {
 
     public Skill() {}
 
-    public void unlockSkill(int exp, Entity player){
-        if(player.getAvailableSkills().contains(this.getId(),true) && exp >= this.cost && (!player.getPlayerSkills().contains(this.id,true))){
+    public void unlockSkill(Entity player){
+        if(player.getAvailableSkills().contains(this.getId(),true) && player.getExperience() >= this.cost && (!player.getPlayerSkills().contains(this.id,true))){
             switch (this.getSkillType()){
                 case DASH:
                     player.setMaxDashCharges(player.getMaxDashCharges() + this.getProperty());
@@ -87,6 +87,7 @@ public class Skill {
             }
             player.getPlayerSkills().add(this.id);
             player.getAvailableSkills().removeValue(this.getId(),true);
+            player.setExperience(player.getExperience() - cost);
             for (int nextSkill: nextSkills){
                 player.getAvailableSkills().add(nextSkill);
             }

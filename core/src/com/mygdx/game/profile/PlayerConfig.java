@@ -35,12 +35,13 @@ public class PlayerConfig {
     private int maxDamage;
     private int dashCharges;
     private int maxDashCharges;
+    private int experience;
     private int damageResist;
     private int meleeDamageBoost;
     private int rangedDamageBoost;
     private int rudimentCooldown;
     private int weaponSpeed;
-    private int critChanсe;
+    private int critChance;
     private int healAmount;
     private int executionThreshold;
     private int damageBoost;
@@ -202,24 +203,28 @@ public class PlayerConfig {
         this.maxDamage = maxDamage;
     }
 
-    public int getDashCharges(){return dashCharges;}
-
-    public void setDashCharges(int dashCharges){this.dashCharges=dashCharges;}
-
-    public int getMaxDashCharges(){return maxDashCharges;}
-
-    public void setMaxDashCharges(int maxDashCharges){this.maxDashCharges=maxDashCharges;}
-
-    public float getRudimentCharge(){return rudimentCharge;}
-
-    public void setRudimentCharge(float rudimentCharge){this.rudimentCharge=rudimentCharge;}
-
-    public int getHealth() {
-        return health;
+    public int getDashCharges() {
+        return dashCharges;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public void setDashCharges(int dashCharges) {
+        this.dashCharges = dashCharges;
+    }
+
+    public int getMaxDashCharges() {
+        return maxDashCharges;
+    }
+
+    public void setMaxDashCharges(int maxDashCharges) {
+        this.maxDashCharges = maxDashCharges;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
     }
 
     public int getDamageResist() {
@@ -236,6 +241,22 @@ public class PlayerConfig {
 
     public void setMeleeDamageBoost(int meleeDamageBoost) {
         this.meleeDamageBoost = meleeDamageBoost;
+    }
+
+    public float getRudimentCharge() {
+        return rudimentCharge;
+    }
+
+    public void setRudimentCharge(float rudimentCharge) {
+        this.rudimentCharge = rudimentCharge;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public int getRangedDamageBoost() {
@@ -262,12 +283,12 @@ public class PlayerConfig {
         this.weaponSpeed = weaponSpeed;
     }
 
-    public int getCritChanсe() {
-        return critChanсe;
+    public int getCritChance() {
+        return critChance;
     }
 
-    public void setCritChanсe(int critChanсe) {
-        this.critChanсe = critChanсe;
+    public void setCritChance(int critChance) {
+        this.critChance = critChance;
     }
 
     public int getHealAmount() {

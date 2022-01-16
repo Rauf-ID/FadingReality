@@ -31,6 +31,8 @@ public class SkillTooltip extends Window {
             StringBuilder string = new StringBuilder();
             Skill skill = skillButton.getSkill();
             string.append(skill.getDescription());
+            string.append(System.getProperty("line.separator"));
+            string.append(String.format("Skill Cost Exp: %s", skill.getCost()));
 
 //            if(skill.isInventoryItemOffensiveMelee()) {
 //                string.append(System.getProperty("line.separator"));

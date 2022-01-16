@@ -46,18 +46,9 @@ public class Player extends Component {
     private boolean usingRudiment = false;
     private boolean rudimentLock = false;
     private float timer, dashTimer;
-    private int currentExperience;
-    private Skill testSkill1, testSkill2, testSkill3, testSkill4, testSkill5;
-
-    private int iiii = 0;
 
     public Player(){
-        this.rudimentCharge=4;
-        testSkill1 = SkillFactory.getInstance().getSkill(1);
-        testSkill2 = SkillFactory.getInstance().getSkill(2);
-        testSkill3 = SkillFactory.getInstance().getSkill(3);
-        testSkill4 = SkillFactory.getInstance().getSkill(4);
-        testSkill5  = SkillFactory.getInstance().getSkill(5);
+        this.rudimentCharge = 4;
         state = State.NORMAL;
         controlManager = new ControlManager();
     }

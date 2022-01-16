@@ -90,17 +90,18 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     public String currentIdCollision = "";
 
-    protected int health;
-    protected int maxHealth;
-    protected int damageResist;
-    protected int dashCharge;
-    protected int maxDashCharges;
-    protected float rudimentCharge;
+    private int health;
+    private int maxHealth;
+    public int experience;
+    private int damageResist;
+    public int dashCharge;
+    public int maxDashCharges;
+    public float rudimentCharge;
     private int meleeDamageBoost;
     private int rangedDamageBoost;
     private int rudimentCooldown;
     private int weaponSpeed;
-    private int critChanсe;
+    private int critChance;
     private int healAmount;
     private int executionThreshold;
     private int damageBoost;
@@ -272,12 +273,13 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         this.weaponSpeed = weaponSpeed;
     }
 
-    public int getCritChanсe() {
-        return critChanсe;
+
+    public int getCritChance() {
+        return critChance;
     }
 
-    public void setCritChanсe(int critChanсe) {
-        this.critChanсe = critChanсe;
+    public void setCritChance(int critChance) {
+        this.critChance = critChance;
     }
 
     public int getHealAmount() {

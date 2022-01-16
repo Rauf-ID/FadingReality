@@ -62,7 +62,7 @@ public class SkillUI extends Window {
                     skillButton.addListener(new ClickListener() {
                         @Override
                         public void clicked (InputEvent event, float x, float y) {
-                            skill.unlockSkill(120, player);
+                            skill.unlockSkill(player);
                             clear();
                             createSkillTree(player);
                         }

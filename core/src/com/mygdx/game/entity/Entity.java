@@ -257,11 +257,11 @@ public class Entity implements Comparable<Entity> {
     }
 
     public int getCritChanсe() {
-        return component.getCritChanсe();
+        return component.getCritChance();
     }
 
     public void setCritChanсe(int critChanсe) {
-        component.setCritChanсe(critChanсe);
+        component.setCritChance(critChanсe);
     }
 
     public int getHealAmount() {return component.getHealAmount();}
@@ -293,6 +293,15 @@ public class Entity implements Comparable<Entity> {
     public int getHealth(){return component.getHealth();}
 
     public void setHealth(int health){component.setHealth(health);}
+
+    public void setExperience(int experience) {
+        component.experience = experience;
+    }
+
+    public int getExperience(){
+        return component.experience;
+    }
+
 
     public Array<Integer> getPlayerSkills(){return component.getPlayerSkills();}
 

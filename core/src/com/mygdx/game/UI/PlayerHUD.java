@@ -227,6 +227,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     profileManager.getPlayerConfig().setMaxDashCharges(4);
                     profileManager.getPlayerConfig().setMaxHp(100);
                     profileManager.getPlayerConfig().setDamageResist(0);
+                    profileManager.getPlayerConfig().setExperience(5);
 
                     Vector2 initPlayerPosition = profileManager.getPlayerConfig().getPosition();
                     Entity.Direction direction = profileManager.getPlayerConfig().getDirection();
@@ -237,11 +238,12 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setMaxDashCharges(profileManager.getPlayerConfig().getMaxDashCharges());
                     player.setMaxHealth(profileManager.getPlayerConfig().getMaxHp());
                     player.setHealth(profileManager.getPlayerConfig().getMaxHp());
+                    player.setExperience(profileManager.getPlayerConfig().getExperience());
                     player.setPlayerSkills(new Array<Integer>());
                     player.setAvailableSkills(new Array<Integer>());
                     player.getAvailableSkills().add(0);
                     Skill firstSkill = SkillFactory.getInstance().getSkill(0);
-                    firstSkill.unlockSkill(0,player);
+                    firstSkill.unlockSkill(player);
                     skillUI.createSkillTree(player);
                     this.addActor(skillUI.getSkillTooltip());
                 } else {
@@ -270,7 +272,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setDashCharge(profileManager.getPlayerConfig().getDashCharges());
                     progressBar.setValue(profileManager.getPlayerConfig().getDashCharges());
                     player.setMaxDashCharges(profileManager.getPlayerConfig().getMaxDashCharges());
-                    player.setCritChanсe(profileManager.getPlayerConfig().getCritChanсe());
+                    player.setCritChanсe(profileManager.getPlayerConfig().getCritChance());
                     player.setExecutionThreshold(profileManager.getPlayerConfig().getExecutionThreshold());
                     player.setHealAmount(profileManager.getPlayerConfig().getHealAmount());
                     player.setMeleeDamageBoost(profileManager.getPlayerConfig().getMeleeDamageBoost());
@@ -283,6 +285,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setHealth(profileManager.getPlayerConfig().getHealth());
                     player.setPlayerSkills(profileManager.getPlayerConfig().getPlayerSkills());
                     player.setAvailableSkills(profileManager.getPlayerConfig().getAvailableSkills());
+                    player.setExperience(profileManager.getPlayerConfig().getExperience());
 
                     if (profileManager.getPlayerConfig().getExoskeletonName() != EntityFactory.EntityName.NONE) {
                         EntityFactory.EntityName exoskeletonName = profileManager.getPlayerConfig().getExoskeletonName();
@@ -305,7 +308,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setExoskeletonName(player.getExoskeletonName()); // Exoskeleton name
                 profileManager.getPlayerConfig().setDashCharges(player.getDashCharge()); // Dash charges
                 profileManager.getPlayerConfig().setMaxDashCharges(player.getMaxDashCharges()); // Max dash charges
-                profileManager.getPlayerConfig().setCritChanсe(player.getCritChanсe());
+                profileManager.getPlayerConfig().setCritChance(player.getCritChanсe());
                 profileManager.getPlayerConfig().setDamageBoost(player.getDamageBoost());
                 profileManager.getPlayerConfig().setMeleeDamageBoost(player.getMeleeDamageBoost());
                 profileManager.getPlayerConfig().setRangedDamageBoost(player.getRangedDamageBoost());
@@ -318,6 +321,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setMaxHp(player.getMaxHealth());
                 profileManager.getPlayerConfig().setPlayerSkills(player.getPlayerSkills());
                 profileManager.getPlayerConfig().setAvailableSkills(player.getAvailableSkills());
+                profileManager.getPlayerConfig().setExperience(player.getExperience());
                 break;
             case CLEAR_CURRENT_PROFILE:
                 System.out.println("PROFILE CONFIG CLEARING");
