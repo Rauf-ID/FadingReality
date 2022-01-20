@@ -16,7 +16,7 @@ import com.mygdx.game.UI.PlayerHUD;
 
 public class PDAUI extends Window {
 
-    private Label label;
+    private Label labelCoins;
     private ImageButton button, button2, button3, button4, button5, button6;
     private Image image;
 
@@ -33,8 +33,8 @@ public class PDAUI extends Window {
 
         background(backgroundPDA);
 
-        label = new Label("0", skin);
-        label.setColor(0,.7f,1,1);
+        labelCoins = new Label("0", skin);
+        labelCoins.setColor(0,.7f,1,1);
 
         image = new Image(tCoinLogo);
 
@@ -47,7 +47,7 @@ public class PDAUI extends Window {
 
 
         Table table2 = new Table();
-        table2.add(label).padRight(10);
+        table2.add(labelCoins).padRight(10);
         table2.add(image);
         this.add(table2).right().expandY().top().padTop(65);
 
@@ -90,5 +90,8 @@ public class PDAUI extends Window {
         );
     }
 
+    public void setTextForLabelCoins(int coins) {
+        labelCoins.setText(coins);
+    }
 
 }

@@ -2,14 +2,10 @@ package com.mygdx.game.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
@@ -67,7 +63,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     private InventoryUI inventoryUI;
     public ConversationUI conversationUI;
     public static BrowserUI browserUI;
-
 
     private Json json;
     private MapManager mapMgr;
@@ -228,6 +223,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     profileManager.getPlayerConfig().setMaxHp(100);
                     profileManager.getPlayerConfig().setDamageResist(0);
                     profileManager.getPlayerConfig().setExperience(5);
+                    profileManager.getPlayerConfig().setCoins(10);
 
                     Vector2 initPlayerPosition = profileManager.getPlayerConfig().getPosition();
                     Entity.Direction direction = profileManager.getPlayerConfig().getDirection();
@@ -242,10 +238,13 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setPlayerSkills(new Array<Integer>());
                     player.setAvailableSkills(new Array<Integer>());
                     player.getAvailableSkills().add(0);
+
                     Skill firstSkill = SkillFactory.getInstance().getSkill(0);
                     firstSkill.unlockSkill(player);
                     skillUI.createSkillTree(player);
                     this.addActor(skillUI.getSkillTooltip());
+
+                    pdaUI.setTextForLabelCoins(profileManager.getPlayerConfig().getCoins());
                 } else {
                     Map<String, Integer> allAmmoCount = profileManager.getPlayerConfig().getBagAmmunition();
                     WeaponSystem.setBagAmmunition(allAmmoCount);
@@ -374,6 +373,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 mapMgr.clearCurrentSelectedMapEntity();
                 break;
             case ITEM_PICK_UP:
+                inventoryUI.addItemToInventory("POTIONS01");
                 Item item = ItemFactory.getInstance().getInventoryItem(Item.ItemID.POTIONS01);
                 iis++;
                 tooltipUI.addTooltip(  iis + " ITEM added to inventory");

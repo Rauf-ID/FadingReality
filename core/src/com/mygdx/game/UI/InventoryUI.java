@@ -211,6 +211,25 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         return items;
     }
 
+    public void addItemToInventory(String itemName){
+        Array<Cell> sourceCells = inventorySlotTable.getCells();
+        int index = 0;
+
+        for (; index < sourceCells.size; index++) {
+            InventorySlot inventorySlot = ((InventorySlot) sourceCells.get(index).getActor());
+            if (inventorySlot == null) continue;
+            int numItems = inventorySlot.getNumItems();
+            if (numItems == 0) {
+//                Item inventoryItem = ItemFactory.getInstance().getInventoryItem(ItemID.valueOf(entity.getEntityConfig().getItemTypeID()));
+                Item item = ItemFactory.getInstance().getInventoryItem(Item.ItemID.POTIONS01);
+                item.setName(itemName);
+                inventorySlot.add(item);
+                dragAndDrop.addSource(new InventorySlotSource(inventorySlot, dragAndDrop));
+                break;
+            }
+        }
+    }
+
     public boolean doesInventoryHaveSpace(){ // есть ли в инвентаре место
         Array<Cell> sourceCells = inventorySlotTable.getCells();
         int index = 0;

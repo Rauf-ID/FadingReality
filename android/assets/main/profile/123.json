@@ -2,7 +2,7 @@
 state: IDLE
 direction: LEFT
 position: {
-	x: 1188
+	x: 1162
 	y: 281
 }
 currentMap: SPACE_STATION
@@ -79,6 +79,24 @@ inventory: [
 		numberItemsAtLocation: 1
 		itemNameProperty: Player_Inventory
 	}
+	{
+		locationIndex: 7
+		itemTypeAtLocation: POTIONS01
+		numberItemsAtLocation: 1
+		itemNameProperty: POTIONS01
+	}
+	{
+		locationIndex: 8
+		itemTypeAtLocation: POTIONS01
+		numberItemsAtLocation: 1
+		itemNameProperty: POTIONS01
+	}
+	{
+		locationIndex: 28
+		itemTypeAtLocation: POTIONS01
+		numberItemsAtLocation: 1
+		itemNameProperty: POTIONS01
+	}
 ]
 shopItems: [
 	ARMOR04
@@ -95,13 +113,12 @@ bagAmmunition: {
 	9 mm: 0
 }
 exoskeletonName: NONE
-maxHp: 140
+coins: 10
+maxHp: 100
 dashCharges: 4
-maxDashCharges: 9
+maxDashCharges: 4
 experience: 5
-rudimentCooldown: 5
-damageBoost: 50
-playerSkills: [ 0, 3, 5, 14, 23, 32, 12, 21, 30 ]
-availableSkills: [ 4 ]
+playerSkills: [ 0 ]
+availableSkills: [ 3, 4, 5 ]
 health: 100
 }

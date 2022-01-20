@@ -24,7 +24,7 @@ public class PlayerConfig {
     private Array<Item.ItemID> shopItems;
     private Map<String, Integer> bagAmmunition;
     private EntityFactory.EntityName exoskeletonName;
-    private int money;
+    private int coins;
     private int hp;
 
     private int level;
@@ -139,12 +139,12 @@ public class PlayerConfig {
         this.exoskeletonName = exoskeletonName;
     }
 
-    public int getMoney() {
-        return money;
+    public int getCoins() {
+        return coins;
     }
 
-    public void setMoney(int money) {
-        this.money = money;
+    public void setCoins(int coins) {
+        this.coins = coins;
     }
 
     public int getHp() {

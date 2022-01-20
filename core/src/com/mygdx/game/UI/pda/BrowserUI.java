@@ -106,29 +106,23 @@ public class BrowserUI extends Group {
     private void openSite1() {
         start.setVisible(false);
         site1 = new Table();
-        Drawable drawableSite2 = new TextureRegionDrawable(new TextureRegion(new Texture("itemTest.png")));
         Table tableItems = new Table();
         for (int i = 1; i <= shopItems.size; i++) {
             Table tableItemInfo = new Table();
             Item item = ItemFactory.getInstance().getInventoryItem(shopItems.get(i-1));
-//            Image image = new Image(drawableSite2);
             Label labelPrice = new Label(item.getItemValue() + " T", FadingReality.getUiSkin());
             Label name = new Label(item.getItemID().toString(), FadingReality.getUiSkin());
             TextButton button = new TextButton("Buy", FadingReality.getUiSkin());
-
 
             tableItemInfo.add(item).width(128).height(128).pad(20).row();
             tableItemInfo.add(labelPrice).row();
             tableItemInfo.add(name).row();
             tableItemInfo.add(button).width(128).row();
 
-
-
-            final int finalI = i;
             button.addListener(new ClickListener() {
                 @Override
                 public void clicked (InputEvent event, float x, float y) {
-                    System.out.println("PRESSED " + finalI);
+
                 }
             });
 
@@ -156,6 +150,14 @@ public class BrowserUI extends Group {
     public void setShopItems(Array<Item.ItemID> shopItems) {
         this.shopItems = shopItems;
     }
+
+
+
+
+
+
+
+
 
     //    public static void addCloseButtonToWindow (final Group window) {
 //        TextButton closeButton = new TextButton("x", FadingReality.getUiSkin());
