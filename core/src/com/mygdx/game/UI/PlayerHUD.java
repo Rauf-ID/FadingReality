@@ -132,12 +132,12 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         skillUI.setMovable(true);
         skillUI.setVisible(false);
 
-        browserUI = new BrowserUI();
+        browserUI = new BrowserUI(inventoryUI);
         browserUI.setSize(1756,946);
         browserUI.setPosition(50, 60);
         browserUI.setVisible(false);
 
-        pdaUI = new PDAUI("", FadingReality.getUiSkin());
+        pdaUI = new PDAUI(this,"", FadingReality.getUiSkin());
         pdaUI.setMovable(true);
         pdaUI.setVisible(false);
         pdaUI.setResizable(true);
@@ -244,7 +244,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     skillUI.createSkillTree(player);
                     this.addActor(skillUI.getSkillTooltip());
 
-                    pdaUI.setTextForLabelCoins(profileManager.getPlayerConfig().getCoins());
+                    pdaUI.setCoins(profileManager.getPlayerConfig().getCoins());
                 } else {
                     Map<String, Integer> allAmmoCount = profileManager.getPlayerConfig().getBagAmmunition();
                     WeaponSystem.setBagAmmunition(allAmmoCount);
@@ -286,12 +286,15 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setAvailableSkills(profileManager.getPlayerConfig().getAvailableSkills());
                     player.setExperience(profileManager.getPlayerConfig().getExperience());
 
+                    skillUI.createSkillTree(player);
+                    this.addActor(skillUI.getSkillTooltip());
+
+                    pdaUI.setCoins(profileManager.getPlayerConfig().getCoins());
+
                     if (profileManager.getPlayerConfig().getExoskeletonName() != EntityFactory.EntityName.NONE) {
                         EntityFactory.EntityName exoskeletonName = profileManager.getPlayerConfig().getExoskeletonName();
                         player.sendMessage(Message.MESSAGE.EQUIP_EXOSKELETON, json.toJson(exoskeletonName));
                     }
-                    skillUI.createSkillTree(player);
-                    this.addActor(skillUI.getSkillTooltip());
                 }
                 break;
             case SAVING_PROFILE:
@@ -321,6 +324,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setPlayerSkills(player.getPlayerSkills());
                 profileManager.getPlayerConfig().setAvailableSkills(player.getAvailableSkills());
                 profileManager.getPlayerConfig().setExperience(player.getExperience());
+                profileManager.getPlayerConfig().setCoins(pdaUI.getCoins());
                 break;
             case CLEAR_CURRENT_PROFILE:
                 System.out.println("PROFILE CONFIG CLEARING");
@@ -373,7 +377,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 mapMgr.clearCurrentSelectedMapEntity();
                 break;
             case ITEM_PICK_UP:
-                inventoryUI.addItemToInventory("POTIONS01");
                 Item item = ItemFactory.getInstance().getInventoryItem(Item.ItemID.POTIONS01);
                 iis++;
                 tooltipUI.addTooltip(  iis + " ITEM added to inventory");

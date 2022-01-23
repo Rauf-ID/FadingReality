@@ -28,4 +28,5 @@ public class SkillButton extends ImageButton {
     public void setSkill(Skill skill) {
         this.skill = skill;
     }
+
 }

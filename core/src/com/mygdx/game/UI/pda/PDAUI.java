@@ -16,14 +16,20 @@ import com.mygdx.game.UI.PlayerHUD;
 
 public class PDAUI extends Window {
 
+    private PlayerHUD playerHUD;
+
     private Label labelCoins;
     private ImageButton button, button2, button3, button4, button5, button6;
     private Image image;
 
+    private int coins;
 
-    public PDAUI(String title, Skin skin) {
+
+
+    public PDAUI(PlayerHUD playerHUD, String title, Skin skin) {
         super(title, skin);
 
+        this.playerHUD = playerHUD;
 
         Drawable drawable2 = new TextureRegionDrawable(new TextureRegion(FadingReality.resourceManager.texture4));
 
@@ -82,16 +88,32 @@ public class PDAUI extends Window {
         });
 
         button2.addListener(new ClickListener() {
-                                @Override
-                                public void clicked (InputEvent event, float x, float y) {
-                                    System.out.println("PRESSED2");
-                                }
-                            }
+                @Override
+                public void clicked (InputEvent event, float x, float y) {
+                    System.out.println("PRESSED2");
+                }
+            }
         );
+    }
+
+    @Override
+    public void act(float delta) {
+        if (coins != 0) {
+            setTextForLabelCoins(coins);
+        } else {
+            setTextForLabelCoins(0);
+        }
     }
 
     public void setTextForLabelCoins(int coins) {
         labelCoins.setText(coins);
     }
 
+    public int getCoins() {
+        return coins;
+    }
+
+    public void setCoins(int coins) {
+        this.coins = coins;
+    }
 }
