@@ -211,7 +211,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         return items;
     }
 
-    public void addItemToInventory(String itemName){
+    public void addItemToInventory(ItemID itemID){
         Array<Cell> sourceCells = inventorySlotTable.getCells();
         int index = 0;
 
@@ -220,9 +220,8 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
             if (inventorySlot == null) continue;
             int numItems = inventorySlot.getNumItems();
             if (numItems == 0) {
-//                Item inventoryItem = ItemFactory.getInstance().getInventoryItem(ItemID.valueOf(entity.getEntityConfig().getItemTypeID()));
-                Item item = ItemFactory.getInstance().getInventoryItem(Item.ItemID.POTIONS01);
-                item.setName(itemName);
+                Item item = ItemFactory.getInstance().getInventoryItem(itemID);
+                item.setName(itemID.toString());
                 inventorySlot.add(item);
                 dragAndDrop.addSource(new InventorySlotSource(inventorySlot, dragAndDrop));
                 break;

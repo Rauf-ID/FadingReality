@@ -111,24 +111,8 @@ public class Enemy extends Component {
                 ArrayList<Ammo> activeAmmo = player.getActiveAmmo();
                 Weapon weapon = player.getRangeWeapon();
 
-//                Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
-//                pathFinder.setGrid(grid);
-//                for (int y = 0; y < grid.size; y++) {
-//                    for (int x = 0; x < grid.get(y).size; x++) {
-//                        if (grid.get(y).get(x).rectangle.contains(boundingBox.x + boundingBox.width / 2, boundingBox.y)) {
-//                            startNode = grid.get(y).get(x);
-//                            startNode.setType(Node.GridType.START);
-//                            pathFinder.setGridNode(startNode, Node.GridType.START);
-//                        }
-//                        if (grid.get(y).get(x).rectangle.contains(playerBoundingBox.x + playerBoundingBox.width / 2, playerBoundingBox.y + playerBoundingBox.height / 2)) {
-//                            endNode = grid.get(y).get(x);
-//                            endNode.setType(Node.GridType.END);
-//                            pathFinder.setGridNode(endNode, Node.GridType.END);
-//                        }
-//                    }
-//                }
-//                pathFinder.findPath();
-//                followPath();
+                loadGrid(playerBoundingBox);
+                followPath();
 
                 for(Ammo ammo: activeAmmo){
                     Polygon playerAmmoBoundingBox = ammo.getPolygon();
@@ -161,7 +145,27 @@ public class Enemy extends Component {
          updateAnimations(delta);
     }
 
-    public void followPath(){
+    private void loadGrid(Rectangle playerBoundingBox) {
+        Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
+        pathFinder.setGrid(grid);
+        for (int y = 0; y < grid.size; y++) {
+            for (int x = 0; x < grid.get(y).size; x++) {
+                if (grid.get(y).get(x).rectangle.contains(boundingBox.x + boundingBox.width / 2, boundingBox.y)) {
+                    startNode = grid.get(y).get(x);
+                    startNode.setType(Node.GridType.START);
+                    pathFinder.setGridNode(startNode, Node.GridType.START);
+                }
+                if (grid.get(y).get(x).rectangle.contains(playerBoundingBox.x + playerBoundingBox.width / 2, playerBoundingBox.y + playerBoundingBox.height / 2)) {
+                    endNode = grid.get(y).get(x);
+                    endNode.setType(Node.GridType.END);
+                    pathFinder.setGridNode(endNode, Node.GridType.END);
+                }
+            }
+        }
+        pathFinder.findPath();
+    }
+
+    private void followPath(){
         Array<Node> finalP = pathFinder.getFinalPath();
 
         Node node0 = finalP.get(0);

@@ -19,8 +19,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.FadingReality;
+import com.mygdx.game.UI.InventoryUI;
 import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.inventory.Item;
+import com.mygdx.game.inventory.ItemButton;
 import com.mygdx.game.inventory.ItemFactory;
 
 public class BrowserUI extends Group {
@@ -31,8 +33,11 @@ public class BrowserUI extends Group {
     private Table start = new Table();
     private Table site1;
 
+    private InventoryUI inventoryUI;
 
-    public BrowserUI() {
+    public BrowserUI(InventoryUI inventoryUI) {
+        this.inventoryUI = inventoryUI;
+
         shopItems = new Array<>();
 
         Drawable drawableBrowserUI = new TextureRegionDrawable(new TextureRegion(new Texture("BrowserUI.png")));
@@ -109,9 +114,10 @@ public class BrowserUI extends Group {
         Table tableItems = new Table();
         for (int i = 1; i <= shopItems.size; i++) {
             Table tableItemInfo = new Table();
-            Item item = ItemFactory.getInstance().getInventoryItem(shopItems.get(i-1));
+            final Item item = ItemFactory.getInstance().getInventoryItem(shopItems.get(i-1));
             Label labelPrice = new Label(item.getItemValue() + " T", FadingReality.getUiSkin());
             Label name = new Label(item.getItemID().toString(), FadingReality.getUiSkin());
+
             TextButton button = new TextButton("Buy", FadingReality.getUiSkin());
 
             tableItemInfo.add(item).width(128).height(128).pad(20).row();
@@ -122,7 +128,7 @@ public class BrowserUI extends Group {
             button.addListener(new ClickListener() {
                 @Override
                 public void clicked (InputEvent event, float x, float y) {
-
+                    inventoryUI.addItemToInventory(item.getItemID());
                 }
             });
 
