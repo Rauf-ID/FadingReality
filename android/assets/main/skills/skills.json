@@ -167,7 +167,7 @@
   {
     "id": 15,
     "cost": 0,
-    "property": 0,
+    "property": 5,
     "skillType": "RANGE_DMG",
     "nextSkills": [24],
     "title": "Precision 2",
