@@ -177,7 +177,7 @@
   },
   {
     "id": 16,
-    "cost": 0,
+    "cost": 10,
     "property": 5,
     "skillType": "WEAPON_SPEED",
     "nextSkills": [25],
