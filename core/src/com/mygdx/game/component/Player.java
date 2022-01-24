@@ -16,8 +16,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
-import com.mygdx.game.skills.Skill;
-import com.mygdx.game.skills.SkillFactory;
 import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
@@ -47,7 +45,7 @@ public class Player extends Component {
     private boolean rudimentLock = false;
     private float timer, dashTimer;
 
-    public Player(){
+    public Player() {
         this.rudimentCharge = 4;
         state = State.NORMAL;
         controlManager = new ControlManager();
@@ -151,7 +149,7 @@ public class Player extends Component {
         mapManager.getCamera().unproject(mouseCoordinates.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 //        updatePortalLayerActivation(mapManager, delta);
 
-        weaponSystem.update(delta, this);
+        weaponSystem.updateForPlayer(delta, this);
         updateCurrentCollision(mapManager);
 
         updateCamera();
@@ -673,6 +671,8 @@ public class Player extends Component {
         };
         return false;
     }
+
+
 
 
 

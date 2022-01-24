@@ -87,7 +87,7 @@
 //    }
 //
 //    @Override
-//    public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
+//    public void updateForPlayer(Entity entity, MapManager mapManager, Batch batch, float delta) {
 //
 //        mapManager.getCamera().unproject(mouseCoordinates.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 ////        updatePortalLayerActivation(mapManager, delta);
@@ -150,7 +150,7 @@
 ////            camera.position.set(cameraMoved);
 ////            camera.position.set(currentEntityPosition.x+64, currentEntityPosition.y+64, 0f);
 //        }
-//        camera.update();
+//        camera.updateForPlayer();
 //
 //        //PDA SWITCH
 //        if (pdaActive) {

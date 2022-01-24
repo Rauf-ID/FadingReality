@@ -19,9 +19,8 @@ import com.mygdx.game.tools.managers.ResourceManager;
 import com.mygdx.game.pathfinder.Node;
 import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.weapon.Weapon;
+import com.mygdx.game.weapon.WeaponFactory;
 import com.mygdx.game.world.MapManager;
-
-import java.util.ArrayList;
 
 public class Enemy extends Component {
 
@@ -61,6 +60,8 @@ public class Enemy extends Component {
                 initImageBox(entityConfig.getImageBox());
                 initBoundingBox(entityConfig.getBoundingBox());
                 setHealth(entityConfig.getHealth());
+                Weapon weapon = WeaponFactory.getInstance().getWeapon(entityConfig.getWeaponID());
+                weaponSystem.setRangedWeapon(weapon);
 //                chaseRangeBox.set(currentEntityPosition.x-(entityConfig.getAttackRadiusBoxWidth()/2)+(boundingBox.width/2), currentEntityPosition.y-(entityConfig.getAttackRadiusBoxHeight()/2)+(boundingBox.height/2), entityConfig.getAttackRadiusBoxWidth(), entityConfig.getAttackRadiusBoxHeight());
             } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
@@ -103,35 +104,22 @@ public class Enemy extends Component {
         setSwordRangeBox(new Vector2(10000,10000),0,0);
 
 
-
         switch (state) {
             case NORMAL:
                 Entity player = mapManager.getPlayer();
                 Rectangle playerBoundingBox = player.getBoundingBox();
-                ArrayList<Ammo> activeAmmo = player.getActiveAmmo();
                 Weapon weapon = player.getRangeWeapon();
 
-                loadGrid(playerBoundingBox);
-                followPath();
+                isGunActive2 = true;
+                weaponSystem.updateForEnemy(delta, this, player);
 
-                for(Ammo ammo: activeAmmo){
-                    Polygon playerAmmoBoundingBox = ammo.getPolygon();
-                    Polygon enemyHitBox = new Polygon(new float[] { 0, 0, hitBox.width, 0, hitBox.width, hitBox.height, 0, hitBox.height });
-                    enemyHitBox.setPosition(hitBox.x, hitBox.y);
-                    if (Intersector.overlapConvexPolygons(enemyHitBox, playerAmmoBoundingBox)) {
-//                      gotHit();
-                        reduceHealth(weapon.getRandomDamage() + player.getRangedDamageBoost() + player.getDamageBoost());
-                        ammo.setRemove(true);
-                    }
-                }
+//                updateGrid(playerBoundingBox);
+//                followPath();
 
-                if (getHealth() <= 0) {
-                    mapManager.setCurrentMapEntity(entity); // Задать текущего персонажа на карте
-                    player.sendMessage(MESSAGE.ENEMY_KILLED);
+                updateAmmoHit(player, weapon);
+                updateHealth(entity, player);
 
-                    notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.ENEMY_DEAD);
-                    state = State.DEAD;
-                }
+//                startShooting(entity, player);
 
                 break;
             case DEAD:
@@ -145,7 +133,7 @@ public class Enemy extends Component {
          updateAnimations(delta);
     }
 
-    private void loadGrid(Rectangle playerBoundingBox) {
+    private void updateGrid(Rectangle playerBoundingBox) {
         Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
         pathFinder.setGrid(grid);
         for (int y = 0; y < grid.size; y++) {
@@ -192,6 +180,43 @@ public class Enemy extends Component {
         }
     }
 
+    private void updateAmmoHit(Entity player, Weapon weapon) {
+        for(Ammo ammo: player.getActiveAmmo()){
+            Polygon playerAmmoBoundingBox = ammo.getPolygon();
+            Polygon enemyHitBox = new Polygon(new float[] { 0, 0, hitBox.width, 0, hitBox.width, hitBox.height, 0, hitBox.height });
+            enemyHitBox.setPosition(hitBox.x, hitBox.y);
+            if (Intersector.overlapConvexPolygons(enemyHitBox, playerAmmoBoundingBox)) {
+//                      gotHit();
+                reduceHealth(weapon.getRandomDamage() + player.getRangedDamageBoost() + player.getDamageBoost());
+                ammo.setRemove(true);
+            }
+        }
+    }
+
+    private void updateHealth(Entity entity, Entity player) {
+        if (getHealth() <= 0) {
+            mapManager.setCurrentMapEntity(entity); // Задать текущего персонажа на карте
+            player.sendMessage(MESSAGE.ENEMY_KILLED);
+
+            notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.ENEMY_DEAD);
+            state = State.DEAD;
+        }
+    }
+
+    private void startShooting(Entity entity, Entity player) {
+        float screenX = player.getCurrentPosition().x;
+        float screenY = player.getCurrentPosition().y;
+
+        float screenWidth = entity.getCurrentPosition().x;
+        float screenHeight = entity.getCurrentPosition().y;
+
+        angle = (float) Math.toDegrees(Math.atan2(screenX - screenWidth, screenY - screenHeight));
+
+        angle = angle < 0 ? angle += 360: angle;
+
+//        System.out.println(angle);
+    }
+
     @Override
     protected boolean isCollisionWithMapEntities(Entity entity, MapManager mapMgr){
         //Test against player
@@ -216,8 +241,28 @@ public class Enemy extends Component {
         }
 
         batch.begin();
-        batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
-        batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y);
+//        batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
+//        batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y);
+
+        if(currentDirection == Entity.Direction.UP) {
+            if (weaponSystem.rangedIsActive()) {
+                if (isGunActive){
+                    weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
+                }
+                weaponSystem.getRangedWeapon().drawAmmo(batch, camera);
+            }
+            batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
+            batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y);
+        } else {
+            batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y); // player
+            batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y); // blood
+            if (weaponSystem.rangedIsActive()) {
+                weaponSystem.getRangedWeapon().drawAmmo(batch, camera);
+                if (isGunActive){
+                    weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
+                }
+            }
+        }
         batch.end();
     }
 
@@ -254,6 +299,15 @@ public class Enemy extends Component {
         }
         shapeRenderer.end();
     }
+
+
+
+
+
+
+
+
+
 
     @Override
     public boolean keyDown(int keycode) {

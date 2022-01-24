@@ -1,6 +1,5 @@
 package com.mygdx.game.weapon;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
@@ -21,10 +20,10 @@ public class WeaponSystem {
     private float shootTimer = 0f;
 
     public WeaponSystem() {
-//       bagAmmunition = new HashMap<String, Integer>(); //Если работает то при смене карты обнуляется
+//       bagAmmunition = new HashMap<>(); //Если работает то при смене карты обнуляется
     }
 
-    public void update(float delta, Component player) {
+    public void updateForPlayer(float delta, Component player) {
 
         if (meleeWeapon != null) {
             meleeWeapon.update(delta);
@@ -52,6 +51,30 @@ public class WeaponSystem {
             }
 
             player.activeAmmo = rangedWeapon.getActiveAmmo();
+
+        }
+
+    }
+
+    public void updateForEnemy(float delta, Component enemy, Entity player) {
+
+        if (meleeWeapon != null) {
+            meleeWeapon.update(delta);
+        }
+
+        if (rangedWeapon != null) {
+            updateAngleEnemyToPlayer(enemy, player);
+            rangedWeapon.update(delta, enemy.currentEntityPosition.x, enemy.currentEntityPosition.y, angle);
+
+            shootTimer += delta;
+            if (enemy.isGunActive2 && shootTimer >= rangedWeapon.getAttackTime()){ //&& shootTimer >= SHOOT_WAIT_TIMER
+                System.out.println("asdasdasdasda");
+                enemy.isGunActive2 = false;
+                Ammo bullet = new Ammo(rangedWeapon);
+                rangedWeapon.addActiveAmmoForEnemy(bullet);
+                shootTimer = 0;
+            }
+            enemy.activeAmmo = rangedWeapon.getActiveAmmo();
 
         }
 
@@ -111,6 +134,20 @@ public class WeaponSystem {
 
         angle = (float) Math.toDegrees(Math.atan2(screenX - (screenWidth/2), screenY - (screenHeight/2)));
         angle = angle < 0 ? angle += 360: angle;
+        angle -= 90;
+    }
+
+    public void updateAngleEnemyToPlayer(Component enemy, Entity player) {
+        float screenX = player.getCurrentPosition().x;
+        float screenY = player.getCurrentPosition().y;
+
+        float screenWidth = enemy.currentEntityPosition.x;
+        float screenHeight = enemy.currentEntityPosition.y;
+
+        angle = (float) Math.toDegrees(Math.atan2(screenX - screenWidth, screenY - screenHeight));
+
+        angle = angle < 0 ? angle += 360: angle;
+
         angle -= 90;
     }
 

@@ -31,6 +31,8 @@ public class EntityConfig {
     private Vector2 runVelocity;
     private Vector2 runVelocityD;
 
+    private ItemID weaponID;
+
     private int health;
     private int damageResist;
 
@@ -80,6 +82,8 @@ public class EntityConfig {
         walkVelocityD = config.getWalkVelocityD();
         runVelocity=config.getRunVelocity();
         runVelocityD=config.getRunVelocityD();
+
+        weaponID = config.getWeaponID();
 
         health = config.getHealth();
         damageResist = config.getDamageResist();
@@ -215,17 +219,45 @@ public class EntityConfig {
         this.attackZoneBox = attackZoneBox;
     }
 
-    public Vector2 getWalkVelocity(){return walkVelocity;}
+    public Vector2 getWalkVelocity() {
+        return walkVelocity;
+    }
 
-    public void setWalkVelocity(Vector2 walkVelocity){this.walkVelocity = walkVelocity;}
+    public void setWalkVelocity(Vector2 walkVelocity) {
+        this.walkVelocity = walkVelocity;
+    }
 
-    public Vector2 getWalkVelocityD(){return walkVelocityD;}
+    public Vector2 getWalkVelocityD() {
+        return walkVelocityD;
+    }
 
-    public void setWalkVelocityD(Vector2 runVelocity){this.walkVelocity = walkVelocityD;}
+    public void setWalkVelocityD(Vector2 walkVelocityD) {
+        this.walkVelocityD = walkVelocityD;
+    }
 
-    public Vector2 getRunVelocity() {return runVelocity;}
+    public Vector2 getRunVelocity() {
+        return runVelocity;
+    }
 
-    public Vector2 getRunVelocityD() {return runVelocityD;}
+    public void setRunVelocity(Vector2 runVelocity) {
+        this.runVelocity = runVelocity;
+    }
+
+    public Vector2 getRunVelocityD() {
+        return runVelocityD;
+    }
+
+    public void setRunVelocityD(Vector2 runVelocityD) {
+        this.runVelocityD = runVelocityD;
+    }
+
+    public ItemID getWeaponID() {
+        return weaponID;
+    }
+
+    public void setWeaponID(ItemID weaponID) {
+        this.weaponID = weaponID;
+    }
 
     public int getHealth() {
         return health;

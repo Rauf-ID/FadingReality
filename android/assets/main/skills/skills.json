@@ -304,8 +304,8 @@
     "nextSkills": [36],
     "title": "Kill streak",
     "description": "After executing 2 enemies within 5 seconds, damage resistance increased by 30% for 10 seconds",
-    "rootNode": "ROOT_MIDDLE",
-    "branchPosition": "BRANCH_RIGHT"
+    "rootNode": "ROOT_RIGHT",
+    "branchPosition": "BRANCH_LEFT"
   },
   {
     "id": 28,

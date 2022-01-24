@@ -647,7 +647,7 @@
 //        return false;
 //    }
 //
-//    public abstract void update(Entity entity, MapManager mapManager, Batch batch, float delta);
+//    public abstract void updateForPlayer(Entity entity, MapManager mapManager, Batch batch, float delta);
 //
 //    public abstract void draw(Batch batch, float delta);
 //

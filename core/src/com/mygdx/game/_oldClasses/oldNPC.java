@@ -70,7 +70,7 @@
 //    }
 //
 //    @Override
-//    public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
+//    public void updateForPlayer(Entity entity, MapManager mapManager, Batch batch, float delta) {
 //
 //
 //        updateBoundingBoxPosition(64,64);

@@ -96,7 +96,7 @@
 //    }
 //
 //    @Override
-//    public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
+//    public void updateForPlayer(Entity entity, MapManager mapManager, Batch batch, float delta) {
 //
 //        if(Gdx.input.isKeyJustPressed(Input.Keys.X)) {
 //            state = State.NORMAL;

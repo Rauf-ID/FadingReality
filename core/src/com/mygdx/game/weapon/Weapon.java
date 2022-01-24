@@ -96,6 +96,10 @@ public class Weapon {
         }
     }
 
+    public void addActiveAmmoForEnemy(Ammo a){
+        activeAmmo.add(a);
+    }
+
     public void drawRotatedGun(Batch batch, float delta){
         stateTime += delta;
         weaponSprite = FadingReality.resourceManager.playerRifleAnimRight.getKeyFrame(stateTime, true);
