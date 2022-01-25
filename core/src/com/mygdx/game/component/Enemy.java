@@ -84,6 +84,7 @@ public class Enemy extends Component {
 
     @Override
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
+        this.mapManager = mapManager;
         this.camera = mapManager.getCamera();
 
 //        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
@@ -203,20 +204,6 @@ public class Enemy extends Component {
         }
     }
 
-    private void startShooting(Entity entity, Entity player) {
-        float screenX = player.getCurrentPosition().x;
-        float screenY = player.getCurrentPosition().y;
-
-        float screenWidth = entity.getCurrentPosition().x;
-        float screenHeight = entity.getCurrentPosition().y;
-
-        angle = (float) Math.toDegrees(Math.atan2(screenX - screenWidth, screenY - screenHeight));
-
-        angle = angle < 0 ? angle += 360: angle;
-
-//        System.out.println(angle);
-    }
-
     @Override
     protected boolean isCollisionWithMapEntities(Entity entity, MapManager mapMgr){
         //Test against player
@@ -241,14 +228,8 @@ public class Enemy extends Component {
         }
 
         batch.begin();
-//        batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
-//        batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y);
-
         if(currentDirection == Entity.Direction.UP) {
             if (weaponSystem.rangedIsActive()) {
-                if (isGunActive){
-                    weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
-                }
                 weaponSystem.getRangedWeapon().drawAmmo(batch, camera);
             }
             batch.draw(currentFrame, currentEntityPosition.x, currentEntityPosition.y);
@@ -258,9 +239,6 @@ public class Enemy extends Component {
             batch.draw(currentFrame2, currentEntityPosition.x, currentEntityPosition.y); // blood
             if (weaponSystem.rangedIsActive()) {
                 weaponSystem.getRangedWeapon().drawAmmo(batch, camera);
-                if (isGunActive){
-                    weaponSystem.getRangedWeapon().drawRotatedGun(batch, delta);
-                }
             }
         }
         batch.end();

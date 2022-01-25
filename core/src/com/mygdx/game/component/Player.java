@@ -145,6 +145,7 @@ public class Player extends Component {
 
     @Override
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
+        this.mapManager = mapManager;
         camera = mapManager.getCamera();
         mapManager.getCamera().unproject(mouseCoordinates.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 //        updatePortalLayerActivation(mapManager, delta);
@@ -207,8 +208,6 @@ public class Player extends Component {
         updateAnimations(delta);
 
         mapManager.getCurrentMap().updateGridOjc();
-
-        this.mapManager = mapManager;
     }
 
     private void input(Entity entity) {

@@ -68,7 +68,6 @@ public class WeaponSystem {
 
             shootTimer += delta;
             if (enemy.isGunActive2 && shootTimer >= rangedWeapon.getAttackTime()){ //&& shootTimer >= SHOOT_WAIT_TIMER
-                System.out.println("asdasdasdasda");
                 enemy.isGunActive2 = false;
                 Ammo bullet = new Ammo(rangedWeapon);
                 rangedWeapon.addActiveAmmoForEnemy(bullet);
@@ -149,6 +148,9 @@ public class WeaponSystem {
         angle = angle < 0 ? angle += 360: angle;
 
         angle -= 90;
+        angle *= -1;
+
+        System.out.println(angle);
     }
 
 
