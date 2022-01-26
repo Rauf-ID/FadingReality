@@ -24,6 +24,9 @@ import com.mygdx.game.world.MapManager;
 
 public class Enemy extends Component {
 
+    boolean isExecutable = false;
+    boolean isLowHP = false;
+
     public Enemy(){
         state = State.NORMAL;
         initChaseRangeBox();
@@ -88,6 +91,8 @@ public class Enemy extends Component {
         this.mapManager = mapManager;
         this.camera = mapManager.getCamera();
 
+
+
 //        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
 //            enemyActive = !enemyActive;
 //        }
@@ -107,11 +112,18 @@ public class Enemy extends Component {
         setSwordRangeBox(new Vector2(10000,10000),0,0);
 
 
+
         switch (state) {
             case NORMAL:
                 Entity player = mapManager.getPlayer();
                 Rectangle playerBoundingBox = player.getBoundingBox();
                 Weapon weapon = player.getRangeWeapon();
+
+
+                //EXECUTION
+                if (playerBoundingBox.overlaps(activeZoneBox) && this.isLowHP) {
+                    System.out.println("executable");
+                }
 
                 isGunActive2 = true;
                 weaponSystem.updateForEnemy(delta, this, player);
@@ -191,6 +203,9 @@ public class Enemy extends Component {
             if (Intersector.overlapConvexPolygons(enemyHitBox, playerAmmoBoundingBox)) {
 //                      gotHit();
                 reduceHealth(weapon.getRandomDamage() + player.getRangedDamageBoost() + player.getDamageBoost());
+                if(this.getHealth()<=(this.getMaxHealth())){
+                    this.isLowHP = true;
+                }
                 ammo.setRemove(true);
             }
         }
