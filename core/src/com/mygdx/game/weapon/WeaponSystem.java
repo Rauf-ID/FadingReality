@@ -79,6 +79,7 @@ public class WeaponSystem {
 
     }
 
+
     public void reloadWeapon() {
         int currentCount = rangedWeapon.getAmmoCountInMagazine();
         int magazineSize = rangedWeapon.getMagazineSize();
@@ -118,25 +119,26 @@ public class WeaponSystem {
         }
     }
 
-    public void setAmmoCountForBag(int ammoCount) {
+
+    private void setAmmoCountForBag(int ammoCount) {
         if (ammoCount >= 0) {
             bagAmmunition.remove(rangedWeapon.getAmmoID().toString());
             bagAmmunition.put(rangedWeapon.getAmmoID().getValue(), ammoCount);
         }
     }
 
-    public void updateAngleCenterToMouse() {
+    private void updateAngleCenterToMouse() {
         float screenX = Gdx.input.getX();
         float screenY = Gdx.input.getY();
         int screenWidth = Gdx.graphics.getWidth();
         int screenHeight = Gdx.graphics.getHeight();
 
-        angle = (float) Math.toDegrees(Math.atan2(screenX - (screenWidth/2), screenY - (screenHeight/2)));
+        angle = (float) Math.toDegrees(Math.atan2(screenX - (screenWidth / 2), screenY - (screenHeight / 2)));
         angle = angle < 0 ? angle += 360: angle;
         angle -= 90;
     }
 
-    public void updateAngleEnemyToPlayer(Component enemy, Entity player) {
+    private void updateAngleEnemyToPlayer(Component enemy, Entity player) {
         float screenX = player.getCurrentPosition().x;
         float screenY = player.getCurrentPosition().y;
 
@@ -149,12 +151,7 @@ public class WeaponSystem {
 
         angle -= 90;
         angle *= -1;
-
-        System.out.println(angle);
     }
-
-
-
 
     public boolean meleeIsActive() {
         return meleeWeapon != null;

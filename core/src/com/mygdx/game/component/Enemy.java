@@ -224,7 +224,7 @@ public class Enemy extends Component {
             debugActive = !debugActive;
         }
         if (debugActive) {
-            debug(true, true, false, true);
+            debug(true, true, false, true, true, true);
         }
 
         batch.begin();
@@ -244,7 +244,7 @@ public class Enemy extends Component {
         batch.end();
     }
 
-    public void debug(boolean activePath, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox) {
+    public void debug(boolean activePath, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox, boolean activeChaseZoneBox, boolean activeAttackZoneBox) {
         if (activePath) {
             //Render path
             Array<Node> finalP = pathFinder.getFinalPath();
@@ -275,6 +275,16 @@ public class Enemy extends Component {
             shapeRenderer.setColor(Color.GRAY);
             shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
         }
+//        if (activeChaseZoneBox) {
+//            Rectangle rect = chase;
+//            shapeRenderer.setColor(Color.GRAY);
+//            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+//        }
+//        if (attackZoneBox) {
+//            Rectangle rect = attackZoneBox;
+//            shapeRenderer.setColor(Color.GRAY);
+//            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+//        }
         shapeRenderer.end();
     }
 
