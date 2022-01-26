@@ -59,6 +59,7 @@ public class Enemy extends Component {
                 initHitBox(entityConfig.getHitBox());
                 initImageBox(entityConfig.getImageBox());
                 initBoundingBox(entityConfig.getBoundingBox());
+                initActiveZoneBox(entityConfig.getActiveZoneBox());
                 setHealth(entityConfig.getHealth());
                 Weapon weapon = WeaponFactory.getInstance().getWeapon(entityConfig.getWeaponID());
                 weaponSystem.setRangedWeapon(weapon);
@@ -99,6 +100,7 @@ public class Enemy extends Component {
         updateHitBox();
         updateImageBox();
         updateBoundingBox();
+        updateActiveZoneBox();
         updateAttackRangeBox(64,64);
         updateChaseRangeBox(64,64);
         updateShifts(mapManager, delta, 10);
@@ -224,7 +226,7 @@ public class Enemy extends Component {
             debugActive = !debugActive;
         }
         if (debugActive) {
-            debug(true, true, false, true, true, true);
+            debug(true, true, false, true, true,true, true);
         }
 
         batch.begin();
@@ -244,7 +246,7 @@ public class Enemy extends Component {
         batch.end();
     }
 
-    public void debug(boolean activePath, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox, boolean activeChaseZoneBox, boolean activeAttackZoneBox) {
+    public void debug(boolean activePath, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox, boolean activeActiveZoneBox, boolean activeChaseZoneBox, boolean activeAttackZoneBox) {
         if (activePath) {
             //Render path
             Array<Node> finalP = pathFinder.getFinalPath();
@@ -273,6 +275,11 @@ public class Enemy extends Component {
         if (activeBoundingBox) {
             Rectangle rect = boundingBox;
             shapeRenderer.setColor(Color.GRAY);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        if (activeActiveZoneBox) {
+            Rectangle rect = activeZoneBox;
+            shapeRenderer.setColor(Color.ORANGE);
             shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
         }
 //        if (activeChaseZoneBox) {
