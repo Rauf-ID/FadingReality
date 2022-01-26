@@ -10,7 +10,7 @@ import com.mygdx.game.world.MapFactory;
 
 public class Mehan extends Map {
 
-    private static String mapPath = "maps/mehan/Mehan.tmx";
+    private static String mapPath = "textures/maps/mehan/Mehan.tmx";
     private Json json;
 
     public Mehan() {

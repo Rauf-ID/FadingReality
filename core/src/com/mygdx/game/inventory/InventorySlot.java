@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
+import com.mygdx.game.FadingReality;
 import com.mygdx.game.observer.InventorySlotObserver;
 import com.mygdx.game.observer.InventorySlotSubject;
 import com.mygdx.game.tools.Utility;
@@ -35,7 +36,7 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
 
         Image image = new Image(new NinePatch(Utility.STATUSUI.createPatch("dialog")));
 
-        numItemsLabel = new Label(String.valueOf(numItems), Utility.STATUSUI_SKIN);
+        numItemsLabel = new Label(String.valueOf(numItems), FadingReality.getUiSkin());
         numItemsLabel.setAlignment(Align.bottomRight);
         numItemsLabel.setVisible(false);
 

@@ -203,7 +203,7 @@ public class Enemy extends Component {
             if (Intersector.overlapConvexPolygons(enemyHitBox, playerAmmoBoundingBox)) {
 //                      gotHit();
                 reduceHealth(weapon.getRandomDamage() + player.getRangedDamageBoost() + player.getDamageBoost());
-                if(this.getHealth()<=(this.getMaxHealth())){
+                if(this.getHealth() <= (this.getMaxHealth())) {
                     this.isLowHP = true;
                 }
                 ammo.setRemove(true);

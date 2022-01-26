@@ -164,28 +164,28 @@ public class ResourceManager {
         language = "main/languages/english";
         
         assetManager = new AssetManager();
-        assetManager.load("main/entities/player/player.atlas", TextureAtlas.class);
-        assetManager.load("main/entities/bosses/securityMechanism/securityMechanism.atlas", TextureAtlas.class);
-        assetManager.load("main/entities/enemies/police/policeB1.atlas", TextureAtlas.class);
-        assetManager.load("main/entities/enemies/police/policeR1.atlas", TextureAtlas.class);
-        assetManager.load("main/entities/npc/mercenaries/mercenariesM1.atlas", TextureAtlas.class);
-        assetManager.load("main/entities/enemies/eliteKnight/eliteKnight.atlas", TextureAtlas.class);
-        assetManager.load("main/entities/enemies/ISB/ISB.atlas", TextureAtlas.class);
-        assetManager.load("main/entities/npc/amelia/amelia.atlas", TextureAtlas.class);
-        assetManager.load("main/entities/npc/king/king.atlas", TextureAtlas.class);
-        assetManager.load("main/entities/npc/earthlings/earthlings.atlas", TextureAtlas.class);
-        assetManager.load("main/entities/exoskeletons/exoskeletonM1.atlas", TextureAtlas.class);
-        assetManager.load("maps/mapObjects.atlas", TextureAtlas.class);
+        assetManager.load("textures/entities/player/player.atlas", TextureAtlas.class);
+        assetManager.load("textures/entities/bosses/securityMechanism/securityMechanism.atlas", TextureAtlas.class);
+        assetManager.load("textures/entities/enemies/police/policeB1.atlas", TextureAtlas.class);
+        assetManager.load("textures/entities/enemies/police/policeR1.atlas", TextureAtlas.class);
+        assetManager.load("textures/entities/npc/mercenaries/mercenariesM1.atlas", TextureAtlas.class);
+        assetManager.load("textures/entities/enemies/eliteKnight/eliteKnight.atlas", TextureAtlas.class);
+        assetManager.load("textures/entities/enemies/ISB/ISB.atlas", TextureAtlas.class);
+        assetManager.load("textures/entities/npc/amelia/amelia.atlas", TextureAtlas.class);
+        assetManager.load("textures/entities/npc/king/king.atlas", TextureAtlas.class);
+        assetManager.load("textures/entities/npc/earthlings/earthlings.atlas", TextureAtlas.class);
+        assetManager.load("textures/entities/exoskeletons/exoskeletonM1.atlas", TextureAtlas.class);
+        assetManager.load("textures/maps/mapObjects.atlas", TextureAtlas.class);
         assetManager.finishLoading();
 
-        ATLAS = assetManager.get("main/entities/player/player.atlas", TextureAtlas.class);
-        ATLAS_SECURITY_MECHANISM = assetManager.get("main/entities/bosses/securityMechanism/securityMechanism.atlas", TextureAtlas.class);
-        ATLAS_ELITE_KNIGHT = assetManager.get("main/entities/enemies/eliteKnight/eliteKnight.atlas", TextureAtlas.class);
-        ATLAS_ISB = assetManager.get("main/entities/enemies/ISB/ISB.atlas", TextureAtlas.class);
-        ATLAS_AMELIA = assetManager.get("main/entities/npc/amelia/amelia.atlas", TextureAtlas.class);
-        ATLAS_KING = assetManager.get("main/entities/npc/king/king.atlas", TextureAtlas.class);
-        ATLAS_EARTHLINGS = assetManager.get("main/entities/npc/earthlings/earthlings.atlas", TextureAtlas.class);
-        ATLAS_MAP_OBJECTS = assetManager.get("maps/mapObjects.atlas", TextureAtlas.class);
+        ATLAS = assetManager.get("textures/entities/player/player.atlas", TextureAtlas.class);
+        ATLAS_SECURITY_MECHANISM = assetManager.get("textures/entities/bosses/securityMechanism/securityMechanism.atlas", TextureAtlas.class);
+        ATLAS_ELITE_KNIGHT = assetManager.get("textures/entities/enemies/eliteKnight/eliteKnight.atlas", TextureAtlas.class);
+        ATLAS_ISB = assetManager.get("textures/entities/enemies/ISB/ISB.atlas", TextureAtlas.class);
+        ATLAS_AMELIA = assetManager.get("textures/entities/npc/amelia/amelia.atlas", TextureAtlas.class);
+        ATLAS_KING = assetManager.get("textures/entities/npc/king/king.atlas", TextureAtlas.class);
+        ATLAS_EARTHLINGS = assetManager.get("textures/entities/npc/earthlings/earthlings.atlas", TextureAtlas.class);
+        ATLAS_MAP_OBJECTS = assetManager.get("textures/maps/mapObjects.atlas", TextureAtlas.class);
 
         playerAnimGunUp = new Animation<Sprite>(0.06f, ATLAS.createSprites("RANGED_ATTACK_UP"));
         playerAnimGunDown = new Animation<Sprite>(0.06f, ATLAS.createSprites("RANGED_ATTACK_DOWN"));
@@ -280,18 +280,18 @@ public class ResourceManager {
         lightClubRed = ATLAS_MAP_OBJECTS.createSprite("LIGHT_CLUB_RED",1);
         lightClubGreen = ATLAS_MAP_OBJECTS.createSprite("LIGHT_CLUB_GREEN",1);
 
-        dialogueImg = new Texture(Gdx.files.internal("dialogue2.png"));
+        dialogueImg = new Texture(Gdx.files.internal("textures/UI/dialogue2.png"));
 
-        textureNone = new Texture(Gdx.files.internal("none.png"));
+        textureNone = new Texture(Gdx.files.internal("textures/UI/none.png"));
 
-        texture = new Texture(Gdx.files.internal("stats.png"));
-        texture2 = new Texture(Gdx.files.internal("items.png"));
-        texture3 = new Texture(Gdx.files.internal("test3.png"));
-        texture4 = new Texture(Gdx.files.internal("sonof.png"));
-        textureBackgroundPDA = new Texture(Gdx.files.internal("PDAUI.png"));
-        textureButtonNonePDA = new Texture(Gdx.files.internal("ButtonNonePDA.png"));
-        textureTCoinLogo = new Texture(Gdx.files.internal("tCoinLogo.png"));
-        textureMenuBackground = new Texture(Gdx.files.internal("MenuBackground.png"));
+        texture = new Texture(Gdx.files.internal("textures/UI/stats.png"));
+        texture2 = new Texture(Gdx.files.internal("textures/UI/items.png"));
+        texture3 = new Texture(Gdx.files.internal("textures/UI/test3.png"));
+        texture4 = new Texture(Gdx.files.internal("textures/UI/sonof.png"));
+        textureBackgroundPDA = new Texture(Gdx.files.internal("textures/UI/PDAUI.png"));
+        textureButtonNonePDA = new Texture(Gdx.files.internal("textures/UI/ButtonNonePDA.png"));
+        textureTCoinLogo = new Texture(Gdx.files.internal("textures/UI/tCoinLogo.png"));
+        textureMenuBackground = new Texture(Gdx.files.internal("textures/UI/MenuBackground.png"));
 
     }
 
@@ -302,42 +302,42 @@ public class ResourceManager {
             case ATLAS:
                 textureAtlas = atlasTable.get(atlasType);
                 if( textureAtlas == null ){
-                    textureAtlas = assetManager.get("main/entities/player/player.atlas", TextureAtlas.class);
+                    textureAtlas = assetManager.get("textures/entities/player/player.atlas", TextureAtlas.class);
                     atlasTable.put(atlasType, textureAtlas);
                 }
                 break;
             case ATLAS_ELITE_KNIGHT:
                 textureAtlas = atlasTable.get(atlasType);
                 if( textureAtlas == null ){
-                    textureAtlas = assetManager.get("main/entities/enemies/eliteKnight/eliteKnight.atlas", TextureAtlas.class);
+                    textureAtlas = assetManager.get("textures/entities/enemies/eliteKnight/eliteKnight.atlas", TextureAtlas.class);
                     atlasTable.put(atlasType, textureAtlas);
                 }
                 break;
             case ATLAS_POLICE_B1:
                 textureAtlas = atlasTable.get(atlasType);
                 if( textureAtlas == null ){
-                    textureAtlas = assetManager.get("main/entities/enemies/police/policeB1.atlas", TextureAtlas.class);
+                    textureAtlas = assetManager.get("textures/entities/enemies/police/policeB1.atlas", TextureAtlas.class);
                     atlasTable.put(atlasType, textureAtlas);
                 }
                 break;
             case ATLAS_POLICE_R1:
                 textureAtlas = atlasTable.get(atlasType);
                 if( textureAtlas == null ){
-                    textureAtlas = assetManager.get("main/entities/enemies/police/policeR1.atlas", TextureAtlas.class);
+                    textureAtlas = assetManager.get("textures/entities/enemies/police/policeR1.atlas", TextureAtlas.class);
                     atlasTable.put(atlasType, textureAtlas);
                 }
                 break;
             case ATLAS_MERCENARIES_M1:
                 textureAtlas = atlasTable.get(atlasType);
                 if( textureAtlas == null ){
-                    textureAtlas = assetManager.get("main/entities/npc/mercenaries/mercenariesM1.atlas", TextureAtlas.class);
+                    textureAtlas = assetManager.get("textures/entities/npc/mercenaries/mercenariesM1.atlas", TextureAtlas.class);
                     atlasTable.put(atlasType, textureAtlas);
                 }
                 break;
             case ATLAS_EXOSKELETON_M1:
                 textureAtlas = atlasTable.get(atlasType);
                 if( textureAtlas == null ){
-                    textureAtlas = assetManager.get("main/entities/exoskeletons/exoskeletonM1.atlas", TextureAtlas.class);
+                    textureAtlas = assetManager.get("textures/entities/exoskeletons/exoskeletonM1.atlas", TextureAtlas.class);
                     atlasTable.put(atlasType, textureAtlas);
                 }
                 break;

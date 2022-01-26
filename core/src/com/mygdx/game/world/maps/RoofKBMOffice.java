@@ -9,7 +9,7 @@ import com.mygdx.game.world.MapFactory;
 
 public class RoofKBMOffice extends Map {
 
-    private static String mapPath = "maps/earth/roofKBMOffice/RoofKBMOffice.tmx";
+    private static String mapPath = "textures/maps/earth/roofKBMOffice/RoofKBMOffice.tmx";
     private Json json;
 
     public RoofKBMOffice() {

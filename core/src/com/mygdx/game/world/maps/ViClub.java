@@ -10,7 +10,7 @@ import com.mygdx.game.world.MapFactory;
 
 public class ViClub extends Map {
 
-    private static String mapPath = "maps/earth/viClub/ViClub.tmx";
+    private static String mapPath = "textures/maps/earth/viClub/ViClub.tmx";
     private Json json;
 
     public ViClub() {

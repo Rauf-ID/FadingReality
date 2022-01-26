@@ -10,7 +10,7 @@ import com.mygdx.game.world.MapFactory;
 
 public class Castle extends Map {
 
-    private static String mapPath = "maps/antikva/castle/Castle.tmx";
+    private static String mapPath = "textures/maps/antikva/castle/Castle.tmx";
     private Json json;
 
     public Castle() {

@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.FadingReality;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.entity.Entity;
@@ -23,7 +24,6 @@ import com.mygdx.game.tools.managers.ShaderVFXManager;
 import com.mygdx.game.world.Map;
 import com.mygdx.game.world.MapFactory;
 import com.mygdx.game.world.MapManager;
-import com.badlogic.gdx.utils.Json;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -10,7 +10,7 @@ import com.mygdx.game.world.MapFactory;
 
 public class SpaceStation extends Map {
 
-    private static String mapPath = "maps/spaceStation/SpaceStation.tmx";
+    private static String mapPath = "textures/maps/spaceStation/SpaceStation.tmx";
     private Json json;
 
     public SpaceStation() {

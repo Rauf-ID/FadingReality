@@ -10,7 +10,7 @@ import com.mygdx.game.world.MapFactory;
 
 public class Antikva extends Map {
 
-    private static String mapPath = "maps/antikva/Antikva.tmx";
+    private static String mapPath = "textures/maps/antikva/Antikva.tmx";
     private Json json;
 
     public Antikva() {

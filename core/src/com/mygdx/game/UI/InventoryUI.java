@@ -64,7 +64,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
 
         dragAndDrop = new DragAndDrop();
         inventoryActors = new Array<Actor>();
-        inventorySlotTooltip = new InventorySlotTooltip(Utility.STATUSUI_SKIN);
+        inventorySlotTooltip = new InventorySlotTooltip(FadingReality.getUiSkin());
 
         meleeWeaponSlot = new InventorySlot(ItemUseType.MELEE_WEAPON, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_melee")));
         armorSlot = new InventorySlot(ItemUseType.ARMOR, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_chest")));

@@ -40,32 +40,32 @@ public class BrowserUI extends Group {
 
         shopItems = new Array<>();
 
-        Drawable drawableBrowserUI = new TextureRegionDrawable(new TextureRegion(new Texture("BrowserUI.png")));
+        Drawable drawableBrowserUI = new TextureRegionDrawable(new TextureRegion(new Texture("textures/UI/BrowserUI.png")));
         Image imageBackground = new Image(drawableBrowserUI);
 
         TextField txfAddressBar = new TextField("", FadingReality.getUiSkin());
         txfAddressBar.setWidth(imageBackground.getWidth() / 2);
         txfAddressBar.setPosition(imageBackground.getWidth() / 4, imageBackground.getHeight() - 60);
 
-        Drawable drawableSite1 = new TextureRegionDrawable(new TextureRegion(new Texture("BrowserSite1.png")));
+        Drawable drawableSite1 = new TextureRegionDrawable(new TextureRegion(new Texture("textures/UI/BrowserSite1.png")));
         ImageButton imageButtonSite1 = new ImageButton(drawableSite1);
         imageButtonSite1.setPosition(50,0);
 
-        Drawable drawableSite2 = new TextureRegionDrawable(new TextureRegion(new Texture("BrowserSite1.png")));
+        Drawable drawableSite2 = new TextureRegionDrawable(new TextureRegion(new Texture("textures/UI/BrowserSite1.png")));
         ImageButton imageButtonSite2 = new ImageButton(drawableSite2);
         imageButtonSite2.setPosition(imageButtonSite1.getWidth() + 150,0);
 
-        Drawable drawableSite3 = new TextureRegionDrawable(new TextureRegion(new Texture("BrowserSite1.png")));
+        Drawable drawableSite3 = new TextureRegionDrawable(new TextureRegion(new Texture("textures/UI/BrowserSite1.png")));
         ImageButton imageButtonSite3 = new ImageButton(drawableSite3);
 
-        Drawable drawableSite4 = new TextureRegionDrawable(new TextureRegion(new Texture("BrowserSite1.png")));
+        Drawable drawableSite4 = new TextureRegionDrawable(new TextureRegion(new Texture("textures/UI/BrowserSite1.png")));
         ImageButton imageButtonSite4 = new ImageButton(drawableSite4);
 
-        Drawable drawableBack = new TextureRegionDrawable(new TextureRegion(new Texture("BrowserBack.png")));
+        Drawable drawableBack = new TextureRegionDrawable(new TextureRegion(new Texture("textures/UI/BrowserBack.png")));
         ImageButton imageButtonBack = new ImageButton(drawableBack);
         imageButtonBack.setPosition(150,imageBackground.getHeight() - 60);
 
-        Drawable drawableForward = new TextureRegionDrawable(new TextureRegion(new Texture("BrowserForward.png")));
+        Drawable drawableForward = new TextureRegionDrawable(new TextureRegion(new Texture("textures/UI/BrowserForward.png")));
         ImageButton imageButtonForward = new ImageButton(drawableForward);
         imageButtonForward.setPosition(150+34,imageBackground.getHeight() - 60);
 

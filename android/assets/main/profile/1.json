@@ -2,7 +2,7 @@
 state: IDLE
 direction: LEFT
 position: {
-	x: 1162
+	x: 1188
 	y: 281
 }
 currentMap: SPACE_STATION
@@ -79,24 +79,6 @@ inventory: [
 		numberItemsAtLocation: 1
 		itemNameProperty: Player_Inventory
 	}
-	{
-		locationIndex: 7
-		itemTypeAtLocation: POTIONS01
-		numberItemsAtLocation: 1
-		itemNameProperty: POTIONS01
-	}
-	{
-		locationIndex: 8
-		itemTypeAtLocation: POTIONS01
-		numberItemsAtLocation: 1
-		itemNameProperty: POTIONS01
-	}
-	{
-		locationIndex: 28
-		itemTypeAtLocation: POTIONS01
-		numberItemsAtLocation: 1
-		itemNameProperty: POTIONS01
-	}
 ]
 shopItems: [
 	ARMOR04
@@ -109,8 +91,8 @@ shopItems: [
 ]
 bagAmmunition: {
 	class: java.util.HashMap
-	5.56 mm: 0
-	9 mm: 0
+	5.56 mm: 100
+	9 mm: 100
 }
 exoskeletonName: NONE
 coins: 10
@@ -118,7 +100,7 @@ maxHp: 100
 dashCharges: 4
 maxDashCharges: 4
 experience: 5
-playerSkills: [ 0 ]
-availableSkills: [ 3, 4, 5 ]
+playerSkills: [ 0, 1, 2 ]
+availableSkills: [ 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
 health: 100
 }

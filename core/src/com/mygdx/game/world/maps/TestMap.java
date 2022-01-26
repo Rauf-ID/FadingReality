@@ -9,7 +9,7 @@ import com.mygdx.game.world.MapFactory;
 
 public class TestMap extends Map {
 
-    private static String mapPath = "maps/earth.tmx";
+    private static String mapPath = "textures/maps/earth.tmx";
     private Json json;
 
     public TestMap() {

@@ -196,7 +196,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     Map<String, Integer> allAmmoCount = new HashMap<>();
                     for (AmmoID ammo: AmmoID.values()) {
                         String nameAmmo = ammo.getValue();
-                        allAmmoCount.put(nameAmmo, 0);
+                        allAmmoCount.put(nameAmmo, 100); // should be 0 Ammo
                     }
                     WeaponSystem.setBagAmmunition(allAmmoCount);
 

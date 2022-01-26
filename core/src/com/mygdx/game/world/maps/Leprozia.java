@@ -10,7 +10,7 @@ import com.mygdx.game.world.MapFactory;
 
 public class Leprozia extends Map {
 
-    private static String mapPath = "maps/leprozia/Leprozia.tmx";
+    private static String mapPath = "textures/maps/leprozia/Leprozia.tmx";
     private Json json;
 
     public Leprozia() {

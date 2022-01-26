@@ -10,7 +10,7 @@ import com.mygdx.game.world.MapFactory;
 
 public class DistrictTimulo extends Map {
 
-    private static String mapPath = "maps/earth/districtTimulo/TimuloTest.tmx";
+    private static String mapPath = "textures/maps/earth/districtTimulo/TimuloTest.tmx";
     private Json json;
 
     public DistrictTimulo() {

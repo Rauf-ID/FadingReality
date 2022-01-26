@@ -1,0 +1,146 @@
+[
+{
+entityID : TOWN_FOL
+state : NONE
+direction : DOWN
+conversationConfigPath : "main/languages/english/npc_dialogs/dialog1.json"
+questConfigPath : "quests/quest002.json"
+currentQuestID : ""
+itemTypeID: NONE
+},
+{
+entityID : TOWN_FOLK1
+state : NONE
+direction : DOWN
+conversationConfigPath : "main/languages/english/npc_dialogs/dialog1.json"
+questConfigPath : "quests/quest002.json"
+currentQuestID : ""
+itemTypeID: NONE
+},
+{
+entityID : TOWN_FOLK2
+state : NONE
+direction : DOWN
+conversationConfigPath : "conversations/conversation006.json"
+questConfigPath : "quests/quest003.json"
+currentQuestID : ""
+itemTypeID: NONE
+},
+{
+entityID : TOWN_FOLK3
+state : NONE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+},
+{
+entityID : TOWN_FOLK4
+state : NONE
+direction : DOWN
+conversationConfigPath : "conversations/conversation007.json"
+questConfigPath : "quests/quest001.json"
+currentQuestID : ""
+itemTypeID: NONE
+},
+{
+entityID : TOWN_FOLK5
+state : NONE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+},
+{
+entityID : TOWN_FOLK6
+state : NONE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+},
+{
+entityID : TOWN_FOLK7
+state : NONE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+},
+{
+entityID : TOWN_FOLK8
+state : NONE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+},
+{
+entityID : TOWN_FOLK9
+state : NONE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+},
+{
+entityID : TOWN_FOLK10
+state : NONE
+direction : DOWN
+conversationConfigPath : "conversations/conversation001.json"
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+},
+{
+entityID : TOWN_FOLK11
+state : NONE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+},
+{
+entityID : TOWN_FOLK12
+state : NONE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+},
+{
+entityID : TOWN_FOLK13
+state : NONE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+},
+{
+entityID : TOWN_FOLK14
+state : NONE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+},
+{
+entityID : TOWN_FOLK15
+state : NONE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+}
+]

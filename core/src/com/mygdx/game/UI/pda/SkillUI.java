@@ -39,9 +39,9 @@ public class SkillUI extends Window {
         accessibleSkills = Skill.getAccessibleSkills(player);
         inaccessibleSkills = Skill.getInaccessibleSkills(player);
 
-        buttonNoneSkill1 = new TextureRegionDrawable(new TextureRegion(new Texture("textures/ButtonNoneSkill1.png")));
-        buttonNoneSkill2 = new TextureRegionDrawable(new TextureRegion(new Texture("textures/ButtonNoneSkill2.png")));
-        buttonNoneSkill3 = new TextureRegionDrawable(new TextureRegion(new Texture("textures/ButtonNoneSkill3.png")));
+        buttonNoneSkill1 = new TextureRegionDrawable(new TextureRegion(new Texture("textures/UI/ButtonNoneSkill1.png")));
+        buttonNoneSkill2 = new TextureRegionDrawable(new TextureRegion(new Texture("textures/UI/ButtonNoneSkill2.png")));
+        buttonNoneSkill3 = new TextureRegionDrawable(new TextureRegion(new Texture("textures/UI/ButtonNoneSkill3.png")));
 
         for (Skill.RootNode rootNode : Skill.RootNode.values()) {
             Table unified = new Table();
