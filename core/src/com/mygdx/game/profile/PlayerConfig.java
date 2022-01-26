@@ -46,6 +46,8 @@ public class PlayerConfig {
     private int executionThreshold;
     private int damageBoost;
     private float rudimentCharge;
+    private int dashSpeed;
+    private int dashDist;
     private Array<Integer> playerSkills, availableSkills;
 
 
@@ -314,6 +316,14 @@ public class PlayerConfig {
     public void setDamageBoost(int damageBoost) {
         this.damageBoost = damageBoost;
     }
+
+    public int getDashSpeed(){return dashSpeed;}
+
+    public void setDashSpeed(int dashSpeed){this.dashSpeed = dashSpeed;}
+
+    public int getDashDist(){return dashDist;}
+
+    public void setDashDist(int dashDist){this.dashDist = dashDist;}
 
     public Array<Integer> getPlayerSkills(){return this.playerSkills;}
 

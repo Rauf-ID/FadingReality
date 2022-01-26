@@ -70,8 +70,6 @@ public class Skill {
                 case HP:
                     player.setMaxHealth(player.getMaxHealth() + this.getProperty());
                     break;
-                case ACTIVE:
-                    break;
                 case HEAL:
                     player.setHealAmount(player.getHealAmount() + this.getProperty());
                     break;
@@ -84,6 +82,11 @@ public class Skill {
                 case RUDIMENT_CD:
                     player.setRudimentCooldown(player.getRudimentCooldown() + this.getProperty());
                     break;
+                case ACTIVE:
+                    if(this.getId()==12){
+                        player.setDashSpeed(200);
+                        player.setDashDist(50);
+                    }
             }
             player.getPlayerSkills().add(this.id);
             player.getAvailableSkills().removeValue(this.getId(),true);

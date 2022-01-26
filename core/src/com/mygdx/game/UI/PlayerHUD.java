@@ -225,6 +225,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     profileManager.getPlayerConfig().setExperience(5);
                     profileManager.getPlayerConfig().setCoins(10);
 
+
                     Vector2 initPlayerPosition = profileManager.getPlayerConfig().getPosition();
                     Entity.Direction direction = profileManager.getPlayerConfig().getDirection();
                     player.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(initPlayerPosition));
@@ -235,6 +236,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setMaxHealth(profileManager.getPlayerConfig().getMaxHp());
                     player.setHealth(profileManager.getPlayerConfig().getMaxHp());
                     player.setExperience(profileManager.getPlayerConfig().getExperience());
+                    player.setDashSpeed(0);
+                    player.setDashDist(0);
                     player.setPlayerSkills(new Array<Integer>());
                     player.setAvailableSkills(new Array<Integer>());
                     player.getAvailableSkills().addAll(0,1,2);
@@ -289,6 +292,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setPlayerSkills(profileManager.getPlayerConfig().getPlayerSkills());
                     player.setAvailableSkills(profileManager.getPlayerConfig().getAvailableSkills());
                     player.setExperience(profileManager.getPlayerConfig().getExperience());
+                    player.setDashDist(profileManager.getPlayerConfig().getDashDist());
+                    player.setDashSpeed(profileManager.getPlayerConfig().getDashSpeed());
 
                     skillUI.createSkillTree(player);
                     this.addActor(skillUI.getSkillTooltip());
@@ -329,6 +334,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setAvailableSkills(player.getAvailableSkills());
                 profileManager.getPlayerConfig().setExperience(player.getExperience());
                 profileManager.getPlayerConfig().setCoins(pdaUI.getCoins());
+                profileManager.getPlayerConfig().setDashDist(player.getDashDist());
+                profileManager.getPlayerConfig().setDashSpeed(player.getDashSpeed());
                 break;
             case CLEAR_CURRENT_PROFILE:
                 System.out.println("PROFILE CONFIG CLEARING");

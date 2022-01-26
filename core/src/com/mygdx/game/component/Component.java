@@ -105,6 +105,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     private int healAmount;
     private int executionThreshold;
     private int damageBoost;
+    private int dashSpeed;
+    private int dashDist;
     private Array<Integer> playerSkills, availableSkills;
 
     public ArrayList<Ammo> activeAmmo;
@@ -313,6 +315,22 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public Array<Integer> getAvailableSkills() {return availableSkills;}
 
     public void setAvailableSkills(Array<Integer> availableSkills) {this.availableSkills = availableSkills;}
+
+    public int getDashSpeed() {
+        return dashSpeed;
+    }
+
+    public void setDashSpeed(int dashSpeed) {
+        this.dashSpeed = dashSpeed;
+    }
+
+    public int getDashDist() {
+        return dashDist;
+    }
+
+    public void setDashDist(int dashDist) {
+        this.dashDist = dashDist;
+    }
 
     protected void setCurrentPosition(Entity entity){
         currentEntityPosition.x = 0;
@@ -658,8 +676,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     protected void updateShifts(MapManager mapManager, float delta, float repulsionDistance) {
         if(activeDash){
-            float dx = (delta * vector.x) * 500;
-            float dy = (delta * vector.y) * 500;
+            float dx = (delta * vector.x) * (500+dashSpeed);
+            float dy = (delta * vector.y) * (500+dashSpeed);
             float dx2 = currentEntityPosition.x + dx;
             float dy2 = currentEntityPosition.y + dy;
 
@@ -667,9 +685,10 @@ public abstract class Component extends ComponentSubject implements Message, Inp
             currentEntityPosition.x+=dx;
             currentEntityPosition.y+=dy;
 
-            if(distMoved > 100){
+            if(distMoved > (100+dashDist)){
                 distMoved=0;
                 activeDash = false;
+                System.out.println("Dash dist:" + dashDist);
             }
         }
         if(activeGotHit){

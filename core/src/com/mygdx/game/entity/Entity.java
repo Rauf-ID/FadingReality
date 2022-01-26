@@ -302,7 +302,6 @@ public class Entity implements Comparable<Entity> {
         return component.experience;
     }
 
-
     public Array<Integer> getPlayerSkills(){return component.getPlayerSkills();}
 
     public void setPlayerSkills(Array<Integer> playerSkills){ component.setPlayerSkills(playerSkills);}
@@ -310,6 +309,14 @@ public class Entity implements Comparable<Entity> {
     public Array<Integer> getAvailableSkills() {return component.getAvailableSkills();}
 
     public void setAvailableSkills(Array<Integer> availableSkills) {component.setAvailableSkills(availableSkills);}
+
+    public int getDashSpeed(){ return component.getDashSpeed();}
+
+    public void setDashSpeed(int dashSpeed){ component.setDashSpeed(dashSpeed);}
+
+    public int getDashDist(){ return component.getDashDist();}
+
+    public void setDashDist(int dashDist){ component.setDashDist(dashDist);}
 
     public InputProcessor getInputProcessor(){
         return component;
