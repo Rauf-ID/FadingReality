@@ -10,6 +10,7 @@
 *.ogg
 /android/assets/textures
 /android/assets/wMapTest
+/android/assets/audio
 hs_err_pid*
 ## Robovm
 /ios/robovm-build/
