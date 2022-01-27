@@ -143,6 +143,21 @@ public class Player extends Component {
 
     }
 
+    public void checkForExecutableEnemies(){
+        tempEntities.clear();
+        tempEntities.addAll(mapManager.getCurrentMapEntities());
+        tempEntities.addAll(mapManager.getCurrentMapQuestEntities());
+
+        for( Entity mapEntity : tempEntities ) {
+            Rectangle entitySomeBox = mapEntity.getActiveZoneBox();
+            if (boundingBox.overlaps(entitySomeBox)) {
+                if(mapEntity.isLowHP() && mapEntity.isExecutable() && Gdx.input.isKeyJustPressed(Input.Keys.K)){
+                    mapEntity.executeEnemy();
+                }
+            }
+        }
+    }
+
     @Override
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
         this.mapManager = mapManager;
@@ -161,6 +176,8 @@ public class Player extends Component {
 //        updateSwordRangeBox(64,64);
         updateShifts(mapManager, delta, 40);
         setSwordRangeBox(new Vector2(10000,10000), 0,0);
+        checkForExecutableEnemies();
+
 
         if(isGunActive) {
             getMouseDirectionForGun();

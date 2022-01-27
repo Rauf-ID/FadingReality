@@ -24,13 +24,14 @@ import com.mygdx.game.world.MapManager;
 
 public class Enemy extends Component {
 
-    boolean isExecutable = false;
-    boolean isLowHP = false;
 
     public Enemy(){
         state = State.NORMAL;
         initChaseRangeBox();
         initAttackRangeBox();
+        this.setExecutable(true);
+        this.setLowHP(false);
+
     }
 
     @Override
@@ -121,8 +122,8 @@ public class Enemy extends Component {
 
 
                 //EXECUTION
-                if (playerBoundingBox.overlaps(activeZoneBox) && this.isLowHP) {
-                    System.out.println("executable");
+                if (playerBoundingBox.overlaps(activeZoneBox) && this.isLowHP()) {
+
                 }
 
                 isGunActive2 = true;
@@ -203,19 +204,19 @@ public class Enemy extends Component {
             if (Intersector.overlapConvexPolygons(enemyHitBox, playerAmmoBoundingBox)) {
 //                      gotHit();
                 reduceHealth(weapon.getRandomDamage() + player.getRangedDamageBoost() + player.getDamageBoost());
-                if(this.getHealth() <= (this.getMaxHealth())) {
-                    this.isLowHP = true;
-                }
                 ammo.setRemove(true);
             }
         }
     }
 
     private void updateHealth(Entity entity, Entity player) {
+        //CHECK FOR LOW HP
+        if(getHealth() <= getMaxHealth()+1000) {
+            this.setLowHP(true);
+        }
         if (getHealth() <= 0) {
             mapManager.setCurrentMapEntity(entity); // Задать текущего персонажа на карте
             player.sendMessage(MESSAGE.ENEMY_KILLED);
-
             notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.ENEMY_DEAD);
             state = State.DEAD;
         }

@@ -318,6 +318,16 @@ public class Entity implements Comparable<Entity> {
 
     public void setDashDist(int dashDist){ component.setDashDist(dashDist);}
 
+    public boolean isExecutable(){ return component.isExecutable();}
+
+    public void setExecutable(boolean executable){ component.setExecutable(executable);}
+
+    public boolean isLowHP(){ return component.isLowHP();}
+
+    public void setLowHP(boolean lowHP){ component.setLowHP(lowHP);}
+
+    public Rectangle getActiveZoneBox(){ return component.activeZoneBox;}
+
     public InputProcessor getInputProcessor(){
         return component;
     }
@@ -367,6 +377,10 @@ public class Entity implements Comparable<Entity> {
         entity.setEntityConfig(entityConfig);
         entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
         return entity;
+    }
+
+    public void executeEnemy(){
+        this.setHealth(0);
     }
 
     public static Entity initNPCForQuest(EntityConfig entityConfig, Vector2 position, Entity.Direction direction){

@@ -107,6 +107,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     private int damageBoost;
     private int dashSpeed;
     private int dashDist;
+    private boolean executable, lowHP;
     private Array<Integer> playerSkills, availableSkills;
 
     public ArrayList<Ammo> activeAmmo;
@@ -330,6 +331,22 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     public void setDashDist(int dashDist) {
         this.dashDist = dashDist;
+    }
+
+    public boolean isExecutable() {
+        return executable;
+    }
+
+    public void setExecutable(boolean executable) {
+        this.executable = executable;
+    }
+
+    public boolean isLowHP() {
+        return lowHP;
+    }
+
+    public void setLowHP(boolean lowHP) {
+        this.lowHP = lowHP;
     }
 
     protected void setCurrentPosition(Entity entity){
