@@ -21,7 +21,6 @@ public class MapObject extends Component {
     private boolean open = false;
 
 
-
     public MapObject(TextureMapObject textureMapObject) {
         this.textureMapObject = textureMapObject;
         textureRegion = textureMapObject.getTextureRegion();
@@ -33,6 +32,8 @@ public class MapObject extends Component {
 
     @Override
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
+        updateBoundingBoxForObject();
+
         Entity player = mapManager.getPlayer();
         String currentCollision = player.getCurrentCollision();
 

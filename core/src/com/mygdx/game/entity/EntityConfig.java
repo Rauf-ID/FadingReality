@@ -90,6 +90,8 @@ public class EntityConfig {
         weaponID = config.getWeaponID();
 
         health = config.getHealth();
+        maxHealth = config.getMaxHealth();
+
         damageResist = config.getDamageResist();
     }
 

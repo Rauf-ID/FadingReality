@@ -422,7 +422,13 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     }
 
     protected void initBoundingBoxForObject(float width, float height){
-        boundingBox.set(currentEntityPosition.x, currentEntityPosition.y, width, height);
+        boundingBox.set(currentEntityPosition.x, currentEntityPosition.y, width, height / 2);
+    }
+
+    protected void updateBoundingBoxForObject() {
+        float entityX =  currentEntityPosition.x;
+        float entityY =  currentEntityPosition.y;
+        boundingBox.setPosition(entityX, entityY);
     }
 
     protected void setSwordRangeBox(Vector2 position, float width, float height) {

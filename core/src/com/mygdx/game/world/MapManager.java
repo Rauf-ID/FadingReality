@@ -124,7 +124,7 @@ public class MapManager implements ProfileObserver {
     }
 
     public void addMapObject(Entity entities){
-        currentMap.getMapObjects().add(entities);
+        currentMap.getMapEntities().add(entities);
     }
 
     public void clearAllMapQuestEntities(){
