@@ -65,6 +65,7 @@ public class Enemy extends Component {
                 initBoundingBox(entityConfig.getBoundingBox());
                 initActiveZoneBox(entityConfig.getActiveZoneBox());
                 setHealth(entityConfig.getHealth());
+                setMaxHealth(entityConfig.getMaxHealth());
                 Weapon weapon = WeaponFactory.getInstance().getWeapon(entityConfig.getWeaponID());
                 weaponSystem.setRangedWeapon(weapon);
 //                chaseRangeBox.set(currentEntityPosition.x-(entityConfig.getAttackRadiusBoxWidth()/2)+(boundingBox.width/2), currentEntityPosition.y-(entityConfig.getAttackRadiusBoxHeight()/2)+(boundingBox.height/2), entityConfig.getAttackRadiusBoxWidth(), entityConfig.getAttackRadiusBoxHeight());
@@ -211,9 +212,6 @@ public class Enemy extends Component {
 
     private void updateHealth(Entity entity, Entity player) {
         //CHECK FOR LOW HP
-        if(getHealth() <= getMaxHealth()+1000) {
-            this.setLowHP(true);
-        }
         if (getHealth() <= 0) {
             mapManager.setCurrentMapEntity(entity); // Задать текущего персонажа на карте
             player.sendMessage(MESSAGE.ENEMY_KILLED);

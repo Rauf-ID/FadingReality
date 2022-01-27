@@ -3,6 +3,7 @@
 entityID: POLICE_B1
 direction: DOWN
 health: 100
+maxHealth: 100
 itemTypeID: NONE
 weaponID: AHR
 hitBox: { x: 18, y: 64 }
@@ -59,7 +60,7 @@ animationConfig: [
 	    animationType: DETENTION
 	    atlasType: ATLAS_POLICE_B1
 	    playMode: LOOP
-	},]
+	}]
 }
 {
 entityID: POLICE_R1

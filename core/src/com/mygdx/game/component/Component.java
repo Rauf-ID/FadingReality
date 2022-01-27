@@ -210,6 +210,12 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     public void reduceHealth(int damage) {
         health -= damage*((100-this.getDamageResist())/100);
+        System.out.println(health);
+        System.out.println(maxHealth);
+        if(health<maxHealth){
+            this.setLowHP(true);
+            System.out.println("Low hp!");
+        }
     }
 
     public int getDamageResist() {

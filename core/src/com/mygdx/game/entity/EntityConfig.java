@@ -35,6 +35,7 @@ public class EntityConfig {
     private ItemID weaponID;
 
     private int health;
+    private int maxHealth;
     private int damageResist;
 
     EntityConfig() {
@@ -276,6 +277,14 @@ public class EntityConfig {
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
     }
 
     public int getDamageResist(){
