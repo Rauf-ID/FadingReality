@@ -16,6 +16,7 @@ import com.mygdx.game.entity.Entity;
 import com.mygdx.game.pathfinder.Node;
 
 public class Map {
+
     private static final String TAG = Map.class.getSimpleName();
 
     public final static float UNIT_SCALE  = 1f;

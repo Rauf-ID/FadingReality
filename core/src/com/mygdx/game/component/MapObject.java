@@ -20,7 +20,6 @@ public class MapObject extends Component {
     private boolean active = false;
     private boolean open = false;
 
-
     public MapObject(TextureMapObject textureMapObject) {
         this.textureMapObject = textureMapObject;
         textureRegion = textureMapObject.getTextureRegion();
@@ -33,10 +32,19 @@ public class MapObject extends Component {
     @Override
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
         updateBoundingBoxForObject();
-
         Entity player = mapManager.getPlayer();
-        String currentCollision = player.getCurrentCollision();
 
+        updatesForObject(player, delta);
+
+
+    }
+
+
+
+
+
+    private void updatesForObject(Entity player, float delta) {
+        String currentCollision = player.getCurrentCollision();
         if (textureMapObject.getProperties().get("objectID") != null && textureMapObject.getProperties().get("objectID").equals(currentCollision)) {
             if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
                 active = true;
@@ -47,10 +55,9 @@ public class MapObject extends Component {
         if (active) {
             openDoor(side, 35,50, delta);
         }
-
     }
 
-    public void openDoor(String side, int distance, int speed, float delta) {
+    private void openDoor(String side, int distance, int speed, float delta) {
         if (side.equals("left")) {
             if ( textureMapObject.getX() >  startX - distance) {
                 currentEntityPosition.x -= Math.round(delta * speed);
@@ -67,7 +74,7 @@ public class MapObject extends Component {
         }
     }
 
-    public void closeDoor() {
+    private void closeDoor() {
 
     }
 

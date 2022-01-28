@@ -340,6 +340,10 @@ public class Entity implements Comparable<Entity> {
         return entityConfig;
     }
 
+    public void executeEnemy(){
+        this.setHealth(0);
+    }
+
     static public EntityConfig getEntityConfig(String configFilePath){
         Json json = new Json();
         return json.fromJson(EntityConfig.class, Gdx.files.internal(configFilePath));
@@ -357,7 +361,6 @@ public class Entity implements Comparable<Entity> {
 
         return configs;
     }
-
 
     public static EntityConfig loadEntityConfigByPath(String entityConfigPath){
         return Entity.getEntityConfig(entityConfigPath);
@@ -377,10 +380,6 @@ public class Entity implements Comparable<Entity> {
         entity.setEntityConfig(entityConfig);
         entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
         return entity;
-    }
-
-    public void executeEnemy(){
-        this.setHealth(0);
     }
 
     public static Entity initNPCForQuest(EntityConfig entityConfig, Vector2 position, Entity.Direction direction){

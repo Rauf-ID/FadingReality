@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.FadingReality;
 import com.mygdx.game.UI.pda.BrowserUI;
 import com.mygdx.game.UI.pda.SkillUI;
@@ -79,6 +80,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
     public static List<Toast> toasts = new LinkedList<Toast>();
     private static Toast.ToastFactory toastFactory;
+
+    private Array<MapItem> mapItems;
 
     public PlayerHUD(Entity _player, MapManager _mapMgr) {
         player=_player;
@@ -213,9 +216,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     profileManager.getPlayerConfig().setShopItems(shopItems);
                     browserUI.setShopItems(shopItems);
 
-                    Array<MapItem> mapItems = player.getEntityConfig().getMapItems(); // дефолтные предметы из EntityConfig
+                    mapItems = player.getEntityConfig().getMapItems(); // дефолтные предметы из EntityConfig
                     profileManager.getPlayerConfig().setMapItems(mapItems);
-                    System.out.println(mapItems.toString());
 
 //                    questUI.setQuests(new Array<QuestGraph>());
                     questUI.loadQuest("main/plot/start.json");
@@ -271,6 +273,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
                     Array<Item.ItemID> shopItems = profileManager.getPlayerConfig().getShopItems();
                     browserUI.setShopItems(shopItems);
+
+                    mapItems = profileManager.getPlayerConfig().getMapItems();
 
                     Array<QuestGraph> quests = profileManager.getPlayerConfig().getQuests();
                     questUI.setQuests(quests);
@@ -442,6 +446,15 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
                 conversationUI.setVisible(false);
                 mapMgr.clearCurrentSelectedMapEntity();
+
+//                float sec = 1;
+//                Timer.schedule(new Timer.Task(){
+//                    @Override
+//                    public void run() {
+//                        conversationUI.setVisible(false);
+//                        mapMgr.clearCurrentSelectedMapEntity();
+//                    }
+//                }, sec);
             case NONE:
                 break;
         }
@@ -511,6 +524,12 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
     public void setPlayerPosition(Vector2 playerPosition) {
         this.playerPosition=playerPosition;
+    }
+
+    public void SomeFuncForMapItems() {
+        for (MapItem mapItem: mapItems) {
+//            if ()
+        }
     }
 
     public void update() {
