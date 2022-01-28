@@ -49,7 +49,6 @@ public class Map {
 
     protected Array<Entity> mapEntities;
     protected Array<Entity> mapQuestEntities;
-    protected Array<Entity> mapObjects;
 
     public Map (MapFactory.MapType mapType, String fullMapPath) {
         json = new Json();
@@ -57,7 +56,6 @@ public class Map {
         playerStart = new Vector2(0,0);
         mapEntities = new Array<>(10);
         mapQuestEntities = new Array<>();
-        mapObjects = new Array<>();
         grid = new Array<>();
 
         if( fullMapPath == null || fullMapPath.isEmpty() ) {
@@ -133,9 +131,6 @@ public class Map {
         for( int i=0; i < mapQuestEntities.size; i++){
             mapQuestEntities.get(i).update(mapMgr, batch, delta);
         }
-        for( int i=0; i < mapObjects.size; i++){
-            mapObjects.get(i).update(mapMgr, batch, delta);
-        }
     }
 
 
@@ -180,10 +175,6 @@ public class Map {
         return mapQuestEntities;
     }
 
-    public Array<Entity> getMapObjects(){
-        return mapObjects;
-    }
-
     public int getMapWidth() {
         return mapWidth;
     }
@@ -222,9 +213,6 @@ public class Map {
         }
         for( int i=0; i < mapQuestEntities.size; i++){
             mapQuestEntities.get(i).dispose();
-        }
-        for( int i=0; i < mapObjects.size; i++){
-            mapObjects.get(i).dispose();
         }
     }
 

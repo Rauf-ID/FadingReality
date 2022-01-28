@@ -1,11 +1,11 @@
-package com.mygdx.game.inventory;
+package com.mygdx.game.item;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Scaling;
-import com.mygdx.game.inventory.Item.ItemID;
+import com.mygdx.game.item.Item.ItemID;
 import com.mygdx.game.tools.Utility;
 import com.mygdx.game.tools.managers.ResourceManager;
 

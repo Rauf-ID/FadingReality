@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityFactory;
-import com.mygdx.game.inventory.Item;
+import com.mygdx.game.item.Item;
 import com.mygdx.game.quest.QuestGraph;
 import com.mygdx.game.inventory.InventoryItemLocation;
 import com.mygdx.game.world.MapFactory;

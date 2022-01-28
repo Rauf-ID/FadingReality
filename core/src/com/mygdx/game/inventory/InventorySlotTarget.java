@@ -2,6 +2,7 @@ package com.mygdx.game.inventory;
 
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
+import com.mygdx.game.item.Item;
 
 public class InventorySlotTarget extends Target {
 

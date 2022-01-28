@@ -3,8 +3,8 @@ package com.mygdx.game.weapon;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.mygdx.game.inventory.Item;
-import com.mygdx.game.inventory.Item.ItemID;
+import com.mygdx.game.item.Item;
+import com.mygdx.game.item.Item.ItemID;
 import com.mygdx.game.tools.managers.ResourceManager;
 
 import java.util.ArrayList;

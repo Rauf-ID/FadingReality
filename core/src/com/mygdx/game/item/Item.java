@@ -1,4 +1,4 @@
-package com.mygdx.game.inventory;
+package com.mygdx.game.item;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;

@@ -9,10 +9,11 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.mygdx.game.FadingReality;
+import com.mygdx.game.item.Item;
 import com.mygdx.game.observer.InventorySlotObserver;
 import com.mygdx.game.observer.InventorySlotSubject;
 import com.mygdx.game.tools.Utility;
-import com.mygdx.game.inventory.Item.ItemUseType;
+import com.mygdx.game.item.Item.ItemUseType;
 
 public class InventorySlot extends Stack implements InventorySlotSubject {
 

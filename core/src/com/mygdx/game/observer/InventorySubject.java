@@ -1,7 +1,7 @@
 package com.mygdx.game.observer;
 
 
-import com.mygdx.game.inventory.Item;
+import com.mygdx.game.item.Item;
 
 public interface InventorySubject {
     void addObserver(InventoryObserver inventoryObserver);
