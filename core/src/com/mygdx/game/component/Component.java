@@ -955,30 +955,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         }
     }
 
-    protected boolean updateDoorCollision(Entity entity, MapManager mapMgr){
-        MapLayer mapObjectsLayer = mapMgr.getMapObjectsLayer();
-
-        if( mapObjectsLayer == null ){
-            return false;
-        }
-
-        Rectangle rectangle = null;
-
-        for( MapObject object: mapObjectsLayer.getObjects()){
-            TextureMapObject textureMapObject = (TextureMapObject) object;
-
-        }
-
-        return false;
-    }
-
-    protected void updateBoundingBoxPosition(Vector2 position){
-        float minX = position.x;
-        float minY = position.y;
-
-        boundingBox.setCenter(minX, minY);
-    }
-
     public abstract void update(Entity entity, MapManager mapManager, Batch batch, float delta);
 
     public abstract void draw(Batch batch, float delta);

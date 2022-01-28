@@ -596,27 +596,6 @@ public class Player extends Component {
 
     }
 
-    public boolean isCollisionWithMapLayer2(Entity entity, MapManager mapManager){
-        MapLayer mapCollisionLayer = mapManager.getCollisionLayer();
-
-        if( mapCollisionLayer == null ){
-            return false;
-        }
-
-        Rectangle rectangle = null;
-
-        for(MapObject object: mapCollisionLayer.getObjects()){
-            if(object instanceof RectangleMapObject) {
-                rectangle = ((RectangleMapObject)object).getRectangle();
-                if(boundingBox.overlaps(rectangle)){
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     @Override
     public void draw(Batch batch, float delta) {
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) {

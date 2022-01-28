@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.item.Item.ItemID;
 import com.mygdx.game.tools.managers.ResourceManager;
+import com.mygdx.game.world.MapItem;
 
 public class EntityConfig {
 
@@ -18,6 +19,7 @@ public class EntityConfig {
     private String itemTypeID;
     private Array<ItemID> inventory;
     private Array<ItemID> shopItems;
+    private Array<MapItem> mapItems;
     private Array<AnimationConfig> animationConfig;
 
     private Vector2 hitBox;
@@ -39,8 +41,9 @@ public class EntityConfig {
     private int damageResist;
 
     EntityConfig() {
-        inventory = new Array<ItemID>();
-        shopItems = new Array<ItemID>();
+        inventory = new Array<>();
+        shopItems = new Array<>();
+        mapItems = new Array<>();
         animationConfig = new Array<AnimationConfig>();
 
         hitBox = new Vector2();
@@ -71,6 +74,9 @@ public class EntityConfig {
 
         shopItems = new Array<ItemID>();
         shopItems.addAll(config.getShopItems());
+
+        mapItems = new Array<>();
+        mapItems.addAll(config.getMapItems());
 
         animationConfig = new Array<AnimationConfig>();
         animationConfig.addAll(config.getAnimationConfig());
@@ -175,6 +181,14 @@ public class EntityConfig {
 
     public void setShopItems(Array<ItemID> shopItems) {
         this.shopItems = shopItems;
+    }
+
+    public Array<MapItem> getMapItems() {
+        return mapItems;
+    }
+
+    public void setMapItems(Array<MapItem> mapItems) {
+        this.mapItems = mapItems;
     }
 
     public Array<AnimationConfig> getAnimationConfig() {

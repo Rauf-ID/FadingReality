@@ -34,6 +34,7 @@ import com.mygdx.game.tools.ProgressBarNew;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
 import com.mygdx.game.weapon.WeaponSystem;
+import com.mygdx.game.world.MapItem;
 import com.mygdx.game.world.MapManager;
 
 import java.util.HashMap;
@@ -212,6 +213,10 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     profileManager.getPlayerConfig().setShopItems(shopItems);
                     browserUI.setShopItems(shopItems);
 
+                    Array<MapItem> mapItems = player.getEntityConfig().getMapItems(); // дефолтные предметы из EntityConfig
+                    profileManager.getPlayerConfig().setMapItems(mapItems);
+                    System.out.println(mapItems.toString());
+
 //                    questUI.setQuests(new Array<QuestGraph>());
                     questUI.loadQuest("main/plot/start.json");
 
@@ -224,7 +229,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     profileManager.getPlayerConfig().setDamageResist(0);
                     profileManager.getPlayerConfig().setExperience(5);
                     profileManager.getPlayerConfig().setCoins(10);
-
 
                     Vector2 initPlayerPosition = profileManager.getPlayerConfig().getPosition();
                     Entity.Direction direction = profileManager.getPlayerConfig().getDirection();

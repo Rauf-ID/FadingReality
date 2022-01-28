@@ -8,6 +8,7 @@ import com.mygdx.game.item.Item;
 import com.mygdx.game.quest.QuestGraph;
 import com.mygdx.game.inventory.InventoryItemLocation;
 import com.mygdx.game.world.MapFactory;
+import com.mygdx.game.world.MapItem;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class PlayerConfig {
     private Array<InventoryItemLocation> inventory;
     private Array<InventoryItemLocation> equipment;
     private Array<Item.ItemID> shopItems;
+    private Array<MapItem> mapItems;
     private Map<String, Integer> bagAmmunition;
     private EntityFactory.EntityName exoskeletonName;
     private int coins;
@@ -57,6 +59,7 @@ public class PlayerConfig {
         inventory = new Array<>();
         equipment = new Array<>();
         shopItems = new Array<>();
+        mapItems = new Array<>();
         bagAmmunition = new HashMap<String, Integer>();
     }
 
@@ -123,6 +126,15 @@ public class PlayerConfig {
 
     public void setShopItems(Array<Item.ItemID> shopItems) {
         this.shopItems = shopItems;
+    }
+
+
+    public Array<MapItem> getMapItems() {
+        return mapItems;
+    }
+
+    public void setMapItems(Array<MapItem> mapItems) {
+        this.mapItems = mapItems;
     }
 
     public Map<String, Integer> getBagAmmunition() {
