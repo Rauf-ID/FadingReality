@@ -243,6 +243,7 @@ public class Enemy extends Component {
             debug(true, true, false, true, true,true, true);
         }
 
+
         batch.begin();
         if(currentDirection == Entity.Direction.UP) {
             if (weaponSystem.rangedIsActive()) {

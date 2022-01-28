@@ -244,11 +244,11 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setDashDist(0);
                     player.setPlayerSkills(new Array<Integer>());
                     player.setAvailableSkills(new Array<Integer>());
-                    player.getAvailableSkills().addAll(0,1,2);
+                    player.getAvailableSkills().addAll(0,1,2,27);
 
                     Skill firstSkill = SkillFactory.getInstance().getSkill(0);
                     Skill secondSkill = SkillFactory.getInstance().getSkill(1);
-                    Skill thirdSkill = SkillFactory.getInstance().getSkill(2);
+                    Skill thirdSkill = SkillFactory.getInstance().getSkill(27);
                     firstSkill.unlockSkill(player);
                     secondSkill.unlockSkill(player);
                     thirdSkill.unlockSkill(player);

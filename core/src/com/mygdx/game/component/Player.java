@@ -43,12 +43,24 @@ public class Player extends Component {
     private boolean isRightButtonPressed = false;
     private boolean usingRudiment = false;
     private boolean rudimentLock = false;
-    private float timer, dashTimer;
+    private float timer, dashTimer, executionTimer, executionDamageResistTimer;
+    private boolean startExecutionTimer = false;
+    private boolean executionDamageResist= false;
+    private int executionScore=0;
 
     public Player() {
         this.rudimentCharge = 4;
         state = State.NORMAL;
         controlManager = new ControlManager();
+    }
+
+    @Override
+    public void reduceHealth(int damage) {
+        this.setHealth(this.getHealth() - damage*((100-this.getDamageResist())/100));
+        if(this.getPlayerSkills().contains(21,true)){
+            int percentOfHealthLost = 100-(this.getHealth()/(this.getMaxHealth()/100));
+            this.setDamageBoost(percentOfHealthLost/3);
+        }
     }
 
     @Override
@@ -151,9 +163,17 @@ public class Player extends Component {
         for( Entity mapEntity : tempEntities ) {
             Rectangle entitySomeBox = mapEntity.getActiveZoneBox();
             if (boundingBox.overlaps(entitySomeBox)) {
-                if(mapEntity.isLowHP() && mapEntity.isExecutable() && Gdx.input.isKeyJustPressed(Input.Keys.K)){
-                    mapEntity.executeEnemy();
+                if(mapEntity.isLowHP() && mapEntity.isExecutable()){
+                    if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
+                        mapEntity.executeEnemy();
+                        if(this.getPlayerSkills().contains(27,true)) {
+                            startExecutionTimer = true;
+                            executionScore += 1;
+                            System.out.println("Execution timer started");
+                        }
+                    }
                 }
+
             }
         }
     }
@@ -181,6 +201,36 @@ public class Player extends Component {
 
         if(isGunActive) {
             getMouseDirectionForGun();
+        }
+
+        if(startExecutionTimer){
+            executionTimer+=delta;
+            if(executionScore==2){
+                startExecutionTimer=false;
+                executionTimer=0;
+                executionScore=0;
+                executionDamageResist=true;
+                executionDamageResistTimer = 10;
+                this.setDamageResist(30);
+                System.out.println("Dmg resist:");
+                System.out.println(this.getDamageResist());
+            }
+            if(executionTimer>=5){
+                startExecutionTimer=false;
+                executionTimer=0;
+                executionScore=0;
+                System.out.println("ExecutionTimer expired");
+            }
+        }
+
+        if(executionDamageResist){
+            executionDamageResistTimer-=delta;
+            if(executionDamageResistTimer<=0){
+                executionDamageResist=false;
+                this.setDamageResist(0);
+                System.out.println("Dmg resist:");
+                System.out.println(this.getDamageResist());
+            }
         }
 
         //RUDIMENT CHARGE
@@ -357,6 +407,8 @@ public class Player extends Component {
                             currentState = Entity.State.USE_RUDIMENT;
                             //
                             rudimentCharge-=1;
+
+                            this.reduceHealth(10);
                             PlayerHUD.toastShort("Use Rudiment", Toast.Length.SHORT);
 
                             Timer.schedule(new Timer.Task() {
