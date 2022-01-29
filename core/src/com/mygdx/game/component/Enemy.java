@@ -211,7 +211,6 @@ public class Enemy extends Component {
     }
 
     private void updateHealth(Entity entity, Entity player) {
-        //CHECK FOR LOW HP
         if (getHealth() <= 0) {
             mapManager.setCurrentMapEntity(entity); // Задать текущего персонажа на карте
             player.sendMessage(MESSAGE.ENEMY_KILLED);
