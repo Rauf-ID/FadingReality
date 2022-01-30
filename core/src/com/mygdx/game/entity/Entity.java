@@ -9,8 +9,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import com.mygdx.game.component.MapObject;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.component.Component;
+import com.mygdx.game.item.Item;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.skills.Skill;
 import com.mygdx.game.weapon.Ammo;
@@ -310,6 +312,14 @@ public class Entity implements Comparable<Entity> {
 
     public void setAvailableSkills(Array<Integer> availableSkills) {component.setAvailableSkills(availableSkills);}
 
+    public Array<Integer> getMapItems() {
+        return component.mapItems;
+    }
+
+    public void setMapItems(Array<Integer> mapItems) {
+        component.mapItems = mapItems;
+    }
+
     public int getDashSpeed(){ return component.getDashSpeed();}
 
     public void setDashSpeed(int dashSpeed){ component.setDashSpeed(dashSpeed);}
@@ -379,6 +389,14 @@ public class Entity implements Comparable<Entity> {
         Entity entity = EntityFactory.getEntity(EntityFactory.EntityType.ENEMY);
         entity.setEntityConfig(entityConfig);
         entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
+        return entity;
+    }
+
+    public static Entity initItem(Item.ItemID itemID, Vector2 position){
+        Json json = new Json();
+        Entity entity = new Entity(new MapObject());
+        entity.sendMessage(Component.MESSAGE.INIT_ITEM, json.toJson(itemID));
+        entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
         return entity;
     }
 

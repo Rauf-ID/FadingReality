@@ -10,6 +10,7 @@ import com.mygdx.game.component.Exoskeleton;
 import com.mygdx.game.component.MapObject;
 import com.mygdx.game.component.NPC;
 import com.mygdx.game.component.Player;
+import com.mygdx.game.item.Item;
 import com.mygdx.game.tools.managers.ResourceManager;
 
 import java.util.Hashtable;
@@ -151,7 +152,9 @@ public class EntityFactory {
         return entity;
     }
 
-
+    public Entity getItem(Item.ItemID itemID, Vector2 position) {
+        return Entity.initItem(itemID, position);
+    }
 
     public Entity getNPCByNameForQuest(EntityName entityName, Vector2 position, Entity.Direction direction, String conversationConfigPath){
         EntityConfig config = new EntityConfig(entities.get(entityName.toString()));

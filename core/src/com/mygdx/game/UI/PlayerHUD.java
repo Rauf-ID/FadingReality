@@ -81,8 +81,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     public static List<Toast> toasts = new LinkedList<Toast>();
     private static Toast.ToastFactory toastFactory;
 
-    private Array<MapItem> mapItems;
-
     public PlayerHUD(Entity _player, MapManager _mapMgr) {
         player=_player;
         mapMgr=_mapMgr;
@@ -216,8 +214,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     profileManager.getPlayerConfig().setShopItems(shopItems);
                     browserUI.setShopItems(shopItems);
 
-                    mapItems = player.getEntityConfig().getMapItems(); // дефолтные предметы из EntityConfig
-                    profileManager.getPlayerConfig().setMapItems(mapItems);
+                    Array<Integer> mapItems = new Array<>(10);
+                    mapItems.addAll(0,1,2,3,4,5);
+                    player.setMapItems(mapItems);
 
 //                    questUI.setQuests(new Array<QuestGraph>());
                     questUI.loadQuest("main/plot/start.json");
@@ -274,7 +273,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     Array<Item.ItemID> shopItems = profileManager.getPlayerConfig().getShopItems();
                     browserUI.setShopItems(shopItems);
 
-                    mapItems = profileManager.getPlayerConfig().getMapItems();
+                    Array<Integer> mapItems = profileManager.getPlayerConfig().getMapItems();
+                    player.setMapItems(mapItems);
 
                     Array<QuestGraph> quests = profileManager.getPlayerConfig().getQuests();
                     questUI.setQuests(quests);
@@ -344,6 +344,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setCoins(pdaUI.getCoins());
                 profileManager.getPlayerConfig().setDashDist(player.getDashDist());
                 profileManager.getPlayerConfig().setDashSpeed(player.getDashSpeed());
+                profileManager.getPlayerConfig().setMapItems(player.getMapItems());
                 break;
             case CLEAR_CURRENT_PROFILE:
                 System.out.println("PROFILE CONFIG CLEARING");
@@ -524,12 +525,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
     public void setPlayerPosition(Vector2 playerPosition) {
         this.playerPosition=playerPosition;
-    }
-
-    public void SomeFuncForMapItems() {
-        for (MapItem mapItem: mapItems) {
-//            if ()
-        }
     }
 
     public void update() {

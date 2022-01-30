@@ -29,7 +29,8 @@ public interface Message {
         EQUIP_EXOSKELETON,
         EXOSKELETON_ON,
         ENEMY_KILLED,
-        UNLOCK_FIRST_SKILLS
+        UNLOCK_FIRST_SKILLS,
+        INIT_ITEM,
     }
 
     void dispose();

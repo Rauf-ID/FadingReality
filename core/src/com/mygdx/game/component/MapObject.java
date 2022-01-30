@@ -3,9 +3,16 @@ package com.mygdx.game.component;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.entity.Entity;
+import com.mygdx.game.item.Item;
+import com.mygdx.game.item.ItemFactory;
+import com.mygdx.game.tools.Utility;
 import com.mygdx.game.world.MapManager;
 
 public class MapObject extends Component {
@@ -20,6 +27,13 @@ public class MapObject extends Component {
     private boolean active = false;
     private boolean open = false;
 
+    private boolean isItem = false;
+    private Item.ItemID itemID;
+    private Item item;
+
+    public MapObject() {
+    }
+
     public MapObject(TextureMapObject textureMapObject) {
         this.textureMapObject = textureMapObject;
         textureRegion = textureMapObject.getTextureRegion();
@@ -30,18 +44,44 @@ public class MapObject extends Component {
     }
 
     @Override
+    public void receiveMessage(String message) {
+        String[] string = message.split(MESSAGE_TOKEN);
+
+        if( string.length == 0 ) return;
+
+        if( string.length == 2 ) {
+            if (string[0].equalsIgnoreCase(MESSAGE.INIT_ITEM.toString())) {
+                isItem = true;
+                itemID = json.fromJson(Item.ItemID.class, string[1]);
+//                item = ItemFactory.getInstance().getInventoryItem(itemID);
+                TextureRegionDrawable textureRegionDrawable = new TextureRegionDrawable(Utility.ITEMS_TEXTUREATLAS.findRegion(itemID.toString()));
+                textureRegion = textureRegionDrawable.getRegion();
+
+            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
+                currentEntityPosition = json.fromJson(Vector2.class, string[1]);
+            }
+        }
+    }
+
+    @Override
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
         updateBoundingBoxForObject();
         Entity player = mapManager.getPlayer();
 
-        updatesForObject(player, delta);
+        if (isItem) {
+            updatesForItems();
+        } else {
+            updatesForObject(player, delta);
+        }
 
 
     }
 
 
 
+    private void updatesForItems() {
 
+    }
 
     private void updatesForObject(Entity player, float delta) {
         String currentCollision = player.getCurrentCollision();
@@ -125,8 +165,5 @@ public class MapObject extends Component {
         return false;
     }
 
-    @Override
-    public void receiveMessage(String message) {
 
-    }
 }
