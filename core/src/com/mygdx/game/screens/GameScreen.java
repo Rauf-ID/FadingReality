@@ -129,22 +129,28 @@ public class GameScreen implements Screen {
 
         //MAP HAS CHANGED
         if(mapMgr.hasMapChanged()){
-            mapRenderer.setMap(mapMgr.getCurrentTiledMap());
-            playerHUD.updateEntityObservers();
-            playerHUD.setLabelMapName(mapMgr.getCurrentMap().getNameMap());
             entities.clear();
+
+            mapRenderer.setMap(mapMgr.getCurrentTiledMap());
+            playerHUD.setLabelMapName(mapMgr.getCurrentMap().getNameMap());
             MapLayer mapCollisionLayer = mapMgr.getMapObjectsLayer();
             if(mapCollisionLayer != null){
                 MapObjects objects = mapCollisionLayer.getObjects();
                 for(MapObject object: objects) {
-                    if (object.getProperties().get("objectType").equals("item") && player.getMapItems().contains((int) object.getProperties().get("objectID"), true)) {
+                    if (object.getProperties().get("objectType").equals("item") && player.getMapItems().contains(Integer.parseInt((String) object.getProperties().get("objectID")), true)) {
                         continue;
                     } else {
-                        TextureMapObject textureMapObject = (TextureMapObject) object;
-                        mapMgr.addMapEntities(EntityFactory.getInstance().getEntity(EntityFactory.EntityType.MAPOBJECT, textureMapObject));
+                        if (object.getProperties().get("objectType").equals("item")) {
+                            TextureMapObject textureMapObject = (TextureMapObject) object;
+                            mapMgr.addMapEntities(EntityFactory.getInstance().getEntity(EntityFactory.EntityType.ITEM, textureMapObject, true));
+                        } else {
+                            TextureMapObject textureMapObject = (TextureMapObject) object;
+                            mapMgr.addMapEntities(EntityFactory.getInstance().getEntity(EntityFactory.EntityType.MAP_OBJECT, textureMapObject, false));
+                        }
                     }
                 }
             }
+            playerHUD.updateEntityObservers();
 
             entities.add(player);
             for (Entity entity: mapMgr.getCurrentMapEntities()){

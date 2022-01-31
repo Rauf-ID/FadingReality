@@ -23,12 +23,12 @@ public class Tooltip {
         this.active = active;
 
         Label label = new Label(text, FadingReality.getUiSkin(), "default");
-        Image image = new Image(new Texture(Gdx.files.internal("itemTest.png")));
+        Image image = new Image(new Texture(Gdx.files.internal("textures/UI/itemTest.png")));
 
         tooltipBox = new Window("", FadingReality.getUiSkin());
         tooltipBox.add(image);
         tooltipBox.add(label);
-        tooltipBox.background(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("tooltipBack.png")))));
+        tooltipBox.background(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("textures/UI/tooltipBack.png")))));
     }
 
     public Table getTooltipBox() {

@@ -7,9 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -35,7 +32,6 @@ import com.mygdx.game.pathfinder.Node;
 import com.mygdx.game.world.MapManager;
 
 import java.util.HashMap;
-
 
 public class Player extends Component {
 
@@ -256,10 +252,10 @@ public class Player extends Component {
             }
         }
 
-        //TEST TOOLTIP
+        //TESTs
         if(Gdx.input.isKeyJustPressed(Input.Keys.V)) {
-            notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.ITEM_PICK_UP);
-            boolTopBoundingBox = false;
+//            notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.ITEM_PICK_UP);
+//            boolTopBoundingBox = false;
         }
 
         //INPUT

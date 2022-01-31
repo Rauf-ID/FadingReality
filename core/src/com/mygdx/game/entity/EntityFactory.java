@@ -21,7 +21,8 @@ public class EntityFactory {
         PLAYER,
         ENEMY,
         NPC,
-        MAPOBJECT,
+        MAP_OBJECT,
+        ITEM,
         TESTPLAYER,
         EXOSKELETON
     }
@@ -129,11 +130,14 @@ public class EntityFactory {
         }
     }
 
-    public static Entity getEntity(EntityType entityType, TextureMapObject textureMapObject){
+    public Entity getEntity(EntityType entityType, TextureMapObject textureMapObject, boolean isItem){
         Entity entity = null;
         switch(entityType){
-            case MAPOBJECT:
+            case MAP_OBJECT:
                 entity = new Entity(new MapObject(textureMapObject));
+                return entity;
+            case ITEM:
+                entity = new Entity(new MapObject(textureMapObject, isItem));
                 return entity;
             default:
                 return null;
@@ -152,9 +156,9 @@ public class EntityFactory {
         return entity;
     }
 
-    public Entity getItem(Item.ItemID itemID, Vector2 position) {
-        return Entity.initItem(itemID, position);
-    }
+//    public Entity getItem(Item.ItemID itemID, Vector2 position) {
+//        return Entity.initItem(itemID, position);
+//    }
 
     public Entity getNPCByNameForQuest(EntityName entityName, Vector2 position, Entity.Direction direction, String conversationConfigPath){
         EntityConfig config = new EntityConfig(entities.get(entityName.toString()));

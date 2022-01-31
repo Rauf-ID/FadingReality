@@ -3,15 +3,13 @@ package com.mygdx.game.component;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.item.Item;
-import com.mygdx.game.item.ItemFactory;
+import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.tools.Utility;
 import com.mygdx.game.world.MapManager;
 
@@ -29,10 +27,6 @@ public class MapObject extends Component {
 
     private boolean isItem = false;
     private Item.ItemID itemID;
-    private Item item;
-
-    public MapObject() {
-    }
 
     public MapObject(TextureMapObject textureMapObject) {
         this.textureMapObject = textureMapObject;
@@ -40,6 +34,17 @@ public class MapObject extends Component {
         currentEntityPosition.x = textureMapObject.getX();
         currentEntityPosition.y = textureMapObject.getY();
         startX = textureMapObject.getX();
+        initBoundingBoxForObject(textureMapObject.getTextureRegion().getRegionWidth(), textureMapObject.getTextureRegion().getRegionHeight());
+    }
+
+    public MapObject(TextureMapObject textureMapObject, boolean isItem) {
+        this.textureMapObject = textureMapObject;
+        this.isItem = isItem;
+
+        itemID = Item.ItemID.valueOf((String) textureMapObject.getProperties().get("itemID"));
+        textureRegion = textureMapObject.getTextureRegion();
+        currentEntityPosition.x = textureMapObject.getX();
+        currentEntityPosition.y = textureMapObject.getY();
         initBoundingBoxForObject(textureMapObject.getTextureRegion().getRegionWidth(), textureMapObject.getTextureRegion().getRegionHeight());
     }
 
@@ -69,7 +74,7 @@ public class MapObject extends Component {
         Entity player = mapManager.getPlayer();
 
         if (isItem) {
-            updatesForItems();
+            updatesForItems(player);
         } else {
             updatesForObject(player, delta);
         }
@@ -77,16 +82,20 @@ public class MapObject extends Component {
 
     }
 
-
-
-    private void updatesForItems() {
-
+    private void updatesForItems(Entity player) {
+        String currentCollision = player.getCurrentCollision();
+        if (textureMapObject.getProperties().get("objectID") != null && textureMapObject.getProperties().get("objectID").equals(currentCollision)) {
+            if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+                notify(itemID.toString(), ComponentObserver.ComponentEvent.ITEM_PICK_UP);
+            }
+        }
     }
 
     private void updatesForObject(Entity player, float delta) {
         String currentCollision = player.getCurrentCollision();
         if (textureMapObject.getProperties().get("objectID") != null && textureMapObject.getProperties().get("objectID").equals(currentCollision)) {
             if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+                notify("", ComponentObserver.ComponentEvent.ITEM_PICK_UP);
                 active = true;
                 side = (String) textureMapObject.getProperties().get("side");
             }

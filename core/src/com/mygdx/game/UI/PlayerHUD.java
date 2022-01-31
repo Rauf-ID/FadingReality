@@ -215,7 +215,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     browserUI.setShopItems(shopItems);
 
                     Array<Integer> mapItems = new Array<>(10);
-                    mapItems.addAll(0,1,2,3,4,5);
+                    mapItems.addAll();
                     player.setMapItems(mapItems);
 
 //                    questUI.setQuests(new Array<QuestGraph>());
@@ -397,9 +397,10 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 mapMgr.clearCurrentSelectedMapEntity();
                 break;
             case ITEM_PICK_UP:
-                Item item = ItemFactory.getInstance().getInventoryItem(Item.ItemID.POTIONS01);
-                iis++;
-                tooltipUI.addTooltip(  iis + " ITEM added to inventory");
+                Item.ItemID itemID = json.fromJson(Item.ItemID.class, value);
+                inventoryUI.addItemToInventory(itemID);
+                tooltipUI.addTooltip(  itemID.toString() + " added to inventory");
+
             case PLAYER_DASH:
                 progressBar.minusValue(0.25f);
                 break;
