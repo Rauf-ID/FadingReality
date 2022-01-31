@@ -18,9 +18,9 @@ public class SpaceStation extends Map {
 
         json = new Json();
 
-//        Entity mercenariesM1 = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.MERCENARIES_M1);
-//        initEntity(mercenariesM1, new Vector2(890,280), Entity.Direction.RIGHT);
-//        mapEntities.add(mercenariesM1);
+        Entity mercenariesM1 = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.MERCENARIES_M1);
+        initEntity(mercenariesM1, new Vector2(890,230), Entity.Direction.RIGHT);
+        mapEntities.add(mercenariesM1);
 
     }
 

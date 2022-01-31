@@ -103,6 +103,8 @@ public class NPC extends Component {
         Entity player = mapManager.getPlayer();
         Rectangle playerBoundingBox = player.getBoundingBox();
 
+//        currentEntityPosition.x += Math.random();
+
         if (playerBoundingBox.overlaps(activeZoneBox)) {
             mapManager.setCurrentMapEntity(entity); // Задать текущего персонажа на карте
             playerInActiveZone = true;

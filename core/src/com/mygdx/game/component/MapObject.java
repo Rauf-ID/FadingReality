@@ -70,11 +70,13 @@ public class MapObject extends Component {
 
     @Override
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
+        this.mapManager = mapManager;
+
         updateBoundingBoxForObject();
         Entity player = mapManager.getPlayer();
 
         if (isItem) {
-            updatesForItems(player);
+            updatesForItems(entity, player);
         } else {
             updatesForObject(player, delta);
         }
@@ -82,10 +84,12 @@ public class MapObject extends Component {
 
     }
 
-    private void updatesForItems(Entity player) {
+    private void updatesForItems(Entity entity, Entity player) {
         String currentCollision = player.getCurrentCollision();
         if (textureMapObject.getProperties().get("objectID") != null && textureMapObject.getProperties().get("objectID").equals(currentCollision)) {
             if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+                player.getMapItems().add( Integer.parseInt((String) textureMapObject.getProperties().get("objectID")));
+                mapManager.setCurrentMapEntity(entity);
                 notify(itemID.toString(), ComponentObserver.ComponentEvent.ITEM_PICK_UP);
             }
         }
@@ -95,7 +99,6 @@ public class MapObject extends Component {
         String currentCollision = player.getCurrentCollision();
         if (textureMapObject.getProperties().get("objectID") != null && textureMapObject.getProperties().get("objectID").equals(currentCollision)) {
             if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-                notify("", ComponentObserver.ComponentEvent.ITEM_PICK_UP);
                 active = true;
                 side = (String) textureMapObject.getProperties().get("side");
             }

@@ -130,6 +130,10 @@ public class GameScreen implements Screen {
         //MAP HAS CHANGED
         if(mapMgr.hasMapChanged()){
             entities.clear();
+//            mapMgr.getCurrentMapEntities().clear();
+//            mapMgr.getCurrentMapQuestEntities().clear();
+
+//            System.out.println(mapMgr.getCurrentMapEntities().size);
 
             mapRenderer.setMap(mapMgr.getCurrentTiledMap());
             playerHUD.setLabelMapName(mapMgr.getCurrentMap().getNameMap());

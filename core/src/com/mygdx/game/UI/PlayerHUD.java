@@ -399,8 +399,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             case ITEM_PICK_UP:
                 Item.ItemID itemID = json.fromJson(Item.ItemID.class, value);
                 inventoryUI.addItemToInventory(itemID);
-                tooltipUI.addTooltip(  itemID.toString() + " added to inventory");
-
+                tooltipUI.addTooltip(itemID.toString() + " added to inventory");
+                mapMgr.clearCurrentSelectedMapEntity();
+                break;
             case PLAYER_DASH:
                 progressBar.minusValue(0.25f);
                 break;
