@@ -1,0 +1,14 @@
+[
+  {
+    rudimentID: RUDIMENT1,
+    name: "Atomic heart",
+    cost: 23400,
+    rudimentStatsProperties: [10, 10, 0, 0, 0]
+  },
+  {
+    rudimentID: RUDIMENT2,
+    name: "Rubedo",
+    cost: 11100,
+    rudimentStatsProperties: [30, 0, 30, 0, 0]
+  }
+]

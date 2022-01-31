@@ -47,6 +47,7 @@ public class ResourceManager {
     public String language;
 
     public static final String PATH_TO_JSON_WEAPONS = "items/weapons.json";
+    public static final String PATH_TO_JSON_RUDIMENTS = "items/rudiments.json";
     public static final String INVENTORY_ITEM = "items/items.json";
     public static String PLAYER_CONFIG = "main/entities/player/player.json";
     public static String EARTHLINGS_CONFIGS = "main/entities/npc/earthlings/earthlings.json";
