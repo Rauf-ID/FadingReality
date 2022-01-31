@@ -57,10 +57,13 @@ public class Player extends Component {
     @Override
     public void reduceHealth(int damage) {
         this.setHealth(this.getHealth() - damage*((100-this.getDamageResist())/100));
-        if(this.getPlayerSkills().contains(21,true)){
-            int percentOfHealthLost = 100-(this.getHealth()/(this.getMaxHealth()/100));
-            this.setDamageBoost(percentOfHealthLost/3);
-        }
+        endlessCourageSkill();
+    }
+
+    @Override
+    public void restoreHealth(int heal){
+        super.restoreHealth(heal);
+        endlessCourageSkill();
     }
 
     @Override
@@ -165,15 +168,14 @@ public class Player extends Component {
             if (boundingBox.overlaps(entitySomeBox)) {
                 if(mapEntity.isLowHP() && mapEntity.isExecutable()){
                     if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
+                        enemyExecutionAnimation();
                         mapEntity.executeEnemy();
                         if(this.getPlayerSkills().contains(27,true)) {
                             startExecutionTimer = true;
                             executionScore += 1;
-                            System.out.println("Execution timer started");
                         }
                     }
                 }
-
             }
         }
     }
@@ -212,14 +214,11 @@ public class Player extends Component {
                 executionDamageResist=true;
                 executionDamageResistTimer = 10;
                 this.setDamageResist(30);
-                System.out.println("Dmg resist:");
-                System.out.println(this.getDamageResist());
             }
             if(executionTimer>=5){
                 startExecutionTimer=false;
                 executionTimer=0;
                 executionScore=0;
-                System.out.println("ExecutionTimer expired");
             }
         }
 
@@ -228,8 +227,6 @@ public class Player extends Component {
             if(executionDamageResistTimer<=0){
                 executionDamageResist=false;
                 this.setDamageResist(0);
-                System.out.println("Dmg resist:");
-                System.out.println(this.getDamageResist());
             }
         }
 
@@ -542,11 +539,28 @@ public class Player extends Component {
         }
     }
 
+    public void enemyExecutionAnimation() {
+            state = State.FREEZE;
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    state = State.NORMAL;
+                }
+            }, 0.8f);
+    }
+
     public void equipExoskeleton(EntityConfig exoskeletonConfig){
         walkVelocity.set(exoskeletonConfig.getWalkVelocity());
         walkVelocityD.set(exoskeletonConfig.getWalkVelocityD());
         runVelocity.set(exoskeletonConfig.getRunVelocity());
         runVelocityD.set(exoskeletonConfig.getRunVelocityD());
+    }
+
+    public void endlessCourageSkill(){
+        if(this.getPlayerSkills().contains(21,true)){
+            int percentOfHealthLost = 100-(this.getHealth()/(this.getMaxHealth()/100));
+            this.setDamageBoost(percentOfHealthLost/3);
+        }
     }
 
     public void unEquipExoskeleton(EntityConfig playerConfig) {

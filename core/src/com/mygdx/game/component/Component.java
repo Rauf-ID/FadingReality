@@ -217,6 +217,10 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         }
     }
 
+    public void restoreHealth(int heal) {
+        health += heal;
+    }
+
     public int getDamageResist() {
         return damageResist;
     }
