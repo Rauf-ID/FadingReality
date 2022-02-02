@@ -129,17 +129,17 @@ public class Player extends Component {
                 Weapon weapon = WeaponFactory.getInstance().getWeapon(weaponID);
                 weaponSystem.setRangedWeapon(weapon);
                 weaponSystem.setStartAmmoCountInMagazine(Integer.parseInt(splitStr[1]));
-            } else if(string[0].equalsIgnoreCase(MESSAGE.SET_MELEE_WEAPON.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.SET_RUDIMENT_ONE.toString())) {
                 String rudimentOneIDStr = json.fromJson(String.class, string[1]);
                 ItemID rudimentOneID = Item.ItemID.valueOf(rudimentOneIDStr);
 //                Weapon rudimentOne = WeaponFactory.getInstance().getWeapon(rudimentOneID); RudimentSystem
 //                weaponSystem.setMeleeWeapon(rudimentOne); RudimentSystem
-            }  else if(string[0].equalsIgnoreCase(MESSAGE.SET_MELEE_WEAPON.toString())) {
+            }  else if(string[0].equalsIgnoreCase(MESSAGE.SET_RUDIMENT_TWO.toString())) {
                 String rudimentTwoIDStr = json.fromJson(String.class, string[1]);
                 ItemID rudimentTwoID = Item.ItemID.valueOf(rudimentTwoIDStr);
 //                Weapon rudimentTwo = WeaponFactory.getInstance().getWeapon(rudimentTwoID); RudimentSystem
 //                weaponSystem.setMeleeWeapon(rudimentTwo); RudimentSystem
-            }  else if(string[0].equalsIgnoreCase(MESSAGE.SET_MELEE_WEAPON.toString())) {
+            }  else if(string[0].equalsIgnoreCase(MESSAGE.SET_UNIQUE_RUDIMENT.toString())) {
                 String uniqueRudimentIDStr = json.fromJson(String.class, string[1]);
                 ItemID uniqueRudimentID = Item.ItemID.valueOf(uniqueRudimentIDStr);
 //                Weapon uniqueRudiment = WeaponFactory.getInstance().getWeapon(uniqueRudimentID); RudimentSystem
