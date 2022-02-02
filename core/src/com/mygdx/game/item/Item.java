@@ -26,8 +26,7 @@ public class Item extends Image {
         MELEE_WEAPON,
         RANGED_WEAPON,
         MEDIC_KIT,
-        RUDIMENT_ONE,
-        RUDIMENT_TWO,
+        RUDIMENT,
         UNIQUE_RUDIMENT,
         NONE
     }
@@ -46,6 +45,8 @@ public class Item extends Image {
         AHR,
         ANGEL_BLADE,
         ICHOR,
+        ATOMIC_HEART, RUBEDO,
+        VORTEX,
         NONE
     }
 
@@ -192,12 +193,24 @@ public class Item extends Image {
     }
 
 
-    public boolean isInventoryItemOffensiveRanged() {
+    public boolean isInventoryItemRanged() {
         return itemUseType == ItemUseType.RANGED_WEAPON;
     }
 
-    public boolean isInventoryItemOffensiveMelee() {
+    public boolean isInventoryItemMelee() {
         return itemUseType == ItemUseType.MELEE_WEAPON;
+    }
+
+    public boolean isInventoryItemRudimentOne() {
+        return itemUseType == ItemUseType.RUDIMENT;
+    }
+
+    public boolean isInventoryItemRudimentTwo() {
+        return itemUseType == ItemUseType.RUDIMENT;
+    }
+
+    public boolean isInventoryItemUniqueRudiment() {
+        return itemUseType == ItemUseType.UNIQUE_RUDIMENT;
     }
 
     public boolean isInventoryItemOffensiveWeapon(){

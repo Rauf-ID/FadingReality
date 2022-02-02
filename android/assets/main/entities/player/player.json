@@ -31,6 +31,15 @@ inventory : [
 	},
 	{
 		value: ANGEL_BLADE
+	},
+		{
+		value: ATOMIC_HEART
+	},
+		{
+		value: RUBEDO
+	},
+		{
+		value: VORTEX
 	}]
 shopItems : [
 	{
@@ -53,6 +62,15 @@ shopItems : [
 	},
 	{
 		value: ANGEL_BLADE
+	},
+		{
+		value: ATOMIC_HEART
+	},
+		{
+		value: RUBEDO
+	},
+		{
+		value: VORTEX
 	}],
 mapItems: [ 
 	{		 

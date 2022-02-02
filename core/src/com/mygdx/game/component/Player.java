@@ -129,10 +129,31 @@ public class Player extends Component {
                 Weapon weapon = WeaponFactory.getInstance().getWeapon(weaponID);
                 weaponSystem.setRangedWeapon(weapon);
                 weaponSystem.setStartAmmoCountInMagazine(Integer.parseInt(splitStr[1]));
-            } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_MELEE_WEAPON.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.SET_MELEE_WEAPON.toString())) {
+                String rudimentOneIDStr = json.fromJson(String.class, string[1]);
+                ItemID rudimentOneID = Item.ItemID.valueOf(rudimentOneIDStr);
+//                Weapon rudimentOne = WeaponFactory.getInstance().getWeapon(rudimentOneID); RudimentSystem
+//                weaponSystem.setMeleeWeapon(rudimentOne); RudimentSystem
+            }  else if(string[0].equalsIgnoreCase(MESSAGE.SET_MELEE_WEAPON.toString())) {
+                String rudimentTwoIDStr = json.fromJson(String.class, string[1]);
+                ItemID rudimentTwoID = Item.ItemID.valueOf(rudimentTwoIDStr);
+//                Weapon rudimentTwo = WeaponFactory.getInstance().getWeapon(rudimentTwoID); RudimentSystem
+//                weaponSystem.setMeleeWeapon(rudimentTwo); RudimentSystem
+            }  else if(string[0].equalsIgnoreCase(MESSAGE.SET_MELEE_WEAPON.toString())) {
+                String uniqueRudimentIDStr = json.fromJson(String.class, string[1]);
+                ItemID uniqueRudimentID = Item.ItemID.valueOf(uniqueRudimentIDStr);
+//                Weapon uniqueRudiment = WeaponFactory.getInstance().getWeapon(uniqueRudimentID); RudimentSystem
+//                weaponSystem.setMeleeWeapon(uniqueRudiment); RudimentSystem
+            }  else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_MELEE_WEAPON.toString())) {
                 weaponSystem.setMeleeWeapon(null);
             } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_RANGED_WEAPON.toString())) {
                 weaponSystem.setRangedWeapon(null);
+            } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_RUDIMENT_ONE.toString())) {
+//                weaponSystem.setRangedWeapon(null);  RudimentSystem
+            } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_RUDIMENT_TWO.toString())) {
+//                weaponSystem.setRangedWeapon(null);  RudimentSystem
+            } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_UNIQUE_RUDIMENT.toString())) {
+//                weaponSystem.setRangedWeapon(null);  RudimentSystem
             } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();

@@ -10,14 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.FadingReality;
 import com.mygdx.game.UI.pda.BrowserUI;
 import com.mygdx.game.UI.pda.SkillUI;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.item.Item;
-import com.mygdx.game.item.ItemFactory;
 import com.mygdx.game.quest.QuestGraph;
 import com.mygdx.game.UI.pda.PDAUI;
 import com.mygdx.game.observer.InventoryObserver;
@@ -35,7 +33,6 @@ import com.mygdx.game.tools.ProgressBarNew;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
 import com.mygdx.game.weapon.WeaponSystem;
-import com.mygdx.game.world.MapItem;
 import com.mygdx.game.world.MapManager;
 
 import java.util.HashMap;
@@ -468,24 +465,39 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     public void onNotify(Item item, InventoryEvent event) {
         switch (event) {
             case ADDED:
-                if(item.isInventoryItemOffensiveMelee()) {
+                if(item.isInventoryItemMelee()) {
                     Item.ItemID itemID = item.getItemID();
                     statusUI.setMeleeWeapon(itemID);
                     player.sendMessage(Message.MESSAGE.SET_MELEE_WEAPON, json.toJson(itemID.toString()));
-                } else if(item.isInventoryItemOffensiveRanged()) {
+                } else if (item.isInventoryItemRanged()) {
                     String itemID = item.getItemID().toString();
                     int ammoCountInMagazine = item.getNumberItemsInside();
                     statusUI.setRangeWeapon(item);
                     player.sendMessage(Message.MESSAGE.SET_RANGED_WEAPON, json.toJson(itemID + MESSAGE_TOKEN_2 + ammoCountInMagazine));
+                } else if (item.isInventoryItemRudimentOne()) {
+                    Item.ItemID itemID = item.getItemID();
+                    player.sendMessage(Message.MESSAGE.SET_RUDIMENT_ONE, json.toJson(itemID.toString()));
+                } else if (item.isInventoryItemRudimentTwo()) {
+                    Item.ItemID itemID = item.getItemID();
+                    player.sendMessage(Message.MESSAGE.SET_RUDIMENT_TWO, json.toJson(itemID.toString()));
+                } else if (item.isInventoryItemUniqueRudiment()) {
+                    Item.ItemID itemID = item.getItemID();
+                    player.sendMessage(Message.MESSAGE.SET_UNIQUE_RUDIMENT, json.toJson(itemID.toString()));
                 }
                 break;
             case REMOVED:
-                if(item.isInventoryItemOffensiveMelee()) {
+                if(item.isInventoryItemMelee()) {
                     statusUI.clearMeleeWeapon();
                     player.sendMessage(Message.MESSAGE.REMOVE_MELEE_WEAPON, json.toJson("null"));
-                } else if(item.isInventoryItemOffensiveRanged()) {
+                } else if(item.isInventoryItemRanged()) {
                     statusUI.clearRangeWeapon();
                     player.sendMessage(Message.MESSAGE.REMOVE_RANGED_WEAPON, json.toJson("null"));
+                } else if (item.isInventoryItemRudimentOne()) {
+                    player.sendMessage(Message.MESSAGE.REMOVE_RUDIMENT_ONE, json.toJson("null"));
+                } else if (item.isInventoryItemRudimentTwo()) {
+                    player.sendMessage(Message.MESSAGE.REMOVE_RUDIMENT_TWO, json.toJson("null"));
+                } else if (item.isInventoryItemUniqueRudiment()) {
+                    player.sendMessage(Message.MESSAGE.REMOVE_UNIQUE_RUDIMENT, json.toJson("null"));
                 }
                 break;
             case ITEM_CONSUMED:

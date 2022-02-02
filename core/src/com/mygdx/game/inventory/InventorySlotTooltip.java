@@ -44,10 +44,10 @@ public class InventorySlotTooltip extends Window {
             string.append(item.getItemShortDescription());
 
 
-            if(item.isInventoryItemOffensiveMelee()) {
+            if(item.isInventoryItemMelee()) {
                 string.append(System.getProperty("line.separator"));
                 string.append(String.format("Attack Points: %s", item.getItemUseTypeValue()));
-            } else if(item.isInventoryItemOffensiveRanged()){
+            } else if(item.isInventoryItemRanged()){
                 Weapon weapon = WeaponFactory.getInstance().getWeapon(item.getItemID());
 
                 string.append(System.getProperty("line.separator"));

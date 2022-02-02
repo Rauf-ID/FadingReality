@@ -716,7 +716,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
             if(distMoved > (100+dashDist)){
                 distMoved=0;
                 activeDash = false;
-                System.out.println("Dash dist:" + dashDist);
             }
         }
         if(activeGotHit){

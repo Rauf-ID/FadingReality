@@ -71,9 +71,9 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         rangedWeaponSlot = new InventorySlot(ItemUseType.RANGED_WEAPON, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_ranged")));
         medicKitSlot = new InventorySlot(ItemUseType.MEDIC_KIT, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("none")));
         ichorSlot = new InventorySlot(ItemUseType.MEDIC_KIT, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("none")));
-        rudimentOneSlot = new InventorySlot(ItemUseType.RUDIMENT_ONE, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("none")));
-        rudimentTwoSlot = new InventorySlot(ItemUseType.RUDIMENT_TWO, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("none")));
-        uniqueRudimentSlot = new InventorySlot(ItemUseType.UNIQUE_RUDIMENT, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("none")));
+        rudimentOneSlot = new InventorySlot(ItemUseType.RUDIMENT, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_rudiment_one")));
+        rudimentTwoSlot = new InventorySlot(ItemUseType.RUDIMENT, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_rudiment_two")));
+        uniqueRudimentSlot = new InventorySlot(ItemUseType.UNIQUE_RUDIMENT, new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_unique_rudiment")));
 
         meleeWeaponSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));
         armorSlot.addListener(new InventorySlotTooltipListener(inventorySlotTooltip));

@@ -169,6 +169,10 @@ public class Entity implements Comparable<Entity> {
         return component.weaponSystem.getRangedWeapon();
     }
 
+    public WeaponSystem getWeaponSystem() {
+        return component.weaponSystem;
+    }
+
     public Rectangle getCurrentSwordRangeBox() {
         return component.swordRangeBox;
     }

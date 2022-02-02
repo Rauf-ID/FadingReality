@@ -63,4 +63,28 @@
 	itemUseTypeValue: 10,
 	itemValue: 10,
 },
+{
+	itemID: ATOMIC_HEART,
+	itemShortDescription: Atomic heart,
+	itemUseType: RUDIMENT,
+	itemAttributes: [EQUIPPABLE],
+	itemUseTypeValue: 101,
+	itemValue: 23400,
+},
+{
+	itemID: RUBEDO,
+	itemShortDescription: Rubedo,
+	itemUseType: RUDIMENT,
+	itemAttributes: [EQUIPPABLE],
+	itemUseTypeValue: 101,
+	itemValue: 11100,
+},
+{
+	itemID: VORTEX,
+	itemShortDescription: Vortex,
+	itemUseType: UNIQUE_RUDIMENT,
+	itemAttributes: [EQUIPPABLE],
+	itemUseTypeValue: 101,
+	itemValue: 41100,
+},
 ]
