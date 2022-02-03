@@ -17,8 +17,8 @@
 //import com.mygdx.game.observer.ComponentObserver;
 //import com.mygdx.game.tools.Rumble;
 //import com.mygdx.game.tools.Toast;
-//import com.mygdx.game.tools.managers.ControlManager;
-//import com.mygdx.game.tools.managers.ResourceManager;
+//import com.mygdx.game.managers.ControlManager;
+//import com.mygdx.game.managers.ResourceManager;
 //import com.mygdx.game.world.MapManager;
 //
 //

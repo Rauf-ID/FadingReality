@@ -1,6 +1,5 @@
-package com.mygdx.game.tools.managers;
+package com.mygdx.game.managers;
 
-import com.mygdx.game.component.Player;
 import com.mygdx.game.entity.Entity;
 
 public class ControlManager {

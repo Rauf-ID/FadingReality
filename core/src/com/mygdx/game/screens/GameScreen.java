@@ -20,7 +20,7 @@ import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.tools.MapObjectsManager;
 import com.mygdx.game.UI.PlayerHUD;
 import com.mygdx.game.tools.OrthogonalTiledMapRendererWithSprites;
-import com.mygdx.game.tools.managers.ShaderVFXManager;
+import com.mygdx.game.managers.ShaderVFXManager;
 import com.mygdx.game.world.Map;
 import com.mygdx.game.world.MapFactory;
 import com.mygdx.game.world.MapManager;

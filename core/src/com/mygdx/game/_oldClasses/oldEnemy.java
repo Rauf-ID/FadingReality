@@ -19,7 +19,7 @@
 //import com.mygdx.game.entity.EntityFactory;
 //import com.mygdx.game.tools.Rumble;
 //import com.mygdx.game.tools.Toast;
-//import com.mygdx.game.tools.managers.ResourceManager;
+//import com.mygdx.game.managers.ResourceManager;
 //import com.mygdx.game.world.MapManager;
 //
 //public class oldEnemy extends oldComponent {

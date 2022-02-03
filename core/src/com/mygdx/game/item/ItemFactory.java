@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.Scaling;
 import com.mygdx.game.item.Item.ItemID;
 import com.mygdx.game.tools.Utility;
-import com.mygdx.game.tools.managers.ResourceManager;
+import com.mygdx.game.managers.ResourceManager;
 
 import java.util.ArrayList;
 import java.util.Hashtable;

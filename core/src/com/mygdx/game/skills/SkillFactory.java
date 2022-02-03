@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.mygdx.game.tools.managers.ResourceManager;
+import com.mygdx.game.managers.ResourceManager;
 
 import java.util.ArrayList;
 import java.util.Hashtable;

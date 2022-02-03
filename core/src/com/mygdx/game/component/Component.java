@@ -22,8 +22,8 @@ import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.observer.ComponentSubject;
 import com.mygdx.game.pathfinder.PathFinder;
-import com.mygdx.game.tools.managers.ControlManager;
-import com.mygdx.game.tools.managers.ResourceManager;
+import com.mygdx.game.managers.ControlManager;
+import com.mygdx.game.managers.ResourceManager;
 import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
@@ -556,7 +556,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 } else if(mouseDirection == Entity.MouseDirection.LEFT) {
                     currentFrame = animations.get(Entity.AnimationType.RUN_LEFT).getKeyFrame(stateTime); // Correct in the future
                 } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
-                    currentFrame = FadingReality.resourceManager.playerAnimDashRight.getKeyFrame(stateTime, true);
+                    currentFrame = animations.get(Entity.AnimationType.DASH_RIGHT).getKeyFrame(stateTime);
                 }
                 break;
             case DEAD:

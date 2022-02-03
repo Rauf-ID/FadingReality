@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
 import com.mygdx.game.observer.ComponentObserver;
-import com.mygdx.game.tools.managers.ResourceManager;
+import com.mygdx.game.managers.ResourceManager;
 import com.mygdx.game.pathfinder.Node;
 import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.weapon.Weapon;

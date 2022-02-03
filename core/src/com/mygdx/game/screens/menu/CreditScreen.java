@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.FadingReality;
-import com.mygdx.game.tools.managers.ResourceManager;
+import com.mygdx.game.managers.ResourceManager;
 
 public class CreditScreen implements Screen {
 

@@ -12,8 +12,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.FadingReality;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
-import com.mygdx.game.observer.ComponentObserver;
-import com.mygdx.game.tools.managers.ResourceManager;
+import com.mygdx.game.managers.ResourceManager;
 import com.mygdx.game.world.MapManager;
 
 

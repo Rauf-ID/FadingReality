@@ -1,4 +1,4 @@
-package com.mygdx.game.tools.managers;
+package com.mygdx.game.managers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -9,10 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.mygdx.game.entity.Entity;
-import com.mygdx.game.world.Map;
-import com.mygdx.game.world.MapFactory;
-import com.mygdx.game.world.maps.TestMap;
 
 import java.util.Hashtable;
 
@@ -30,6 +26,7 @@ public class ResourceManager {
         ATLAS_SECURITY_MECHANISM,
         ATLAS_MAP_OBJECTS,
         ATLAS_EXOSKELETON_M1,
+        ATLAS_MAP_ITEMS,
         NONE
     }
 
@@ -60,15 +57,13 @@ public class ResourceManager {
     public static String MECHANIC_CONFIGS = "main/entities/npc/mechanic/mechanic.json";
     public static String SCIENTIST_CONFIGS = "main/entities/npc/scientist/scientist.json";
     public static String EXOSKELETON_CONFIGS = "main/entities/exoskeletons/exoskeletons.json";
+    public static String MAP_ITEMS_CONFIG = "main/entities/mapItems/mapItems.json";
     public static String SKILLS_CONFIG = "main/skills/skills.json";
 
 
     //Animation
-    public Animation<Sprite> playerAnimGunUp;
-    public Animation<Sprite> playerAnimGunDown;
     public Animation<Sprite> playerRifleAnimRight;
     public Animation<Sprite> playerRifleAnimLeft;
-    public Animation<Sprite> playerAnimDashRight;
     public Animation<Sprite> playerAnimBarDrink;
     public Animation<Sprite> playerAnimHurtAmelia;
     public Animation<Sprite> playerAnimUseRudiment1;
@@ -177,6 +172,7 @@ public class ResourceManager {
         assetManager.load("textures/entities/npc/earthlings/earthlings.atlas", TextureAtlas.class);
         assetManager.load("textures/entities/exoskeletons/exoskeletonM1.atlas", TextureAtlas.class);
         assetManager.load("textures/maps/mapObjects.atlas", TextureAtlas.class);
+        assetManager.load("textures/entities/mapItems/mapItems.atlas", TextureAtlas.class);
         assetManager.finishLoading();
 
         ATLAS = assetManager.get("textures/entities/player/player.atlas", TextureAtlas.class);
@@ -188,11 +184,8 @@ public class ResourceManager {
         ATLAS_EARTHLINGS = assetManager.get("textures/entities/npc/earthlings/earthlings.atlas", TextureAtlas.class);
         ATLAS_MAP_OBJECTS = assetManager.get("textures/maps/mapObjects.atlas", TextureAtlas.class);
 
-        playerAnimGunUp = new Animation<Sprite>(0.06f, ATLAS.createSprites("RANGED_ATTACK_UP"));
-        playerAnimGunDown = new Animation<Sprite>(0.06f, ATLAS.createSprites("RANGED_ATTACK_DOWN"));
-        playerRifleAnimRight = new Animation<Sprite>(0.06f, ATLAS.createSprites("RIFLE_RIGHT"));
-        playerRifleAnimLeft = new Animation<Sprite>(0.06f, ATLAS.createSprites("RIFLE_LEFT"));
-        playerAnimDashRight = new Animation<Sprite>(0.045f, ATLAS.createSprites("DASH_RIGHT"));
+        playerRifleAnimRight = new Animation<Sprite>(0.06f, ATLAS.createSprites("RIFLE_RIGHT")); // Used in Weapon class
+        playerRifleAnimLeft = new Animation<Sprite>(0.06f, ATLAS.createSprites("RIFLE_LEFT")); // Used in Weapon class
         playerAnimBarDrink = new Animation<Sprite>(0.12f, ATLAS.createSprites("BAR_DRINK"));
         playerAnimHurtAmelia = new Animation<Sprite>(0.14f, ATLAS.createSprites("HURT_AMELIA"));
         playerAnimUseRudiment1 = new Animation<Sprite>(0.05f, ATLAS.createSprites("USE_RUDIMENT_1"));
@@ -205,13 +198,10 @@ public class ResourceManager {
 
         roninAnimIdleRight = new Animation<Sprite>(0.06f, ATLAS.createSprites("RONIN_IDLE_RIGHT"));
         roninAnimIdleLeft = new Animation<Sprite>(0.06f, ATLAS.createSprites("RONIN_IDLE_LEFT"));
-
         roninAnimRunRight = new Animation<Sprite>(0.05f, ATLAS.createSprites("RONIN_RUN_RIGHT"));
         roninAnimRunLeft = new Animation<Sprite>(0.05f, ATLAS.createSprites("RONIN_RUN_LEFT"));
-
         roninAnimAttackRight = new Animation<Sprite>(0.06f, ATLAS.createSprites("RONIN_ATTACK_RIGHT"));
         roninAnimAttackLeft = new Animation<Sprite>(0.06f, ATLAS.createSprites("RONIN_ATTACK_LEFT"));
-
         roninAnimDeadRight = new Animation<Sprite>(0.2f, ATLAS.createSprites("RONIN_DEAD_RIGHT"));
         roninAnimDeadLeft = new Animation<Sprite>(0.2f, ATLAS.createSprites("RONIN_DEAD_LEFT"));
 
@@ -342,8 +332,14 @@ public class ResourceManager {
                     atlasTable.put(atlasType, textureAtlas);
                 }
                 break;
+            case ATLAS_MAP_ITEMS:
+                textureAtlas = atlasTable.get(atlasType);
+                if( textureAtlas == null ){
+                    textureAtlas = assetManager.get("textures/entities/mapItems/mapItems.atlas", TextureAtlas.class);
+                    atlasTable.put(atlasType, textureAtlas);
+                }
+                break;
         }
-
         return textureAtlas;
     }
 

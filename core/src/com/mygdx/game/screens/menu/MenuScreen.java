@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.FadingReality;
 import com.mygdx.game.profile.ProfileManager;
-import com.mygdx.game.tools.managers.ResourceManager;
+import com.mygdx.game.managers.ResourceManager;
 import com.mygdx.game.FadingReality.ScreenType;
 
 public class MenuScreen implements Screen {

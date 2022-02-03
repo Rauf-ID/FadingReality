@@ -10,8 +10,7 @@ import com.mygdx.game.component.Exoskeleton;
 import com.mygdx.game.component.MapObject;
 import com.mygdx.game.component.NPC;
 import com.mygdx.game.component.Player;
-import com.mygdx.game.item.Item;
-import com.mygdx.game.tools.managers.ResourceManager;
+import com.mygdx.game.managers.ResourceManager;
 
 import java.util.Hashtable;
 
@@ -96,6 +95,11 @@ public class EntityFactory {
 
         Array<EntityConfig> exoskeletonConfig = Entity.getEntityConfigs(ResourceManager.EXOSKELETON_CONFIGS);
         for(EntityConfig config: exoskeletonConfig){
+            entities.put(config.getEntityID(), config);
+        }
+
+        Array<EntityConfig> mapItemsConfig = Entity.getEntityConfigs(ResourceManager.MAP_ITEMS_CONFIG);
+        for(EntityConfig config: mapItemsConfig){
             entities.put(config.getEntityID(), config);
         }
     }

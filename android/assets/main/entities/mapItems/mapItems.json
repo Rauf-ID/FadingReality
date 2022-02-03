@@ -1,11 +1,10 @@
 [
 {
-"entityID": "POTIONS01",
+"entityID": "ARMOR04",
 "hitBox": { "x": 0, "y": 0 },
 "imageBox": { "x": 0, "y": 0 },
 "boundingBox": { "x": 0, "y": 0 },
 "activeZoneBox": { "x": 0, "y": 0 },
-"attackZoneBox": { "x": 0, "y": 0 },
 "animationConfig": [
 	{
 	    frameDuration: 0
@@ -15,12 +14,39 @@
 	}]
 },
 {
-"entityID": "EXOSKELETON_M1",
+"entityID": "BOOTS03",
 "hitBox": { "x": 0, "y": 0 },
 "imageBox": { "x": 0, "y": 0 },
 "boundingBox": { "x": 0, "y": 0 },
 "activeZoneBox": { "x": 0, "y": 0 },
-"attackZoneBox": { "x": 0, "y": 0 },
+"animationConfig": [
+	{
+	    frameDuration: 0
+	    animationType: IDLE_RIGHT
+	    atlasType: ATLAS_EXOSKELETON_M1
+	    playMode: NORMAL
+	}]
+},
+{
+"entityID": "HELMET05",
+"hitBox": { "x": 0, "y": 0 },
+"imageBox": { "x": 0, "y": 0 },
+"boundingBox": { "x": 0, "y": 0 },
+"activeZoneBox": { "x": 0, "y": 0 },
+"animationConfig": [
+	{
+	    frameDuration: 0
+	    animationType: IDLE_RIGHT
+	    atlasType: ATLAS_EXOSKELETON_M1
+	    playMode: NORMAL
+	}]
+},
+{
+"entityID": "POTIONS01",
+"hitBox": { "x": 0, "y": 0 },
+"imageBox": { "x": 0, "y": 0 },
+"boundingBox": { "x": 0, "y": 0 },
+"activeZoneBox": { "x": 0, "y": 0 },
 "animationConfig": [
 	{
 	    frameDuration: 0

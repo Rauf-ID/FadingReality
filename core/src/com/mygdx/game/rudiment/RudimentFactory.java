@@ -4,9 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.mygdx.game.item.Item;
-import com.mygdx.game.tools.managers.ResourceManager;
-import com.mygdx.game.weapon.Weapon;
-import com.mygdx.game.weapon.WeaponFactory;
+import com.mygdx.game.managers.ResourceManager;
 
 import java.util.ArrayList;
 import java.util.Hashtable;

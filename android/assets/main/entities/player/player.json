@@ -77,9 +77,7 @@ mapItems: [
 		itemID: AHR,
 		mapType: SPACE_STATION,
 		position: {x: 815, y: 320}
-	},
-
-],
+	},],
 animationConfig: [
 	{
 	    frameDuration: 0.2
