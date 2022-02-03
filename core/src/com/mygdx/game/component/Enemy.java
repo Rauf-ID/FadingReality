@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityConfig;
 import com.mygdx.game.observer.ComponentObserver;
@@ -45,6 +46,19 @@ public class Enemy extends Component {
                 currentDirection = Entity.Direction.DOWN;
             } else if (string[0].equalsIgnoreCase(Message.MESSAGE.COLLISION_WITH_ENTITY.toString())) {
                 currentState = Entity.State.IDLE;
+            } else if (string[0].equalsIgnoreCase(MESSAGE.STUN.toString())) {
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        state = State.FREEZE;
+                    }
+                }, 0.5f);
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        state = State.NORMAL;
+                    }
+                }, 2f);
             }
         }
 
@@ -120,24 +134,16 @@ public class Enemy extends Component {
                 Entity player = mapManager.getPlayer();
                 Rectangle playerBoundingBox = player.getBoundingBox();
                 Weapon weapon = player.getRangeWeapon();
-
-
                 //EXECUTION
                 if (playerBoundingBox.overlaps(activeZoneBox) && this.isLowHP()) {
 
                 }
-
                 isGunActive2 = true;
                 weaponSystem.updateForEnemy(delta, this, player);
-
 //                updateGrid(playerBoundingBox);
 //                followPath();
-
                 updateAmmoHit(player, weapon);
                 updateHealth(entity, player);
-
-//                startShooting(entity, player);
-
                 break;
             case DEAD:
                 currentState = Entity.State.DEAD;

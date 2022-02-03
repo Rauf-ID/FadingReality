@@ -20,6 +20,9 @@ import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.item.Item;
 import com.mygdx.game.item.Item.ItemID;
 import com.mygdx.game.observer.ComponentObserver;
+import com.mygdx.game.rudiment.ActiveRudiment;
+import com.mygdx.game.rudiment.Rudiment;
+import com.mygdx.game.rudiment.RudimentFactory;
 import com.mygdx.game.tools.Rumble;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.managers.ControlManager;
@@ -132,28 +135,28 @@ public class Player extends Component {
             } else if(string[0].equalsIgnoreCase(MESSAGE.SET_RUDIMENT_ONE.toString())) {
                 String rudimentOneIDStr = json.fromJson(String.class, string[1]);
                 ItemID rudimentOneID = Item.ItemID.valueOf(rudimentOneIDStr);
-//                Weapon rudimentOne = WeaponFactory.getInstance().getWeapon(rudimentOneID); RudimentSystem
-//                weaponSystem.setMeleeWeapon(rudimentOne); RudimentSystem
+                Rudiment rudimentOne = RudimentFactory.getInstance().getRudiment(rudimentOneID);
+                rudimentSystem.setRudimentOne(rudimentOne);
             }  else if(string[0].equalsIgnoreCase(MESSAGE.SET_RUDIMENT_TWO.toString())) {
                 String rudimentTwoIDStr = json.fromJson(String.class, string[1]);
                 ItemID rudimentTwoID = Item.ItemID.valueOf(rudimentTwoIDStr);
-//                Weapon rudimentTwo = WeaponFactory.getInstance().getWeapon(rudimentTwoID); RudimentSystem
-//                weaponSystem.setMeleeWeapon(rudimentTwo); RudimentSystem
+                Rudiment rudimentTwo = RudimentFactory.getInstance().getRudiment(rudimentTwoID);
+                rudimentSystem.setRudimentTwo(rudimentTwo);
             }  else if(string[0].equalsIgnoreCase(MESSAGE.SET_UNIQUE_RUDIMENT.toString())) {
                 String uniqueRudimentIDStr = json.fromJson(String.class, string[1]);
                 ItemID uniqueRudimentID = Item.ItemID.valueOf(uniqueRudimentIDStr);
-//                Weapon uniqueRudiment = WeaponFactory.getInstance().getWeapon(uniqueRudimentID); RudimentSystem
-//                weaponSystem.setMeleeWeapon(uniqueRudiment); RudimentSystem
+                ActiveRudiment uniqueRudiment = RudimentFactory.getInstance().getActiveRudiment(uniqueRudimentID);
+                rudimentSystem.setActiveRudiment(uniqueRudiment);
             }  else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_MELEE_WEAPON.toString())) {
                 weaponSystem.setMeleeWeapon(null);
             } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_RANGED_WEAPON.toString())) {
                 weaponSystem.setRangedWeapon(null);
             } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_RUDIMENT_ONE.toString())) {
-//                weaponSystem.setRangedWeapon(null);  RudimentSystem
+                rudimentSystem.setRudimentOne(null);
             } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_RUDIMENT_TWO.toString())) {
-//                weaponSystem.setRangedWeapon(null);  RudimentSystem
+                rudimentSystem.setRudimentTwo(null);
             } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_UNIQUE_RUDIMENT.toString())) {
-//                weaponSystem.setRangedWeapon(null);  RudimentSystem
+                rudimentSystem.setActiveRudiment(null);
             } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
@@ -172,28 +175,37 @@ public class Player extends Component {
                 }
             }
         }
-
     }
 
-    public void checkForExecutableEnemies(){
+    public Array<Entity> checkForNearbyEnemies(){
         tempEntities.clear();
         tempEntities.addAll(mapManager.getCurrentMapEntities());
         tempEntities.addAll(mapManager.getCurrentMapQuestEntities());
-
+        Array<Entity> nearbyEnemies = new Array<>();
         for( Entity mapEntity : tempEntities ) {
             Rectangle entitySomeBox = mapEntity.getActiveZoneBox();
             if (boundingBox.overlaps(entitySomeBox)) {
-                if(mapEntity.isLowHP() && mapEntity.isExecutable()){
-                    if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
-                        enemyExecutionAnimation();
-                        mapEntity.executeEnemy();
-                        if(this.getPlayerSkills().contains(27,true)) {
-                            startExecutionTimer = true;
-                            executionScore += 1;
-                        }
+                nearbyEnemies.add(mapEntity);
+            }
+        }
+        return nearbyEnemies;
+    }
+
+    public void checkForExecutableEnemies(){
+        Array<Entity> nearbyEnemies = checkForNearbyEnemies();
+
+        for( Entity mapEntity : nearbyEnemies ) {
+            if(mapEntity.isLowHP() && mapEntity.isExecutable()){
+                if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
+                    enemyExecutionAnimation();
+                    mapEntity.executeEnemy();
+                    if(this.getPlayerSkills().contains(27,true)) {
+                        startExecutionTimer = true;
+                        executionScore += 1;
                     }
                 }
             }
+
         }
     }
 
@@ -412,17 +424,17 @@ public class Player extends Component {
                         }
 
                         //RUDIMENT
-                        if (Gdx.input.isKeyJustPressed(Input.Keys.F) && this.rudimentCharge>=1 && !usingRudiment) {
+                        if (Gdx.input.isKeyJustPressed(Input.Keys.F) && this.rudimentCharge>=1 && !usingRudiment &&
+                                rudimentSystem.getActiveRudiment()!=null) {
                             usingRudiment=true;
                             currentEntityPosition.x -= 64;
                             currentEntityPosition.y -= 64;
                             stateTime = 0f;
                             state = State.FREEZE;
                             currentState = Entity.State.USE_RUDIMENT;
-                            //
+                            rudimentSystem.getActiveRudiment().activateRudiment(this);
                             rudimentCharge-=1;
 
-                            this.reduceHealth(10);
                             PlayerHUD.toastShort("Use Rudiment", Toast.Length.SHORT);
 
                             Timer.schedule(new Timer.Task() {

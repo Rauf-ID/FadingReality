@@ -13,15 +13,22 @@ public class RudimentFactory {
     private static RudimentFactory instance = null;
 
     private Json json = new Json();
-    private Hashtable<Item.ItemID, Rudiment> rudimentList;
+    private Hashtable<Item.ItemID, Rudiment> rudimentTable;
+    private Hashtable<Item.ItemID, ActiveRudiment> activeRudimentTable;
 
     private RudimentFactory(){
-        ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal(ResourceManager.PATH_TO_JSON_RUDIMENTS));
-        rudimentList = new Hashtable<Item.ItemID, Rudiment>();
+        ArrayList<JsonValue> rudimentsList = json.fromJson(ArrayList.class, Gdx.files.internal(ResourceManager.PATH_TO_JSON_RUDIMENTS));
+        ArrayList<JsonValue> activeRudimentsList = json.fromJson(ArrayList.class, Gdx.files.internal("items/activeRudiments.json"));
+        rudimentTable = new Hashtable<Item.ItemID, Rudiment>();
+        activeRudimentTable = new Hashtable<Item.ItemID, ActiveRudiment>();
 
-        for (JsonValue jsonVal : list) {
+        for (JsonValue jsonVal : rudimentsList) {
             Rudiment rudiment = json.readValue(Rudiment.class, jsonVal);
-            rudimentList.put(rudiment.getRudimentID(), rudiment);
+            rudimentTable.put(rudiment.getRudimentID(), rudiment);
+        }
+        for (JsonValue jsonVal : activeRudimentsList){
+            ActiveRudiment activeRudiment = json.readValue(ActiveRudiment.class, jsonVal);
+            activeRudimentTable.put(activeRudiment.getRudimentID(), activeRudiment);
         }
     }
 
@@ -33,6 +40,10 @@ public class RudimentFactory {
     }
 
     public Rudiment getRudiment(Item.ItemID inventoryItemType){
-        return new Rudiment(rudimentList.get(inventoryItemType));
+        return new Rudiment(rudimentTable.get(inventoryItemType));
+    }
+
+    public ActiveRudiment getActiveRudiment(Item.ItemID inventoryItemType){
+        return new ActiveRudiment(activeRudimentTable.get(inventoryItemType));
     }
 }

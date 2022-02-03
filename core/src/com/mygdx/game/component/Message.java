@@ -37,6 +37,7 @@ public interface Message {
         ENEMY_KILLED,
         UNLOCK_FIRST_SKILLS,
         INIT_ITEM,
+        STUN
     }
 
     void dispose();

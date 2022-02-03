@@ -12,15 +12,35 @@ import com.mygdx.game.weapon.Ammo.AmmoID;
 import com.mygdx.game.weapon.Weapon;
 
 public class RudimentSystem {
-    private Weapon meleeWeapon = null;
-    private Weapon rangedWeapon = null;
-    private static Map<String, Integer> bagAmmunition;
-
-    private float angle;
-    private float shootTimer = 0f;
+    private Rudiment rudimentOne = null, rudimentTwo = null;
+    private ActiveRudiment activeRudiment = null;
 
     public RudimentSystem() {
 
+    }
+
+    public Rudiment getRudimentOne() {
+        return rudimentOne;
+    }
+
+    public void setRudimentOne(Rudiment rudimentOne) {
+        this.rudimentOne = rudimentOne;
+    }
+
+    public Rudiment getRudimentTwo() {
+        return rudimentTwo;
+    }
+
+    public void setRudimentTwo(Rudiment rudimentTwo) {
+        this.rudimentTwo = rudimentTwo;
+    }
+
+    public ActiveRudiment getActiveRudiment() {
+        return activeRudiment;
+    }
+
+    public void setActiveRudiment(ActiveRudiment activeRudiment) {
+        this.activeRudiment = activeRudiment;
     }
 }
 

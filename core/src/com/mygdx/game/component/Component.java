@@ -24,6 +24,7 @@ import com.mygdx.game.observer.ComponentSubject;
 import com.mygdx.game.pathfinder.PathFinder;
 import com.mygdx.game.managers.ControlManager;
 import com.mygdx.game.managers.ResourceManager;
+import com.mygdx.game.rudiment.RudimentSystem;
 import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
@@ -51,6 +52,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     protected ControlManager controlManager;
     public WeaponSystem weaponSystem;
+    public RudimentSystem rudimentSystem;
     public boolean reloaded = false;
     protected PathFinder pathFinder;
     protected Node startNode;
@@ -195,6 +197,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
         controlManager = new ControlManager();
         weaponSystem = new WeaponSystem();
+        rudimentSystem = new RudimentSystem();
         pathFinder = new PathFinder();
     }
 

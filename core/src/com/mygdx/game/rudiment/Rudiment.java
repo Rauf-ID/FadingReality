@@ -4,13 +4,11 @@ import com.mygdx.game.entity.Entity;
 import com.mygdx.game.item.Item;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class Rudiment {
 
     private Item.ItemID rudimentID;
     private String name;
-    private int cost;
     private ArrayList<Integer> rudimentStatsProperties;
 
     public Rudiment(){
@@ -20,7 +18,6 @@ public class Rudiment {
     public Rudiment(Rudiment rudiment){
         this.rudimentID = rudiment.getRudimentID();
         this.name = rudiment.getName();
-        this.cost = rudiment.getCost();
     }
 
 
@@ -54,14 +51,6 @@ public class Rudiment {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
     }
 
     public ArrayList<Integer> getRudimentStatsProperties() {
