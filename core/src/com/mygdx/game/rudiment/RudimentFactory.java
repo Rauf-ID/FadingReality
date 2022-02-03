@@ -18,7 +18,7 @@ public class RudimentFactory {
 
     private RudimentFactory(){
         ArrayList<JsonValue> rudimentsList = json.fromJson(ArrayList.class, Gdx.files.internal(ResourceManager.PATH_TO_JSON_RUDIMENTS));
-        ArrayList<JsonValue> activeRudimentsList = json.fromJson(ArrayList.class, Gdx.files.internal("items/activeRudiments.json"));
+        ArrayList<JsonValue> activeRudimentsList = json.fromJson(ArrayList.class, Gdx.files.internal("main/items/activeRudiments.json"));
         rudimentTable = new Hashtable<Item.ItemID, Rudiment>();
         activeRudimentTable = new Hashtable<Item.ItemID, ActiveRudiment>();
 

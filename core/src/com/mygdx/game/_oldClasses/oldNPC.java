@@ -83,7 +83,7 @@
 //                @Override
 //                public void run() {
 //                    stateTime = 0f;
-//                    currentState = Entity.State.DEAD;
+//                    currentState = Entity.State.DEATH;
 //                }
 //            }, 3.2f);
 //        } else if (entityName.equals(EntityFactory.EntityName.EARTHLINGS_D1.toString()) ||

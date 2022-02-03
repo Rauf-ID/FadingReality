@@ -27,7 +27,7 @@
 //    protected enum State {
 //        NORMAL,
 //        ATTAK,
-//        DEAD,
+//        DEATH,
 //    }
 //
 //    private State state;
@@ -267,15 +267,15 @@
 //                    }
 //                } else {
 //                    stateTime=0f;
-//                    state = State.DEAD;
-//                    currentState = Entity.State.DEAD;
+//                    state = State.DEATH;
+//                    currentState = Entity.State.DEATH;
 //
 //                }
 //
 //                break;
 //            case ATTAK:
 //                break;
-//            case DEAD:
+//            case DEATH:
 ////                Timer.schedule(new Timer.Task() {
 ////                    @Override
 ////                    public void run() {

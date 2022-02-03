@@ -230,7 +230,7 @@
 //                    currentFrame = FadingReality.resourceManager.playerAnimDashRight.getKeyFrame(stateTime, true);
 //                }
 //                break;
-//            case DEAD:
+//            case DEATH:
 //                if (currentDirection == Entity.Direction.LEFT) {
 //                    currentFrame = FadingReality.resourceManager.roninAnimDeadLeft.getKeyFrame(stateTime, false);
 //                } else if(currentDirection == Entity.Direction.RIGHT) {
@@ -252,7 +252,7 @@
 //            case MECHANISM_OPEN_GATE:
 //                currentFrame = FadingReality.resourceManager.securityMechanismAnimOpenGate.getKeyFrame(stateTime, false);
 //                break;
-//            case DEAD:
+//            case DEATH:
 //                currentFrame = FadingReality.resourceManager.kingAnimDeath.getKeyFrame(stateTime, false);
 //                break;
 //            case DANCE:

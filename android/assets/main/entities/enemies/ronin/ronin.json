@@ -14,9 +14,51 @@ chaseZoneBox: { x: 0, y: 0 }
 attackZoneBox: { x: 0, y: 0 }
 animationConfig: [
 	{
-	    frameDuration: 0.2
+	    frameDuration: 0.06
 	    animationType: IDLE_RIGHT
-	    atlasType: ATLAS_POLICE_B1
+	    atlasType: ATLAS_RONIN
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.06
+	    animationType: IDLE_LEFT
+	    atlasType: ATLAS_RONIN
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.05
+	    animationType: RUN_RIGHT
+	    atlasType: ATLAS_RONIN
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.05
+	    animationType: RUN_LEFT
+	    atlasType: ATLAS_RONIN
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.06
+	    animationType: MELEE_ATTACK_RIGHT
+	    atlasType: ATLAS_RONIN
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.06
+	    animationType: MELEE_ATTACK_LEFT
+	    atlasType: ATLAS_RONIN
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: DEATH_RIGHT
+	    atlasType: ATLAS_RONIN
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: DEATH_LEFT
+	    atlasType: ATLAS_RONIN
 	    playMode: LOOP
 	},]
 }

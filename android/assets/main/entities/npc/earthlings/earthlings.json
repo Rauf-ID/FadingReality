@@ -7,6 +7,19 @@ conversationConfigPath : ""
 questConfigPath : ""
 currentQuestID : ""
 itemTypeID: NONE
+animationConfig: [
+	{
+	    frameDuration: 0.1
+	    animationType: DANCE_RIGHT
+	    atlasType: ATLAS_EARTHLING_D1
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.1
+	    animationType: DANCE_LEFT
+	    atlasType: ATLAS_EARTHLING_D1
+	    playMode: LOOP
+	},]
 },
 {
 entityID : EARTHLINGS_D2
@@ -16,6 +29,25 @@ conversationConfigPath : ""
 questConfigPath : ""
 currentQuestID : ""
 itemTypeID: NONE
+animationConfig: [
+	{
+	    frameDuration: 0.06
+	    animationType: DANCE_RIGHT
+	    atlasType: ATLAS_EARTHLING_D2
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.06
+	    animationType: DANCE_LEFT
+	    atlasType: ATLAS_EARTHLING_D2
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: DEATH_RIGHT
+	    atlasType: ATLAS_EARTHLING_D2
+	    playMode: LOOP
+	},]
 },
 {
 entityID : EARTHLINGS_G1
@@ -25,6 +57,19 @@ conversationConfigPath : ""
 questConfigPath : ""
 currentQuestID : ""
 itemTypeID: NONE
+animationConfig: [
+	{
+	    frameDuration: 0.08
+	    animationType: DANCE_RIGHT
+	    atlasType: ATLAS_EARTHLING_G1
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.05
+	    animationType: SCARED_RIGHT
+	    atlasType: ATLAS_EARTHLING_G1
+	    playMode: LOOP
+	},]
 },
 {
 entityID : EARTHLINGS_E1
@@ -34,15 +79,25 @@ conversationConfigPath : ""
 questConfigPath : ""
 currentQuestID : ""
 itemTypeID: NONE
-},
-{
-entityID : BARTENDER
-state : NONE
-direction : DOWN
-conversationConfigPath : ""
-questConfigPath : ""
-currentQuestID : ""
-itemTypeID: NONE
+animationConfig: [
+	{
+	    frameDuration: 0.08
+	    animationType: DANCE_RIGHT
+	    atlasType: ATLAS_EARTHLING_E1
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.08
+	    animationType: DANCE_LEFT
+	    atlasType: ATLAS_EARTHLING_E1
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.06
+	    animationType: RUN_DOWN
+	    atlasType: ATLAS_EARTHLING_E1
+	    playMode: LOOP
+	},]
 },
 {
 entityID : HOLOGRAM_G2
@@ -52,5 +107,40 @@ conversationConfigPath : ""
 questConfigPath : ""
 currentQuestID : ""
 itemTypeID: NONE
+animationConfig: [
+	{
+	    frameDuration: 0.1
+	    animationType: DANCE_RIGHT
+	    atlasType: ATLAS_HOLOGRAM_G2
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.1
+	    animationType: DISTORTION_RIGHT
+	    atlasType: ATLAS_HOLOGRAM_G2
+	    playMode: LOOP
+	}]
+},
+{
+entityID : BARTENDER
+state : NONE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+animationConfig: [
+	{
+	    frameDuration: 0.11
+	    animationType: IDLE_RIGHT
+	    atlasType: ATLAS_BARTENDER
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.1
+	    animationType: DEATH_RIGHT
+	    atlasType: ATLAS_BARTENDER
+	    playMode: LOOP
+	}]
 },
 ]

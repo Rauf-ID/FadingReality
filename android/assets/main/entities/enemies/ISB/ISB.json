@@ -1,0 +1,140 @@
+[
+{
+entityID : ISB_S1
+state : NONE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+animationConfig: [
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE_RIGHT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE_LEFT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE2_RIGHT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE2_LEFT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.12
+	    animationType: ASSAULT_RIGHT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.12
+	    animationType: ASSAULT_LEFT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},]
+},
+{
+entityID : ISB_S2
+state : NONE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+animationConfig: [
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE_RIGHT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE_LEFT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE2_RIGHT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE2_LEFT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.13
+	    animationType: ASSAULT_RIGHT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.13
+	    animationType: ASSAULT_LEFT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},]
+},
+{
+entityID : ISB_S3
+state : NONE
+direction : DOWN
+conversationConfigPath : ""
+questConfigPath : ""
+currentQuestID : ""
+itemTypeID: NONE
+animationConfig: [
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE_RIGHT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE_LEFT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE2_RIGHT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.2
+	    animationType: IDLE2_LEFT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.12
+	    animationType: ASSAULT_RIGHT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},
+	{
+	    frameDuration: 0.12
+	    animationType: ASSAULT_LEFT
+	    atlasType: ATLAS_ELITE_KNIGHT
+	    playMode: LOOP
+	},]
+}
+]

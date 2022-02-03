@@ -123,7 +123,7 @@ public class NPC extends Component {
                 break;
             case FREEZE:
                 break;
-            case DEAD:
+            case DEATH:
                 break;
         }
 

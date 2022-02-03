@@ -292,7 +292,7 @@ public class Player extends Component {
         }
 
         //INPUT
-        updateCollisionWithMapEntities(entity, mapManager);
+//        updateCollisionWithMapEntities(entity, mapManager);
         input(entity);
 
 
@@ -537,8 +537,8 @@ public class Player extends Component {
                     }
                 } else {
                     stateTime = 0f;
-                    state = State.DEAD;
-                    currentState = Entity.State.DEAD;
+                    state = State.DEATH;
+                    currentState = Entity.State.DEATH;
                 }
                 break;
             case FREEZE:
@@ -547,7 +547,7 @@ public class Player extends Component {
                     state = State.NORMAL;
                 }
                 break;
-            case DEAD:
+            case DEATH:
                 break;
         }
     }
@@ -761,8 +761,6 @@ public class Player extends Component {
         };
         return false;
     }
-
-
 
 
 

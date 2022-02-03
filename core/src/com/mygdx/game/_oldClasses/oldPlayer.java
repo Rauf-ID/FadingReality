@@ -27,7 +27,7 @@
 //    protected enum State {
 //        NORMAL,
 //        FREEZ,
-//        DEAD,
+//        DEATH,
 //    }
 //
 //    private State state;
@@ -487,8 +487,8 @@
 //                    }
 //                } else {
 //                    stateTime = 0f;
-//                    state = State.DEAD;
-//                    currentState = Entity.State.DEAD;
+//                    state = State.DEATH;
+//                    currentState = Entity.State.DEATH;
 //                }
 //                break;
 //            case FREEZ:
@@ -497,7 +497,7 @@
 //                    state = State.NORMAL;
 //                }
 //                break;
-//            case DEAD:
+//            case DEATH:
 //                break;
 //        }
 //    }

@@ -80,8 +80,10 @@ public class Enemy extends Component {
                 initActiveZoneBox(entityConfig.getActiveZoneBox());
                 setHealth(entityConfig.getHealth());
                 setMaxHealth(entityConfig.getMaxHealth());
-                Weapon weapon = WeaponFactory.getInstance().getWeapon(entityConfig.getWeaponID());
-                weaponSystem.setRangedWeapon(weapon);
+                if (entityConfig.getWeaponID() != null) {
+                    Weapon weapon = WeaponFactory.getInstance().getWeapon(entityConfig.getWeaponID());
+                    weaponSystem.setRangedWeapon(weapon);
+                }
 //                chaseRangeBox.set(currentEntityPosition.x-(entityConfig.getAttackRadiusBoxWidth()/2)+(boundingBox.width/2), currentEntityPosition.y-(entityConfig.getAttackRadiusBoxHeight()/2)+(boundingBox.height/2), entityConfig.getAttackRadiusBoxWidth(), entityConfig.getAttackRadiusBoxHeight());
             } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
@@ -107,16 +109,9 @@ public class Enemy extends Component {
         this.mapManager = mapManager;
         this.camera = mapManager.getCamera();
 
-
-
-//        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
-//            enemyActive = !enemyActive;
-//        }
-//        if (enemyActive) {
-//            state = State.NORMAL;
-//        } else {
-//            state = State.FREEZE;
-//        }
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) enemyActive = !enemyActive;
+//        if (enemyActive) state = State.NORMAL;
+//        else state = State.FREEZE;
 
         updateHitBox();
         updateImageBox();
@@ -126,7 +121,6 @@ public class Enemy extends Component {
         updateChaseRangeBox(64,64);
         updateShifts(mapManager, delta, 10);
         setSwordRangeBox(new Vector2(10000,10000),0,0);
-
 
 
         switch (state) {
@@ -145,8 +139,8 @@ public class Enemy extends Component {
                 updateAmmoHit(player, weapon);
                 updateHealth(entity, player);
                 break;
-            case DEAD:
-                currentState = Entity.State.DEAD;
+            case DEATH:
+                currentState = Entity.State.DEATH;
                 break;
             case FREEZE:
                 break;
@@ -221,7 +215,7 @@ public class Enemy extends Component {
             mapManager.setCurrentMapEntity(entity); // Задать текущего персонажа на карте
             player.sendMessage(MESSAGE.ENEMY_KILLED);
             notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.ENEMY_DEAD);
-            state = State.DEAD;
+            state = State.DEATH;
         }
     }
 
@@ -314,14 +308,6 @@ public class Enemy extends Component {
 //        }
         shapeRenderer.end();
     }
-
-
-
-
-
-
-
-
 
 
     @Override

@@ -31,6 +31,7 @@ public class EntityFactory {
         POLICE_B1, POLICE_R1,
         MERCENARIES_M1,
         EARTHLINGS_D1, EARTHLINGS_D2, EARTHLINGS_G1, EARTHLINGS_E1, BARTENDER, HOLOGRAM_G2,
+        ISB_S1,
         ELITE_KNIGHT,
         MERCHANT,
         OVERSEER,

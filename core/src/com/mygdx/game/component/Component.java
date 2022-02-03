@@ -38,7 +38,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected enum State {
         NORMAL,
         FREEZE,
-        DEAD,
+        DEATH,
     }
 
     protected State state;
@@ -284,7 +284,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         this.weaponSpeed = weaponSpeed;
     }
 
-
     public int getCritChance() {
         return critChance;
     }
@@ -492,6 +491,17 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                     currentFrame = animations.get(Entity.AnimationType.IDLE_RIGHT).getKeyFrame(stateTime);
                 }
                 break;
+            case IDLE2:
+                if (currentDirection == Entity.Direction.UP) {
+                    currentFrame = animations.get(Entity.AnimationType.IDLE2_UP).getKeyFrame(stateTime);
+                } else if(currentDirection == Entity.Direction.DOWN) {
+                    currentFrame = animations.get(Entity.AnimationType.IDLE2_DOWN).getKeyFrame(stateTime);
+                } else if(currentDirection == Entity.Direction.LEFT) {
+                    currentFrame = animations.get(Entity.AnimationType.IDLE2_LEFT).getKeyFrame(stateTime);
+                } else if(currentDirection == Entity.Direction.RIGHT) {
+                    currentFrame = animations.get(Entity.AnimationType.IDLE2_RIGHT).getKeyFrame(stateTime);
+                }
+                break;
             case WALK:
                 if (currentDirection == Entity.Direction.UP) {
                     currentFrame = animations.get(Entity.AnimationType.RUN_UP).getKeyFrame(stateTime); // Correct in the future
@@ -548,9 +558,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                     currentFrame = animations.get(Entity.AnimationType.RANGED_ATTACK_RIGHT).getKeyFrame(stateTime);
                 }
                 break;
-            case WALK_SHADOW:
-                currentFrame = FadingReality.resourceManager.securityMechanismAnimWalkDownShadow.getKeyFrame(stateTime, true);
-                break;
             case DASH:
                 if (mouseDirection == Entity.MouseDirection.UP) {
                     currentFrame = animations.get(Entity.AnimationType.RUN_UP).getKeyFrame(stateTime); // Correct in the future
@@ -562,11 +569,38 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                     currentFrame = animations.get(Entity.AnimationType.DASH_RIGHT).getKeyFrame(stateTime);
                 }
                 break;
-            case DEAD:
+            case DEATH:
                 if (currentDirection == Entity.Direction.LEFT) {
-                    currentFrame = FadingReality.resourceManager.roninAnimDeadLeft.getKeyFrame(stateTime, false);
+                    currentFrame = animations.get(Entity.AnimationType.DEATH_LEFT).getKeyFrame(stateTime);
                 } else if(currentDirection == Entity.Direction.RIGHT) {
-                    currentFrame = FadingReality.resourceManager.roninAnimDeadRight.getKeyFrame(stateTime, false);
+                    currentFrame = animations.get(Entity.AnimationType.DEATH_RIGHT).getKeyFrame(stateTime);
+                }
+                break;
+            case DANCE:
+                if(currentDirection == Entity.Direction.LEFT) {
+                    currentFrame = animations.get(Entity.AnimationType.DANCE_LEFT).getKeyFrame(stateTime);
+                } else if(currentDirection == Entity.Direction.RIGHT) {
+                    currentFrame = animations.get(Entity.AnimationType.DANCE_RIGHT).getKeyFrame(stateTime);
+                }
+                break;
+            case ASSAULT:
+                if(mouseDirection == Entity.MouseDirection.LEFT) {
+                    currentFrame = animations.get(Entity.AnimationType.ASSAULT_LEFT).getKeyFrame(stateTime);
+                } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
+                    currentFrame = animations.get(Entity.AnimationType.ASSAULT_RIGHT).getKeyFrame(stateTime);
+                }
+            case DISTORTION:
+                if(mouseDirection == Entity.MouseDirection.LEFT) {
+                    currentFrame = animations.get(Entity.AnimationType.DISTORTION_LEFT).getKeyFrame(stateTime);
+                } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
+                    currentFrame = animations.get(Entity.AnimationType.DISTORTION_RIGHT).getKeyFrame(stateTime);
+                }
+                break;
+            case SCARED:
+                if(mouseDirection == Entity.MouseDirection.LEFT) {
+                    currentFrame = animations.get(Entity.AnimationType.SCARED_LEFT).getKeyFrame(stateTime);
+                } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
+                    currentFrame = animations.get(Entity.AnimationType.SCARED_RIGHT).getKeyFrame(stateTime);
                 }
                 break;
             case TAKING_DAMAGE:
@@ -577,6 +611,9 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                     currentFrame = FadingReality.resourceManager.roninDeadRight;
                     currentFrame2 = FadingReality.resourceManager.bloodRight.getKeyFrame(stateTime, true);
                 }
+                break;
+            case WALK_SHADOW:
+                currentFrame = FadingReality.resourceManager.securityMechanismAnimWalkDownShadow.getKeyFrame(stateTime, true);
                 break;
             case POLICE_STOPS:
                 currentFrame = animations.get(Entity.AnimationType.STOPS).getKeyFrame(stateTime);
@@ -592,27 +629,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 break;
             case MECHANISM_OPEN_GATE:
                 currentFrame = FadingReality.resourceManager.securityMechanismAnimOpenGate.getKeyFrame(stateTime, false);
-                break;
-            case DEATH:
-                currentFrame = FadingReality.resourceManager.kingAnimDeath.getKeyFrame(stateTime, false);
-                break;
-            case DANCE:
-                if (entityName.equals(EntityFactory.EntityName.EARTHLINGS_D1.toString())) {
-                    currentFrame = FadingReality.resourceManager.earthlingsAnimDanceD1.getKeyFrame(stateTime, true);
-                } else if (entityName.equals(EntityFactory.EntityName.EARTHLINGS_D2.toString())) {
-                    currentFrame = FadingReality.resourceManager.earthlingsAnimDanceD2.getKeyFrame(stateTime, true);
-                } else if (entityName.equals(EntityFactory.EntityName.EARTHLINGS_E1.toString())) {
-                    currentFrame = FadingReality.resourceManager.earthlingsAnimDanceE1.getKeyFrame(stateTime, true);
-                } else if (entityName.equals(EntityFactory.EntityName.EARTHLINGS_G1.toString())) {
-                    currentFrame = FadingReality.resourceManager.earthlingsAnimDanceG1.getKeyFrame(stateTime, true);
-                }  else if (entityName.equals(EntityFactory.EntityName.HOLOGRAM_G2.toString())) {
-                    currentFrame = FadingReality.resourceManager.earthlingsAnimDanceHologramG2.getKeyFrame(stateTime, true);
-                }
-                break;
-            case WIPES_GLASS:
-                if (entityName.equals(EntityFactory.EntityName.BARTENDER.toString())) {
-                    currentFrame = FadingReality.resourceManager.earthlingsAnimDanceBartender.getKeyFrame(stateTime, true);
-                }
                 break;
             case BAR_DRINK:
                 currentFrame = FadingReality.resourceManager.playerAnimBarDrink.getKeyFrame(stateTime, false);
