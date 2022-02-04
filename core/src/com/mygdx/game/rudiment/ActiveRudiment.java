@@ -6,7 +6,7 @@ import com.mygdx.game.component.Message;
 import com.mygdx.game.component.Player;
 import com.mygdx.game.entity.Entity;
 
-public class ActiveRudiment extends Rudiment {
+public class ActiveRudiment extends PassiveRudiment{
     private Vector2 activeZone;
 
     public ActiveRudiment(){}

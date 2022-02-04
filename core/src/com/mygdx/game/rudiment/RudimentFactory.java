@@ -13,17 +13,17 @@ public class RudimentFactory {
     private static RudimentFactory instance = null;
 
     private Json json = new Json();
-    private Hashtable<Item.ItemID, Rudiment> rudimentTable;
+    private Hashtable<Item.ItemID, PassiveRudiment> rudimentTable;
     private Hashtable<Item.ItemID, ActiveRudiment> activeRudimentTable;
 
     private RudimentFactory(){
         ArrayList<JsonValue> rudimentsList = json.fromJson(ArrayList.class, Gdx.files.internal(ResourceManager.PATH_TO_JSON_RUDIMENTS));
         ArrayList<JsonValue> activeRudimentsList = json.fromJson(ArrayList.class, Gdx.files.internal("main/items/activeRudiments.json"));
-        rudimentTable = new Hashtable<Item.ItemID, Rudiment>();
-        activeRudimentTable = new Hashtable<Item.ItemID, ActiveRudiment>();
+        rudimentTable = new Hashtable<>();
+        activeRudimentTable = new Hashtable<>();
 
         for (JsonValue jsonVal : rudimentsList) {
-            Rudiment rudiment = json.readValue(Rudiment.class, jsonVal);
+            PassiveRudiment rudiment = json.readValue(PassiveRudiment.class, jsonVal);
             rudimentTable.put(rudiment.getRudimentID(), rudiment);
         }
         for (JsonValue jsonVal : activeRudimentsList){
@@ -39,8 +39,8 @@ public class RudimentFactory {
         return instance;
     }
 
-    public Rudiment getRudiment(Item.ItemID inventoryItemType){
-        return new Rudiment(rudimentTable.get(inventoryItemType));
+    public PassiveRudiment getRudiment(Item.ItemID inventoryItemType){
+        return new PassiveRudiment(rudimentTable.get(inventoryItemType));
     }
 
     public ActiveRudiment getActiveRudiment(Item.ItemID inventoryItemType){
