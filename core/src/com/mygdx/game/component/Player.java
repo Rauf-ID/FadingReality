@@ -19,11 +19,11 @@ import com.mygdx.game.entity.EntityConfig;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.item.Item;
 import com.mygdx.game.item.Item.ItemID;
+import com.mygdx.game.item.ItemFactory;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.rudiment.ActiveRudiment;
 import com.mygdx.game.rudiment.Rudiment;
 import com.mygdx.game.rudiment.RudimentFactory;
-import com.mygdx.game.rudiment.RudimentWeapon;
 import com.mygdx.game.tools.Rumble;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.managers.ControlManager;
@@ -146,18 +146,16 @@ public class Player extends Component {
             }  else if(string[0].equalsIgnoreCase(MESSAGE.SET_UNIQUE_RUDIMENT.toString())) {
                 String uniqueRudimentIDStr = json.fromJson(String.class, string[1]);
                 ItemID uniqueRudimentID = Item.ItemID.valueOf(uniqueRudimentIDStr);
-                Rudiment uniqueRudiment;
-                try {
-                    uniqueRudiment = RudimentFactory.getInstance().getActiveRudiment(uniqueRudimentID);
-                }catch (NullPointerException e){
-                    uniqueRudiment = RudimentFactory.getInstance().getRudimentWeapon(uniqueRudimentID);
-                }
-                if(uniqueRudiment.getRudimentType().equals("Weapon")){
+                Item item = ItemFactory.getInstance().getInventoryItem(uniqueRudimentID);
+                if (item.isRudimentWeapon()) {
+                    Rudiment uniqueRudiment = RudimentFactory.getInstance().getRudimentWeapon(uniqueRudimentID);
                     System.out.println("Weapon");
-                }else{
+                    rudimentSystem.setUniqueRudiment(uniqueRudiment);
+                } else {
+                    Rudiment uniqueRudiment = RudimentFactory.getInstance().getActiveRudiment(uniqueRudimentID);
                     System.out.println("Active");
+                    rudimentSystem.setUniqueRudiment(uniqueRudiment);
                 }
-                rudimentSystem.setUniqueRudiment(uniqueRudiment);
             }  else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_MELEE_WEAPON.toString())) {
                 weaponSystem.setMeleeWeapon(null);
             } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_RANGED_WEAPON.toString())) {

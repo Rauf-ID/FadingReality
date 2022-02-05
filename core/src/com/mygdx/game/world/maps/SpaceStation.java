@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityFactory;
+import com.mygdx.game.item.Item;
 import com.mygdx.game.world.Map;
 import com.mygdx.game.world.MapFactory;
 
@@ -21,6 +22,10 @@ public class SpaceStation extends Map {
         Entity mercenariesM1 = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.MERCENARIES_M1);
         initEntity(mercenariesM1, new Vector2(890,230), Entity.Direction.RIGHT);
         mapEntities.add(mercenariesM1);
+
+        Entity potions01 = EntityFactory.getInstance().getItem(Item.ItemID.POTIONS01);
+        initEntity(potions01, new Vector2(1200,320), Entity.Direction.RIGHT);
+        mapEntities.add(potions01);
 
     }
 

@@ -15,6 +15,7 @@ public class Item extends Image {
         LIGHT_WEAPON,
         MEDIUM_WEAPON,
         HEAVY_WEAPON,
+        RUDIMENT_WEAPON
     }
 
     public enum ItemUseType{
@@ -190,6 +191,10 @@ public class Item extends Image {
 
     public  boolean isHeavyWeapon() {
         return  itemAttributes.contains(ItemAttribute.HEAVY_WEAPON, true);
+    }
+
+    public  boolean isRudimentWeapon() {
+        return  itemAttributes.contains(ItemAttribute.RUDIMENT_WEAPON, true);
     }
 
 

@@ -13,7 +13,8 @@ public interface ComponentObserver {
         ITEM_PICK_UP,
         PLAYER_DASH,
         PLAYER_DASH_UPDATE,
-        RANGE_WEAPON_UPDATE
+        RANGE_WEAPON_UPDATE,
+        TEST_EVENT,
     }
 
     void onNotify(final String value, ComponentEvent event);

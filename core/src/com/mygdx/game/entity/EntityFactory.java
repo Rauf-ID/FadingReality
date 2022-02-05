@@ -7,9 +7,12 @@ import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.component.Component;
 import com.mygdx.game.component.Enemy;
 import com.mygdx.game.component.Exoskeleton;
+import com.mygdx.game.component.MapItem;
 import com.mygdx.game.component.MapObject;
+import com.mygdx.game.component.Message;
 import com.mygdx.game.component.NPC;
 import com.mygdx.game.component.Player;
+import com.mygdx.game.item.Item;
 import com.mygdx.game.managers.ResourceManager;
 
 import java.util.Hashtable;
@@ -21,7 +24,7 @@ public class EntityFactory {
         ENEMY,
         NPC,
         MAP_OBJECT,
-        ITEM,
+        MAP_ITEM,
         TESTPLAYER,
         EXOSKELETON
     }
@@ -130,6 +133,9 @@ public class EntityFactory {
             case EXOSKELETON:
                 entity = new Entity(new Exoskeleton());
                 return entity;
+            case MAP_ITEM:
+                entity = new Entity(new MapItem());
+                return entity;
             default:
                 return null;
         }
@@ -140,9 +146,6 @@ public class EntityFactory {
         switch(entityType){
             case MAP_OBJECT:
                 entity = new Entity(new MapObject(textureMapObject));
-                return entity;
-            case ITEM:
-                entity = new Entity(new MapObject(textureMapObject, isItem));
                 return entity;
             default:
                 return null;
@@ -161,9 +164,16 @@ public class EntityFactory {
         return entity;
     }
 
-//    public Entity getItem(Item.ItemID itemID, Vector2 position) {
-//        return Entity.initItem(itemID, position);
-//    }
+    public Entity getItem(Item.ItemID itemID) {
+        Json json = new Json();
+        EntityConfig entityConfig = new EntityConfig(entities.get(itemID.toString()));
+        Entity entity = EntityFactory.getEntity(EntityType.MAP_ITEM);
+        if (entity != null) {
+            entity.setEntityConfig(entityConfig);
+            entity.sendMessage(Component.MESSAGE.INIT_ITEM, json.toJson(itemID));
+        }
+        return entity;
+    }
 
     public Entity getNPCByNameForQuest(EntityName entityName, Vector2 position, Entity.Direction direction, String conversationConfigPath){
         EntityConfig config = new EntityConfig(entities.get(entityName.toString()));

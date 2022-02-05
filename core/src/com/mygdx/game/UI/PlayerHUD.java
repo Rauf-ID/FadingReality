@@ -405,6 +405,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             case PLAYER_DASH_UPDATE:
                 progressBar.plusValue(0.25f);
                 break;
+            case TEST_EVENT:
+                break;
             default:
                 break;
         }

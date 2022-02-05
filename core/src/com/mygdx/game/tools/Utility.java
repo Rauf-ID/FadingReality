@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public final class Utility {
 
     public static TextureAtlas ITEMS_TEXTUREATLAS = new TextureAtlas("textures/items/items.atlas");
+    public static TextureAtlas MAP_ITEMS_TEXTUREATLAS = new TextureAtlas("textures/entities/mapItems/mapItems.atlas");
     public static TextureAtlas STATUSUI = new TextureAtlas("textures/skins/statusui.atlas");
 
 }

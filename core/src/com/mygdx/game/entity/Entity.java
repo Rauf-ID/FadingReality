@@ -402,14 +402,6 @@ public class Entity implements Comparable<Entity> {
         return entity;
     }
 
-//    public static Entity initItem(Item.ItemID itemID, Vector2 position){
-//        Json json = new Json();
-//        Entity entity = new Entity(new MapObject());
-//        entity.sendMessage(Component.MESSAGE.INIT_ITEM, json.toJson(itemID));
-//        entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
-//        return entity;
-//    }
-
     public static Entity initNPCForQuest(EntityConfig entityConfig, Vector2 position, Entity.Direction direction){
         Json json = new Json();
         Entity entity = EntityFactory.getEntity(EntityFactory.EntityType.NPC);

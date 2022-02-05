@@ -91,7 +91,7 @@
 	itemID: SUPERIOR,
 	itemShortDescription: Superior,
 	itemUseType: UNIQUE_RUDIMENT,
-	itemAttributes: [EQUIPPABLE],
+	itemAttributes: [EQUIPPABLE, RUDIMENT_WEAPON],
 	itemUseTypeValue: 101,
 	itemValue: 75100,
 }

@@ -11,37 +11,37 @@ animationConfig: [
 	{
 	    frameDuration: 0.2
 	    animationType: IDLE_RIGHT
-	    atlasType: ATLAS_ELITE_KNIGHT
+	    atlasType: ATLAS_ISB_S1
 	    playMode: LOOP
 	},
 	{
 	    frameDuration: 0.2
 	    animationType: IDLE_LEFT
-	    atlasType: ATLAS_ELITE_KNIGHT
+	    atlasType: ATLAS_ISB_S1
 	    playMode: LOOP
 	},
 	{
 	    frameDuration: 0.2
 	    animationType: IDLE2_RIGHT
-	    atlasType: ATLAS_ELITE_KNIGHT
+	    atlasType: ATLAS_ISB_S1
 	    playMode: LOOP
 	},
 	{
 	    frameDuration: 0.2
 	    animationType: IDLE2_LEFT
-	    atlasType: ATLAS_ELITE_KNIGHT
+	    atlasType: ATLAS_ISB_S1
 	    playMode: LOOP
 	},
 	{
 	    frameDuration: 0.12
 	    animationType: ASSAULT_RIGHT
-	    atlasType: ATLAS_ELITE_KNIGHT
+	    atlasType: ATLAS_ISB_S1
 	    playMode: LOOP
 	},
 	{
 	    frameDuration: 0.12
 	    animationType: ASSAULT_LEFT
-	    atlasType: ATLAS_ELITE_KNIGHT
+	    atlasType: ATLAS_ISB_S1
 	    playMode: LOOP
 	},]
 },
@@ -57,37 +57,37 @@ animationConfig: [
 	{
 	    frameDuration: 0.2
 	    animationType: IDLE_RIGHT
-	    atlasType: ATLAS_ELITE_KNIGHT
+	    atlasType: ATLAS_ISB_S2
 	    playMode: LOOP
 	},
 	{
 	    frameDuration: 0.2
 	    animationType: IDLE_LEFT
-	    atlasType: ATLAS_ELITE_KNIGHT
+	    atlasType: ATLAS_ISB_S2
 	    playMode: LOOP
 	},
 	{
 	    frameDuration: 0.2
 	    animationType: IDLE2_RIGHT
-	    atlasType: ATLAS_ELITE_KNIGHT
+	    atlasType: ATLAS_ISB_S2
 	    playMode: LOOP
 	},
 	{
 	    frameDuration: 0.2
 	    animationType: IDLE2_LEFT
-	    atlasType: ATLAS_ELITE_KNIGHT
+	    atlasType: ATLAS_ISB_S2
 	    playMode: LOOP
 	},
 	{
 	    frameDuration: 0.13
 	    animationType: ASSAULT_RIGHT
-	    atlasType: ATLAS_ELITE_KNIGHT
+	    atlasType: ATLAS_ISB_S2
 	    playMode: LOOP
 	},
 	{
 	    frameDuration: 0.13
 	    animationType: ASSAULT_LEFT
-	    atlasType: ATLAS_ELITE_KNIGHT
+	    atlasType: ATLAS_ISB_S2
 	    playMode: LOOP
 	},]
 },

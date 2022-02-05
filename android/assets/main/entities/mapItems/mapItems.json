@@ -1,57 +1,53 @@
 [
 {
 "entityID": "ARMOR04",
-"hitBox": { "x": 0, "y": 0 },
 "imageBox": { "x": 0, "y": 0 },
 "boundingBox": { "x": 0, "y": 0 },
 "activeZoneBox": { "x": 0, "y": 0 },
 "animationConfig": [
 	{
-	    frameDuration: 0
+	    frameDuration: 1
 	    animationType: IDLE_RIGHT
-	    atlasType: ATLAS_EXOSKELETON_M1
+	    atlasType: ATLAS_MAP_ITEMS
 	    playMode: NORMAL
 	}]
 },
 {
 "entityID": "BOOTS03",
-"hitBox": { "x": 0, "y": 0 },
 "imageBox": { "x": 0, "y": 0 },
 "boundingBox": { "x": 0, "y": 0 },
 "activeZoneBox": { "x": 0, "y": 0 },
 "animationConfig": [
 	{
-	    frameDuration: 0
+	    frameDuration: 1
 	    animationType: IDLE_RIGHT
-	    atlasType: ATLAS_EXOSKELETON_M1
+	    atlasType: ATLAS_MAP_ITEMS
 	    playMode: NORMAL
 	}]
 },
 {
 "entityID": "HELMET05",
-"hitBox": { "x": 0, "y": 0 },
 "imageBox": { "x": 0, "y": 0 },
 "boundingBox": { "x": 0, "y": 0 },
 "activeZoneBox": { "x": 0, "y": 0 },
 "animationConfig": [
 	{
-	    frameDuration: 0
+	    frameDuration: 1
 	    animationType: IDLE_RIGHT
-	    atlasType: ATLAS_EXOSKELETON_M1
+	    atlasType: ATLAS_MAP_ITEMS
 	    playMode: NORMAL
 	}]
 },
 {
 "entityID": "POTIONS01",
-"hitBox": { "x": 0, "y": 0 },
-"imageBox": { "x": 0, "y": 0 },
-"boundingBox": { "x": 0, "y": 0 },
-"activeZoneBox": { "x": 0, "y": 0 },
+"imageBox": { "x": 16, "y": 16 },
+"boundingBox": { "x": 16, "y": 16 },
+"activeZoneBox": { "x": 32, "y": 32 },
 "animationConfig": [
 	{
-	    frameDuration: 0
+	    frameDuration: 1
 	    animationType: IDLE_RIGHT
-	    atlasType: ATLAS_EXOSKELETON_M1
+	    atlasType: ATLAS_MAP_ITEMS
 	    playMode: NORMAL
 	}]
 },

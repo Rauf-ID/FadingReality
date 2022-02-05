@@ -432,6 +432,16 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         boundingBox.setPosition(entityX, entityY);
     }
 
+    protected void updateBoundingBoxForItem() {
+        float entityX =  currentEntityPosition.x;
+        float entityY =  currentEntityPosition.y;
+        int middleImageWidth = (int) imageBox.getWidth() / 2;
+        int middleImageHeight = (int) imageBox.getHeight() / 2;
+        int middleBoundingBoxWidth = (int) boundingBox.getWidth() / 2;
+        int boundingBoxHeight = (int) boundingBox.getHeight() * 2;
+        boundingBox.setPosition(entityX + middleImageWidth - middleBoundingBoxWidth, entityY);
+    }
+
     protected void setSwordRangeBox(Vector2 position, float width, float height) {
         swordRangeBox.set(position.x, position.y, width,height);
     }

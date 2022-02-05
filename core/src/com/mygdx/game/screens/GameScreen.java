@@ -144,13 +144,8 @@ public class GameScreen implements Screen {
                     if (object.getProperties().get("objectType").equals("item") && player.getMapItems().contains(Integer.parseInt((String) object.getProperties().get("objectID")), true)) {
                         continue;
                     } else {
-                        if (object.getProperties().get("objectType").equals("item")) {
-                            TextureMapObject textureMapObject = (TextureMapObject) object;
-                            mapMgr.addMapEntities(EntityFactory.getInstance().getEntity(EntityFactory.EntityType.ITEM, textureMapObject, true));
-                        } else {
-                            TextureMapObject textureMapObject = (TextureMapObject) object;
-                            mapMgr.addMapEntities(EntityFactory.getInstance().getEntity(EntityFactory.EntityType.MAP_OBJECT, textureMapObject, false));
-                        }
+                        TextureMapObject textureMapObject = (TextureMapObject) object;
+                        mapMgr.addMapEntities(EntityFactory.getInstance().getEntity(EntityFactory.EntityType.MAP_OBJECT, textureMapObject, false));
                     }
                 }
             }
