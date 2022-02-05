@@ -12,8 +12,8 @@ import com.mygdx.game.weapon.Ammo.AmmoID;
 import com.mygdx.game.weapon.Weapon;
 
 public class RudimentSystem {
-    private Rudiment rudimentOne = null, rudimentTwo = null;
-    private ActiveRudiment activeRudiment = null;
+    private Rudiment rudimentOne = null, rudimentTwo = null, uniqueRudiment = null;
+
 
     public RudimentSystem() {
 
@@ -35,12 +35,12 @@ public class RudimentSystem {
         this.rudimentTwo = rudimentTwo;
     }
 
-    public ActiveRudiment getActiveRudiment() {
-        return activeRudiment;
+    public Rudiment getUniqueRudiment() {
+        return uniqueRudiment;
     }
 
-    public void setActiveRudiment(ActiveRudiment activeRudiment) {
-        this.activeRudiment = activeRudiment;
+    public void setUniqueRudiment(Rudiment uniqueRudiment) {
+        this.uniqueRudiment = uniqueRudiment;
     }
 }
 

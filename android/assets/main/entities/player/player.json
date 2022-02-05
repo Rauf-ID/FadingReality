@@ -40,6 +40,9 @@ inventory : [
 	},
 		{
 		value: VORTEX
+	},
+		{
+		value: SUPERIOR
 	}]
 shopItems : [
 	{

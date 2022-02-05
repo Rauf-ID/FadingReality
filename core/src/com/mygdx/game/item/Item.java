@@ -46,7 +46,7 @@ public class Item extends Image {
         ANGEL_BLADE,
         ICHOR,
         ATOMIC_HEART, RUBEDO,
-        VORTEX,
+        VORTEX, SUPERIOR,
         NONE
     }
 

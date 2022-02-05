@@ -23,6 +23,7 @@ import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.rudiment.ActiveRudiment;
 import com.mygdx.game.rudiment.Rudiment;
 import com.mygdx.game.rudiment.RudimentFactory;
+import com.mygdx.game.rudiment.RudimentWeapon;
 import com.mygdx.game.tools.Rumble;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.managers.ControlManager;
@@ -145,8 +146,18 @@ public class Player extends Component {
             }  else if(string[0].equalsIgnoreCase(MESSAGE.SET_UNIQUE_RUDIMENT.toString())) {
                 String uniqueRudimentIDStr = json.fromJson(String.class, string[1]);
                 ItemID uniqueRudimentID = Item.ItemID.valueOf(uniqueRudimentIDStr);
-                ActiveRudiment uniqueRudiment = RudimentFactory.getInstance().getActiveRudiment(uniqueRudimentID);
-                rudimentSystem.setActiveRudiment(uniqueRudiment);
+                Rudiment uniqueRudiment;
+                try {
+                    uniqueRudiment = RudimentFactory.getInstance().getActiveRudiment(uniqueRudimentID);
+                }catch (NullPointerException e){
+                    uniqueRudiment = RudimentFactory.getInstance().getRudimentWeapon(uniqueRudimentID);
+                }
+                if(uniqueRudiment.getRudimentType().equals("Weapon")){
+                    System.out.println("Weapon");
+                }else{
+                    System.out.println("Active");
+                }
+                rudimentSystem.setUniqueRudiment(uniqueRudiment);
             }  else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_MELEE_WEAPON.toString())) {
                 weaponSystem.setMeleeWeapon(null);
             } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_RANGED_WEAPON.toString())) {
@@ -156,7 +167,7 @@ public class Player extends Component {
             } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_RUDIMENT_TWO.toString())) {
                 rudimentSystem.setRudimentTwo(null);
             } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_UNIQUE_RUDIMENT.toString())) {
-                rudimentSystem.setActiveRudiment(null);
+                rudimentSystem.setUniqueRudiment(null);
             } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
@@ -425,14 +436,14 @@ public class Player extends Component {
 
                         //RUDIMENT
                         if (Gdx.input.isKeyJustPressed(Input.Keys.F) && this.rudimentCharge>=1 && !usingRudiment &&
-                                rudimentSystem.getActiveRudiment()!=null) {
+                                rudimentSystem.getUniqueRudiment()!=null) {
                             usingRudiment=true;
                             currentEntityPosition.x -= 64;
                             currentEntityPosition.y -= 64;
                             stateTime = 0f;
                             state = State.FREEZE;
                             currentState = Entity.State.USE_RUDIMENT;
-                            rudimentSystem.getActiveRudiment().activateRudiment(this);
+                            rudimentSystem.getUniqueRudiment().activateRudiment(this);
                             rudimentCharge-=1;
 
                             PlayerHUD.toastShort("Use Rudiment", Toast.Length.SHORT);

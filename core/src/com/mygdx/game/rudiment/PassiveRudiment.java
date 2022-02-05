@@ -1,5 +1,6 @@
 package com.mygdx.game.rudiment;
 
+import com.mygdx.game.component.Player;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.item.Item;
 
@@ -35,6 +36,16 @@ public class PassiveRudiment implements Rudiment {
         player.setMeleeDamageBoost(player.getMeleeDamageBoost()-rudimentStatsProperties.get(2));
         player.setDamageResist(player.getDamageResist()-rudimentStatsProperties.get(3));
         player.setWeaponSpeed(player.getWeaponSpeed()-rudimentStatsProperties.get(4));
+    }
+
+    @Override
+    public void activateRudiment(Player player) {
+
+    }
+
+    @Override
+    public String getRudimentType() {
+        return null;
     }
 
     public Item.ItemID getRudimentID() {

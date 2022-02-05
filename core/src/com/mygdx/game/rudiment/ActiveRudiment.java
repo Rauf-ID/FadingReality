@@ -7,13 +7,15 @@ import com.mygdx.game.component.Player;
 import com.mygdx.game.entity.Entity;
 
 public class ActiveRudiment extends PassiveRudiment{
-    private Vector2 activeZone;
+
+    private String rudimentType = "Active";
 
     public ActiveRudiment(){}
 
     public ActiveRudiment(ActiveRudiment activeRudiment){
         this.setRudimentID(activeRudiment.getRudimentID());
         this.setName(activeRudiment.getName());
+        this.setRudimentType(activeRudiment.getRudimentType());
     }
 
     public void activateRudiment(Player player){
@@ -28,4 +30,11 @@ public class ActiveRudiment extends PassiveRudiment{
 
     }
 
+    public String getRudimentType() {
+        return rudimentType;
+    }
+
+    public void setRudimentType(String rudimentType) {
+        this.rudimentType = rudimentType;
+    }
 }
