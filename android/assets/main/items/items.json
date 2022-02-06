@@ -93,6 +93,6 @@
 	itemUseType: UNIQUE_RUDIMENT,
 	itemAttributes: [EQUIPPABLE, RUDIMENT_WEAPON],
 	itemUseTypeValue: 101,
-	itemValue: 75100,
+	itemValue: 75100
 }
 ]

@@ -1,8 +1,0 @@
-[
-  {
-    rudimentType: "Active"
-    rudimentID: VORTEX
-    name: "Vortex",
-    rudimentStatsProperties: [50, 10, 30, 20, 25]
-  }
-]

@@ -5,41 +5,26 @@ import com.mygdx.game.component.Message;
 import com.mygdx.game.component.Player;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.item.Item;
-import com.mygdx.game.weapon.Weapon;
 
 import java.util.ArrayList;
 
-public class RudimentWeapon extends Weapon implements Rudiment{
+public class UniqueRudiment extends PassiveRudiment{
 
-    private String rudimentType = "Weapon";
-    private Item.ItemID rudimentID;
+    private String rudimentType;
+    private Item.ItemID weaponID, rudimentID;
     private String name;
     private ArrayList<Integer> rudimentStatsProperties;
 
-    public RudimentWeapon(){}
+    public UniqueRudiment(){}
 
-    public RudimentWeapon(RudimentWeapon rudimentWeapon){
+    public UniqueRudiment(UniqueRudiment rudimentWeapon){
         this.setRudimentID(rudimentWeapon.getRudimentID());
         this.setName(rudimentWeapon.getName());
+        this.setWeaponID(rudimentWeapon.getWeaponID());
         this.setRudimentType(rudimentWeapon.getRudimentType());
     }
 
-    public void equipRudiment(Entity player){
-        player.setMaxHealth(player.getMaxHealth()+rudimentStatsProperties.get(0));
-        player.setDashCharge(player.getMaxDashCharges()+rudimentStatsProperties.get(1));
-        player.setMeleeDamageBoost(player.getMeleeDamageBoost()+rudimentStatsProperties.get(2));
-        player.setDamageResist(player.getDamageResist()+rudimentStatsProperties.get(3));
-        player.setWeaponSpeed(player.getWeaponSpeed()+rudimentStatsProperties.get(4));
-    }
-
-    public void unequipRudiment(Entity player){
-        player.setMaxHealth(player.getMaxHealth()-rudimentStatsProperties.get(0));
-        player.setDashCharge(player.getMaxDashCharges()-rudimentStatsProperties.get(1));
-        player.setMeleeDamageBoost(player.getMeleeDamageBoost()-rudimentStatsProperties.get(2));
-        player.setDamageResist(player.getDamageResist()-rudimentStatsProperties.get(3));
-        player.setWeaponSpeed(player.getWeaponSpeed()-rudimentStatsProperties.get(4));
-    }
-
+    @Override
     public void activateRudiment(Player player){
         switch (this.getName()){
             case "Superior":
@@ -47,9 +32,15 @@ public class RudimentWeapon extends Weapon implements Rudiment{
                 for( Entity mapEntity : nearbyEnemies) {
                     mapEntity.setHealth(0);
                 }
+            case "Vortex":
+                nearbyEnemies = player.checkForNearbyEnemies();
+                for( Entity mapEntity : nearbyEnemies) {
+                    mapEntity.sendMessage(Message.MESSAGE.STUN);
+                }
                 break;
         }
     }
+
 
     public Item.ItemID getRudimentID() {
         return rudimentID;
@@ -57,6 +48,14 @@ public class RudimentWeapon extends Weapon implements Rudiment{
 
     public void setRudimentID(Item.ItemID rudimentID) {
         this.rudimentID = rudimentID;
+    }
+
+    public Item.ItemID getWeaponID() {
+        return weaponID;
+    }
+
+    public void setWeaponID(Item.ItemID weaponID) {
+        this.weaponID = weaponID;
     }
 
     public String getName() {

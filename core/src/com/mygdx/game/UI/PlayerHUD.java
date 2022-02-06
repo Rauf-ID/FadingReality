@@ -27,6 +27,8 @@ import com.mygdx.game.dialogs.ConversationGraph;
 import com.mygdx.game.observer.ConversationGraphObserver;
 import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.profile.ProfileManager;
+import com.mygdx.game.rudiment.RudimentFactory;
+import com.mygdx.game.rudiment.UniqueRudiment;
 import com.mygdx.game.skills.Skill;
 import com.mygdx.game.skills.SkillFactory;
 import com.mygdx.game.tools.ProgressBarNew;
@@ -482,7 +484,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 } else if (item.isInventoryItemRudimentTwo()) {
                     Item.ItemID itemID = item.getItemID();
                     player.sendMessage(Message.MESSAGE.SET_RUDIMENT_TWO, json.toJson(itemID.toString()));
-                } else if (item.isInventoryItemUniqueRudiment()) {
+                }
+                else if (item.isInventoryItemUniqueRudiment()) {
                     Item.ItemID itemID = item.getItemID();
                     player.sendMessage(Message.MESSAGE.SET_UNIQUE_RUDIMENT, json.toJson(itemID.toString()));
                 }
