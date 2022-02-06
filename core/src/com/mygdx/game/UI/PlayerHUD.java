@@ -16,6 +16,7 @@ import com.mygdx.game.UI.pda.SkillUI;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.item.Item;
+import com.mygdx.game.item.ItemFactory;
 import com.mygdx.game.quest.QuestGraph;
 import com.mygdx.game.UI.pda.PDAUI;
 import com.mygdx.game.observer.InventoryObserver;
@@ -34,6 +35,8 @@ import com.mygdx.game.skills.SkillFactory;
 import com.mygdx.game.tools.ProgressBarNew;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
+import com.mygdx.game.weapon.Weapon;
+import com.mygdx.game.weapon.WeaponFactory;
 import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 
@@ -484,6 +487,19 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 } else if (item.isInventoryItemRudimentTwo()) {
                     Item.ItemID itemID = item.getItemID();
                     player.sendMessage(Message.MESSAGE.SET_RUDIMENT_TWO, json.toJson(itemID.toString()));
+                }else if (item.isInventoryItemUniqueRudiment() && item.isRudimentWeapon()) {
+                    Item.ItemID itemID = item.getItemID();
+                    player.sendMessage(Message.MESSAGE.SET_UNIQUE_RUDIMENT, json.toJson(itemID.toString()));
+
+                    UniqueRudiment uniqueRudiment = RudimentFactory.getInstance().getUniqueRudiment(itemID);
+                    Item weaponItem = ItemFactory.getInstance().getInventoryItem(uniqueRudiment.getWeaponID());
+
+                    //inventoryUI.setItemToWeaponRangedSlot(weaponItem);
+                    String weaponItemID = weaponItem.getItemID().toString();
+                    int ammoCountInMagazine = weaponItem.getNumberItemsInside();
+                    statusUI.setRangeWeapon(weaponItem);
+                    player.sendMessage(Message.MESSAGE.SET_RANGED_WEAPON, json.toJson(weaponItemID + MESSAGE_TOKEN_2 + ammoCountInMagazine));
+
                 }
                 else if (item.isInventoryItemUniqueRudiment()) {
                     Item.ItemID itemID = item.getItemID();

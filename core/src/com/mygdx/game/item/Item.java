@@ -197,7 +197,6 @@ public class Item extends Image {
         return  itemAttributes.contains(ItemAttribute.RUDIMENT_WEAPON, true);
     }
 
-
     public boolean isInventoryItemRanged() {
         return itemUseType == ItemUseType.RANGED_WEAPON;
     }
