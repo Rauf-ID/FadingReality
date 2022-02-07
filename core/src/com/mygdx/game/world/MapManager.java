@@ -21,6 +21,7 @@ public class MapManager implements ProfileObserver {
 
     private OrthographicCamera camera;
     private boolean mapChanged = false;
+    private boolean deletedCurrentMapEntity = false;
     private Map currentMap;
     private Entity player;
     private Entity currentEntity = null;
@@ -65,7 +66,7 @@ public class MapManager implements ProfileObserver {
 
         currentMap = map;
         mapChanged = true;
-        clearCurrentSelectedMapEntity();
+        clearCurrentMapEntity();
     }
 
     public void registerCurrentMapEntityObservers(ComponentObserver observer){
@@ -119,12 +120,12 @@ public class MapManager implements ProfileObserver {
         return currentMap.getCurrentMapType();
     }
 
-    public void addMapQuestEntities(Array<Entity> entities){
-        currentMap.getMapQuestEntities().addAll(entities);
-    }
-
     public void addMapEntities(Entity entities){
         currentMap.getMapEntities().add(entities);
+    }
+
+    public void addMapQuestEntities(Array<Entity> entities){
+        currentMap.getMapQuestEntities().addAll(entities);
     }
 
     public void clearAllMapQuestEntities(){
@@ -141,12 +142,6 @@ public class MapManager implements ProfileObserver {
 
     public final Array<Entity> getCurrentMapQuestEntities(){
         return currentMap.getMapQuestEntities();
-    }
-
-    public void clearCurrentSelectedMapEntity(){
-        if( currentEntity == null ) return;
-        currentEntity.sendMessage(Message.MESSAGE.ENTITY_DESELECTED);
-        currentEntity = null;
     }
 
     public void setCamera(OrthographicCamera camera){
@@ -173,6 +168,15 @@ public class MapManager implements ProfileObserver {
         this.currentEntity = currentSelectedEntity;
     }
 
+    public void clearCurrentMapEntity(){
+        if( currentEntity == null ) return;
+        currentEntity.sendMessage(Message.MESSAGE.ENTITY_DESELECTED);
+        currentEntity = null;
+    }
+
+    public void deleteCurrentMapEntity() {
+        currentMap.getMapEntities().removeValue(currentEntity, true);
+    }
 
     public void quickChangeMap() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
@@ -208,6 +212,14 @@ public class MapManager implements ProfileObserver {
 
     public void setMapChanged(boolean hasMapChanged){
         this.mapChanged = hasMapChanged;
+    }
+
+    public boolean hasDeletedCurrentMapEntity(){
+        return deletedCurrentMapEntity;
+    }
+
+    public void setCurrentMapEntity(boolean hasDeletedCurrentMapEntity){
+        this.deletedCurrentMapEntity = hasDeletedCurrentMapEntity;
     }
 
 }

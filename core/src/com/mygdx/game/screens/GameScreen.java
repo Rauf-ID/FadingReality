@@ -69,7 +69,7 @@ public class GameScreen implements Screen {
         player.sendMessage(Message.MESSAGE.INIT_CONFIG, json.toJson(player.getEntityConfig()));
         mapMgr.setPlayer(player);
 
-        playerHUD = new PlayerHUD(player, mapMgr);
+        playerHUD = new PlayerHUD(this, player, mapMgr);
 //        playerHUD.updateEntityObservers();
     }
 
@@ -159,6 +159,10 @@ public class GameScreen implements Screen {
                 entities.add(entity);
             }
             mapMgr.setMapChanged(false);
+        }
+
+        if (mapMgr.hasDeletedCurrentMapEntity()) {
+            mapMgr.setCurrentMapEntity(false);
         }
 
         //SORT ENTITY AND MAP OBJECTS
@@ -287,4 +291,11 @@ public class GameScreen implements Screen {
 
     }
 
+    public ArrayList<Entity> getEntities() {
+        return entities;
+    }
+
+    public void setEntities(ArrayList<Entity> entities) {
+        this.entities = entities;
+    }
 }

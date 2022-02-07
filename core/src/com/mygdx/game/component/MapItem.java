@@ -80,11 +80,12 @@ public class MapItem extends Component {
 
 
         if (playerBoundingBox.overlaps(activeZoneBox)) {
+            mapManager.setCurrentMapEntity(entity);
             playerInActiveZone = true;
             if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+//                notify(itemID.toString(), ComponentObserver.ComponentEvent.ITEM_PICK_UP);
+                notify(itemID.toString(), ComponentObserver.ComponentEvent.TEST_EVENT);
                 playerInActiveZone2 = false;
-                mapManager.setCurrentMapEntity(entity);
-                notify(itemID.toString(), ComponentObserver.ComponentEvent.ITEM_PICK_UP);
             }
         } else {
             playerInActiveZone = false;

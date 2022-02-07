@@ -140,7 +140,7 @@ public class Enemy extends Component {
                 updateHealth(entity, player);
                 break;
             case DEATH:
-                currentState = Entity.State.DEATH;
+//                currentState = Entity.State.DEATH;
                 break;
             case FREEZE:
                 break;

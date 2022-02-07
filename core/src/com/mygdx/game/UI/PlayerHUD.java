@@ -30,13 +30,12 @@ import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.rudiment.RudimentFactory;
 import com.mygdx.game.rudiment.UniqueRudiment;
+import com.mygdx.game.screens.GameScreen;
 import com.mygdx.game.skills.Skill;
 import com.mygdx.game.skills.SkillFactory;
 import com.mygdx.game.tools.ProgressBarNew;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
-import com.mygdx.game.weapon.Weapon;
-import com.mygdx.game.weapon.WeaponFactory;
 import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.world.MapManager;
 
@@ -53,6 +52,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     // PlayerHUD это челл который подписан на каналы, обсерверы
 
     private Entity player;
+    private GameScreen gameScreen;
 
     private ProgressBarNew healthBar;
     private ProgressBarNew progressBar;
@@ -83,9 +83,10 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     public static List<Toast> toasts = new LinkedList<Toast>();
     private static Toast.ToastFactory toastFactory;
 
-    public PlayerHUD(Entity _player, MapManager _mapMgr) {
-        player=_player;
-        mapMgr=_mapMgr;
+    public PlayerHUD(GameScreen gameScreen, Entity player, MapManager _mapMgr) {
+        this.player = player;
+        mapMgr = _mapMgr;
+        this.gameScreen = gameScreen;
 
         toastFactory = new Toast.ToastFactory.Builder().font(FadingReality.font).build();
 
@@ -180,7 +181,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 conversationUI.setVisible(false);
-                mapMgr.clearCurrentSelectedMapEntity();
+                mapMgr.clearCurrentMapEntity();
             }
         });
 
@@ -396,13 +397,13 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             case ENEMY_DEAD:
                 questUI.updateQuests(mapMgr);
 //                mapMgr.setMapChanged(true);
-                mapMgr.clearCurrentSelectedMapEntity();
+                mapMgr.clearCurrentMapEntity();
                 break;
             case ITEM_PICK_UP:
                 Item.ItemID itemID = json.fromJson(Item.ItemID.class, value);
                 inventoryUI.addItemToInventory(itemID);
                 tooltipUI.addTooltip(itemID.toString() + " added to inventory");
-                mapMgr.clearCurrentSelectedMapEntity();
+                mapMgr.clearCurrentMapEntity();
                 break;
             case PLAYER_DASH:
                 progressBar.minusValue(0.25f);
@@ -411,6 +412,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 progressBar.plusValue(0.25f);
                 break;
             case TEST_EVENT:
+                System.out.println(mapMgr.getCurrentMapEntity().getEntityConfig().getEntityID());
+                mapMgr.deleteCurrentMapEntity();
+                gameScreen.getEntities().remove(mapMgr.getCurrentMapEntity());
                 break;
             default:
                 break;
@@ -435,13 +439,13 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 }
 
                 conversationUI.setVisible(false);
-                mapMgr.clearCurrentSelectedMapEntity();
+                mapMgr.clearCurrentMapEntity();
                 break;
             case EXIT_CONVERSATION:
                 System.out.println("Exit conversation!");
 
                 conversationUI.setVisible(false);
-                mapMgr.clearCurrentSelectedMapEntity();
+                mapMgr.clearCurrentMapEntity();
                 break;
             case TASK_COMPLETE:
                 questUI.updateQuests(mapMgr);
@@ -452,14 +456,14 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 //                questUI.questTaskComplete(graph2.getQuestID(), questTaskID);
 
                 conversationUI.setVisible(false);
-                mapMgr.clearCurrentSelectedMapEntity();
+                mapMgr.clearCurrentMapEntity();
 
 //                float sec = 1;
 //                Timer.schedule(new Timer.Task(){
 //                    @Override
 //                    public void run() {
 //                        conversationUI.setVisible(false);
-//                        mapMgr.clearCurrentSelectedMapEntity();
+//                        mapMgr.clearCurrentMapEntity();
 //                    }
 //                }, sec);
             case NONE:
