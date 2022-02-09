@@ -413,8 +413,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 break;
             case TEST_EVENT:
                 System.out.println(mapMgr.getCurrentMapEntity().getEntityConfig().getEntityID());
-                mapMgr.deleteCurrentMapEntity();
-                gameScreen.getEntities().remove(mapMgr.getCurrentMapEntity());
+//                mapMgr.clearCurrentMapEntity();
+//                mapMgr.deleteCurrentMapEntity();
+//                gameScreen.getEntities().remove(mapMgr.getCurrentMapEntity());
                 break;
             default:
                 break;
@@ -449,14 +450,14 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 break;
             case TASK_COMPLETE:
                 questUI.updateQuests(mapMgr);
-                mapMgr.setMapChanged(true);
+//                mapMgr.setMapChanged(true);
 
 //                Entity currentlyEntity2 = mapMgr.getCurrentMapEntity();
 //                QuestGraph graph2 = json.fromJson(QuestGraph.class, Gdx.files.internal(currentlyEntity2.getEntityConfig().getQuestConfigPath()));
 //                questUI.questTaskComplete(graph2.getQuestID(), questTaskID);
 
                 conversationUI.setVisible(false);
-                mapMgr.clearCurrentMapEntity();
+//                mapMgr.clearCurrentMapEntity();
 
 //                float sec = 1;
 //                Timer.schedule(new Timer.Task(){
@@ -491,7 +492,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 } else if (item.isInventoryItemRudimentTwo()) {
                     Item.ItemID itemID = item.getItemID();
                     player.sendMessage(Message.MESSAGE.SET_RUDIMENT_TWO, json.toJson(itemID.toString()));
-                }else if (item.isInventoryItemUniqueRudiment() && item.isRudimentWeapon()) {
+                } else if (item.isInventoryItemUniqueRudiment() && item.isRudimentWeapon()) {
                     Item.ItemID itemID = item.getItemID();
                     player.sendMessage(Message.MESSAGE.SET_UNIQUE_RUDIMENT, json.toJson(itemID.toString()));
 
@@ -503,9 +504,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     int ammoCountInMagazine = weaponItem.getNumberItemsInside();
                     statusUI.setRangeWeapon(weaponItem);
                     player.sendMessage(Message.MESSAGE.SET_RANGED_WEAPON, json.toJson(weaponItemID + MESSAGE_TOKEN_2 + ammoCountInMagazine));
+                    inventoryUI.getRangedWeaponSlot().addWithoutNotify(weaponItem);
 
-                }
-                else if (item.isInventoryItemUniqueRudiment()) {
+                } else if (item.isInventoryItemUniqueRudiment()) {
                     Item.ItemID itemID = item.getItemID();
                     player.sendMessage(Message.MESSAGE.SET_UNIQUE_RUDIMENT, json.toJson(itemID.toString()));
                 }

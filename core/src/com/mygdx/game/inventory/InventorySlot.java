@@ -94,6 +94,10 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         }
     }
 
+    public void addWithoutNotify(Actor actor) {
+        super.add(actor);
+    }
+
     public void add(Array<Actor> array) {
         for(Actor actor : array){
             super.add(actor);

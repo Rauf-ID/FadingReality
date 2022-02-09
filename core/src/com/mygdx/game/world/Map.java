@@ -27,6 +27,7 @@ public class Map {
     public final static String FRONT_LAYER = "FRONT_LAYER";
     public final static String LIGHT_LAYER = "LIGHT_LAYER";
 
+    private final static String ENTITY_SPAWNS_LAYER = "ENTITY_SPAWNS_LAYER";
     private final static String CLOSED_NODES_LAYER = "CLOSED_NODES_LAYER";
     private final static String COLLISION_LAYER = "COLLISION_LAYER";
     private final static String MAP_OBJECTS_LAYER = "MAP_OBJECTS_LAYER";

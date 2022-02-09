@@ -279,6 +279,13 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         return rangedWeaponSlot.getTopInventoryItem();
     }
 
+    public InventorySlot getRangedWeaponSlot() {
+        return rangedWeaponSlot;
+    }
+
+    public void setRangedWeaponSlot(InventorySlot rangedWeaponSlot) {
+        this.rangedWeaponSlot = rangedWeaponSlot;
+    }
 
     @Override
     public void onNotify(InventorySlot slot, SlotEvent event) {
