@@ -34,7 +34,7 @@ public class InventorySlotTarget extends Target {
 
         // Если слот не принимает тип предмета
         if(!targetSlot.doesAcceptItemUseType(sourceActor.getItemUseType())) {
-            System.out.println("Does't Accept");
+            System.out.println("Doesn't Accept");
             // Вернуть предмет туда, где он был
             sourceSlot.add(sourceActor);
             return;

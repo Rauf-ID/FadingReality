@@ -392,7 +392,11 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 String string = json.fromJson(String.class, value);
                 String[] splitStr = string.split(MESSAGE_TOKEN_2);
                 statusUI.setLabelAmmoCountText(splitStr[0] + "/" + splitStr[1]);
-                inventoryUI.getItemFromWeaponRangedWeaponSlot().setNumberItemsInside(Integer.parseInt(splitStr[0]));
+                if(inventoryUI.getItemFromUniqueRudimentSlot().isRudimentWeapon()){
+                    inventoryUI.getItemFromUniqueRudimentSlot().setNumberItemsInside(Integer.parseInt(splitStr[0]));
+                }else {
+                    inventoryUI.getItemFromWeaponRangedWeaponSlot().setNumberItemsInside(Integer.parseInt(splitStr[0]));
+                }
                 break;
             case ENEMY_DEAD:
                 questUI.updateQuests(mapMgr);
@@ -493,19 +497,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     Item.ItemID itemID = item.getItemID();
                     player.sendMessage(Message.MESSAGE.SET_RUDIMENT_TWO, json.toJson(itemID.toString()));
                 } else if (item.isInventoryItemUniqueRudiment() && item.isRudimentWeapon()) {
-                    Item.ItemID itemID = item.getItemID();
-                    player.sendMessage(Message.MESSAGE.SET_UNIQUE_RUDIMENT, json.toJson(itemID.toString()));
-
-                    UniqueRudiment uniqueRudiment = RudimentFactory.getInstance().getUniqueRudiment(itemID);
-                    Item weaponItem = ItemFactory.getInstance().getInventoryItem(uniqueRudiment.getWeaponID());
-
-                    //inventoryUI.setItemToWeaponRangedSlot(weaponItem);
-                    String weaponItemID = weaponItem.getItemID().toString();
-                    int ammoCountInMagazine = weaponItem.getNumberItemsInside();
-                    statusUI.setRangeWeapon(weaponItem);
-                    player.sendMessage(Message.MESSAGE.SET_RANGED_WEAPON, json.toJson(weaponItemID + MESSAGE_TOKEN_2 + ammoCountInMagazine));
-                    inventoryUI.getRangedWeaponSlot().addWithoutNotify(weaponItem);
-
+                    System.out.println("dadda");
                 } else if (item.isInventoryItemUniqueRudiment()) {
                     Item.ItemID itemID = item.getItemID();
                     player.sendMessage(Message.MESSAGE.SET_UNIQUE_RUDIMENT, json.toJson(itemID.toString()));
@@ -543,8 +535,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         this.min = min;
     }
 
-    public void setCurrentState(String curentState){
-        this.currentState=curentState;
+    public void setCurrentState(String currentState){
+        this.currentState=currentState;
     }
 
     public void setCountAmmo(float ammoCount){

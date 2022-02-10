@@ -1,40 +1,39 @@
 package com.mygdx.game.rudiment;
 
 import com.badlogic.gdx.utils.Array;
-import com.mygdx.game.component.Message;
 import com.mygdx.game.component.Player;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.item.Item;
+import com.mygdx.game.weapon.Weapon;
 
 import java.util.ArrayList;
 
-public class UniqueRudiment extends PassiveRudiment{
+public class WeaponRudiment extends Weapon {
 
     private Item.ItemID weaponID, rudimentID;
     private String name;
     private ArrayList<Integer> rudimentStatsProperties;
 
-    public UniqueRudiment(){}
-
-    public UniqueRudiment(UniqueRudiment rudimentWeapon){
-        this.setRudimentID(rudimentWeapon.getRudimentID());
-        this.setName(rudimentWeapon.getName());
-        this.setWeaponID(rudimentWeapon.getWeaponID());
+    public WeaponRudiment(){
+        super();
     }
 
-    @Override
+    public WeaponRudiment(WeaponRudiment weaponRudiment){
+        super(weaponRudiment);
+        this.setRudimentID(weaponRudiment.getRudimentID());
+        this.setName(weaponRudiment.getName());
+        this.setWeaponID(weaponRudiment.getWeaponID());
+    }
+
     public void activateRudiment(Player player){
         switch (this.getName()){
-            case "Vortex":
+            case "Superior":
                 Array<Entity> nearbyEnemies = player.checkForNearbyEnemies();
-                nearbyEnemies = player.checkForNearbyEnemies();
                 for( Entity mapEntity : nearbyEnemies) {
-                    mapEntity.sendMessage(Message.MESSAGE.STUN);
+                    mapEntity.setHealth(0);
                 }
-                break;
         }
     }
-
 
     public Item.ItemID getRudimentID() {
         return rudimentID;
@@ -67,4 +66,5 @@ public class UniqueRudiment extends PassiveRudiment{
     public void setRudimentStatsProperties(ArrayList<Integer> rudimentStatsProperties) {
         this.rudimentStatsProperties = rudimentStatsProperties;
     }
+
 }

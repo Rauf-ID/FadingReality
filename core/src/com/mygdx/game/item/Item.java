@@ -194,7 +194,11 @@ public class Item extends Image {
     }
 
     public  boolean isRudimentWeapon() {
-        return  itemAttributes.contains(ItemAttribute.RUDIMENT_WEAPON, true);
+        if(itemAttributes==null){
+            return false;
+        }else {
+            return itemAttributes.contains(ItemAttribute.RUDIMENT_WEAPON, true);
+        }
     }
 
     public boolean isInventoryItemRanged() {

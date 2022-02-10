@@ -148,11 +148,6 @@ public class Player extends Component {
                 ItemID uniqueRudimentID = Item.ItemID.valueOf(uniqueRudimentIDStr);
                 UniqueRudiment uniqueRudiment = RudimentFactory.getInstance().getUniqueRudiment(uniqueRudimentID);
                 rudimentSystem.setUniqueRudiment(uniqueRudiment);
-                if(uniqueRudiment.getRudimentType().equals("Weapon")){
-                    Weapon weapon = WeaponFactory.getInstance().getWeapon(uniqueRudiment.getWeaponID());
-                    weaponSystem.setRangedWeapon(weapon);
-                    weaponSystem.setStartAmmoCountInMagazine(20);
-                }
             }  else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_MELEE_WEAPON.toString())) {
                 weaponSystem.setMeleeWeapon(null);
             } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_RANGED_WEAPON.toString())) {
