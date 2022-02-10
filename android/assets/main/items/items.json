@@ -90,7 +90,7 @@
 {
 	itemID: SUPERIOR,
 	itemShortDescription: Superior,
-	itemUseType: UNIQUE_RUDIMENT,
+	itemUseType: WEAPON_RUDIMENT,
 	itemAttributes: [EQUIPPABLE, ITEM_INSIDE, LIGHT_WEAPON, RUDIMENT_WEAPON],
 	itemUseTypeValue: 101,
 	itemValue: 75100

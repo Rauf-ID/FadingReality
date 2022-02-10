@@ -29,6 +29,7 @@ public class Item extends Image {
         MEDIC_KIT,
         RUDIMENT,
         UNIQUE_RUDIMENT,
+        WEAPON_RUDIMENT,
         NONE
     }
 
