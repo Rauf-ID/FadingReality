@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.item.Item.ItemID;
 import com.mygdx.game.managers.ResourceManager;
-import com.mygdx.game.world.MapItem;
+import com.mygdx.game.world.MapEntity;
 
 public class EntityConfig {
 
@@ -19,7 +19,7 @@ public class EntityConfig {
     private String itemTypeID;
     private Array<ItemID> inventory;
     private Array<ItemID> shopItems;
-    private Array<MapItem> mapItems;
+    private Array<MapEntity> mapItems;
     private Array<AnimationConfig> animationConfig;
 
     private Vector2 hitBox;
@@ -183,11 +183,11 @@ public class EntityConfig {
         this.shopItems = shopItems;
     }
 
-    public Array<MapItem> getMapItems() {
+    public Array<MapEntity> getMapItems() {
         return mapItems;
     }
 
-    public void setMapItems(Array<MapItem> mapItems) {
+    public void setMapItems(Array<MapEntity> mapItems) {
         this.mapItems = mapItems;
     }
 

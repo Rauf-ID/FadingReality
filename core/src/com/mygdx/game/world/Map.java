@@ -12,7 +12,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.mygdx.game.component.Message;
 import com.mygdx.game.entity.Entity;
+import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.pathfinder.Node;
 
 public class Map {
@@ -22,16 +24,16 @@ public class Map {
     public final static float UNIT_SCALE  = 1f;
     public final static int CELL_SIZE  = 16;
 
-    public final static String PARALLAX_LAYER = "PARALLAX_LAYER";
-    public final static String BACKGROUND_LAYER = "BACKGROUND_LAYER";
-    public final static String FRONT_LAYER = "FRONT_LAYER";
     public final static String LIGHT_LAYER = "LIGHT_LAYER";
+    public final static String FRONT_LAYER = "FRONT_LAYER";
+    public final static String BACKGROUND_LAYER = "BACKGROUND_LAYER";
+    public final static String PARALLAX_LAYER = "PARALLAX_LAYER";
 
-    private final static String ENTITY_SPAWNS_LAYER = "ENTITY_SPAWNS_LAYER";
-    private final static String CLOSED_NODES_LAYER = "CLOSED_NODES_LAYER";
-    private final static String COLLISION_LAYER = "COLLISION_LAYER";
-    private final static String MAP_OBJECTS_LAYER = "MAP_OBJECTS_LAYER";
     private final static String PORTAL_LAYER = "PORTAL_LAYER";
+    private final static String ENTITY_SPAWNS_LAYER = "ENTITY_SPAWNS_LAYER";
+    private final static String MAP_OBJECTS_LAYER = "MAP_OBJECTS_LAYER";
+    private final static String COLLISION_LAYER = "COLLISION_LAYER";
+    private final static String CLOSED_NODES_LAYER = "CLOSED_NODES_LAYER";
 
     protected Json json;
 
@@ -43,10 +45,12 @@ public class Map {
     private MapFactory.MapType currentMapType;
     private Vector2 playerStart;
 
-    private MapLayer closedNodesLayer = null;
-    private MapLayer collisionLayer = null;
-    private MapLayer mapObjectsLayer = null;
     private MapLayer portalLayer = null;
+    private MapLayer entitySpawnsLayer = null;
+    private MapLayer mapObjectsLayer = null;
+    private MapLayer collisionLayer = null;
+    private MapLayer closedNodesLayer = null;
+
     private MapProperties mapProperties = null;
 
     protected Array<Entity> mapEntities;
@@ -67,14 +71,19 @@ public class Map {
             currentMap = new TmxMapLoader().load(fullMapPath);
         }
 
+        portalLayer = currentMap.getLayers().get(PORTAL_LAYER);
+        if( portalLayer == null ){
+            Gdx.app.debug(TAG, "No portal layer!");
+        }
+
+        entitySpawnsLayer = currentMap.getLayers().get(ENTITY_SPAWNS_LAYER);
+        if( entitySpawnsLayer == null ){
+            Gdx.app.debug(TAG, "No entity spawn layer!");
+        }
+
         mapObjectsLayer = currentMap.getLayers().get(MAP_OBJECTS_LAYER);
         if( mapObjectsLayer == null ){
             Gdx.app.debug(TAG, "No Map Objects layer!");
-        }
-
-        closedNodesLayer = currentMap.getLayers().get(CLOSED_NODES_LAYER);
-        if(closedNodesLayer == null){
-            Gdx.app.debug(TAG, "No collision layer!");
         }
 
         collisionLayer = currentMap.getLayers().get(COLLISION_LAYER);
@@ -82,9 +91,9 @@ public class Map {
             Gdx.app.debug(TAG, "No collision layer!");
         }
 
-        portalLayer = currentMap.getLayers().get(PORTAL_LAYER);
-        if( portalLayer == null ){
-            Gdx.app.debug(TAG, "No portal layer!");
+        closedNodesLayer = currentMap.getLayers().get(CLOSED_NODES_LAYER);
+        if(closedNodesLayer == null){
+            Gdx.app.debug(TAG, "No collision layer!");
         }
 
         mapProperties = currentMap.getProperties();
@@ -135,6 +144,27 @@ public class Map {
         }
     }
 
+    public void addEntitiesToMap(Array<Integer> IDs) {
+        if(entitySpawnsLayer == null){
+            return;
+        }
+
+        for(MapObject object: entitySpawnsLayer.getObjects()){
+            if (object == null) {
+                return;
+            }
+
+            if (IDs == object.getProperties().get("id")) {
+                System.out.println("ASdad");
+                return;
+            }
+
+//            Entity entity = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.MERCENARIES_M1);
+//            initEntity(mercenariesM1, new Vector2(890,0), Entity.Direction.RIGHT);
+//            mapEntities.add(mercenariesM1);
+        }
+    }
+
 
 
     public Array<Array<Node>> getGrid() {
@@ -167,6 +197,10 @@ public class Map {
 
     public MapLayer getPortalLayer(){
         return portalLayer;
+    }
+
+    public MapLayer getEntitySpawnsLayer() {
+        return entitySpawnsLayer;
     }
 
     public Array<Entity> getMapEntities(){

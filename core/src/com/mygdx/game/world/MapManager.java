@@ -15,6 +15,8 @@ import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.tools.Toast;
 
+import java.util.HashMap;
+
 public class MapManager implements ProfileObserver {
 
     private static final String TAG = MapManager.class.getSimpleName();
@@ -25,6 +27,8 @@ public class MapManager implements ProfileObserver {
     private Map currentMap;
     private Entity player;
     private Entity currentEntity = null;
+
+    private java.util.Map<MapFactory.MapType, Array<Integer>> idEntityForDelete = new HashMap<>();
 
     public MapManager() {
     }
@@ -38,7 +42,6 @@ public class MapManager implements ProfileObserver {
                     mapType = MapFactory.MapType.SPACE_STATION;
                 }
                 loadMap(mapType);
-
                 break;
             case SAVING_PROFILE:
                 if( currentMap != null ){
@@ -63,6 +66,8 @@ public class MapManager implements ProfileObserver {
             Gdx.app.debug(TAG, "Map does not exist!  ");
             return;
         }
+
+        map.addEntitiesToMap(idEntityForDelete.get(map.getCurrentMapType()));
 
         currentMap = map;
         mapChanged = true;
@@ -176,6 +181,26 @@ public class MapManager implements ProfileObserver {
 
     public void deleteCurrentMapEntity() {
         currentMap.getMapEntities().removeValue(currentEntity, true);
+    }
+
+    public java.util.Map<MapFactory.MapType, Array<Integer>> getIdEntityForDelete() {
+        return idEntityForDelete;
+    }
+
+    public void setIdEntityForDelete(java.util.Map<MapFactory.MapType, Array<Integer>> idEntityForDelete) {
+        this.idEntityForDelete = idEntityForDelete;
+    }
+
+    public void addIdEntityForDelete(int id) {
+        if (idEntityForDelete.get(currentMap.getCurrentMapType()) == null) {
+            Array<Integer> IDs = new Array<>();
+            IDs.add(id);
+            idEntityForDelete.put(currentMap.getCurrentMapType(), IDs);
+        } else {
+            Array<Integer> IDs = new Array<>(idEntityForDelete.get(currentMap.getCurrentMapType()));
+            IDs.add(id);
+            idEntityForDelete.put(currentMap.getCurrentMapType(), IDs);
+        }
     }
 
     public void quickChangeMap() {

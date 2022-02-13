@@ -19,19 +19,19 @@ public class SpaceStation extends Map {
 
         json = new Json();
 
-        Entity mercenariesM1 = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.MERCENARIES_M1);
-        initEntity(mercenariesM1, new Vector2(890,0), Entity.Direction.RIGHT);
-        mapEntities.add(mercenariesM1);
-
-        Entity mercenariesM1_2 = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.MERCENARIES_M1);
-        initEntity(mercenariesM1_2, new Vector2(890,-125), Entity.Direction.RIGHT);
-        mapEntities.add(mercenariesM1_2);
-
-        Entity potions01 = EntityFactory.getInstance().getItem(Item.ItemID.POTIONS01);
+//        Entity mercenariesM1 = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.MERCENARIES_M1);
+//        initEntity(mercenariesM1, new Vector2(890,0), Entity.Direction.RIGHT);
+//        mapEntities.add(mercenariesM1);
+//
+//        Entity mercenariesM1_2 = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.MERCENARIES_M1);
+//        initEntity(mercenariesM1_2, new Vector2(890,-125), Entity.Direction.RIGHT);
+//        mapEntities.add(mercenariesM1_2);
+//
+        Entity potions01 = EntityFactory.getInstance().getItem(Item.ItemID.POTIONS01, 3, false);
         initEntity(potions01, new Vector2(1100,60), Entity.Direction.RIGHT);
         mapEntities.add(potions01);
-
-        Entity potions01_2 = EntityFactory.getInstance().getItem(Item.ItemID.POTIONS01);
+//
+        Entity potions01_2 = EntityFactory.getInstance().getItem(Item.ItemID.POTIONS01, 5,false);
         initEntity(potions01_2, new Vector2(1100,-60), Entity.Direction.RIGHT);
         mapEntities.add(potions01_2);
 

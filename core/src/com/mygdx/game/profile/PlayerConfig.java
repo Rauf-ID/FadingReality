@@ -8,7 +8,6 @@ import com.mygdx.game.item.Item;
 import com.mygdx.game.quest.QuestGraph;
 import com.mygdx.game.inventory.InventoryItemLocation;
 import com.mygdx.game.world.MapFactory;
-import com.mygdx.game.world.MapItem;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +22,7 @@ public class PlayerConfig {
     private Array<InventoryItemLocation> inventory;
     private Array<InventoryItemLocation> equipment;
     private Array<Item.ItemID> shopItems;
+    private Map<MapFactory.MapType, Array<Integer>> idEntityForDelete;
     private Array<Integer> mapItems;
     private Map<String, Integer> bagAmmunition;
     private EntityFactory.EntityName exoskeletonName;
@@ -59,8 +59,9 @@ public class PlayerConfig {
         inventory = new Array<>();
         equipment = new Array<>();
         shopItems = new Array<>();
+        idEntityForDelete = new HashMap<>();
         mapItems = new Array<>();
-        bagAmmunition = new HashMap<String, Integer>();
+        bagAmmunition = new HashMap<>();
     }
 
 
@@ -128,6 +129,13 @@ public class PlayerConfig {
         this.shopItems = shopItems;
     }
 
+    public Map<MapFactory.MapType, Array<Integer>> getIdEntityForDelete() {
+        return idEntityForDelete;
+    }
+
+    public void setIdEntityForDelete(Map<MapFactory.MapType, Array<Integer>> idEntityForDelete) {
+        this.idEntityForDelete = idEntityForDelete;
+    }
 
     public Array<Integer> getMapItems() {
         return mapItems;

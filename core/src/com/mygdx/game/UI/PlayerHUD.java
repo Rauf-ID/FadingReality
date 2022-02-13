@@ -37,6 +37,7 @@ import com.mygdx.game.tools.ProgressBarNew;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
 import com.mygdx.game.weapon.WeaponSystem;
+import com.mygdx.game.world.MapFactory;
 import com.mygdx.game.world.MapManager;
 
 import java.util.HashMap;
@@ -217,9 +218,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     profileManager.getPlayerConfig().setShopItems(shopItems);
                     browserUI.setShopItems(shopItems);
 
-                    Array<Integer> mapItems = new Array<>(10);
-                    mapItems.addAll();
-                    player.setMapItems(mapItems);
+                    Map<MapFactory.MapType, Array<Integer>> idEntityForDelete = profileManager.getPlayerConfig().getIdEntityForDelete();
+                    mapMgr.setIdEntityForDelete(idEntityForDelete);
 
 //                    questUI.setQuests(new Array<QuestGraph>());
                     questUI.loadQuest("main/plot/start.json");
@@ -276,8 +276,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     Array<Item.ItemID> shopItems = profileManager.getPlayerConfig().getShopItems();
                     browserUI.setShopItems(shopItems);
 
-                    Array<Integer> mapItems = profileManager.getPlayerConfig().getMapItems();
-                    player.setMapItems(mapItems);
+                    Map<MapFactory.MapType, Array<Integer>> idEntityForDelete = profileManager.getPlayerConfig().getIdEntityForDelete();
+                    mapMgr.setIdEntityForDelete(idEntityForDelete);
 
                     Array<QuestGraph> quests = profileManager.getPlayerConfig().getQuests();
                     questUI.setQuests(quests);
@@ -347,7 +347,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setCoins(pdaUI.getCoins());
                 profileManager.getPlayerConfig().setDashDist(player.getDashDist());
                 profileManager.getPlayerConfig().setDashSpeed(player.getDashSpeed());
-                profileManager.getPlayerConfig().setMapItems(player.getMapItems());
+                profileManager.getPlayerConfig().setIdEntityForDelete(mapMgr.getIdEntityForDelete());
                 break;
             case CLEAR_CURRENT_PROFILE:
                 System.out.println("PROFILE CONFIG CLEARING");
@@ -404,10 +404,18 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 mapMgr.clearCurrentMapEntity();
                 break;
             case ITEM_PICK_UP:
-                Item.ItemID itemID = json.fromJson(Item.ItemID.class, value);
+                String string2 = json.fromJson(String.class, value);
+                String[] splitStr2 = string2.split(MESSAGE_TOKEN_2);
+
+                Item.ItemID itemID = Item.ItemID.valueOf(splitStr2[0]);
                 inventoryUI.addItemToInventory(itemID);
                 tooltipUI.addTooltip(itemID.toString() + " added to inventory");
                 mapMgr.clearCurrentMapEntity();
+
+                if (!Boolean.parseBoolean(splitStr2[1])) {
+                    System.out.println("Ok");
+                    mapMgr.addIdEntityForDelete(Integer.parseInt(splitStr2[2]));
+                }
                 break;
             case PLAYER_DASH:
                 progressBar.minusValue(0.25f);

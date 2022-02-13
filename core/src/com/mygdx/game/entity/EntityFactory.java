@@ -141,7 +141,7 @@ public class EntityFactory {
         }
     }
 
-    public Entity getEntity(EntityType entityType, TextureMapObject textureMapObject, boolean isItem){
+    public Entity getEntity(EntityType entityType, TextureMapObject textureMapObject){
         Entity entity = null;
         switch(entityType){
             case MAP_OBJECT:
@@ -164,13 +164,17 @@ public class EntityFactory {
         return entity;
     }
 
-    public Entity getItem(Item.ItemID itemID) {
+    public Entity getItem(Item.ItemID itemID, int idSpawnMap, boolean isItemForQuest) {
         Json json = new Json();
         EntityConfig entityConfig = new EntityConfig(entities.get(itemID.toString()));
         Entity entity = EntityFactory.getEntity(EntityType.MAP_ITEM);
         if (entity != null) {
             entity.setEntityConfig(entityConfig);
             entity.sendMessage(Component.MESSAGE.INIT_ITEM, json.toJson(itemID));
+            entity.sendMessage(Message.MESSAGE.ITEM_MAP_SPAWN_ID, json.toJson(idSpawnMap));
+            if (isItemForQuest) {
+                entity.sendMessage(Component.MESSAGE.ITEM_IS_FOR_QUEST, json.toJson(true));
+            }
         }
         return entity;
     }

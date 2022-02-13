@@ -27,6 +27,9 @@ public class MapItem extends Component {
     private EntityConfig entityConfig;
     private Item.ItemID itemID;
 
+    private boolean isItemForQuest = false;
+    private int idSpawnMap = -1;
+
     public MapItem() {
         currentState = Entity.State.IDLE;
         currentDirection = Entity.Direction.RIGHT;
@@ -55,7 +58,11 @@ public class MapItem extends Component {
                 currentState = json.fromJson(Entity.State.class, string[1]);
             } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_ITEM.toString())) {
                 itemID = json.fromJson(Item.ItemID.class, string[1]);
-            }  else if (string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
+            } else if (string[0].equalsIgnoreCase(MESSAGE.ITEM_IS_FOR_QUEST.toString())) {
+                isItemForQuest = json.fromJson(Boolean.class, string[1]);
+            } else if (string[0].equalsIgnoreCase(MESSAGE.ITEM_MAP_SPAWN_ID.toString())) {
+                idSpawnMap = json.fromJson(Integer.class, string[1]);
+            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
                 entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 initImageBox(entityConfig.getImageBox());
                 initBoundingBox(entityConfig.getBoundingBox());
@@ -84,7 +91,11 @@ public class MapItem extends Component {
             playerInActiveZone = true;
             if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
 //                notify(itemID.toString(), ComponentObserver.ComponentEvent.ITEM_PICK_UP);
-                notify(itemID.toString(), ComponentObserver.ComponentEvent.TEST_EVENT);
+                if (isItemForQuest) {
+                    notify(itemID.toString(), ComponentObserver.ComponentEvent.ITEM_PICK_UP);
+                } else {
+                    notify(itemID.toString() + ":::" + isItemForQuest + ":::" + idSpawnMap, ComponentObserver.ComponentEvent.ITEM_PICK_UP);
+                }
                 playerInActiveZone2 = false;
             }
         } else {

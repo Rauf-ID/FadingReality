@@ -322,14 +322,6 @@ public class Entity implements Comparable<Entity> {
 
     public void setAvailableSkills(Array<Integer> availableSkills) {component.setAvailableSkills(availableSkills);}
 
-    public Array<Integer> getMapItems() {
-        return component.mapItems;
-    }
-
-    public void setMapItems(Array<Integer> mapItems) {
-        component.mapItems = mapItems;
-    }
-
     public int getDashSpeed(){ return component.getDashSpeed();}
 
     public void setDashSpeed(int dashSpeed){ component.setDashSpeed(dashSpeed);}

@@ -37,7 +37,9 @@ public interface Message {
         ENEMY_KILLED,
         UNLOCK_FIRST_SKILLS,
         INIT_ITEM,
-        STUN
+        ITEM_MAP_SPAWN_ID,
+        ITEM_IS_FOR_QUEST,
+        STUN;
     }
 
     void dispose();

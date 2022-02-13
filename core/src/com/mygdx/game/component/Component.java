@@ -108,8 +108,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     private boolean executable, lowHP;
     private Array<Integer> playerSkills, availableSkills;
 
-    public Array<Integer> mapItems;
-
     public ArrayList<Ammo> activeAmmo;
 
     public Rectangle swordRangeBox;
