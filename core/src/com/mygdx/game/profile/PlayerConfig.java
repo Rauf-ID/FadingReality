@@ -22,7 +22,7 @@ public class PlayerConfig {
     private Array<InventoryItemLocation> inventory;
     private Array<InventoryItemLocation> equipment;
     private Array<Item.ItemID> shopItems;
-    private Map<MapFactory.MapType, Array<Integer>> idEntityForDelete;
+    private Map<String, Array<Integer>> idEntityForDelete;
     private Array<Integer> mapItems;
     private Map<String, Integer> bagAmmunition;
     private EntityFactory.EntityName exoskeletonName;
@@ -129,11 +129,11 @@ public class PlayerConfig {
         this.shopItems = shopItems;
     }
 
-    public Map<MapFactory.MapType, Array<Integer>> getIdEntityForDelete() {
+    public Map<String, Array<Integer>> getIdEntityForDelete() {
         return idEntityForDelete;
     }
 
-    public void setIdEntityForDelete(Map<MapFactory.MapType, Array<Integer>> idEntityForDelete) {
+    public void setIdEntityForDelete(Map<String, Array<Integer>> idEntityForDelete) {
         this.idEntityForDelete = idEntityForDelete;
     }
 

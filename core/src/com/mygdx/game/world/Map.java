@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
-import com.mygdx.game.component.Message;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.pathfinder.Node;
@@ -144,7 +143,7 @@ public class Map {
         }
     }
 
-    public void addEntitiesToMap(Array<Integer> IDs) {
+    public void addEntitiesToMap(Array<Integer> ids) {
         if(entitySpawnsLayer == null){
             return;
         }
@@ -154,14 +153,25 @@ public class Map {
                 return;
             }
 
-            if (IDs == object.getProperties().get("id")) {
-                System.out.println("ASdad");
+            if (ids != null && ids.contains((int) object.getProperties().get("id"), true)) {
                 return;
             }
+
+            String entityType = (String) object.getProperties().get("entityType");
+            String entityName = object.getName();
+            Vector2 position = new Vector2(((RectangleMapObject)object).getRectangle().getX(), ((RectangleMapObject)object).getRectangle().getY());
+
+            Entity entity = EntityFactory.getInstance().getEntityByName(entityType, entityName, position, Entity.Direction.RIGHT);
+            mapEntities.add(entity);
+
 
 //            Entity entity = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.MERCENARIES_M1);
 //            initEntity(mercenariesM1, new Vector2(890,0), Entity.Direction.RIGHT);
 //            mapEntities.add(mercenariesM1);
+//
+//            Entity potions01_2 = EntityFactory.getInstance().getItem(Item.ItemID.POTIONS01, 5,false);
+//            initEntity(potions01_2, new Vector2(1100,-60), Entity.Direction.RIGHT);
+//            mapEntities.add(potions01_2);
         }
     }
 

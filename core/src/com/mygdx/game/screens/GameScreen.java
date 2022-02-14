@@ -61,7 +61,10 @@ public class GameScreen implements Screen {
 
     public GameScreen(FadingReality game) {
         this.game=game;
+    }
 
+    @Override
+    public void show() {
         json = new Json();
 
         mapMgr = new MapManager();
@@ -71,22 +74,20 @@ public class GameScreen implements Screen {
 
         playerHUD = new PlayerHUD(this, player, mapMgr);
 //        playerHUD.updateEntityObservers();
-    }
 
-    @Override
-    public void show() {
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.setToOrtho(false);
         camera.zoom = 0.5f; //45 //1.80
         mapMgr.setCamera(camera);
-        if( mapRenderer == null ){
-            mapRenderer = new OrthogonalTiledMapRendererWithSprites(mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
-        }
 
         //ADD OBSERVER FOR PROFILE
         ProfileManager.getInstance().addObserver(mapMgr);
         ProfileManager.getInstance().addObserver(playerHUD);
         setGameState(GameState.LOADING);
+
+        if( mapRenderer == null ){
+            mapRenderer = new OrthogonalTiledMapRendererWithSprites(mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
+        }
 
         //CREATE QuestMANAGER
 //            questManager = new QuestManager();

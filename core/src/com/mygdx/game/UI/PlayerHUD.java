@@ -218,9 +218,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     profileManager.getPlayerConfig().setShopItems(shopItems);
                     browserUI.setShopItems(shopItems);
 
-                    Map<MapFactory.MapType, Array<Integer>> idEntityForDelete = profileManager.getPlayerConfig().getIdEntityForDelete();
-                    mapMgr.setIdEntityForDelete(idEntityForDelete);
-
 //                    questUI.setQuests(new Array<QuestGraph>());
                     questUI.loadQuest("main/plot/start.json");
 
@@ -275,9 +272,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
                     Array<Item.ItemID> shopItems = profileManager.getPlayerConfig().getShopItems();
                     browserUI.setShopItems(shopItems);
-
-                    Map<MapFactory.MapType, Array<Integer>> idEntityForDelete = profileManager.getPlayerConfig().getIdEntityForDelete();
-                    mapMgr.setIdEntityForDelete(idEntityForDelete);
 
                     Array<QuestGraph> quests = profileManager.getPlayerConfig().getQuests();
                     questUI.setQuests(quests);
@@ -347,7 +341,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setCoins(pdaUI.getCoins());
                 profileManager.getPlayerConfig().setDashDist(player.getDashDist());
                 profileManager.getPlayerConfig().setDashSpeed(player.getDashSpeed());
-                profileManager.getPlayerConfig().setIdEntityForDelete(mapMgr.getIdEntityForDelete());
                 break;
             case CLEAR_CURRENT_PROFILE:
                 System.out.println("PROFILE CONFIG CLEARING");

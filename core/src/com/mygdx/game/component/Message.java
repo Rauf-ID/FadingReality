@@ -6,8 +6,9 @@ public interface Message {
     public static final String MESSAGE_TOKEN_2 = ":::";
 
     public static enum MESSAGE{
-        CURRENT_POSITION,
         INIT_START_POSITION,
+        ITEM_MAP_SPAWN_ID,
+        ITEM_IS_FOR_QUEST,
         CURRENT_DIRECTION,
         CURRENT_STATE,
         COLLISION_WITH_MAP,
@@ -37,8 +38,6 @@ public interface Message {
         ENEMY_KILLED,
         UNLOCK_FIRST_SKILLS,
         INIT_ITEM,
-        ITEM_MAP_SPAWN_ID,
-        ITEM_IS_FOR_QUEST,
         STUN;
     }
 

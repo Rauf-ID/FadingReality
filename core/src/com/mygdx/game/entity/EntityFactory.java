@@ -158,6 +158,19 @@ public class EntityFactory {
         return entity;
     }
 
+    public Entity getEntityByName(String entityType, String entityName, Vector2 position, Entity.Direction direction){
+        Entity entity = EntityFactory.getEntity(EntityType.valueOf(entityType));
+        EntityConfig config = new EntityConfig(entities.get(entityName));
+        if (entity != null) {
+            entity.setEntityConfig(config);
+            entity.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(position));
+            entity.sendMessage(Message.MESSAGE.INIT_CONFIG, json.toJson(entity.getEntityConfig()));
+            entity.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
+            entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
+        }
+        return entity;
+    }
+
     public Entity getEnemyByName(EntityName entityName){
         EntityConfig config = new EntityConfig(entities.get(entityName.toString()));
         Entity entity = Entity.initEnemy(config);

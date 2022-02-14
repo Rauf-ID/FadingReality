@@ -52,8 +52,6 @@ public class MapItem extends Component {
         if( string.length == 2 ) {
             if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
                 currentEntityPosition = json.fromJson(Vector2.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_POSITION.toString())) {
-                currentEntityPosition = json.fromJson(Vector2.class, string[1]);
             } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
                 currentState = json.fromJson(Entity.State.class, string[1]);
             } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_ITEM.toString())) {

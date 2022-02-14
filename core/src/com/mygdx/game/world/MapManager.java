@@ -28,7 +28,7 @@ public class MapManager implements ProfileObserver {
     private Entity player;
     private Entity currentEntity = null;
 
-    private java.util.Map<MapFactory.MapType, Array<Integer>> idEntityForDelete = new HashMap<>();
+    private java.util.Map<String, Array<Integer>> idEntityForDelete = new HashMap<>();
 
     public MapManager() {
     }
@@ -41,12 +41,17 @@ public class MapManager implements ProfileObserver {
                 if(mapType==null) {
                     mapType = MapFactory.MapType.SPACE_STATION;
                 }
+
+                java.util.Map<String, Array<Integer>> idEntityForDelete = profileManager.getPlayerConfig().getIdEntityForDelete();
+                setIdEntityForDelete(idEntityForDelete);
+
                 loadMap(mapType);
                 break;
             case SAVING_PROFILE:
                 if( currentMap != null ){
                     profileManager.getPlayerConfig().setCurrentMap(currentMap.getCurrentMapType());
                 }
+                profileManager.getPlayerConfig().setIdEntityForDelete(getIdEntityForDelete());
                 break;
             case CLEAR_CURRENT_PROFILE:
                 currentMap = null;
@@ -60,14 +65,12 @@ public class MapManager implements ProfileObserver {
     }
 
     public void loadMap(MapFactory.MapType mapType){
-        Map map = MapFactory.getMap(mapType);
+        Map map = MapFactory.getMap(mapType,this);
 
         if( map == null ){
             Gdx.app.debug(TAG, "Map does not exist!  ");
             return;
         }
-
-        map.addEntitiesToMap(idEntityForDelete.get(map.getCurrentMapType()));
 
         currentMap = map;
         mapChanged = true;
@@ -183,23 +186,23 @@ public class MapManager implements ProfileObserver {
         currentMap.getMapEntities().removeValue(currentEntity, true);
     }
 
-    public java.util.Map<MapFactory.MapType, Array<Integer>> getIdEntityForDelete() {
+    public java.util.Map<String, Array<Integer>> getIdEntityForDelete() {
         return idEntityForDelete;
     }
 
-    public void setIdEntityForDelete(java.util.Map<MapFactory.MapType, Array<Integer>> idEntityForDelete) {
+    public void setIdEntityForDelete(java.util.Map<String, Array<Integer>> idEntityForDelete) {
         this.idEntityForDelete = idEntityForDelete;
     }
 
     public void addIdEntityForDelete(int id) {
-        if (idEntityForDelete.get(currentMap.getCurrentMapType()) == null) {
+        if (idEntityForDelete.get(currentMap.getCurrentMapType().toString()) == null) {
             Array<Integer> IDs = new Array<>();
             IDs.add(id);
-            idEntityForDelete.put(currentMap.getCurrentMapType(), IDs);
+            idEntityForDelete.put(currentMap.getCurrentMapType().toString(), IDs);
         } else {
-            Array<Integer> IDs = new Array<>(idEntityForDelete.get(currentMap.getCurrentMapType()));
+            Array<Integer> IDs = new Array<>(idEntityForDelete.get(currentMap.getCurrentMapType().toString()));
             IDs.add(id);
-            idEntityForDelete.put(currentMap.getCurrentMapType(), IDs);
+            idEntityForDelete.put(currentMap.getCurrentMapType().toString(), IDs);
         }
     }
 
