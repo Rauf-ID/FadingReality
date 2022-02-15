@@ -58,7 +58,7 @@ public class MapItem extends Component {
                 itemID = json.fromJson(Item.ItemID.class, string[1]);
             } else if (string[0].equalsIgnoreCase(MESSAGE.ITEM_IS_FOR_QUEST.toString())) {
                 isItemForQuest = json.fromJson(Boolean.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.ITEM_MAP_SPAWN_ID.toString())) {
+            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_ID_MAP_SPAWN.toString())) {
                 idSpawnMap = json.fromJson(Integer.class, string[1]);
             } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
                 entityConfig = json.fromJson(EntityConfig.class, string[1]);

@@ -158,15 +158,22 @@ public class EntityFactory {
         return entity;
     }
 
-    public Entity getEntityByName(String entityType, String entityName, Vector2 position, Entity.Direction direction){
+    public Entity getEntityByName(String entityType, String entityName, Vector2 position, Entity.Direction direction, int idSpawnMap, boolean isItem, boolean isQuestItem){
         Entity entity = EntityFactory.getEntity(EntityType.valueOf(entityType));
         EntityConfig config = new EntityConfig(entities.get(entityName));
         if (entity != null) {
             entity.setEntityConfig(config);
+            entity.sendMessage(Message.MESSAGE.INIT_ID_MAP_SPAWN, json.toJson(idSpawnMap));
             entity.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(position));
             entity.sendMessage(Message.MESSAGE.INIT_CONFIG, json.toJson(entity.getEntityConfig()));
             entity.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
             entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
+            if (isItem) {
+                entity.sendMessage(Component.MESSAGE.INIT_ITEM, json.toJson(Item.ItemID.valueOf(entityName)));
+                if (isQuestItem) {
+                    entity.sendMessage(Component.MESSAGE.ITEM_IS_FOR_QUEST, json.toJson(true));
+                }
+            }
         }
         return entity;
     }
@@ -178,13 +185,12 @@ public class EntityFactory {
     }
 
     public Entity getItem(Item.ItemID itemID, int idSpawnMap, boolean isItemForQuest) {
-        Json json = new Json();
-        EntityConfig entityConfig = new EntityConfig(entities.get(itemID.toString()));
         Entity entity = EntityFactory.getEntity(EntityType.MAP_ITEM);
+        EntityConfig entityConfig = new EntityConfig(entities.get(itemID.toString()));
         if (entity != null) {
             entity.setEntityConfig(entityConfig);
             entity.sendMessage(Component.MESSAGE.INIT_ITEM, json.toJson(itemID));
-            entity.sendMessage(Message.MESSAGE.ITEM_MAP_SPAWN_ID, json.toJson(idSpawnMap));
+            entity.sendMessage(Message.MESSAGE.INIT_ID_MAP_SPAWN, json.toJson(idSpawnMap));
             if (isItemForQuest) {
                 entity.sendMessage(Component.MESSAGE.ITEM_IS_FOR_QUEST, json.toJson(true));
             }

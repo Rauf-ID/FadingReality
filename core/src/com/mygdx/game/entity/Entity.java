@@ -234,6 +234,10 @@ public class Entity implements Comparable<Entity> {
 
     public void setMaxDashCharges(int maxDashCharges){component.setMaxDashCharges(maxDashCharges);}
 
+    public void setCurrentPosition(Vector2 position) {
+        component.currentEntityPosition.set(position);
+    }
+
     public int getMaxDashCharges(){return component.getMaxDashCharges();}
 
     public int getMeleeDamageBoost() {
@@ -274,6 +278,10 @@ public class Entity implements Comparable<Entity> {
 
     public void setCritChanсe(int critChanсe) {
         component.setCritChance(critChanсe);
+    }
+
+    public void setCurrentDirection(Direction direction) {
+        component.currentDirection = direction;
     }
 
     public int getHealAmount() {return component.getHealAmount();}

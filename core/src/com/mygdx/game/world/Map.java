@@ -52,10 +52,10 @@ public class Map {
 
     private MapProperties mapProperties = null;
 
-    protected Array<Entity> mapEntities;
-    protected Array<Entity> mapQuestEntities;
+    private Array<Entity> mapEntities;
+    private Array<Entity> mapQuestEntities;
 
-    public Map (MapFactory.MapType mapType, String fullMapPath) {
+    public Map(MapManager mapManager, MapFactory.MapType mapType) {
         json = new Json();
         currentMapType = mapType;
         playerStart = new Vector2(0,0);
@@ -63,11 +63,11 @@ public class Map {
         mapQuestEntities = new Array<>();
         grid = new Array<>();
 
-        if( fullMapPath == null || fullMapPath.isEmpty() ) {
+        if( mapType.getPath() == null || mapType.getPath().isEmpty() ) {
             Gdx.app.debug(TAG, "Map is invalid");
             return;
         } else {
-            currentMap = new TmxMapLoader().load(fullMapPath);
+            currentMap = new TmxMapLoader().load(mapType.getPath());
         }
 
         portalLayer = currentMap.getLayers().get(PORTAL_LAYER);
@@ -98,6 +98,8 @@ public class Map {
         mapProperties = currentMap.getProperties();
         mapWidth = mapProperties.get("tilewidth", Integer.class);
         mapHeight = mapProperties.get("tileheight", Integer.class);
+
+        addEntitiesToMap(mapManager.getIdEntityForDelete().get(mapType.toString()));
 
         createGrid();
     }
@@ -134,7 +136,7 @@ public class Map {
         }
     }
 
-    protected void updateMapEntities(MapManager mapMgr, Batch batch, float delta){
+    public void updateMapEntities(MapManager mapMgr, Batch batch, float delta){
         for( int i=0; i < mapEntities.size; i++){
             mapEntities.get(i).update(mapMgr, batch, delta);
         }
@@ -143,7 +145,7 @@ public class Map {
         }
     }
 
-    public void addEntitiesToMap(Array<Integer> ids) {
+    private void addEntitiesToMap(Array<Integer> ids) {
         if(entitySpawnsLayer == null){
             return;
         }
@@ -153,25 +155,18 @@ public class Map {
                 return;
             }
 
-            if (ids != null && ids.contains((int) object.getProperties().get("id"), true)) {
+            int id = (int) object.getProperties().get("id");
+            if (ids != null && ids.contains(id, true)) {
                 return;
             }
 
             String entityType = (String) object.getProperties().get("entityType");
             String entityName = object.getName();
             Vector2 position = new Vector2(((RectangleMapObject)object).getRectangle().getX(), ((RectangleMapObject)object).getRectangle().getY());
+            boolean isItem = (Boolean) object.getProperties().get("isItem");
 
-            Entity entity = EntityFactory.getInstance().getEntityByName(entityType, entityName, position, Entity.Direction.RIGHT);
+            Entity entity = EntityFactory.getInstance().getEntityByName(entityType, entityName, position, Entity.Direction.RIGHT, id, isItem,false);
             mapEntities.add(entity);
-
-
-//            Entity entity = EntityFactory.getInstance().getNPCByName(EntityFactory.EntityName.MERCENARIES_M1);
-//            initEntity(mercenariesM1, new Vector2(890,0), Entity.Direction.RIGHT);
-//            mapEntities.add(mercenariesM1);
-//
-//            Entity potions01_2 = EntityFactory.getInstance().getItem(Item.ItemID.POTIONS01, 5,false);
-//            initEntity(potions01_2, new Vector2(1100,-60), Entity.Direction.RIGHT);
-//            mapEntities.add(potions01_2);
         }
     }
 

@@ -221,31 +221,24 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 //                    questUI.setQuests(new Array<QuestGraph>());
                     questUI.loadQuest("main/plot/start.json");
 
-                    profileManager.getPlayerConfig().setPosition(new Vector2(1188,281));
-                    profileManager.getPlayerConfig().setDirection(Entity.Direction.LEFT);
                     profileManager.getPlayerConfig().setExoskeletonName(EntityFactory.EntityName.NONE);
-                    profileManager.getPlayerConfig().setDashCharges(4);
-                    profileManager.getPlayerConfig().setMaxDashCharges(4);
-                    profileManager.getPlayerConfig().setMaxHp(100);
-                    profileManager.getPlayerConfig().setDamageResist(0);
-                    profileManager.getPlayerConfig().setExperience(5);
                     profileManager.getPlayerConfig().setCoins(10);
 
-                    Vector2 initPlayerPosition = profileManager.getPlayerConfig().getPosition();
-                    Entity.Direction direction = profileManager.getPlayerConfig().getDirection();
-                    player.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(initPlayerPosition));
-                    player.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
-                    player.setDashCharge(profileManager.getPlayerConfig().getDashCharges());
-                    progressBar.setValue(profileManager.getPlayerConfig().getDashCharges());
-                    player.setMaxDashCharges(profileManager.getPlayerConfig().getMaxDashCharges());
-                    player.setMaxHealth(profileManager.getPlayerConfig().getMaxHp());
-                    player.setHealth(profileManager.getPlayerConfig().getMaxHp());
-                    player.setExperience(profileManager.getPlayerConfig().getExperience());
+                    player.setCurrentPosition(new Vector2(1188,281));
+                    player.setCurrentDirection(Entity.Direction.LEFT);
+                    player.setHealth(100);
+                    player.setMaxHealth(100);
+                    player.setExperience(5);
+                    player.setDamageResist(0);
+                    player.setDashCharge(4);
+                    player.setMaxDashCharges(4);
                     player.setDashSpeed(0);
                     player.setDashDist(0);
                     player.setPlayerSkills(new Array<Integer>());
                     player.setAvailableSkills(new Array<Integer>());
                     player.getAvailableSkills().addAll(0,1,2,27);
+
+                    progressBar.setValue(player.getDashCharge());
 
                     Skill firstSkill = SkillFactory.getInstance().getSkill(0);
                     Skill secondSkill = SkillFactory.getInstance().getSkill(1);
@@ -253,10 +246,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     firstSkill.unlockSkill(player);
                     secondSkill.unlockSkill(player);
                     thirdSkill.unlockSkill(player);
-                    skillUI.createSkillTree(player);
-                    this.addActor(skillUI.getSkillTooltip());
 
-                    pdaUI.setCoins(profileManager.getPlayerConfig().getCoins());
                 } else {
                     Map<String, Integer> allAmmoCount = profileManager.getPlayerConfig().getBagAmmunition();
                     WeaponSystem.setBagAmmunition(allAmmoCount);
@@ -300,16 +290,16 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setDashDist(profileManager.getPlayerConfig().getDashDist());
                     player.setDashSpeed(profileManager.getPlayerConfig().getDashSpeed());
 
-                    skillUI.createSkillTree(player);
-                    this.addActor(skillUI.getSkillTooltip());
-
-                    pdaUI.setCoins(profileManager.getPlayerConfig().getCoins());
-
                     if (profileManager.getPlayerConfig().getExoskeletonName() != EntityFactory.EntityName.NONE) {
                         EntityFactory.EntityName exoskeletonName = profileManager.getPlayerConfig().getExoskeletonName();
                         player.sendMessage(Message.MESSAGE.EQUIP_EXOSKELETON, json.toJson(exoskeletonName));
                     }
                 }
+
+                pdaUI.setCoins(profileManager.getPlayerConfig().getCoins());
+                skillUI.createSkillTree(player);
+                this.addActor(skillUI.getSkillTooltip());
+
                 break;
             case SAVING_PROFILE:
                 System.out.println("PROFILE CONFIG SAVING");
@@ -403,10 +393,11 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 Item.ItemID itemID = Item.ItemID.valueOf(splitStr2[0]);
                 inventoryUI.addItemToInventory(itemID);
                 tooltipUI.addTooltip(itemID.toString() + " added to inventory");
+                mapMgr.deleteCurrentMapEntity();
+                gameScreen.getEntities().remove(mapMgr.getCurrentMapEntity());
                 mapMgr.clearCurrentMapEntity();
 
                 if (!Boolean.parseBoolean(splitStr2[1])) {
-                    System.out.println("Ok");
                     mapMgr.addIdEntityForDelete(Integer.parseInt(splitStr2[2]));
                 }
                 break;
@@ -417,7 +408,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 progressBar.plusValue(0.25f);
                 break;
             case TEST_EVENT:
-                System.out.println(mapMgr.getCurrentMapEntity().getEntityConfig().getEntityID());
+//                System.out.println(mapMgr.getCurrentMapEntity().getEntityConfig().getEntityID());
 //                mapMgr.clearCurrentMapEntity();
 //                mapMgr.deleteCurrentMapEntity();
 //                gameScreen.getEntities().remove(mapMgr.getCurrentMapEntity());

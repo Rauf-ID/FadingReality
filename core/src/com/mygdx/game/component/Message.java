@@ -7,7 +7,7 @@ public interface Message {
 
     public static enum MESSAGE{
         INIT_START_POSITION,
-        ITEM_MAP_SPAWN_ID,
+        INIT_ID_MAP_SPAWN,
         ITEM_IS_FOR_QUEST,
         CURRENT_DIRECTION,
         CURRENT_STATE,
