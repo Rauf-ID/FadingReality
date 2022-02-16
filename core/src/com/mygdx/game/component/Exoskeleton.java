@@ -45,17 +45,16 @@ public class Exoskeleton extends Component {
         if( string.length == 2 ) {
             if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
                 currentEntityPosition = json.fromJson(Vector2.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
+            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_STATE.toString())) {
                 currentState = json.fromJson(Entity.State.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
+            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_DIRECTION.toString())) {
                 currentDirection = json.fromJson(Entity.Direction.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.INTERACTION_WITH_ENTITY.toString())) {
             } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
                 entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 initImageBox(entityConfig.getImageBox());
                 initBoundingBox(entityConfig.getBoundingBox());
                 initActiveZoneBox(entityConfig.getActiveZoneBox());
-            } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
 
@@ -87,7 +86,7 @@ public class Exoskeleton extends Component {
         if (playerBoundingBox.overlaps(activeZoneBox)) {
             playerInActiveZone = true;
             if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-                player.sendMessage(MESSAGE.EQUIP_EXOSKELETON, json.toJson(entityConfig.getEntityID()));
+                player.sendMessage(MESSAGE.SET_EXOSKELETON, json.toJson(entityConfig.getEntityID()));
                 playerInActiveZone2 = false;
             }
         } else {

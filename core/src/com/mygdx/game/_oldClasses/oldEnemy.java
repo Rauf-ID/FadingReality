@@ -64,9 +64,9 @@
 //                currentEntityPosition = json.fromJson(Vector2.class, string[1]);
 //            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_POSITION.toString())) {
 //                currentEntityPosition = json.fromJson(Vector2.class, string[1]);
-//            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
+//            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_STATE.toString())) {
 //                currentState = json.fromJson(Entity.State.class, string[1]);
-//            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
+//            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_DIRECTION.toString())) {
 //                currentDirection = json.fromJson(Entity.Direction.class, string[1]);
 //            } else if (string[0].equalsIgnoreCase(MESSAGE.INTERACTION_WITH_ENTITY.toString())) {
 //            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
@@ -75,7 +75,7 @@
 ////                chaseRangeBox.set(currentEntityPosition.x-(entityConfig.getAttackRadiusBoxWidth()/2)+(boundingBox.width/2), currentEntityPosition.y-(entityConfig.getAttackRadiusBoxHeight()/2)+(boundingBox.height/2), entityConfig.getAttackRadiusBoxWidth(), entityConfig.getAttackRadiusBoxHeight());
 //            } else if (string[0].equalsIgnoreCase(MESSAGE.ACTIVATE_ANIM_MECHAN.toString())) {
 //                activateAnimMechan = json.fromJson(Boolean.class, string[1]);
-//            }  else if (string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
+//            }  else if (string[0].equalsIgnoreCase(MESSAGE.INIT_ANIMATIONS.toString())) {
 //                EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
 //                Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
 //

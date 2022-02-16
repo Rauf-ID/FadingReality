@@ -165,7 +165,7 @@ public class Map {
             Vector2 position = new Vector2(((RectangleMapObject)object).getRectangle().getX(), ((RectangleMapObject)object).getRectangle().getY());
             boolean isItem = (Boolean) object.getProperties().get("isItem");
 
-            Entity entity = EntityFactory.getInstance().getEntityByName(entityType, entityName, position, Entity.Direction.RIGHT, id, isItem,false);
+            Entity entity = EntityFactory.getInstance().getEntityByName(entityType, entityName, position, Entity.State.IDLE, Entity.Direction.RIGHT, id, isItem,false, "");
             mapEntities.add(entity);
         }
     }

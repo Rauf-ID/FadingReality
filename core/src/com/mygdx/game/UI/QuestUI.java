@@ -35,7 +35,7 @@ public class QuestUI extends Window {
         super("Quest Log", FadingReality.getUiSkin());
 
         json = new Json();
-        quests = new Array<QuestGraph>();
+        quests = new Array<>();
 
         //create
         _questLabel = new Label("Quests:", FadingReality.getUiSkin());

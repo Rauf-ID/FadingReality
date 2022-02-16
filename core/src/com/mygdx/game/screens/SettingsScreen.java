@@ -65,7 +65,7 @@ public class SettingsScreen implements Screen {
 
                @Override
                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                   game.setScreen(game.getScreenType(FadingReality.ScreenType.Menu));
+                   game.setScreen(game.getScreenType(FadingReality.ScreenType.MENU));
                }
         });
 
@@ -78,7 +78,7 @@ public class SettingsScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(FadingReality.menuScreen);
+            game.setScreen(game.getScreenType(FadingReality.ScreenType.MENU));
         }
 
         stage.act(delta);

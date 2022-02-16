@@ -307,7 +307,8 @@ public class QuestGraph {
                         Entity.Direction direction = taskProperties.getDirection();
                         String conversationConfigPath = taskProperties.getConversationConfigPath();
 
-                        Entity entity = EntityFactory.getInstance().getNPCByNameForQuest(entityName, position, direction, conversationConfigPath);
+                        Entity entity = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityType.NPC.toString(), entityName.toString(), position, Entity.State.IDLE, direction,  -1, false,false, conversationConfigPath);
+
 
                         questTalkEntities.add(entity);
                     }
@@ -326,7 +327,8 @@ public class QuestGraph {
                         Vector2 position = taskProperties.getTargetsPositions().get(i);
                         Entity.Direction direction = taskProperties.getDirection();
 
-                        Entity entity = EntityFactory.getInstance().getEnemyByNameForQuest(entityName, position, direction);
+                        Entity entity = EntityFactory.getInstance().getEntityByName(EntityFactory.EntityType.NPC.toString(), entityName.toString(), position, Entity.State.IDLE, direction, -1, false,false, "");
+
 
                         questKillEntities.add(entity);
                     }

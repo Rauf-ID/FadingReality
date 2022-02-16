@@ -16,7 +16,6 @@ import com.mygdx.game.UI.pda.SkillUI;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.item.Item;
-import com.mygdx.game.item.ItemFactory;
 import com.mygdx.game.quest.QuestGraph;
 import com.mygdx.game.UI.pda.PDAUI;
 import com.mygdx.game.observer.InventoryObserver;
@@ -28,8 +27,6 @@ import com.mygdx.game.dialogs.ConversationGraph;
 import com.mygdx.game.observer.ConversationGraphObserver;
 import com.mygdx.game.observer.ProfileObserver;
 import com.mygdx.game.profile.ProfileManager;
-import com.mygdx.game.rudiment.RudimentFactory;
-import com.mygdx.game.rudiment.UniqueRudiment;
 import com.mygdx.game.screens.GameScreen;
 import com.mygdx.game.skills.Skill;
 import com.mygdx.game.skills.SkillFactory;
@@ -37,7 +34,6 @@ import com.mygdx.game.tools.ProgressBarNew;
 import com.mygdx.game.tools.Toast;
 import com.mygdx.game.weapon.Ammo.AmmoID;
 import com.mygdx.game.weapon.WeaponSystem;
-import com.mygdx.game.world.MapFactory;
 import com.mygdx.game.world.MapManager;
 
 import java.util.HashMap;
@@ -50,15 +46,10 @@ import static com.mygdx.game.component.Message.MESSAGE_TOKEN_2;
 
 public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserver, ConversationGraphObserver, InventoryObserver {
 
-    // PlayerHUD это челл который подписан на каналы, обсерверы
-
+    private Json json;
     private Entity player;
+    private MapManager mapMgr;
     private GameScreen gameScreen;
-
-    private ProgressBarNew healthBar;
-    private ProgressBarNew progressBar;
-
-    private int iis;
 
     private SkillUI skillUI;
     private QuestUI questUI;
@@ -66,22 +57,20 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     private StatusUI statusUI;
     private TooltipUI tooltipUI;
     private InventoryUI inventoryUI;
-    public ConversationUI conversationUI;
+    private ConversationUI conversationUI;
     public static BrowserUI browserUI;
 
-    private Json json;
-    private MapManager mapMgr;
+    private ProgressBarNew healthBar;
+    private ProgressBarNew progressBar;
 
-    private Label tooltip1, tooltip2;
-    private int hour, min;
-    private String currentState;
-    private float ammoCount;
-    private Vector3 mouseCoordinates;
     private float zoom;
-    private Vector2 playerPosition;
     private String mapName;
+    private String currentState;
+    private Vector2 playerPosition;
+    private Vector3 mouseCoordinates;
+    private Label tooltip1, tooltip2;
 
-    public static List<Toast> toasts = new LinkedList<Toast>();
+    private static List<Toast> toasts = new LinkedList<Toast>();
     private static Toast.ToastFactory toastFactory;
 
     public PlayerHUD(GameScreen gameScreen, Entity player, MapManager _mapMgr) {
@@ -109,7 +98,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         tooltipUI.setPosition(Gdx.graphics.getWidth(), 0);
         tooltipUI.setMovable(true);
         tooltipUI.setVisible(true);
-
         tooltipUI.right().bottom();
 
         inventoryUI = new InventoryUI();
@@ -195,7 +183,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 System.out.println("PROFILE LOADING");
                 boolean firstTime = profileManager.getIsNewProfile();
                 if(firstTime){
-                    System.out.println("CREATING NEW PROFILE");
                     InventoryUI.clearInventoryItems(inventoryUI.getInventorySlotTable());
                     InventoryUI.clearInventoryItems(inventoryUI.getEquipSlotTable());
 
@@ -207,22 +194,11 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     WeaponSystem.setBagAmmunition(allAmmoCount);
 
                     Array<Item.ItemID> inventoryItems = player.getEntityConfig().getInventory(); // дефолтные предметы из EntityConfig
-                    Array<InventoryItemLocation> itemLocations = new Array<InventoryItemLocation>();
+                    Array<InventoryItemLocation> itemLocations = new Array<>();
                     for( int i = 0; i < inventoryItems.size; i++){
                         itemLocations.add(new InventoryItemLocation(i, inventoryItems.get(i).toString(), 1, 0, InventoryUI.PLAYER_INVENTORY)); // расставляем предметы
                     }
                     InventoryUI.populateInventory(inventoryUI.getInventorySlotTable(), itemLocations, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
-                    profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable()));
-
-                    Array<Item.ItemID> shopItems = player.getEntityConfig().getShopItems(); // дефолтные предметы из EntityConfig
-                    profileManager.getPlayerConfig().setShopItems(shopItems);
-                    browserUI.setShopItems(shopItems);
-
-//                    questUI.setQuests(new Array<QuestGraph>());
-                    questUI.loadQuest("main/plot/start.json");
-
-                    profileManager.getPlayerConfig().setExoskeletonName(EntityFactory.EntityName.NONE);
-                    profileManager.getPlayerConfig().setCoins(10);
 
                     player.setCurrentPosition(new Vector2(1188,281));
                     player.setCurrentDirection(Entity.Direction.LEFT);
@@ -234,18 +210,23 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setMaxDashCharges(4);
                     player.setDashSpeed(0);
                     player.setDashDist(0);
+                    player.setExoskeletonName(EntityFactory.EntityName.NONE);
                     player.setPlayerSkills(new Array<Integer>());
                     player.setAvailableSkills(new Array<Integer>());
-                    player.getAvailableSkills().addAll(0,1,2,27);
+                    player.getAvailableSkills().addAll(0,1,2);
 
                     progressBar.setValue(player.getDashCharge());
+                    profileManager.getPlayerConfig().setCoins(10);
+                    browserUI.setShopItems(player.getEntityConfig().getShopItems());
+                    questUI.loadQuest("main/plot/start.json");
 
                     Skill firstSkill = SkillFactory.getInstance().getSkill(0);
                     Skill secondSkill = SkillFactory.getInstance().getSkill(1);
-                    Skill thirdSkill = SkillFactory.getInstance().getSkill(27);
+                    Skill thirdSkill = SkillFactory.getInstance().getSkill(2);
                     firstSkill.unlockSkill(player);
                     secondSkill.unlockSkill(player);
                     thirdSkill.unlockSkill(player);
+
 
                 } else {
                     Map<String, Integer> allAmmoCount = profileManager.getPlayerConfig().getBagAmmunition();
@@ -260,18 +241,9 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                         InventoryUI.populateInventory(inventoryUI.getEquipSlotTable(), equipment, inventoryUI.getDragAndDrop(), InventoryUI.PLAYER_INVENTORY, false);
                     }
 
-                    Array<Item.ItemID> shopItems = profileManager.getPlayerConfig().getShopItems();
-                    browserUI.setShopItems(shopItems);
-
-                    Array<QuestGraph> quests = profileManager.getPlayerConfig().getQuests();
-                    questUI.setQuests(quests);
-
-                    Vector2 initPlayerPosition = profileManager.getPlayerConfig().getPosition();
-                    Entity.Direction direction = profileManager.getPlayerConfig().getDirection();
-                    player.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(initPlayerPosition));
-                    player.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
+                    player.setCurrentPosition(profileManager.getPlayerConfig().getPosition());
+                    player.setCurrentDirection(profileManager.getPlayerConfig().getDirection());
                     player.setDashCharge(profileManager.getPlayerConfig().getDashCharges());
-                    progressBar.setValue(profileManager.getPlayerConfig().getDashCharges());
                     player.setMaxDashCharges(profileManager.getPlayerConfig().getMaxDashCharges());
                     player.setCritChanсe(profileManager.getPlayerConfig().getCritChance());
                     player.setExecutionThreshold(profileManager.getPlayerConfig().getExecutionThreshold());
@@ -290,9 +262,13 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setDashDist(profileManager.getPlayerConfig().getDashDist());
                     player.setDashSpeed(profileManager.getPlayerConfig().getDashSpeed());
 
+                    questUI.setQuests(profileManager.getPlayerConfig().getQuests());
+                    progressBar.setValue(profileManager.getPlayerConfig().getDashCharges());
+                    browserUI.setShopItems(profileManager.getPlayerConfig().getShopItems());
+
                     if (profileManager.getPlayerConfig().getExoskeletonName() != EntityFactory.EntityName.NONE) {
                         EntityFactory.EntityName exoskeletonName = profileManager.getPlayerConfig().getExoskeletonName();
-                        player.sendMessage(Message.MESSAGE.EQUIP_EXOSKELETON, json.toJson(exoskeletonName));
+                        player.sendMessage(Message.MESSAGE.SET_EXOSKELETON, json.toJson(exoskeletonName));
                     }
                 }
 
@@ -308,29 +284,31 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setBagAmmunition(player.getBagAmmunition()); // Bag Ammunition
                 profileManager.getPlayerConfig().setInventory(InventoryUI.getInventory(inventoryUI.getInventorySlotTable())); // Inventory
                 profileManager.getPlayerConfig().setEquipment(InventoryUI.getInventory(inventoryUI.getEquipSlotTable())); // Equipment
-                profileManager.getPlayerConfig().setPosition(player.getCurrentPosition());  // XY position
-                profileManager.getPlayerConfig().setDirection(player.getCurrentDirection());  // Direction
-                profileManager.getPlayerConfig().setState(player.getCurrentState());  // State
-                profileManager.getPlayerConfig().setExoskeletonName(player.getExoskeletonName()); // Exoskeleton name
-                profileManager.getPlayerConfig().setDashCharges(player.getDashCharge()); // Dash charges
-                profileManager.getPlayerConfig().setMaxDashCharges(player.getMaxDashCharges()); // Max dash charges
+                profileManager.getPlayerConfig().setHealth(player.getHealth());
+                profileManager.getPlayerConfig().setMaxHp(player.getMaxHealth());
+                profileManager.getPlayerConfig().setDashDist(player.getDashDist());
+                profileManager.getPlayerConfig().setState(player.getCurrentState());
+                profileManager.getPlayerConfig().setDashSpeed(player.getDashSpeed());
+                profileManager.getPlayerConfig().setHealAmount(player.getHealAmount());
+                profileManager.getPlayerConfig().setExperience(player.getExperience());
                 profileManager.getPlayerConfig().setCritChance(player.getCritChanсe());
+                profileManager.getPlayerConfig().setDashCharges(player.getDashCharge());
                 profileManager.getPlayerConfig().setDamageBoost(player.getDamageBoost());
+                profileManager.getPlayerConfig().setWeaponSpeed(player.getWeaponSpeed());
+                profileManager.getPlayerConfig().setPosition(player.getCurrentPosition());
+                profileManager.getPlayerConfig().setPlayerSkills(player.getPlayerSkills());
+                profileManager.getPlayerConfig().setDamageResist(player.getDamageResist());
+                profileManager.getPlayerConfig().setDirection(player.getCurrentDirection());
+                profileManager.getPlayerConfig().setMaxDashCharges(player.getMaxDashCharges());
+                profileManager.getPlayerConfig().setExoskeletonName(player.getExoskeletonName());
+                profileManager.getPlayerConfig().setAvailableSkills(player.getAvailableSkills());
+                profileManager.getPlayerConfig().setRudimentCooldown(player.getRudimentCooldown());
                 profileManager.getPlayerConfig().setMeleeDamageBoost(player.getMeleeDamageBoost());
                 profileManager.getPlayerConfig().setRangedDamageBoost(player.getRangedDamageBoost());
                 profileManager.getPlayerConfig().setExecutionThreshold(player.getExecutionThreshold());
-                profileManager.getPlayerConfig().setHealAmount(player.getHealAmount());
-                profileManager.getPlayerConfig().setDamageResist(player.getDamageResist());
-                profileManager.getPlayerConfig().setWeaponSpeed(player.getWeaponSpeed());
-                profileManager.getPlayerConfig().setRudimentCooldown(player.getRudimentCooldown());
-                profileManager.getPlayerConfig().setHealth(player.getHealth());
-                profileManager.getPlayerConfig().setMaxHp(player.getMaxHealth());
-                profileManager.getPlayerConfig().setPlayerSkills(player.getPlayerSkills());
-                profileManager.getPlayerConfig().setAvailableSkills(player.getAvailableSkills());
-                profileManager.getPlayerConfig().setExperience(player.getExperience());
+
                 profileManager.getPlayerConfig().setCoins(pdaUI.getCoins());
-                profileManager.getPlayerConfig().setDashDist(player.getDashDist());
-                profileManager.getPlayerConfig().setDashSpeed(player.getDashSpeed());
+                profileManager.getPlayerConfig().setShopItems(browserUI.getShopItems());
                 break;
             case CLEAR_CURRENT_PROFILE:
                 System.out.println("PROFILE CONFIG CLEARING");
@@ -364,12 +342,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 if(configHide.getEntityID().equalsIgnoreCase(conversationUI.getCurrentEntityID())) {
                     conversationUI.setVisible(false);
                 }
-                break;
-            case QUEST_LOCATION_DISCOVERED:
-                break;
-            case ENEMY_SPAWN_LOCATION_CHANGED:
-                break;
-            case PLAYER_HAS_MOVED:
                 break;
             case PLAYER_SHOT:
                 String string = json.fromJson(String.class, value);
@@ -447,13 +419,13 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             case TASK_COMPLETE:
                 questUI.updateQuests(mapMgr);
 //                mapMgr.setMapChanged(true);
+//                mapMgr.clearCurrentMapEntity();
 
 //                Entity currentlyEntity2 = mapMgr.getCurrentMapEntity();
 //                QuestGraph graph2 = json.fromJson(QuestGraph.class, Gdx.files.internal(currentlyEntity2.getEntityConfig().getQuestConfigPath()));
 //                questUI.questTaskComplete(graph2.getQuestID(), questTaskID);
 
                 conversationUI.setVisible(false);
-//                mapMgr.clearCurrentMapEntity();
 
 //                float sec = 1;
 //                Timer.schedule(new Timer.Task(){
@@ -516,57 +488,38 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     }
 
 
+
+
     public void updateEntityObservers(){
         mapMgr.unregisterCurrentMapEntityObservers();
         questUI.initQuests(mapMgr);
         mapMgr.registerCurrentMapEntityObservers(this);
     }
 
-    public void setHourMin(int hour, int min) {
-        this.hour = hour;
-        this.min = min;
-    }
-
-    public void setCurrentState(String currentState){
-        this.currentState=currentState;
-    }
-
-    public void setCountAmmo(float ammoCount){
-        this.ammoCount=ammoCount;
-    }
-
-    public void setMouseCoordinates(Vector3 mouseCoordinates) {
-        this.mouseCoordinates=mouseCoordinates;
-    }
-
-    public void setLabelMapName(String mapName) {
-        this.mapName=mapName;
-    }
-
-    public void setCameraZoom(float zoom) {
-        this.zoom=zoom;
-    }
-
-    public void setPlayerPosition(Vector2 playerPosition) {
-        this.playerPosition=playerPosition;
+    public void setV(float zoom) {
+        this.zoom = zoom;
+        this.playerPosition = player.getCurrentPosition();
+        this.mouseCoordinates = player.getMouseCoordinates();
+        this.currentState = player.getCurrentState().toString();
+        this.mapName = mapMgr.getCurrentMap().getCurrentMapType().toString();
     }
 
     public void update() {
         if (!browserUI.isVisible()) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-                pdaUI.setVisible(pdaUI.isVisible() ? false : true);
+                pdaUI.setVisible(!pdaUI.isVisible());
             }
 
             if(Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
-                inventoryUI.setVisible(inventoryUI.isVisible() ? false : true);
+                inventoryUI.setVisible(!inventoryUI.isVisible());
             }
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
-                questUI.setVisible(questUI.isVisible() ? false : true);
+                questUI.setVisible(!questUI.isVisible());
             }
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
-                skillUI.setVisible(skillUI.isVisible() ? false : true);
+                skillUI.setVisible(!skillUI.isVisible());
             }
         }
 
@@ -577,10 +530,8 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     }
 
     public void render(float delta) {
-//        Delta and FPS
         tooltip1.setText("Delta = " + delta + "\n" +
                 "FPS = " + Gdx.graphics.getFramesPerSecond() + "\n" +
-                "Game Time = " + hour + ":" + min + "\n" +
                 "State = " + currentState + "\n" +
                 "Ammo = " + player.getAmmoCountInMagazine() + "\n" +
                 "Mouse Cord = X: " + Math.round(mouseCoordinates.x) + " Y: " + Math.round(mouseCoordinates.y) + "\n" +
@@ -588,7 +539,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 "Player Position = X: " + playerPosition.x + " Y: " + playerPosition.y + "\n" +
                 "Map = " + mapName);
 
-        // handle toast queue and display
         Iterator<Toast> it = toasts.iterator();
         while(it.hasNext()) {
             Toast t = it.next();

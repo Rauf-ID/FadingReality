@@ -2,24 +2,19 @@ package com.mygdx.game.component;
 
 public interface Message {
 
-    public static final String MESSAGE_TOKEN = ":::::";
-    public static final String MESSAGE_TOKEN_2 = ":::";
+    String MESSAGE_TOKEN = ":::::";
+    String MESSAGE_TOKEN_2 = ":::";
 
-    public static enum MESSAGE{
-        INIT_START_POSITION,
-        INIT_ID_MAP_SPAWN,
-        ITEM_IS_FOR_QUEST,
-        CURRENT_DIRECTION,
-        CURRENT_STATE,
-        COLLISION_WITH_MAP,
-        COLLISION_WITH_ENTITY,
-        LOAD_ANIMATIONS,
-        INIT_DIRECTION,
+    enum MESSAGE{
+        INIT_ITEM,
         INIT_STATE,
-        INTERACTION_WITH_ENTITY,
-        ENTITY_SELECTED,
-        ENTITY_DESELECTED,
         INIT_CONFIG,
+        INIT_DIRECTION,
+        INIT_ANIMATIONS,
+        INIT_ID_MAP_SPAWN,
+        INIT_ALL_AMMO_COUNT,
+        INIT_START_POSITION,
+        SET_EXOSKELETON,
         SET_MELEE_WEAPON,
         SET_RANGED_WEAPON,
         SET_RUDIMENT_ONE,
@@ -30,15 +25,15 @@ public interface Message {
         REMOVE_RUDIMENT_ONE,
         REMOVE_RUDIMENT_TWO,
         REMOVE_UNIQUE_RUDIMENT,
-        INIT_ALL_AMMO_COUNT,
-        ATTAKING_IS_DONE,
-        ACTIVATE_ANIM_MECHAN,
-        EQUIP_EXOSKELETON,
-        EXOSKELETON_ON,
+        ENTITY_SELECTED,
+        ENTITY_DESELECTED,
+        COLLISION_WITH_MAP,
+        COLLISION_WITH_ENTITY,
         ENEMY_KILLED,
-        UNLOCK_FIRST_SKILLS,
-        INIT_ITEM,
-        STUN;
+        ITEM_IS_FOR_QUEST,
+        ACTIVATE_ANIM_MECHAN,
+        STUN,
+        INTERACTION_WITH_ENTITY
     }
 
     void dispose();

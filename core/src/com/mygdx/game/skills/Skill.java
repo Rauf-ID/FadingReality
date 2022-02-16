@@ -83,7 +83,7 @@ public class Skill {
                     player.setRudimentCooldown(player.getRudimentCooldown() + this.getProperty());
                     break;
                 case ACTIVE:
-                    if(this.getId()==12){
+                    if(this.getId() == 12){
                         player.setDashSpeed(200);
                         player.setDashDist(50);
                     }

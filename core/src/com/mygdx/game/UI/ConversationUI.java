@@ -82,7 +82,7 @@ public class ConversationUI extends Window {
 
         clearDialog();
 
-        if( fullFilenamePath.isEmpty() || !Gdx.files.internal(fullFilenamePath).exists() ){
+        if(fullFilenamePath.isEmpty() || !Gdx.files.internal(fullFilenamePath).exists()){
             System.out.println("Conversation file does not exist!");
             return;
         }

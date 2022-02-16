@@ -44,7 +44,7 @@ public class EntityConfig {
         inventory = new Array<>();
         shopItems = new Array<>();
         mapItems = new Array<>();
-        animationConfig = new Array<AnimationConfig>();
+        animationConfig = new Array<>();
 
         hitBox = new Vector2();
         imageBox = new Vector2();
@@ -69,16 +69,16 @@ public class EntityConfig {
         currentQuestID = config.getCurrentQuestID();
         itemTypeID = config.getItemTypeID();
 
-        inventory = new Array<ItemID>();
+        inventory = new Array<>();
         inventory.addAll(config.getInventory());
 
-        shopItems = new Array<ItemID>();
+        shopItems = new Array<>();
         shopItems.addAll(config.getShopItems());
 
         mapItems = new Array<>();
         mapItems.addAll(config.getMapItems());
 
-        animationConfig = new Array<AnimationConfig>();
+        animationConfig = new Array<>();
         animationConfig.addAll(config.getAnimationConfig());
 
         hitBox = config.getHitBox();

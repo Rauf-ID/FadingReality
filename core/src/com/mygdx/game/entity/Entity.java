@@ -9,12 +9,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.mygdx.game.component.MapObject;
 import com.mygdx.game.component.Message;
 import com.mygdx.game.component.Component;
-import com.mygdx.game.item.Item;
 import com.mygdx.game.observer.ComponentObserver;
-import com.mygdx.game.skills.Skill;
 import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.weapon.Weapon;
 import com.mygdx.game.weapon.WeaponSystem;
@@ -44,32 +41,29 @@ public class Entity implements Comparable<Entity> {
     }
 
     public enum State {
-        NONE,
-        IDLE,
-        IDLE2,
-        RUN,
-        WALK,
-        WALK_SHADOW,
-        MELEE_ATTACK,
-        RANGED_ATTACK,
         DASH,
-        USE_RUDIMENT,
-        TAKING_DAMAGE,
+        TALK,
+        DANCE,
+        DEATH,
+        SCARED,
         FALLING,
         LANDING,
-        POLICE_STOPS,
-        POLICE_LOOKED_AROUND,
-        DEATH,
-        TALK,
-        MECHANISM_OPEN_GATE,
-        DANCE,
         ASSAULT,
+        DETENTION,
+        WALK, RUN,
         DISTORTION,
-        SCARED,
+        WALK_SHADOW,
+        IDLE, IDLE2,
+        USE_RUDIMENT,
+        TAKING_DAMAGE,
+        MELEE_ATTACK, RANGED_ATTACK,
         BAR_DRINK,
         HURT_AMELIA,
-        DETENTION,
-        AMELIA_BAT_SIT
+        POLICE_STOPS,
+        AMELIA_BAT_SIT,
+        MECHANISM_OPEN_GATE,
+        POLICE_LOOKED_AROUND,
+        NONE
     }
 
     public enum AnimationType {
@@ -108,7 +102,7 @@ public class Entity implements Comparable<Entity> {
         entityConfig = new EntityConfig();
         json = new Json();
 
-        messages = new Array<Message>(MAX_COMPONENTS);
+        messages = new Array<>(MAX_COMPONENTS);
 
         this.component = component;
 
@@ -207,9 +201,12 @@ public class Entity implements Comparable<Entity> {
         return component.currentIdCollision;
     }
 
-
     public EntityFactory.EntityName getExoskeletonName() {
         return component.getExoskeletonName();
+    }
+
+    public void setExoskeletonName(EntityFactory.EntityName exoskeletonName) {
+        component.setExoskeletonName(exoskeletonName);
     }
 
     public Vector3 getMouseCoordinates(){
@@ -385,57 +382,6 @@ public class Entity implements Comparable<Entity> {
     public static EntityConfig loadEntityConfigByPath(String entityConfigPath){
         return Entity.getEntityConfig(entityConfigPath);
     }
-
-    public static Entity initNPC(EntityConfig entityConfig){
-        Json json = new Json();
-        Entity entity = EntityFactory.getEntity(EntityFactory.EntityType.NPC);
-        entity.setEntityConfig(entityConfig);
-        entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
-        return entity;
-    }
-
-    public static Entity initEnemy(EntityConfig entityConfig){
-        Json json = new Json();
-        Entity entity = EntityFactory.getEntity(EntityFactory.EntityType.ENEMY);
-        entity.setEntityConfig(entityConfig);
-        entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
-        return entity;
-    }
-
-    public static Entity initNPCForQuest(EntityConfig entityConfig, Vector2 position, Entity.Direction direction){
-        Json json = new Json();
-        Entity entity = EntityFactory.getEntity(EntityFactory.EntityType.NPC);
-        entity.setEntityConfig(entityConfig);
-
-        entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
-        entity.sendMessage(Component.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
-        entity.sendMessage(Message.MESSAGE.INIT_CONFIG, json.toJson(entity.getEntityConfig()));
-        entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
-
-        return entity;
-    }
-
-    public static Entity initEnemyForQuest(EntityConfig entityConfig, Vector2 position, Entity.Direction direction){
-        Json json = new Json();
-        Entity entity = EntityFactory.getEntity(EntityFactory.EntityType.ENEMY);
-        entity.setEntityConfig(entityConfig);
-
-        entity.sendMessage(Component.MESSAGE.INIT_START_POSITION, json.toJson(position));
-        entity.sendMessage(Component.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
-        entity.sendMessage(Message.MESSAGE.INIT_CONFIG, json.toJson(entity.getEntityConfig()));
-        entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
-
-        return entity;
-    }
-
-    public static Entity initExoskeleton(EntityConfig entityConfig){
-        Json json = new Json();
-        Entity entity = EntityFactory.getEntity(EntityFactory.EntityType.EXOSKELETON);
-        entity.setEntityConfig(entityConfig);
-        entity.sendMessage(Component.MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
-        return entity;
-    }
-
 
     @Override
     public int compareTo(Entity entity) {

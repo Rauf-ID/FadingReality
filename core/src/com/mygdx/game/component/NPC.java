@@ -59,9 +59,9 @@ public class NPC extends Component {
         if( string.length == 2 ) {
             if (string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
                 currentEntityPosition = json.fromJson(Vector2.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
+            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_STATE.toString())) {
                 currentState = json.fromJson(Entity.State.class, string[1]);
-            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
+            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_DIRECTION.toString())) {
                 currentDirection = json.fromJson(Entity.Direction.class, string[1]);
             } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
@@ -69,7 +69,7 @@ public class NPC extends Component {
                 initBoundingBox(entityConfig.getBoundingBox());
                 initActiveZoneBox(entityConfig.getActiveZoneBox());
                 entityName = entityConfig.getEntityID();
-            } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
 
@@ -107,9 +107,8 @@ public class NPC extends Component {
             mapManager.setCurrentMapEntity(entity); // Задать текущего персонажа на карте
             playerInActiveZone = true;
             if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-//                notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.LOAD_CONVERSATION);
-                notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.TEST_EVENT);
-                playerInActiveZone2 = false;
+                notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.LOAD_CONVERSATION);
+//                playerInActiveZone2 = false;
             }
         } else {
 //            notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.HIDE_CONVERSATION);

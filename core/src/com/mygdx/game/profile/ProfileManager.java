@@ -24,7 +24,7 @@ public class ProfileManager extends ProfileSubject {
     private boolean isNewProfile = false;
 
     private SettingsConfig settingsConfig = new SettingsConfig();
-    private FileHandle fileSettings = Gdx.files.local("main/Settings.json");
+    private FileHandle fileSettings = Gdx.files.local("main/SETTINGS.json");
 
 
     private ProfileManager(){

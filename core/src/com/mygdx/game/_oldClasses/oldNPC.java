@@ -56,9 +56,9 @@
 //                currentEntityPosition = json.fromJson(Vector2.class, string[1]);
 //            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_POSITION.toString())) {
 //                currentEntityPosition = json.fromJson(Vector2.class, string[1]);
-//            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
+//            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_STATE.toString())) {
 //                currentState = json.fromJson(Entity.State.class, string[1]);
-//            } else if (string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
+//            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_DIRECTION.toString())) {
 //                currentDirection = json.fromJson(Entity.Direction.class, string[1]);
 //            } else if (string[0].equalsIgnoreCase(MESSAGE.INIT_CONFIG.toString())) {
 //                EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);

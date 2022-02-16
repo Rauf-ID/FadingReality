@@ -14,54 +14,51 @@ import java.util.Map;
 
 public class PlayerConfig {
 
-    private Entity.State state;
-    private Entity.Direction direction;
     private Vector2 position;
-    private MapFactory.MapType currentMap;
+    private Entity.State state;
+    private Array<Integer> mapItems;
     private Array<QuestGraph> quests;
+    private Entity.Direction direction;
+    private Array<Item.ItemID> shopItems;
+    private MapFactory.MapType currentMap;
+    private Map<String, Integer> bagAmmunition;
     private Array<InventoryItemLocation> inventory;
     private Array<InventoryItemLocation> equipment;
-    private Array<Item.ItemID> shopItems;
-    private Map<String, Array<Integer>> idEntityForDelete;
-    private Array<Integer> mapItems;
-    private Map<String, Integer> bagAmmunition;
     private EntityFactory.EntityName exoskeletonName;
-    private int coins;
-    private int hp;
+    private Array<Integer> playerSkills, availableSkills;
+    private Map<String, Array<Integer>> idEntityForDelete;
 
-    private int level;
     private int exp;
     private int maxHp;
+    private int coins;
+    private int level;
+    private int health;
     private int maxExp;
+    private int dashDist;
+    private int dashSpeed;
     private int minDamage;
     private int maxDamage;
-    private int dashCharges;
-    private int maxDashCharges;
-    private int experience;
-    private int damageResist;
-    private int meleeDamageBoost;
-    private int rangedDamageBoost;
-    private int rudimentCooldown;
-    private int weaponSpeed;
-    private int critChance;
     private int healAmount;
-    private int executionThreshold;
+    private int experience;
+    private int critChance;
+    private int dashCharges;
     private int damageBoost;
+    private int weaponSpeed;
+    private int damageResist;
+    private int maxDashCharges;
     private float rudimentCharge;
-    private int dashSpeed;
-    private int dashDist;
-    private Array<Integer> playerSkills, availableSkills;
-
-
-    private int health;
+    private int meleeDamageBoost;
+    private int rudimentCooldown;
+    private int rangedDamageBoost;
+    private int executionThreshold;
 
     PlayerConfig() {
+        mapItems = new Array<>();
         inventory = new Array<>();
         equipment = new Array<>();
         shopItems = new Array<>();
-        idEntityForDelete = new HashMap<>();
-        mapItems = new Array<>();
         bagAmmunition = new HashMap<>();
+        idEntityForDelete = new HashMap<>();
     }
 
 
@@ -167,14 +164,6 @@ public class PlayerConfig {
 
     public void setCoins(int coins) {
         this.coins = coins;
-    }
-
-    public int getHp() {
-        return hp;
-    }
-
-    public void setHp(int hp) {
-        this.hp = hp;
     }
 
     public int getLevel() {

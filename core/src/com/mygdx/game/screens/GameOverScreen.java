@@ -38,7 +38,7 @@ public class GameOverScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(FadingReality.menuScreen);
+            game.setScreen(game.getScreenType(FadingReality.ScreenType.MENU));
         }
         uiStage.act(delta);
         uiStage.draw();

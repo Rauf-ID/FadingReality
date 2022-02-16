@@ -19,7 +19,6 @@ import com.mygdx.game.entity.EntityConfig;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.item.Item;
 import com.mygdx.game.item.Item.ItemID;
-import com.mygdx.game.item.ItemFactory;
 import com.mygdx.game.observer.ComponentObserver;
 import com.mygdx.game.rudiment.Rudiment;
 import com.mygdx.game.rudiment.RudimentFactory;
@@ -46,24 +45,12 @@ public class Player extends Component {
     private float timer, dashTimer, executionTimer, executionDamageResistTimer;
     private boolean startExecutionTimer = false;
     private boolean executionDamageResist= false;
-    private int executionScore=0;
+    private int executionScore = 0;
 
     public Player() {
-        this.rudimentCharge = 4;
         state = State.NORMAL;
+        this.rudimentCharge = 4;
         controlManager = new ControlManager();
-    }
-
-    @Override
-    public void reduceHealth(int damage) {
-        this.setHealth(this.getHealth() - damage*((100-this.getDamageResist())/100));
-        endlessCourageSkill();
-    }
-
-    @Override
-    public void restoreHealth(int heal){
-        super.restoreHealth(heal);
-        endlessCourageSkill();
     }
 
     @Override
@@ -75,7 +62,7 @@ public class Player extends Component {
         if(string.length==1) {
             if (string[0].equalsIgnoreCase(MESSAGE.ENEMY_KILLED.toString())) {
                 setHealth(getHealth() + getHealAmount());
-                if(getHealth()>getMaxHealth()){
+                if(getHealth() > getMaxHealth()){
                     setHealth(getMaxHealth());
                 }
             }
@@ -84,11 +71,11 @@ public class Player extends Component {
         if(string.length == 2) {
             if(string[0].equalsIgnoreCase(MESSAGE.INIT_START_POSITION.toString())) {
                 currentEntityPosition = json.fromJson(Vector2.class, string[1]);
-            } else if(string[0].equalsIgnoreCase(MESSAGE.CURRENT_STATE.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_STATE.toString())) {
                 currentState = json.fromJson(Entity.State.class, string[1]);
-            } else if(string[0].equalsIgnoreCase(MESSAGE.CURRENT_DIRECTION.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_DIRECTION.toString())) {
                 currentDirection = json.fromJson(Entity.Direction.class, string[1]);
-            } else if(string[0].equalsIgnoreCase(MESSAGE.EQUIP_EXOSKELETON.toString())){
+            } else if(string[0].equalsIgnoreCase(MESSAGE.SET_EXOSKELETON.toString())){
                 setExoskeletonName(json.fromJson(EntityFactory.EntityName.class, string[1]));
                 Entity exoskeleton = EntityFactory.getInstance().getExoskeletonByName(getExoskeletonName());
                 EntityConfig exoskeletonEntityConfig = exoskeleton.getEntityConfig();
@@ -156,7 +143,7 @@ public class Player extends Component {
                 rudimentSystem.setRudimentTwo(null);
             } else if(string[0].equalsIgnoreCase(MESSAGE.REMOVE_UNIQUE_RUDIMENT.toString())) {
                 rudimentSystem.setUniqueRudiment(null);
-            } else if(string[0].equalsIgnoreCase(MESSAGE.LOAD_ANIMATIONS.toString())) {
+            } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);
                 Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
 
@@ -173,38 +160,6 @@ public class Player extends Component {
                     animations.put(animationType, animation);
                 }
             }
-        }
-    }
-
-    public Array<Entity> checkForNearbyEnemies(){
-        tempEntities.clear();
-        tempEntities.addAll(mapManager.getCurrentMapEntities());
-        tempEntities.addAll(mapManager.getCurrentMapQuestEntities());
-        Array<Entity> nearbyEnemies = new Array<>();
-        for( Entity mapEntity : tempEntities ) {
-            Rectangle entitySomeBox = mapEntity.getActiveZoneBox();
-            if (boundingBox.overlaps(entitySomeBox)) {
-                nearbyEnemies.add(mapEntity);
-            }
-        }
-        return nearbyEnemies;
-    }
-
-    public void checkForExecutableEnemies(){
-        Array<Entity> nearbyEnemies = checkForNearbyEnemies();
-
-        for( Entity mapEntity : nearbyEnemies ) {
-            if(mapEntity.isLowHP() && mapEntity.isExecutable()){
-                if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
-                    enemyExecutionAnimation();
-                    mapEntity.executeEnemy();
-                    if(this.getPlayerSkills().contains(27,true)) {
-                        startExecutionTimer = true;
-                        executionScore += 1;
-                    }
-                }
-            }
-
         }
     }
 
@@ -278,7 +233,7 @@ public class Player extends Component {
             timer += delta;
             if(timer >= 2){
                 entity.sendMessage(MESSAGE.INIT_CONFIG, json.toJson(entity.getEntityConfig()));
-                entity.sendMessage(MESSAGE.LOAD_ANIMATIONS, json.toJson(entity.getEntityConfig()));
+                entity.sendMessage(MESSAGE.INIT_ANIMATIONS, json.toJson(entity.getEntityConfig()));
                 exoskeletonName = EntityFactory.EntityName.NONE;
                 timer = 0;
             }
@@ -311,7 +266,6 @@ public class Player extends Component {
                         Gdx.app.exit();
                     } else if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
                         PlayerHUD.toastShort("Pressed T", Toast.Length.SHORT);
-                        entity.sendMessage(MESSAGE.INTERACTION_WITH_ENTITY);
                     }
 
                     if (!PlayerHUD.browserUI.isVisible()) {
@@ -567,7 +521,7 @@ public class Player extends Component {
         }
     }
 
-    public void enemyExecutionAnimation() {
+    private void enemyExecutionAnimation() {
             state = State.FREEZE;
             Timer.schedule(new Timer.Task() {
                 @Override
@@ -577,28 +531,28 @@ public class Player extends Component {
             }, 0.8f);
     }
 
-    public void equipExoskeleton(EntityConfig exoskeletonConfig){
-        walkVelocity.set(exoskeletonConfig.getWalkVelocity());
-        walkVelocityD.set(exoskeletonConfig.getWalkVelocityD());
-        runVelocity.set(exoskeletonConfig.getRunVelocity());
-        runVelocityD.set(exoskeletonConfig.getRunVelocityD());
-    }
-
-    public void endlessCourageSkill(){
+    private void endlessCourageSkill(){
         if(this.getPlayerSkills().contains(21,true)){
             int percentOfHealthLost = 100-(this.getHealth()/(this.getMaxHealth()/100));
             this.setDamageBoost(percentOfHealthLost/3);
         }
     }
 
-    public void unEquipExoskeleton(EntityConfig playerConfig) {
+    private void equipExoskeleton(EntityConfig exoskeletonConfig){
+        walkVelocity.set(exoskeletonConfig.getWalkVelocity());
+        walkVelocityD.set(exoskeletonConfig.getWalkVelocityD());
+        runVelocity.set(exoskeletonConfig.getRunVelocity());
+        runVelocityD.set(exoskeletonConfig.getRunVelocityD());
+    }
+
+    private void unEquipExoskeleton(EntityConfig playerConfig) {
         walkVelocity.set(playerConfig.getWalkVelocity());
         walkVelocityD.set(playerConfig.getWalkVelocityD());
         runVelocity.set(playerConfig.getRunVelocity());
         runVelocityD.set(playerConfig.getRunVelocityD());
     }
 
-    public void updateCamera() {
+    private void updateCamera() {
         if (Rumble.getRumbleTimeLeft() > 0){
             Rumble.tick(Gdx.graphics.getDeltaTime());
             camera.translate(Rumble.getPos());
@@ -617,6 +571,38 @@ public class Player extends Component {
 //            camera.position.set(currentEntityPosition.x+64, currentEntityPosition.y+64, 0f);
         }
         camera.update();
+    }
+
+    public Array<Entity> checkForNearbyEnemies(){
+        tempEntities.clear();
+        tempEntities.addAll(mapManager.getCurrentMapEntities());
+        tempEntities.addAll(mapManager.getCurrentMapQuestEntities());
+        Array<Entity> nearbyEnemies = new Array<>();
+        for( Entity mapEntity : tempEntities ) {
+            Rectangle entitySomeBox = mapEntity.getActiveZoneBox();
+            if (boundingBox.overlaps(entitySomeBox)) {
+                nearbyEnemies.add(mapEntity);
+            }
+        }
+        return nearbyEnemies;
+    }
+
+    private void checkForExecutableEnemies(){
+        Array<Entity> nearbyEnemies = checkForNearbyEnemies();
+
+        for( Entity mapEntity : nearbyEnemies ) {
+            if(mapEntity.isLowHP() && mapEntity.isExecutable()){
+                if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
+                    enemyExecutionAnimation();
+                    mapEntity.executeEnemy();
+                    if(this.getPlayerSkills().contains(27,true)) {
+                        startExecutionTimer = true;
+                        executionScore += 1;
+                    }
+                }
+            }
+
+        }
     }
 
     public void debug(boolean activeGrid, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox, boolean activeTopBoundingBox, boolean activeBottomBoundingBox, boolean activeLeftBoundingBox, boolean activeRightBoundingBox, boolean activeAmmoDebug) {
@@ -690,6 +676,9 @@ public class Player extends Component {
 
     }
 
+
+
+
     @Override
     public void draw(Batch batch, float delta) {
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) {
@@ -736,6 +725,18 @@ public class Player extends Component {
     }
 
     @Override
+    public void reduceHealth(int damage) {
+        this.setHealth(this.getHealth() - damage*((100-this.getDamageResist())/100));
+        endlessCourageSkill();
+    }
+
+    @Override
+    public void restoreHealth(int heal){
+        super.restoreHealth(heal);
+        endlessCourageSkill();
+    }
+
+    @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.R) {
             if (weaponSystem.rangedIsActive() && weaponSystem.getAmmoCountFromBag(weaponSystem.getRangedWeapon().getAmmoID()) == 0) {
@@ -760,8 +761,6 @@ public class Player extends Component {
         };
         return false;
     }
-
-
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {

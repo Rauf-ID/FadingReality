@@ -83,7 +83,7 @@ public class NewAccountScreen implements Screen {
                     ProfileManager.getInstance().writeProfileToStorage(messageText, "", false);
                     ProfileManager.getInstance().setCurrentProfile(messageText);
                     ProfileManager.getInstance().setIsNewProfile(true);
-                    game.setScreen(game.getScreenType(ScreenType.Game));
+                    game.setScreen(game.getScreenType(ScreenType.GAME));
                 }
             }
         });
@@ -96,7 +96,7 @@ public class NewAccountScreen implements Screen {
 
            @Override
            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-               game.setScreen(game.getScreenType(ScreenType.Menu));
+               game.setScreen(game.getScreenType(ScreenType.MENU));
            }
        });
 
@@ -113,7 +113,7 @@ public class NewAccountScreen implements Screen {
                                             ProfileManager.getInstance().setCurrentProfile(messageText);
                                             ProfileManager.getInstance().setIsNewProfile(true);
                                             overwriteDialog.hide();
-                                            game.setScreen(game.getScreenType(ScreenType.Game));
+                                            game.setScreen(game.getScreenType(ScreenType.GAME));
                                         }
 
                                     }

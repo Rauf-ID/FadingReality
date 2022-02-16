@@ -41,7 +41,7 @@
 //    private void initEntity(Entity entity, Vector2 position, Entity.Direction direction){
 //
 //        entity.sendMessage(Message.MESSAGE.INIT_START_POSITION, json.toJson(position));
-//        entity.sendMessage(Message.MESSAGE.CURRENT_DIRECTION, json.toJson(direction));
+//        entity.sendMessage(Message.MESSAGE.INIT_DIRECTION, json.toJson(direction));
 //        entity.sendMessage(Message.MESSAGE.INIT_CONFIG, json.toJson(entity.getEntityConfig()));
 //
 //    }

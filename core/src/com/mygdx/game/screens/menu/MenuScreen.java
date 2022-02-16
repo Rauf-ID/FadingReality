@@ -76,7 +76,7 @@ public class MenuScreen implements Screen {
                     FileHandle file = ProfileManager.getInstance().getProfileFile(fileName);
                     if (file != null) {
                         ProfileManager.getInstance().setCurrentProfile(fileName);
-                        game.setScreen(game.getScreenType(ScreenType.Game));
+                        game.setScreen(game.getScreenType(ScreenType.GAME));
                     }
                 }
             }
@@ -91,7 +91,7 @@ public class MenuScreen implements Screen {
 
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(game.getScreenType(ScreenType.LoadGame));
+                game.setScreen(game.getScreenType(ScreenType.LOAD_GAME));
             }
         });
 
@@ -103,7 +103,7 @@ public class MenuScreen implements Screen {
 
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(game.getScreenType(ScreenType.NewAccountGame));
+                game.setScreen(game.getScreenType(ScreenType.NEW_ACCOUNT_GAME));
             }
         });
 
@@ -113,7 +113,7 @@ public class MenuScreen implements Screen {
                 stage.addAction(Actions.sequence(Actions.fadeOut(0.6f), Actions.run(new Runnable() {
                     @Override
                     public void run() {
-                        game.setScreen(game.getScreenType(ScreenType.Settings));
+                        game.setScreen(game.getScreenType(ScreenType.SETTINGS));
                     }
                 })));
             }
@@ -125,7 +125,7 @@ public class MenuScreen implements Screen {
                 stage.addAction(Actions.sequence(Actions.fadeOut(0.6f), Actions.run(new Runnable() {
                     @Override
                     public void run() {
-                        game.setScreen(game.getScreenType(ScreenType.Credits));
+                        game.setScreen(game.getScreenType(ScreenType.CREDITS));
                     }
                 })));
             }
@@ -152,7 +152,7 @@ public class MenuScreen implements Screen {
                 FileHandle file = ProfileManager.getInstance().getProfileFile(fileName);
                 if (file != null) {
                     ProfileManager.getInstance().setCurrentProfile(fileName);
-                    game.setScreen(game.getScreenType(ScreenType.Game));
+                    game.setScreen(game.getScreenType(ScreenType.GAME));
                 }
             }
         }

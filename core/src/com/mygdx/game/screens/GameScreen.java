@@ -68,7 +68,7 @@ public class GameScreen implements Screen {
         json = new Json();
 
         mapMgr = new MapManager();
-        player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER);
+        player = EntityFactory.getInstance().getEntity(EntityFactory.EntityType.PLAYER, null);
         player.sendMessage(Message.MESSAGE.INIT_CONFIG, json.toJson(player.getEntityConfig()));
         mapMgr.setPlayer(player);
 
@@ -117,11 +117,7 @@ public class GameScreen implements Screen {
 
         //SOME UI UPDATES
         playerHUD.update();
-        playerHUD.setCurrentState(player.getCurrentState().toString());
-        playerHUD.setCountAmmo(0);
-        playerHUD.setMouseCoordinates(player.getMouseCoordinates());
-        playerHUD.setCameraZoom(camera.zoom);
-        playerHUD.setPlayerPosition(player.getCurrentPosition());
+        playerHUD.setV(camera.zoom);
 
         //MapRENDER
         mapRenderer.setView(camera);
@@ -137,7 +133,6 @@ public class GameScreen implements Screen {
 //            System.out.println(mapMgr.getCurrentMapEntities().size);
 
             mapRenderer.setMap(mapMgr.getCurrentTiledMap());
-            playerHUD.setLabelMapName(mapMgr.getCurrentMap().getNameMap());
             MapLayer mapCollisionLayer = mapMgr.getMapObjectsLayer();
             if(mapCollisionLayer != null){
                 MapObjects objects = mapCollisionLayer.getObjects();

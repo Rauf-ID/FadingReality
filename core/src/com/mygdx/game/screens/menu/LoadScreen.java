@@ -70,7 +70,7 @@ public class LoadScreen implements Screen {
 
                @Override
                public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                   game.setScreen(game.getScreenType(ScreenType.Menu));
+                   game.setScreen(game.getScreenType(ScreenType.MENU));
                }
         });
 
@@ -92,7 +92,7 @@ public class LoadScreen implements Screen {
                        FileHandle file = ProfileManager.getInstance().getProfileFile(fileName);
                        if (file != null) {
                            ProfileManager.getInstance().setCurrentProfile(fileName);
-                           game.setScreen(game.getScreenType(ScreenType.Game));
+                           game.setScreen(game.getScreenType(ScreenType.GAME));
                        }
                    }
                }
@@ -121,7 +121,7 @@ public class LoadScreen implements Screen {
                 FileHandle file = ProfileManager.getInstance().getProfileFile(fileName);
                 if (file != null) {
                     ProfileManager.getInstance().setCurrentProfile(fileName);
-                    game.setScreen(game.getScreenType(ScreenType.Game));
+                    game.setScreen(game.getScreenType(ScreenType.GAME));
                 }
             }
         }

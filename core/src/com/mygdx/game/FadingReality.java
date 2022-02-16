@@ -21,24 +21,24 @@ import com.mygdx.game.tools.SplashWorker;
 public class FadingReality extends Game {
 
     public enum ScreenType{
-        Menu,
-        Game,
-        LoadGame,
-        NewAccountGame,
-        Settings,
-        Credits,
-        GameOver,
-        Pause,
-        None
+        MENU,
+        GAME,
+        LOAD_GAME,
+        NEW_ACCOUNT_GAME,
+        SETTINGS,
+        CREDITS,
+        GAME_OVER,
+        PAUSE,
+        NONE
     }
 
-    public static final int WIDTH = 1024+128;  //480  //1024  //1920 //3840
-    public static final int HEIGHT = 768+128;  //270  //768   //1080 //2160
-    private static final String VERSION = "0.0.1";
+    public static final int WIDTH = 1920;  //480  //1024  //1920 //3840
+    public static final int HEIGHT = 1080;  //270  //768   //1080 //2160
+    private static final String VERSION = "0.0.5";
     public static final String TITLE = "Fading Reality " + VERSION;
 
-    public static MenuScreen menuScreen;
-    public static GameScreen gameScreen;
+    private static MenuScreen menuScreen;
+    private static GameScreen gameScreen;
     private static LoadScreen loadScreen;
     private static NewAccountScreen newAccountScreen;
     private static SettingsScreen settingsScreen;
@@ -75,7 +75,6 @@ public class FadingReality extends Game {
         pauseScreen = new PauseScreen(this, resourceManager);
 
         this.setScreen(menuScreen);
-
     }
 
     @Override
@@ -104,26 +103,23 @@ public class FadingReality extends Game {
 
     public Screen getScreenType(ScreenType screenType){
         switch(screenType){
-            case Menu:
-                return menuScreen;
-            case Game:
+            case GAME:
                 return gameScreen;
-            case LoadGame:
+            case LOAD_GAME:
                 return loadScreen;
-            case NewAccountGame:
+            case NEW_ACCOUNT_GAME:
                 return newAccountScreen;
-            case Settings:
+            case SETTINGS:
                 return settingsScreen;
-            case Credits:
+            case CREDITS:
                 return creditScreen;
-            case GameOver:
+            case GAME_OVER:
                 return gameOverScreen;
-            case Pause:
+            case PAUSE:
                 return pauseScreen;
             default:
                 return menuScreen;
         }
-
     }
 
 }
