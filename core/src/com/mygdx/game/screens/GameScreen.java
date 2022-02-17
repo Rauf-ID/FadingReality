@@ -133,7 +133,7 @@ public class GameScreen implements Screen {
 //            System.out.println(mapMgr.getCurrentMapEntities().size);
 
             mapRenderer.setMap(mapMgr.getCurrentTiledMap());
-            MapLayer mapCollisionLayer = mapMgr.getMapObjectsLayer();
+            MapLayer mapCollisionLayer = mapMgr.getObjectsLayer();
             if(mapCollisionLayer != null){
                 MapObjects objects = mapCollisionLayer.getObjects();
                 for(MapObject object: objects) {
@@ -246,10 +246,15 @@ public class GameScreen implements Screen {
             mapRenderer.dispose();
         }
 
-        playerHUD.dispose();
-        MapFactory.clearCache();
+        if (playerHUD != null) {
+            playerHUD.dispose();
+        }
 
-        shaderVFXManager.dispose();
+        if (shaderVFXManager != null) {
+            shaderVFXManager.dispose();
+        }
+
+        MapFactory.clearCache();
     }
 
     public static void setGameState(GameState _gameState){

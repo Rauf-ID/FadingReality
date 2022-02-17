@@ -1,6 +1,7 @@
 package com.mygdx.game.component;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -111,8 +112,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public ArrayList<Ammo> activeAmmo;
 
     public Rectangle swordRangeBox;
-    protected Rectangle chaseRangeBox;
-    protected Rectangle attackRangeBox;
 
     protected Hashtable<Entity.AnimationType, Animation<Sprite>> animations;
 
@@ -188,8 +187,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         activeAmmo = new ArrayList<>();
 
         swordRangeBox = new Rectangle();
-        chaseRangeBox = new Rectangle();
-        attackRangeBox = new Rectangle();
 
         animations = new Hashtable<>();
 
@@ -354,10 +351,17 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         this.lowHP = lowHP;
     }
 
-    protected void setCurrentPosition(Entity entity){
-        currentEntityPosition.x = 0;
-        currentEntityPosition.y = 0;
+    protected void setCurrentPosition(int x, int y){
+        currentEntityPosition.x = x;
+        currentEntityPosition.y = y;
 //        SplashScreen splashScreen = SplashScreen.getSplashScreen();
+    }
+
+    protected void initBorderBoundingBox(Vector2 size){
+        topBoundingBox.setSize(size.x, 1);
+        bottomBoundingBox.setSize(size.x, 1);
+        leftBoundingBox.setSize(1, size.y);
+        rightBoundingBox.setSize(1, size.y);
     }
 
     protected void initHitBox(Vector2 size) {
@@ -380,11 +384,16 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         activeZoneBox.setHeight(size.y);
     }
 
-    protected void initBorderBoundingBox(Vector2 size){
-        topBoundingBox.setSize(size.x, 1);
-        bottomBoundingBox.setSize(size.x, 1);
-        leftBoundingBox.setSize(1, size.y);
-        rightBoundingBox.setSize(1, size.y);
+    protected void initAttackZoneBox(Vector2 size) {
+        attackZoneBox.setWidth(size.x);
+        attackZoneBox.setHeight(size.y);
+    }
+
+    protected void updateBorderBoundingBox() {
+        topBoundingBox.setPosition(boundingBox.x, boundingBox.y + boundingBox.getHeight());
+        bottomBoundingBox.setPosition(boundingBox.x, boundingBox.y - 1);
+        leftBoundingBox.setPosition(boundingBox.x - 1, boundingBox.y);
+        rightBoundingBox.setPosition(boundingBox.x + boundingBox.getWidth(), boundingBox.y);
     }
 
     protected void updateHitBox() {
@@ -407,17 +416,16 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         boundingBox.setPosition(entityX + middleImageWidth - middleBoundingBoxWidth, entityY + middleImageHeight - boundingBoxHeight);
     }
 
-    protected void updateBorderBoundingBox() {
-        topBoundingBox.setPosition(boundingBox.x, boundingBox.y + boundingBox.getHeight());
-        bottomBoundingBox.setPosition(boundingBox.x, boundingBox.y - 1);
-        leftBoundingBox.setPosition(boundingBox.x - 1, boundingBox.y);
-        rightBoundingBox.setPosition(boundingBox.x + boundingBox.getWidth(), boundingBox.y);
-    }
-
     protected void updateActiveZoneBox() {
         int middleBoundingBoxWidth = (int) boundingBox.getWidth() / 2;
         int middleBoundingBoxHeight = (int) boundingBox.getHeight() / 2;
         activeZoneBox.setCenter(boundingBox.x + middleBoundingBoxWidth, boundingBox.y + middleBoundingBoxHeight);
+    }
+
+    protected void updateAttackZoneBox() {
+        int middleBoundingBoxWidth = (int) boundingBox.getWidth() / 2;
+        int middleBoundingBoxHeight = (int) boundingBox.getHeight() / 2;
+        attackZoneBox.setCenter(boundingBox.x + middleBoundingBoxWidth, boundingBox.y + middleBoundingBoxHeight);
     }
 
     protected void initBoundingBoxForObject(float width, float height){
@@ -459,24 +467,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 swordRangeBox.set(currentEntityPosition.x+width+4, currentEntityPosition.y+height-16, 30, 40);
                 break;
         }
-    }
-
-    protected void initChaseRangeBox(){
-        chaseRangeBox.setWidth(512); //512
-        chaseRangeBox.setHeight(512); //512
-    }
-
-    protected void updateChaseRangeBox(float width, float height) {
-        chaseRangeBox.setCenter(currentEntityPosition.x+width, currentEntityPosition.y+height);
-    }
-
-    protected void initAttackRangeBox(){
-        attackRangeBox.setWidth(64);
-        attackRangeBox.setHeight(64);
-    }
-
-    protected void updateAttackRangeBox(float width, float height) {
-        attackRangeBox.setCenter(currentEntityPosition.x+width, currentEntityPosition.y+height);
     }
 
     protected void updateAnimations(float delta){

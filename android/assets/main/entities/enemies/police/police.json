@@ -10,8 +10,7 @@ hitBox: { x: 18, y: 64 }
 imageBox: { x: 128, y: 128 }
 boundingBox: { x: 32, y: 16 }
 activeZoneBox: { x: 80, y: 60 }
-chaseZoneBox: { x: 0, y: 0 }
-attackZoneBox: { x: 0, y: 0 }
+attackZoneBox: { x: 512, y: 512 }
 animationConfig: [
 	{
 	    frameDuration: 0.2
@@ -73,7 +72,6 @@ hitBox: { x: 0, y: 0 }
 imageBox: { x: 128, y: 128 }
 boundingBox: { x: 32, y: 16 }
 activeZoneBox: { x: 80, y: 60 }
-chaseZoneBox: { x: 0, y: 0 }
 attackZoneBox: { x: 0, y: 0 }
 animationConfig: [
 	{

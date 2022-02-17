@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -32,6 +35,7 @@ import com.mygdx.game.weapon.Weapon;
 import com.mygdx.game.weapon.WeaponFactory;
 import com.mygdx.game.weapon.WeaponSystem;
 import com.mygdx.game.pathfinder.Node;
+import com.mygdx.game.world.MapFactory;
 import com.mygdx.game.world.MapManager;
 
 import java.util.HashMap;
@@ -168,10 +172,11 @@ public class Player extends Component {
         this.mapManager = mapManager;
         camera = mapManager.getCamera();
         mapManager.getCamera().unproject(mouseCoordinates.set(Gdx.input.getX(), Gdx.input.getY(), 0));
-//        updatePortalLayerActivation(mapManager, delta);
 
         weaponSystem.updateForPlayer(delta, this);
         updateCurrentCollision(mapManager);
+        updateCollisionWithPortalLayer(entity, mapManager);
+//        updateCollisionWithMapEntities(entity, mapManager);
 
         updateCamera();
         updateHitBox();
@@ -239,18 +244,12 @@ public class Player extends Component {
             }
         }
 
-        //TESTs
-        if(Gdx.input.isKeyJustPressed(Input.Keys.V)) {
-//            notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.ITEM_PICK_UP);
-//            boolTopBoundingBox = false;
-        }
-
         //INPUT
-//        updateCollisionWithMapEntities(entity, mapManager);
         input(entity);
 
-
         //DASH SHADOW
+//        dashShadow(delta);
+
         //GRAPHICS
         updateAnimations(delta);
 
@@ -359,7 +358,7 @@ public class Player extends Component {
                         }
 
                         //DASH
-                        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && this.dashCharge>=1) {
+                        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && this.dashCharge >= 1) {
                             dashCharge-=1;
                             dashing = true;
                             stateTime = 0f;
@@ -372,7 +371,7 @@ public class Player extends Component {
                                 public void run() {
                                     state = State.NORMAL;
                                 }}, 0.38f);
-                            dashing = false;
+                            dashing = false; // if active dash shadow does not work
                             notify("", ComponentObserver.ComponentEvent.PLAYER_DASH);
                         }
 
@@ -618,9 +617,9 @@ public class Player extends Component {
                         Rectangle rectangle = grid.get(y).get(x).rectangle;
                         shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
                     } else {
-//                    shapeRenderer2.setColor(Color.GREEN);
-//                    Rectangle rectangle = grid.get(y).get(x).rectangle;
-//                    shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+                    shapeRenderer2.setColor(Color.GREEN);
+                    Rectangle rectangle = grid.get(y).get(x).rectangle;
+                    shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
                     }
                 }
             }
@@ -677,7 +676,29 @@ public class Player extends Component {
     }
 
 
+    private void updateCollisionWithPortalLayer(Entity entity, MapManager mapMgr){
+        MapLayer portalLayer = mapMgr.getPortalLayer();
 
+        if( portalLayer == null ){
+            return;
+        }
+
+        Rectangle rectangle;
+        for( MapObject object: portalLayer.getObjects()){
+            if(object instanceof RectangleMapObject) {
+                rectangle = ((RectangleMapObject)object).getRectangle();
+                if(boundingBox.overlaps(rectangle) ){
+                    if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+                        String mapName = object.getName();
+                        int xPosStart = (int) object.getProperties().get("xPosStart");
+                        int yPosStart = (int) object.getProperties().get("yPosStart");
+                        mapMgr.loadMap(MapFactory.MapType.valueOf(mapName));
+                        setCurrentPosition(xPosStart, yPosStart);
+                    }
+                }
+            }
+        }
+    }
 
     @Override
     public void draw(Batch batch, float delta) {
@@ -685,7 +706,8 @@ public class Player extends Component {
             debugActive = !debugActive;
         }
         if (debugActive) {
-            debug(true, true,true, true, true, true, true, true, true);
+            debug(true,true,true,true, true,
+                    true, true, true, true);
         }
 
         batch.begin();

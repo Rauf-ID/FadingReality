@@ -28,8 +28,6 @@ public class Enemy extends Component {
 
     public Enemy(){
         state = State.NORMAL;
-        initChaseRangeBox();
-        initAttackRangeBox();
         this.setExecutable(true);
         this.setLowHP(false);
 
@@ -75,13 +73,14 @@ public class Enemy extends Component {
                 initImageBox(entityConfig.getImageBox());
                 initBoundingBox(entityConfig.getBoundingBox());
                 initActiveZoneBox(entityConfig.getActiveZoneBox());
+                initAttackZoneBox(entityConfig.getAttackZoneBox());
+
                 setHealth(entityConfig.getHealth());
                 setMaxHealth(entityConfig.getMaxHealth());
                 if (entityConfig.getWeaponID() != null) {
                     Weapon weapon = WeaponFactory.getInstance().getWeapon(entityConfig.getWeaponID());
                     weaponSystem.setRangedWeapon(weapon);
                 }
-//                chaseRangeBox.set(currentEntityPosition.x-(entityConfig.getAttackRadiusBoxWidth()/2)+(boundingBox.width/2), currentEntityPosition.y-(entityConfig.getAttackRadiusBoxHeight()/2)+(boundingBox.height/2), entityConfig.getAttackRadiusBoxWidth(), entityConfig.getAttackRadiusBoxHeight());
             } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ANIMATIONS.toString())) {
                 EntityConfig entityConfig = json.fromJson(EntityConfig.class, string[1]);Array<EntityConfig.AnimationConfig> animationConfigs = entityConfig.getAnimationConfig();
 
@@ -114,8 +113,7 @@ public class Enemy extends Component {
         updateImageBox();
         updateBoundingBox();
         updateActiveZoneBox();
-        updateAttackRangeBox(64,64);
-        updateChaseRangeBox(64,64);
+        updateAttackZoneBox();
         updateShifts(mapManager, delta, 10);
         setSwordRangeBox(new Vector2(10000,10000),0,0);
 
@@ -125,16 +123,23 @@ public class Enemy extends Component {
                 Entity player = mapManager.getPlayer();
                 Rectangle playerBoundingBox = player.getBoundingBox();
                 Weapon weapon = player.getRangeWeapon();
-                //EXECUTION
-                if (playerBoundingBox.overlaps(activeZoneBox) && this.isLowHP()) {
 
+
+                //EXECUTION
+                if (activeZoneBox.overlaps(playerBoundingBox)) {
+                    if (isLowHP()) {
+                        System.out.println(entity.getEntityConfig().getEntityID() + " LOW HP");
+                    }
+                } else if (attackZoneBox.overlaps(playerBoundingBox)) {
+                    isGunActive2 = true;
+                } else {
+                    updateGrid(playerBoundingBox);
+                    followPath();
                 }
-                isGunActive2 = true;
-                weaponSystem.updateForEnemy(delta, this, player);
-//                updateGrid(playerBoundingBox);
-//                followPath();
+
                 updateAmmoHit(player, weapon);
                 updateHealth(entity, player);
+                weaponSystem.updateForEnemy(delta,this, player);
                 break;
             case DEATH:
 //                currentState = Entity.State.DEATH;
@@ -216,19 +221,6 @@ public class Enemy extends Component {
         }
     }
 
-    @Override
-    protected boolean isCollisionWithMapEntities(Entity entity, MapManager mapMgr){
-        //Test against player
-        if( isCollision(entity, mapMgr.getPlayer()) ) {
-            return true;
-        }
-
-        if( super.isCollisionWithMapEntities(entity, mapMgr) ){
-            return true;
-        }
-
-        return false;
-    }
 
     @Override
     public void draw(Batch batch, float delta) {
@@ -236,7 +228,8 @@ public class Enemy extends Component {
             debugActive = !debugActive;
         }
         if (debugActive) {
-            debug(true, true, false, true, true,true, true);
+            debug(true,true,false,true,
+                    true,true);
         }
 
 
@@ -257,7 +250,7 @@ public class Enemy extends Component {
         batch.end();
     }
 
-    public void debug(boolean activePath, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox, boolean activeActiveZoneBox, boolean activeChaseZoneBox, boolean activeAttackZoneBox) {
+    public void debug(boolean activePath, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox, boolean activeActiveZoneBox, boolean activeAttackZoneBox) {
         if (activePath) {
             //Render path
             Array<Node> finalP = pathFinder.getFinalPath();
@@ -293,16 +286,11 @@ public class Enemy extends Component {
             shapeRenderer.setColor(Color.ORANGE);
             shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
         }
-//        if (activeChaseZoneBox) {
-//            Rectangle rect = chase;
-//            shapeRenderer.setColor(Color.GRAY);
-//            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-//        }
-//        if (attackZoneBox) {
-//            Rectangle rect = attackZoneBox;
-//            shapeRenderer.setColor(Color.GRAY);
-//            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-//        }
+        if (activeAttackZoneBox) {
+            Rectangle rect = attackZoneBox;
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
         shapeRenderer.end();
     }
 

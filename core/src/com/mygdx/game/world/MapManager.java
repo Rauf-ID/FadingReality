@@ -109,8 +109,12 @@ public class MapManager implements ProfileObserver {
         return currentMap.getCollisionLayer();
     }
 
-    public MapLayer getMapObjectsLayer(){
+    public MapLayer getObjectsLayer(){
         return currentMap.getMapObjectsLayer();
+    }
+
+    public MapLayer getPortalLayer() {
+        return currentMap.getPortalLayer();
     }
 
     public TiledMap getCurrentTiledMap(){

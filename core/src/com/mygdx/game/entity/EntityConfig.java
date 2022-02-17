@@ -26,7 +26,6 @@ public class EntityConfig {
     private Vector2 imageBox;
     private Vector2 boundingBox;
     private Vector2 activeZoneBox;
-    private Vector2 chaseZoneBox;
     private Vector2 attackZoneBox;
 
     private Vector2 walkVelocity;
@@ -50,7 +49,6 @@ public class EntityConfig {
         imageBox = new Vector2();
         boundingBox = new Vector2();
         activeZoneBox = new Vector2();
-        chaseZoneBox = new Vector2();
         attackZoneBox = new Vector2();
 
         walkVelocity  = new Vector2();
@@ -85,7 +83,6 @@ public class EntityConfig {
         imageBox = config.getImageBox();
         boundingBox = config.getBoundingBox();
         activeZoneBox = config.getActiveZoneBox();
-        chaseZoneBox = config.getChaseZoneBox();
         attackZoneBox = config.getAttackZoneBox();
 
         walkVelocity = config.getWalkVelocity();
@@ -229,14 +226,6 @@ public class EntityConfig {
 
     public void setActiveZoneBox(Vector2 activeZoneBox) {
         this.activeZoneBox = activeZoneBox;
-    }
-
-    public Vector2 getChaseZoneBox() {
-        return chaseZoneBox;
-    }
-
-    public void setChaseZoneBox(Vector2 chaseZoneBox) {
-        this.chaseZoneBox = chaseZoneBox;
     }
 
     public Vector2 getAttackZoneBox() {

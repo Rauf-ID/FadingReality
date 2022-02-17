@@ -28,11 +28,11 @@ public class Map {
     public final static String BACKGROUND_LAYER = "BACKGROUND_LAYER";
     public final static String PARALLAX_LAYER = "PARALLAX_LAYER";
 
-    private final static String PORTAL_LAYER = "PORTAL_LAYER";
-    private final static String ENTITY_SPAWNS_LAYER = "ENTITY_SPAWNS_LAYER";
-    private final static String MAP_OBJECTS_LAYER = "MAP_OBJECTS_LAYER";
-    private final static String COLLISION_LAYER = "COLLISION_LAYER";
-    private final static String CLOSED_NODES_LAYER = "CLOSED_NODES_LAYER";
+    private final static String PORTAL_LAYER = "MAP_PORTAL_LAYER";
+    private final static String ENTITY_SPAWNS_LAYER = "MAP_ENTITY_SPAWNS_LAYER";
+    private final static String OBJECTS_LAYER = "MAP_OBJECTS_LAYER";
+    private final static String COLLISION_LAYER = "MAP_COLLISION_LAYER";
+    private final static String CLOSED_NODES_LAYER = "MAP_CLOSED_NODES_LAYER";
 
     protected Json json;
 
@@ -80,7 +80,7 @@ public class Map {
             Gdx.app.debug(TAG, "No entity spawn layer!");
         }
 
-        mapObjectsLayer = currentMap.getLayers().get(MAP_OBJECTS_LAYER);
+        mapObjectsLayer = currentMap.getLayers().get(OBJECTS_LAYER);
         if( mapObjectsLayer == null ){
             Gdx.app.debug(TAG, "No Map Objects layer!");
         }
@@ -98,6 +98,9 @@ public class Map {
         mapProperties = currentMap.getProperties();
         mapWidth = mapProperties.get("tilewidth", Integer.class);
         mapHeight = mapProperties.get("tileheight", Integer.class);
+
+        System.out.println(mapWidth);
+        System.out.println(mapHeight);
 
         addEntitiesToMap(mapManager.getIdEntityForDelete().get(mapType.toString()));
 
