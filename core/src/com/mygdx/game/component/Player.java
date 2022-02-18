@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -183,6 +184,7 @@ public class Player extends Component {
         updateImageBox();
         updateBoundingBox();
         updateBorderBoundingBox();
+        updateAmmoHit(entity);
 //        updateSwordRangeBox(64,64);
         updateShifts(mapManager, delta, 40);
         setSwordRangeBox(new Vector2(10000,10000), 0,0);
@@ -194,26 +196,26 @@ public class Player extends Component {
         }
 
         if(startExecutionTimer){
-            executionTimer+=delta;
-            if(executionScore==2){
-                startExecutionTimer=false;
-                executionTimer=0;
-                executionScore=0;
-                executionDamageResist=true;
+            executionTimer += delta;
+            if(executionScore == 2){
+                startExecutionTimer = false;
+                executionTimer = 0;
+                executionScore = 0;
+                executionDamageResist = true;
                 executionDamageResistTimer = 10;
                 this.setDamageResist(30);
             }
-            if(executionTimer>=5){
-                startExecutionTimer=false;
-                executionTimer=0;
-                executionScore=0;
+            if(executionTimer >= 5){
+                startExecutionTimer = false;
+                executionTimer = 0;
+                executionScore = 0;
             }
         }
 
         if(executionDamageResist){
-            executionDamageResistTimer-=delta;
-            if(executionDamageResistTimer<=0){
-                executionDamageResist=false;
+            executionDamageResistTimer -= delta;
+            if(executionDamageResistTimer <= 0){
+                executionDamageResist = false;
                 this.setDamageResist(0);
             }
         }
@@ -504,6 +506,27 @@ public class Player extends Component {
         }
     }
 
+    private void updateCamera() {
+        if (Rumble.getRumbleTimeLeft() > 0){
+            Rumble.tick(Gdx.graphics.getDeltaTime());
+            camera.translate(Rumble.getPos());
+        } else if (pdaActive) {
+        } else {
+            Vector2 screenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+            Vector2 normalizedScreen = new Vector2(screenPos.x / Gdx.graphics.getWidth(), screenPos.y / Gdx.graphics.getHeight());
+            normalizedScreen.sub(.5f, .5f);
+            float offset = 150;
+            Vector3 cameraMoved = new Vector3(Math.round(currentEntityPosition.x) + normalizedScreen.x * offset+64, Math.round(currentEntityPosition.y) - normalizedScreen.y * offset+64,0);
+            if(currentState == Entity.State.USE_RUDIMENT ) {
+                cameraMoved.set(currentEntityPosition.x + normalizedScreen.x * offset+128, currentEntityPosition.y - normalizedScreen.y * offset+128,0);
+            }
+            camera.position.lerp(cameraMoved, 0.1f); //0.05f //delta
+//            camera.position.set(cameraMoved);
+//            camera.position.set(currentEntityPosition.x+64, currentEntityPosition.y+64, 0f);
+        }
+        camera.update();
+    }
+
     public void dashShadow(float delta) {
         //DASH
         if(dashing) {
@@ -518,6 +541,35 @@ public class Player extends Component {
             dashing = false;
             anInt1 = 1;
         }
+    }
+
+    private void updateAmmoHit(Entity player) {
+        tempEntities.clear();
+        tempEntities.addAll(mapManager.getCurrentMapEntities());
+        tempEntities.addAll(mapManager.getCurrentMapQuestEntities());
+
+        for(Entity mapEntity: tempEntities) {
+            if (!mapEntity.getWeaponSystem().rangedIsActive()) {
+                continue;
+            }
+            if(mapEntity.equals(player)){
+                continue;
+            }
+
+            Weapon weapon = mapEntity.getRangeWeapon();
+
+            for(Ammo ammo: mapEntity.getActiveAmmo()){
+                Polygon entityAmmoBoundingBox = ammo.getPolygon();
+                Polygon playerHitBox = new Polygon(new float[] { 0, 0, hitBox.width, 0, hitBox.width, hitBox.height, 0, hitBox.height });
+                playerHitBox.setPosition(hitBox.x, hitBox.y);
+                if (Intersector.overlapConvexPolygons(playerHitBox, entityAmmoBoundingBox)) {
+//                    gotHit();
+//                    reduceHealth(weapon.getRandomDamage() + player.getRangedDamageBoost() + player.getDamageBoost());
+                    ammo.setRemove(true);
+                }
+            }
+        }
+
     }
 
     private void enemyExecutionAnimation() {
@@ -549,27 +601,6 @@ public class Player extends Component {
         walkVelocityD.set(playerConfig.getWalkVelocityD());
         runVelocity.set(playerConfig.getRunVelocity());
         runVelocityD.set(playerConfig.getRunVelocityD());
-    }
-
-    private void updateCamera() {
-        if (Rumble.getRumbleTimeLeft() > 0){
-            Rumble.tick(Gdx.graphics.getDeltaTime());
-            camera.translate(Rumble.getPos());
-        } else if (pdaActive) {
-        } else {
-            Vector2 screenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-            Vector2 normalizedScreen = new Vector2(screenPos.x / Gdx.graphics.getWidth(), screenPos.y / Gdx.graphics.getHeight());
-            normalizedScreen.sub(.5f, .5f);
-            float offset = 150;
-            Vector3 cameraMoved = new Vector3(Math.round(currentEntityPosition.x) + normalizedScreen.x * offset+64, Math.round(currentEntityPosition.y) - normalizedScreen.y * offset+64,0);
-            if(currentState == Entity.State.USE_RUDIMENT ) {
-                cameraMoved.set(currentEntityPosition.x + normalizedScreen.x * offset+128, currentEntityPosition.y - normalizedScreen.y * offset+128,0);
-            }
-            camera.position.lerp(cameraMoved, 0.1f); //0.05f //delta
-//            camera.position.set(cameraMoved);
-//            camera.position.set(currentEntityPosition.x+64, currentEntityPosition.y+64, 0f);
-        }
-        camera.update();
     }
 
     public Array<Entity> checkForNearbyEnemies(){
@@ -604,78 +635,6 @@ public class Player extends Component {
         }
     }
 
-    public void debug(boolean activeGrid, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox, boolean activeTopBoundingBox, boolean activeBottomBoundingBox, boolean activeLeftBoundingBox, boolean activeRightBoundingBox, boolean activeAmmoDebug) {
-        if (activeGrid) {
-            Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
-            if(grid == null && grid.size == 0) return;
-            shapeRenderer2.setProjectionMatrix(camera.combined);
-            shapeRenderer2.begin(ShapeRenderer.ShapeType.Line);
-            for (int y = 0; y < grid.size; y++) {
-                for (int x = 0; x < grid.get(y).size; x++) {
-                    if (grid.get(y).get(x).getType() == Node.GridType.CLOSE) {
-                        shapeRenderer2.setColor(Color.RED);
-                        Rectangle rectangle = grid.get(y).get(x).rectangle;
-                        shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
-                    } else {
-                    shapeRenderer2.setColor(Color.GREEN);
-                    Rectangle rectangle = grid.get(y).get(x).rectangle;
-                    shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
-                    }
-                }
-            }
-            shapeRenderer2.end();
-        }
-
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        if (activeHitBox) {
-            Rectangle rect = hitBox;
-            shapeRenderer.setColor(Color.GREEN);
-            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
-        if (activeImageBox) {
-            Rectangle rect = imageBox;
-            shapeRenderer.setColor(0.5f, .92f, .75f, 1f);
-            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
-        if (activeBoundingBox) {
-            Rectangle rect = boundingBox;
-            shapeRenderer.setColor(Color.GRAY);
-            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
-        if (activeTopBoundingBox) {
-            Rectangle rect = topBoundingBox;
-            shapeRenderer.setColor(Color.BLUE);
-            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
-        if (activeBottomBoundingBox) {
-            Rectangle rect = bottomBoundingBox;
-            shapeRenderer.setColor(Color.BLUE);
-            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
-        if (activeLeftBoundingBox) {
-            Rectangle rect = leftBoundingBox;
-            shapeRenderer.setColor(Color.BLUE);
-            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
-        if (activeRightBoundingBox) {
-            Rectangle rect = rightBoundingBox;
-            shapeRenderer.setColor(Color.BLUE);
-            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
-        if (activeAmmoDebug) {
-            for(Ammo ammo: activeAmmo) {
-                Polygon ammoBoundingBox = ammo.getPolygon();
-                shapeRenderer.setColor(Color.RED);
-                shapeRenderer.polygon(ammoBoundingBox.getTransformedVertices());
-            }
-        }
-        shapeRenderer.end();
-
-
-    }
-
-
     private void updateCollisionWithPortalLayer(Entity entity, MapManager mapMgr){
         MapLayer portalLayer = mapMgr.getPortalLayer();
 
@@ -700,15 +659,15 @@ public class Player extends Component {
         }
     }
 
+
+
+
     @Override
     public void draw(Batch batch, float delta) {
-        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) {
-            debugActive = !debugActive;
-        }
-        if (debugActive) {
-            debug(true,true,true,true, true,
-                    true, true, true, true);
-        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) debugActive = !debugActive;
+        if (debugActive) debug(false,false,true,
+                true,true,true, true,
+                true,true,true,false,false, false);
 
         batch.begin();
         //DASH
@@ -751,6 +710,9 @@ public class Player extends Component {
         this.setHealth(this.getHealth() - damage*((100-this.getDamageResist())/100));
         endlessCourageSkill();
     }
+
+
+
 
     @Override
     public void restoreHealth(int heal){

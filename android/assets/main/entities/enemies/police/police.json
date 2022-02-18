@@ -11,6 +11,7 @@ imageBox: { x: 128, y: 128 }
 boundingBox: { x: 32, y: 16 }
 activeZoneBox: { x: 80, y: 60 }
 attackZoneBox: { x: 512, y: 512 }
+visibilityZoneBox: { x: 700, y: 600 }
 animationConfig: [
 	{
 	    frameDuration: 0.2
@@ -73,6 +74,7 @@ imageBox: { x: 128, y: 128 }
 boundingBox: { x: 32, y: 16 }
 activeZoneBox: { x: 80, y: 60 }
 attackZoneBox: { x: 0, y: 0 }
+visibilityZoneBox: { x: 600, y: 600 }
 animationConfig: [
 	{
 	    frameDuration: 0.2

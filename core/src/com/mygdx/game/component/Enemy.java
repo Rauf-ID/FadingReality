@@ -25,7 +25,6 @@ import com.mygdx.game.world.MapManager;
 
 public class Enemy extends Component {
 
-
     public Enemy(){
         state = State.NORMAL;
         this.setExecutable(true);
@@ -74,6 +73,7 @@ public class Enemy extends Component {
                 initBoundingBox(entityConfig.getBoundingBox());
                 initActiveZoneBox(entityConfig.getActiveZoneBox());
                 initAttackZoneBox(entityConfig.getAttackZoneBox());
+                initVisibilityZoneBox(entityConfig.getVisibilityZoneBox());
 
                 setHealth(entityConfig.getHealth());
                 setMaxHealth(entityConfig.getMaxHealth());
@@ -114,34 +114,41 @@ public class Enemy extends Component {
         updateBoundingBox();
         updateActiveZoneBox();
         updateAttackZoneBox();
+        updateVisibilityZoneBox();
         updateShifts(mapManager, delta, 10);
         setSwordRangeBox(new Vector2(10000,10000),0,0);
-
 
         switch (state) {
             case NORMAL:
                 Entity player = mapManager.getPlayer();
                 Rectangle playerBoundingBox = player.getBoundingBox();
-                Weapon weapon = player.getRangeWeapon();
 
 
-                //EXECUTION
                 if (activeZoneBox.overlaps(playerBoundingBox)) {
                     if (isLowHP()) {
                         System.out.println(entity.getEntityConfig().getEntityID() + " LOW HP");
                     }
                 } else if (attackZoneBox.overlaps(playerBoundingBox)) {
+                    currentState = Entity.State.RANGED_ATTACK;
                     isGunActive2 = true;
-                } else {
+                } else if (visibilityZoneBox.overlaps(playerBoundingBox)) {
+                    currentState = Entity.State.RUN;
                     updateGrid(playerBoundingBox);
                     followPath();
+                } else {
+                    currentState = Entity.State.IDLE;
                 }
 
-                updateAmmoHit(player, weapon);
+                if (visibilityZoneBox.overlaps(playerBoundingBox)) {
+                    getDirectionToPlayer(player);
+                }
+
+                updateAmmoHit(player);
                 updateHealth(entity, player);
                 weaponSystem.updateForEnemy(delta,this, player);
                 break;
             case DEATH:
+                currentState = Entity.State.IDLE;
 //                currentState = Entity.State.DEATH;
                 break;
             case FREEZE:
@@ -199,7 +206,9 @@ public class Enemy extends Component {
         }
     }
 
-    private void updateAmmoHit(Entity player, Weapon weapon) {
+    private void updateAmmoHit(Entity player) {
+        Weapon weapon = player.getRangeWeapon();
+
         for(Ammo ammo: player.getActiveAmmo()){
             Polygon playerAmmoBoundingBox = ammo.getPolygon();
             Polygon enemyHitBox = new Polygon(new float[] { 0, 0, hitBox.width, 0, hitBox.width, hitBox.height, 0, hitBox.height });
@@ -222,16 +231,14 @@ public class Enemy extends Component {
     }
 
 
+
+
     @Override
     public void draw(Batch batch, float delta) {
-        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) {
-            debugActive = !debugActive;
-        }
-        if (debugActive) {
-            debug(true,true,false,true,
-                    true,true);
-        }
-
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) debugActive = !debugActive;
+        if (debugActive) debug(false,false,false,
+                false,false,false, false,
+                true,false,true,true,true, true);
 
         batch.begin();
         if(currentDirection == Entity.Direction.UP) {
@@ -250,49 +257,11 @@ public class Enemy extends Component {
         batch.end();
     }
 
-    public void debug(boolean activePath, boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox, boolean activeActiveZoneBox, boolean activeAttackZoneBox) {
-        if (activePath) {
-            //Render path
-            Array<Node> finalP = pathFinder.getFinalPath();
-            shapeRenderer2.setProjectionMatrix(camera.combined);
-            shapeRenderer2.begin(ShapeRenderer.ShapeType.Line);
-            shapeRenderer2.setColor(Color.GOLD);
-            for (Node node : finalP) {
-                Rectangle rectangle = node.rectangle;
-                shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
-            }
-            shapeRenderer2.end();
-        }
 
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        if (activeHitBox) {
-            Rectangle rect = hitBox;
-            shapeRenderer.setColor(Color.GREEN);
-            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
-        if (activeImageBox) {
-            Rectangle rect = imageBox;
-            shapeRenderer.setColor(0.5f, .92f, .75f, 1f);
-            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
-        if (activeBoundingBox) {
-            Rectangle rect = boundingBox;
-            shapeRenderer.setColor(Color.GRAY);
-            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
-        if (activeActiveZoneBox) {
-            Rectangle rect = activeZoneBox;
-            shapeRenderer.setColor(Color.ORANGE);
-            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
-        if (activeAttackZoneBox) {
-            Rectangle rect = attackZoneBox;
-            shapeRenderer.setColor(Color.RED);
-            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
-        shapeRenderer.end();
-    }
+
+
+
+
 
 
     @Override

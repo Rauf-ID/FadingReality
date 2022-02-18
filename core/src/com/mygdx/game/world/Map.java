@@ -99,9 +99,6 @@ public class Map {
         mapWidth = mapProperties.get("tilewidth", Integer.class);
         mapHeight = mapProperties.get("tileheight", Integer.class);
 
-        System.out.println(mapWidth);
-        System.out.println(mapHeight);
-
         addEntitiesToMap(mapManager.getIdEntityForDelete().get(mapType.toString()));
 
         createGrid();

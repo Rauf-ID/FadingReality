@@ -27,6 +27,7 @@ public class EntityConfig {
     private Vector2 boundingBox;
     private Vector2 activeZoneBox;
     private Vector2 attackZoneBox;
+    private Vector2 visibilityZoneBox;
 
     private Vector2 walkVelocity;
     private Vector2 walkVelocityD;
@@ -50,6 +51,7 @@ public class EntityConfig {
         boundingBox = new Vector2();
         activeZoneBox = new Vector2();
         attackZoneBox = new Vector2();
+        visibilityZoneBox = new Vector2();
 
         walkVelocity  = new Vector2();
         walkVelocityD = new Vector2();
@@ -84,6 +86,7 @@ public class EntityConfig {
         boundingBox = config.getBoundingBox();
         activeZoneBox = config.getActiveZoneBox();
         attackZoneBox = config.getAttackZoneBox();
+        visibilityZoneBox = config.getVisibilityZoneBox();
 
         walkVelocity = config.getWalkVelocity();
         walkVelocityD = config.getWalkVelocityD();
@@ -234,6 +237,14 @@ public class EntityConfig {
 
     public void setAttackZoneBox(Vector2 attackZoneBox) {
         this.attackZoneBox = attackZoneBox;
+    }
+
+    public Vector2 getVisibilityZoneBox() {
+        return visibilityZoneBox;
+    }
+
+    public void setVisibilityZoneBox(Vector2 visibilityZoneBox) {
+        this.visibilityZoneBox = visibilityZoneBox;
     }
 
     public Vector2 getWalkVelocity() {

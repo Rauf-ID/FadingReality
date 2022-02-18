@@ -131,12 +131,10 @@ public class NPC extends Component {
 
     @Override
     public void draw(Batch batch, float delta) {
-        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) {
-            debugActive = !debugActive;
-        }
-        if (debugActive) {
-            debug(true, true, true);
-        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) debugActive = !debugActive;
+        if (debugActive) debug(false,false,false,
+                false,false,false, false,
+                false,true,true,true,false, false);
 
         batch.begin();
         drawDialogueImg(batch, delta);
@@ -162,27 +160,6 @@ public class NPC extends Component {
             }
             batch.draw(texture, x, y + yY);
         }
-    }
-
-    public void debug(boolean activeImageBox, boolean activeBoundingBox, boolean activeActiveZoneBox) {
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        if (activeImageBox) {
-            Rectangle rect = imageBox;
-            shapeRenderer.setColor(0.5f, .92f, .75f, 1f);
-            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
-        if (activeBoundingBox) {
-            Rectangle rect = boundingBox;
-            shapeRenderer.setColor(Color.GRAY);
-            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
-        if (activeActiveZoneBox) {
-            Rectangle rect = activeZoneBox;
-            shapeRenderer.setColor(Color.ORANGE);
-            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
-        shapeRenderer.end();
     }
 
     @Override

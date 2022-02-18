@@ -73,8 +73,8 @@ public class WeaponSystem {
                 rangedWeapon.addActiveAmmoForEnemy(bullet);
                 shootTimer = 0;
             }
-            enemy.activeAmmo = rangedWeapon.getActiveAmmo();
 
+            enemy.activeAmmo = rangedWeapon.getActiveAmmo();
         }
 
     }
@@ -149,8 +149,7 @@ public class WeaponSystem {
 
         angle = angle < 0 ? angle += 360: angle;
 
-        angle -= 90;
-        angle *= -1;
+        angle = (angle - 90) * -1;
     }
 
     public boolean meleeIsActive() {

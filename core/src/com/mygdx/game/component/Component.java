@@ -3,6 +3,7 @@ package com.mygdx.game.component;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -76,6 +78,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public Rectangle boundingBox;
     public Rectangle activeZoneBox;
     public Rectangle attackZoneBox;
+    public Rectangle visibilityZoneBox;
 
     public Rectangle topBoundingBox;
     public Rectangle bottomBoundingBox;
@@ -178,6 +181,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         boundingBox = new Rectangle();
         activeZoneBox = new Rectangle();
         attackZoneBox = new Rectangle();
+        visibilityZoneBox = new Rectangle();
 
         topBoundingBox = new Rectangle();
         bottomBoundingBox = new Rectangle();
@@ -389,6 +393,11 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         attackZoneBox.setHeight(size.y);
     }
 
+    protected void initVisibilityZoneBox(Vector2 size) {
+        visibilityZoneBox.setWidth(size.x);
+        visibilityZoneBox.setHeight(size.y);
+    }
+
     protected void updateBorderBoundingBox() {
         topBoundingBox.setPosition(boundingBox.x, boundingBox.y + boundingBox.getHeight());
         bottomBoundingBox.setPosition(boundingBox.x, boundingBox.y - 1);
@@ -426,6 +435,12 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         int middleBoundingBoxWidth = (int) boundingBox.getWidth() / 2;
         int middleBoundingBoxHeight = (int) boundingBox.getHeight() / 2;
         attackZoneBox.setCenter(boundingBox.x + middleBoundingBoxWidth, boundingBox.y + middleBoundingBoxHeight);
+    }
+
+    protected void updateVisibilityZoneBox() {
+        int middleBoundingBoxWidth = (int) boundingBox.getWidth() / 2;
+        int middleBoundingBoxHeight = (int) boundingBox.getHeight() / 2;
+        visibilityZoneBox.setCenter(boundingBox.x + middleBoundingBoxWidth, boundingBox.y + middleBoundingBoxHeight);
     }
 
     protected void initBoundingBoxForObject(float width, float height){
@@ -524,46 +539,46 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 break;
             case MELEE_ATTACK:
                 if (attackId == 0) {
-                    if (mouseDirection == Entity.MouseDirection.UP) {
+                    if (currentDirection == Entity.Direction.UP) {
                         currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_UP).getKeyFrame(atkTime);
-                    } else if(mouseDirection == Entity.MouseDirection.DOWN) {
+                    } else if(currentDirection == Entity.Direction.DOWN) {
                         currentFrame = animations.get(Entity.AnimationType.RUN_DOWN).getKeyFrame(atkTime); // Correct in the future
-                    } else if(mouseDirection == Entity.MouseDirection.LEFT) {
+                    } else if(currentDirection == Entity.Direction.LEFT) {
                         currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_LEFT).getKeyFrame(atkTime);
-                    } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
+                    } else if(currentDirection == Entity.Direction.RIGHT) {
                         currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_RIGHT).getKeyFrame(atkTime);
                     }
                 } else {
-                    if (mouseDirection == Entity.MouseDirection.UP) {
+                    if (currentDirection == Entity.Direction.UP) {
                         currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_UP).getKeyFrame(atkTime); // Correct in the future
-                    } else if(mouseDirection == Entity.MouseDirection.DOWN) {
+                    } else if(currentDirection == Entity.Direction.DOWN) {
                         currentFrame = animations.get(Entity.AnimationType.RUN_DOWN).getKeyFrame(atkTime); // Correct in the future
-                    } else if(mouseDirection == Entity.MouseDirection.LEFT) {
+                    } else if(currentDirection == Entity.Direction.LEFT) {
                         currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_LEFT_2).getKeyFrame(atkTime);
-                    } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
+                    } else if(currentDirection == Entity.Direction.RIGHT) {
                         currentFrame = animations.get(Entity.AnimationType.MELEE_ATTACK_RIGHT_2).getKeyFrame(atkTime);
                     }
                 }
                 break;
             case RANGED_ATTACK:
-                if (mouseDirection == Entity.MouseDirection.UP) {
-                    currentFrame = animations.get(Entity.AnimationType.RANGED_ATTACK_RIGHT).getKeyFrame(stateTime);
-                } else if(mouseDirection == Entity.MouseDirection.DOWN) {
-                    currentFrame = animations.get(Entity.AnimationType.RANGED_ATTACK_RIGHT).getKeyFrame(stateTime);
-                } else if(mouseDirection == Entity.MouseDirection.LEFT) {
+                if (currentDirection == Entity.Direction.UP) {
                     currentFrame = animations.get(Entity.AnimationType.RANGED_ATTACK_LEFT).getKeyFrame(stateTime);
-                } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
+                } else if(currentDirection == Entity.Direction.DOWN) {
+                    currentFrame = animations.get(Entity.AnimationType.RANGED_ATTACK_RIGHT).getKeyFrame(stateTime);
+                } else if(currentDirection == Entity.Direction.LEFT) {
+                    currentFrame = animations.get(Entity.AnimationType.RANGED_ATTACK_LEFT).getKeyFrame(stateTime);
+                } else if(currentDirection == Entity.Direction.RIGHT) {
                     currentFrame = animations.get(Entity.AnimationType.RANGED_ATTACK_RIGHT).getKeyFrame(stateTime);
                 }
                 break;
             case DASH:
-                if (mouseDirection == Entity.MouseDirection.UP) {
+                if (currentDirection == Entity.Direction.UP) {
                     currentFrame = animations.get(Entity.AnimationType.RUN_UP).getKeyFrame(stateTime); // Correct in the future
-                } else if(mouseDirection == Entity.MouseDirection.DOWN) {
+                } else if(currentDirection == Entity.Direction.DOWN) {
                     currentFrame = animations.get(Entity.AnimationType.RUN_DOWN).getKeyFrame(stateTime); // Correct in the future
-                } else if(mouseDirection == Entity.MouseDirection.LEFT) {
+                } else if(currentDirection == Entity.Direction.LEFT) {
                     currentFrame = animations.get(Entity.AnimationType.RUN_LEFT).getKeyFrame(stateTime); // Correct in the future
-                } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
+                } else if(currentDirection == Entity.Direction.RIGHT) {
                     currentFrame = animations.get(Entity.AnimationType.DASH_RIGHT).getKeyFrame(stateTime);
                 }
                 break;
@@ -582,22 +597,22 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 }
                 break;
             case ASSAULT:
-                if(mouseDirection == Entity.MouseDirection.LEFT) {
+                if(currentDirection == Entity.Direction.LEFT) {
                     currentFrame = animations.get(Entity.AnimationType.ASSAULT_LEFT).getKeyFrame(stateTime);
-                } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
+                } else if(currentDirection == Entity.Direction.RIGHT) {
                     currentFrame = animations.get(Entity.AnimationType.ASSAULT_RIGHT).getKeyFrame(stateTime);
                 }
             case DISTORTION:
-                if(mouseDirection == Entity.MouseDirection.LEFT) {
+                if(currentDirection == Entity.Direction.LEFT) {
                     currentFrame = animations.get(Entity.AnimationType.DISTORTION_LEFT).getKeyFrame(stateTime);
-                } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
+                } else if(currentDirection == Entity.Direction.RIGHT) {
                     currentFrame = animations.get(Entity.AnimationType.DISTORTION_RIGHT).getKeyFrame(stateTime);
                 }
                 break;
             case SCARED:
-                if(mouseDirection == Entity.MouseDirection.LEFT) {
+                if(currentDirection == Entity.Direction.LEFT) {
                     currentFrame = animations.get(Entity.AnimationType.SCARED_LEFT).getKeyFrame(stateTime);
-                } else if(mouseDirection == Entity.MouseDirection.RIGHT) {
+                } else if(currentDirection == Entity.Direction.RIGHT) {
                     currentFrame = animations.get(Entity.AnimationType.SCARED_RIGHT).getKeyFrame(stateTime);
                 }
                 break;
@@ -856,6 +871,29 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         return mouseDirection;
     }
 
+    protected Entity.Direction getDirectionToPlayer(Entity player) {
+        float screenX = player.getCurrentPosition().x;
+        float screenY = player.getCurrentPosition().y;
+
+        float screenWidth = currentEntityPosition.x;
+        float screenHeight = currentEntityPosition.y;
+
+        angle = (float) Math.toDegrees(Math.atan2(screenX - screenWidth, screenY - screenHeight));
+
+        angle = angle < 0 ? angle += 360: angle;
+
+        if (angle < 360 && angle > 180) {
+            currentDirection = Entity.Direction.LEFT;
+        } else {
+            currentDirection = Entity.Direction.RIGHT;
+        }
+
+        angle -= 90;
+        angle *= -1;
+
+        return currentDirection;
+    }
+
     protected boolean isCollisionWithMapEntities(Entity entity, MapManager mapMgr){
         tempEntities.clear();
         tempEntities.addAll(mapMgr.getCurrentMapEntities());
@@ -969,6 +1007,105 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 }
             }
         }
+    }
+
+    public void debug(boolean activeGrid, boolean activePath, boolean activeAmmoDebug,
+                      boolean activeTopBoundingBox, boolean activeBottomBoundingBox, boolean activeLeftBoundingBox, boolean activeRightBoundingBox,
+                      boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox,
+                      boolean activeActiveZoneBox, boolean activeAttackZoneBox, boolean activeVisibilityZoneBox) {
+        if (activeGrid) {
+            Array<Array<Node>> grid = mapManager.getCurrentMap().getGrid();
+            if(grid == null && grid.size == 0) return;
+            shapeRenderer2.setProjectionMatrix(camera.combined);
+            shapeRenderer2.begin(ShapeRenderer.ShapeType.Line);
+            for (int y = 0; y < grid.size; y++) {
+                for (int x = 0; x < grid.get(y).size; x++) {
+                    if (grid.get(y).get(x).getType() == Node.GridType.CLOSE) {
+                        shapeRenderer2.setColor(Color.RED);
+                        Rectangle rectangle = grid.get(y).get(x).rectangle;
+                        shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+                    } else {
+                        shapeRenderer2.setColor(Color.GREEN);
+                        Rectangle rectangle = grid.get(y).get(x).rectangle;
+                        shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+                    }
+                }
+            }
+            shapeRenderer2.end();
+        }
+        if (activePath) {
+            //Render path
+            Array<Node> finalP = pathFinder.getFinalPath();
+            shapeRenderer2.setProjectionMatrix(camera.combined);
+            shapeRenderer2.begin(ShapeRenderer.ShapeType.Line);
+            shapeRenderer2.setColor(Color.GOLD);
+            for (Node node : finalP) {
+                Rectangle rectangle = node.rectangle;
+                shapeRenderer2.rect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
+            }
+            shapeRenderer2.end();
+        }
+
+        shapeRenderer.setProjectionMatrix(camera.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        if (activeAmmoDebug) {
+            for(Ammo ammo: activeAmmo) {
+                Polygon ammoBoundingBox = ammo.getPolygon();
+                shapeRenderer.setColor(Color.RED);
+                shapeRenderer.polygon(ammoBoundingBox.getTransformedVertices());
+            }
+        }
+        if (activeTopBoundingBox) {
+            Rectangle rect = topBoundingBox;
+            shapeRenderer.setColor(Color.BLUE);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        if (activeBottomBoundingBox) {
+            Rectangle rect = bottomBoundingBox;
+            shapeRenderer.setColor(Color.BLUE);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        if (activeLeftBoundingBox) {
+            Rectangle rect = leftBoundingBox;
+            shapeRenderer.setColor(Color.BLUE);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        if (activeRightBoundingBox) {
+            Rectangle rect = rightBoundingBox;
+            shapeRenderer.setColor(Color.BLUE);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        if (activeHitBox) {
+            Rectangle rect = hitBox;
+            shapeRenderer.setColor(Color.GREEN);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        if (activeImageBox) {
+            Rectangle rect = imageBox;
+            shapeRenderer.setColor(0.5f, .92f, .75f, 1f);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        if (activeBoundingBox) {
+            Rectangle rect = boundingBox;
+            shapeRenderer.setColor(Color.GRAY);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        if (activeActiveZoneBox) {
+            Rectangle rect = activeZoneBox;
+            shapeRenderer.setColor(Color.ORANGE);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        if (activeAttackZoneBox) {
+            Rectangle rect = attackZoneBox;
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        if (activeVisibilityZoneBox) {
+            Rectangle rect = visibilityZoneBox;
+            shapeRenderer.setColor(Color.PURPLE);
+            shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
+        shapeRenderer.end();
     }
 
     public abstract void update(Entity entity, MapManager mapManager, Batch batch, float delta);
