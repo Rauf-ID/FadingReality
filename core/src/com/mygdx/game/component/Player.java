@@ -191,6 +191,22 @@ public class Player extends Component {
         checkForExecutableEnemies();
 
 
+        switch (state) {
+            case NORMAL:
+                input(entity);
+                break;
+            case DEATH:
+                currentState = Entity.State.IDLE;
+                break;
+            case FREEZE:
+                if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
+                    stateTime = 0f;
+                    state = State.NORMAL;
+                }
+                break;
+        }
+
+
         if(isGunActive) {
             getMouseDirectionForGun();
         }
@@ -247,7 +263,7 @@ public class Player extends Component {
         }
 
         //INPUT
-        input(entity);
+//        input(entity);
 
         //DASH SHADOW
 //        dashShadow(delta);
@@ -259,250 +275,237 @@ public class Player extends Component {
     }
 
     private void input(Entity entity) {
+        if (true) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
+                Gdx.app.exit();
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
+                PlayerHUD.toastShort("Pressed T", Toast.Length.SHORT);
+            }
 
-        switch (state) {
-            case NORMAL:
-                if (true) {
-                    if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
-                        Gdx.app.exit();
-                    } else if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
-                        PlayerHUD.toastShort("Pressed T", Toast.Length.SHORT);
+            if (!PlayerHUD.browserUI.isVisible()) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+                    PlayerHUD.toastShort("Pressed TAB", Toast.Length.SHORT);
+                    pdaActive = !pdaActive;
+                }
+            }
+
+            if (!PlayerHUD.pdaUI.isVisible() && !PlayerHUD.browserUI.isVisible()) {
+                if (Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolTopBoundingBox) {
+                    currentState = Entity.State.RUN;
+                    if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolTopBoundingBox) {
+                        currentDirection = Entity.Direction.RIGHT;
+                        currentEntityPosition.y += runVelocityD.y;
+                        currentEntityPosition.x += runVelocityD.x;
+                    } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolTopBoundingBox) {
+                        currentDirection = Entity.Direction.LEFT;
+                        currentEntityPosition.y += runVelocityD.y;
+                        currentEntityPosition.x -= runVelocityD.x;
+                    } else {
+                        currentDirection = Entity.Direction.UP;
+                        currentEntityPosition.y += runVelocity.y;
                     }
-
-                    if (!PlayerHUD.browserUI.isVisible()) {
-                        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-                            PlayerHUD.toastShort("Pressed TAB", Toast.Length.SHORT);
-                            pdaActive = !pdaActive;
-                        }
+                } else if (Gdx.input.isKeyPressed(Input.Keys.S) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolBottomBoundingBox) {
+                    currentState = Entity.State.RUN;
+                    if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolBottomBoundingBox) {
+                        currentDirection = Entity.Direction.RIGHT;
+                        currentEntityPosition.y -= runVelocityD.y;
+                        currentEntityPosition.x += runVelocityD.x;
+                    } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolBottomBoundingBox) {
+                        currentDirection = Entity.Direction.LEFT;
+                        currentEntityPosition.y -= runVelocityD.y;
+                        currentEntityPosition.x -= runVelocityD.x;
+                    } else {
+                        currentDirection = Entity.Direction.DOWN;
+                        currentEntityPosition.y -= runVelocity.y;
                     }
-
-                    if (!PlayerHUD.pdaUI.isVisible() && !PlayerHUD.browserUI.isVisible()) {
-                        if (Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolTopBoundingBox) {
-                            currentState = Entity.State.RUN;
-                            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolTopBoundingBox) {
-                                currentDirection = Entity.Direction.RIGHT;
-                                currentEntityPosition.y += runVelocityD.y;
-                                currentEntityPosition.x += runVelocityD.x;
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolTopBoundingBox) {
-                                currentDirection = Entity.Direction.LEFT;
-                                currentEntityPosition.y += runVelocityD.y;
-                                currentEntityPosition.x -= runVelocityD.x;
-                            } else {
-                                currentDirection = Entity.Direction.UP;
-                                currentEntityPosition.y += runVelocity.y;
-                            }
-                        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolBottomBoundingBox) {
-                            currentState = Entity.State.RUN;
-                            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolBottomBoundingBox) {
-                                currentDirection = Entity.Direction.RIGHT;
-                                currentEntityPosition.y -= runVelocityD.y;
-                                currentEntityPosition.x += runVelocityD.x;
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolBottomBoundingBox) {
-                                currentDirection = Entity.Direction.LEFT;
-                                currentEntityPosition.y -= runVelocityD.y;
-                                currentEntityPosition.x -= runVelocityD.x;
-                            } else {
-                                currentDirection = Entity.Direction.DOWN;
-                                currentEntityPosition.y -= runVelocity.y;
-                            }
-                        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolLeftBoundingBox) {
-                            currentState = Entity.State.RUN;
-                            currentDirection = Entity.Direction.LEFT;
-                            currentEntityPosition.x -= runVelocity.x;
-                        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolRightBoundingBox) {
-                            currentState = Entity.State.RUN;
-                            currentDirection = Entity.Direction.RIGHT;
-                            currentEntityPosition.x += runVelocity.x;
-                        } else if (Gdx.input.isKeyPressed(Input.Keys.W) && !boolTopBoundingBox) {
-                            currentState = Entity.State.WALK;
-                            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolTopBoundingBox) {
-                                currentDirection = Entity.Direction.RIGHT;
-                                currentEntityPosition.y += walkVelocityD.y;
-                                currentEntityPosition.x += walkVelocityD.x;
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolTopBoundingBox) {
-                                currentDirection = Entity.Direction.LEFT;
-                                currentEntityPosition.y += walkVelocityD.y;
-                                currentEntityPosition.x -= walkVelocityD.x;
-                            } else {
-                                currentDirection = Entity.Direction.UP;
-                                currentEntityPosition.y += walkVelocity.y;
-                            }
-                        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && !boolBottomBoundingBox) {
-                            currentState = Entity.State.WALK;
-                            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolBottomBoundingBox) {
-                                currentDirection = Entity.Direction.RIGHT;
-                                currentEntityPosition.y -= walkVelocityD.y;
-                                currentEntityPosition.x += walkVelocityD.x;
-                            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolBottomBoundingBox) {
-                                currentDirection = Entity.Direction.LEFT;
-                                currentEntityPosition.y -= walkVelocityD.y;
-                                currentEntityPosition.x -= walkVelocityD.x;
-                            } else {
-                                currentDirection = Entity.Direction.DOWN;
-                                currentEntityPosition.y -= walkVelocity.y;
-                            }
-                        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolLeftBoundingBox) {
-                            currentState = Entity.State.WALK;
-                            currentDirection = Entity.Direction.LEFT;
-                            currentEntityPosition.x -= walkVelocity.x;
-                        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolRightBoundingBox) {
-                            currentState = Entity.State.WALK;
-                            currentDirection = Entity.Direction.RIGHT;
-                            currentEntityPosition.x += walkVelocity.x;
-                        } else {
-                            currentState = Entity.State.IDLE;
-                            boolTopBoundingBox = false;
-                            boolBottomBoundingBox = false;
-                            boolLeftBoundingBox = false;
-                            boolRightBoundingBox = false;
-                            isGunActive2 = false;
-                            isGunActive = false;
-                        }
-
-                        //DASH
-                        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && this.dashCharge >= 1) {
-                            dashCharge-=1;
-                            dashing = true;
-                            stateTime = 0f;
-                            state = State.FREEZE;
-                            currentState = Entity.State.DASH;
-                            getMouseDirection();
-                            doDash();
-                            Timer.schedule(new Timer.Task() {
-                                @Override
-                                public void run() {
-                                    state = State.NORMAL;
-                                }}, 0.38f);
-                            dashing = false; // if active dash shadow does not work
-                            notify("", ComponentObserver.ComponentEvent.PLAYER_DASH);
-                        }
-
-                        //RUDIMENT
-                        if (Gdx.input.isKeyJustPressed(Input.Keys.F) && this.rudimentCharge>=1 && !usingRudiment &&
-                                rudimentSystem.getUniqueRudiment()!=null) {
-                            usingRudiment=true;
-                            currentEntityPosition.x -= 64;
-                            currentEntityPosition.y -= 64;
-                            stateTime = 0f;
-                            state = State.FREEZE;
-                            currentState = Entity.State.USE_RUDIMENT;
-                            rudimentSystem.getUniqueRudiment().activateRudiment(this);
-                            rudimentCharge-=1;
-
-                            PlayerHUD.toastShort("Use Rudiment", Toast.Length.SHORT);
-
-                            Timer.schedule(new Timer.Task() {
-                                @Override
-                                public void run() {
-                                    Rumble.rumble(15f, 0.1f, -1, Rumble.State.SWORD);
-                                }}, 0.5f);
-
-                            Timer.schedule(new Timer.Task() {
-                                @Override
-                                public void run() {
-                                    currentEntityPosition.x += 64;
-                                    currentEntityPosition.y += 64;
-                                    state = State.NORMAL;
-                                }}, 1.1f);
-                        }
-
-                        //MELEE ATTACK
-                        if (isLeftButtonPressed && weaponSystem.meleeIsActive()) {
-                            isLeftButtonPressed = false;
-
-                            currentTime = System.currentTimeMillis();
-                            if ((currentTime - timeSinceLastAttack) < comboTimer) {
-                                if (attackId == 1)
-                                    attackId = 0;
-                                else {
-                                    attackId++;
-                                }
-                            } else {
-                                attackId = 0;
-                            }
-                            System.out.println("LMB: Attack " + attackId);
-                            timeSinceLastAttack = System.currentTimeMillis();
-
-                            atkTime = 0f;
-                            state = State.FREEZE;
-                            currentState = Entity.State.MELEE_ATTACK;
-                            getMouseDirection();
-                            meleeAttackMove();
-
-                            if (attackId == 0) {
-                                frameAttack = 0.55f;
-                            } else {
-                                frameAttack = 0.65f;
-                            }
-
-                            Timer.schedule(new Timer.Task() {
-                                @Override
-                                public void run() {
-                                    state = State.NORMAL;
-                                }
-                            }, frameAttack); //0.44
-
-                            updateSwordRangeBox(64, 64);
-                        } else {
-                            isLeftButtonPressed = false;
-                        }
-
-                        //RANGED ATTACK
-                        if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive() && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() != 0) {
-                            currentState = Entity.State.RANGED_ATTACK;
-                            isGunActive2 = true;
-                            isGunActive = true;
-
-                            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() - 1 + ":::" + weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
-
-
-                            state = State.FREEZE;
-                            Timer.schedule(new Timer.Task() {
-                                @Override
-                                public void run() {
-                                    state = State.NORMAL;
-                                }}, weaponSystem.getRangedWeapon().getAttackTime());
-                        }
-
-                        //RELOAD WEAPON
-                        if(Gdx.input.isKeyJustPressed(Input.Keys.R) && weaponSystem.rangedIsActive()) {
-
-                            state = State.FREEZE;
-                            Timer.schedule(new Timer.Task() {
-                                @Override
-                                public void run() {
-                                    weaponSystem.reloadWeapon();
-
-                                    reloaded = true;
-
-                                    state = State.NORMAL;
-                                }}, 0.5f);
-
-                        }
-
-                        if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive() && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() == 0) {
-                            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() + ":::" + weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
-                        }
-                        if (reloaded) {
-                            reloaded = false;
-                            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() + ":::" + weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
-                        }
-
+                } else if (Gdx.input.isKeyPressed(Input.Keys.A) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolLeftBoundingBox) {
+                    currentState = Entity.State.RUN;
+                    currentDirection = Entity.Direction.LEFT;
+                    currentEntityPosition.x -= runVelocity.x;
+                } else if (Gdx.input.isKeyPressed(Input.Keys.D) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolRightBoundingBox) {
+                    currentState = Entity.State.RUN;
+                    currentDirection = Entity.Direction.RIGHT;
+                    currentEntityPosition.x += runVelocity.x;
+                } else if (Gdx.input.isKeyPressed(Input.Keys.W) && !boolTopBoundingBox) {
+                    currentState = Entity.State.WALK;
+                    if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolTopBoundingBox) {
+                        currentDirection = Entity.Direction.RIGHT;
+                        currentEntityPosition.y += walkVelocityD.y;
+                        currentEntityPosition.x += walkVelocityD.x;
+                    } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolTopBoundingBox) {
+                        currentDirection = Entity.Direction.LEFT;
+                        currentEntityPosition.y += walkVelocityD.y;
+                        currentEntityPosition.x -= walkVelocityD.x;
+                    } else {
+                        currentDirection = Entity.Direction.UP;
+                        currentEntityPosition.y += walkVelocity.y;
                     }
+                } else if (Gdx.input.isKeyPressed(Input.Keys.S) && !boolBottomBoundingBox) {
+                    currentState = Entity.State.WALK;
+                    if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolBottomBoundingBox) {
+                        currentDirection = Entity.Direction.RIGHT;
+                        currentEntityPosition.y -= walkVelocityD.y;
+                        currentEntityPosition.x += walkVelocityD.x;
+                    } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolBottomBoundingBox) {
+                        currentDirection = Entity.Direction.LEFT;
+                        currentEntityPosition.y -= walkVelocityD.y;
+                        currentEntityPosition.x -= walkVelocityD.x;
+                    } else {
+                        currentDirection = Entity.Direction.DOWN;
+                        currentEntityPosition.y -= walkVelocity.y;
+                    }
+                } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolLeftBoundingBox) {
+                    currentState = Entity.State.WALK;
+                    currentDirection = Entity.Direction.LEFT;
+                    currentEntityPosition.x -= walkVelocity.x;
+                } else if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolRightBoundingBox) {
+                    currentState = Entity.State.WALK;
+                    currentDirection = Entity.Direction.RIGHT;
+                    currentEntityPosition.x += walkVelocity.x;
                 } else {
-                    stateTime = 0f;
-                    state = State.DEATH;
-                    currentState = Entity.State.DEATH;
+                    currentState = Entity.State.IDLE;
+                    boolTopBoundingBox = false;
+                    boolBottomBoundingBox = false;
+                    boolLeftBoundingBox = false;
+                    boolRightBoundingBox = false;
+                    isGunActive2 = false;
+                    isGunActive = false;
                 }
-                break;
-            case FREEZE:
-                if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
+
+                //DASH
+                if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && this.dashCharge >= 1) {
+                    dashCharge-=1;
+                    dashing = true;
                     stateTime = 0f;
-                    state = State.NORMAL;
+                    state = State.FREEZE;
+                    currentState = Entity.State.DASH;
+                    getMouseDirection();
+                    doDash();
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            state = State.NORMAL;
+                        }}, 0.38f);
+                    dashing = false; // if active dash shadow does not work
+                    notify("", ComponentObserver.ComponentEvent.PLAYER_DASH);
                 }
-                break;
-            case DEATH:
-                break;
+
+                //RUDIMENT
+                if (Gdx.input.isKeyJustPressed(Input.Keys.F) && this.rudimentCharge>=1 && !usingRudiment &&
+                        rudimentSystem.getUniqueRudiment()!=null) {
+                    usingRudiment=true;
+                    currentEntityPosition.x -= 64;
+                    currentEntityPosition.y -= 64;
+                    stateTime = 0f;
+                    state = State.FREEZE;
+                    currentState = Entity.State.USE_RUDIMENT;
+                    rudimentSystem.getUniqueRudiment().activateRudiment(this);
+                    rudimentCharge-=1;
+
+                    PlayerHUD.toastShort("Use Rudiment", Toast.Length.SHORT);
+
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            Rumble.rumble(15f, 0.1f, -1, Rumble.State.SWORD);
+                        }}, 0.5f);
+
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            currentEntityPosition.x += 64;
+                            currentEntityPosition.y += 64;
+                            state = State.NORMAL;
+                        }}, 1.1f);
+                }
+
+                //MELEE ATTACK
+                if (isLeftButtonPressed && weaponSystem.meleeIsActive()) {
+                    isLeftButtonPressed = false;
+
+                    currentTime = System.currentTimeMillis();
+                    if ((currentTime - timeSinceLastAttack) < comboTimer) {
+                        if (attackId == 1)
+                            attackId = 0;
+                        else {
+                            attackId++;
+                        }
+                    } else {
+                        attackId = 0;
+                    }
+                    System.out.println("LMB: Attack " + attackId);
+                    timeSinceLastAttack = System.currentTimeMillis();
+
+                    atkTime = 0f;
+                    state = State.FREEZE;
+                    currentState = Entity.State.MELEE_ATTACK;
+                    getMouseDirection();
+                    meleeAttackMove();
+
+                    if (attackId == 0) {
+                        frameAttack = 0.55f;
+                    } else {
+                        frameAttack = 0.65f;
+                    }
+
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            state = State.NORMAL;
+                        }
+                    }, frameAttack); //0.44
+
+                    updateSwordRangeBox(64, 64);
+                } else {
+                    isLeftButtonPressed = false;
+                }
+
+                //RANGED ATTACK
+                if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive() && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() != 0) {
+                    currentState = Entity.State.RANGED_ATTACK;
+                    isGunActive2 = true;
+                    isGunActive = true;
+
+                    notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() - 1 + ":::" + weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
+
+
+                    state = State.FREEZE;
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            state = State.NORMAL;
+                        }}, weaponSystem.getRangedWeapon().getAttackTime());
+                }
+
+                //RELOAD WEAPON
+                if(Gdx.input.isKeyJustPressed(Input.Keys.R) && weaponSystem.rangedIsActive()) {
+
+                    state = State.FREEZE;
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            weaponSystem.reloadWeapon();
+
+                            reloaded = true;
+
+                            state = State.NORMAL;
+                        }}, 0.5f);
+
+                }
+
+                if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive() && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() == 0) {
+                    notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() + ":::" + weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
+                }
+                if (reloaded) {
+                    reloaded = false;
+                    notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() + ":::" + weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
+                }
+
+            }
+        } else {
+            stateTime = 0f;
+            state = State.DEATH;
+            currentState = Entity.State.DEATH;
         }
     }
 
