@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -35,7 +34,6 @@ import com.mygdx.game.weapon.Ammo;
 import com.mygdx.game.weapon.Weapon;
 import com.mygdx.game.weapon.WeaponFactory;
 import com.mygdx.game.weapon.WeaponSystem;
-import com.mygdx.game.pathfinder.Node;
 import com.mygdx.game.world.MapFactory;
 import com.mygdx.game.world.MapManager;
 
@@ -49,7 +47,7 @@ public class Player extends Component {
     private boolean rudimentLock = false;
     private float timer, dashTimer, executionTimer, executionDamageResistTimer;
     private boolean startExecutionTimer = false;
-    private boolean executionDamageResist= false;
+    private boolean executionDamageResist = false;
     private int executionScore = 0;
 
     public Player() {
@@ -174,38 +172,15 @@ public class Player extends Component {
         camera = mapManager.getCamera();
         mapManager.getCamera().unproject(mouseCoordinates.set(Gdx.input.getX(), Gdx.input.getY(), 0));
 
-        weaponSystem.updateForPlayer(delta, this);
-        updateCurrentCollision(mapManager);
-        updateCollisionWithPortalLayer(entity, mapManager);
-//        updateCollisionWithMapEntities(entity, mapManager);
-
         updateCamera();
         updateHitBox();
         updateImageBox();
         updateBoundingBox();
         updateBorderBoundingBox();
-        updateAmmoHit(entity);
-//        updateSwordRangeBox(64,64);
         updateShifts(mapManager, delta, 40);
         setSwordRangeBox(new Vector2(10000,10000), 0,0);
-        checkForExecutableEnemies();
-
-
-        switch (state) {
-            case NORMAL:
-                input(entity);
-                break;
-            case DEATH:
-                currentState = Entity.State.IDLE;
-                break;
-            case FREEZE:
-                if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
-                    stateTime = 0f;
-                    state = State.NORMAL;
-                }
-                break;
-        }
-
+        weaponSystem.updateForPlayer(delta, this);
+//        updateSwordRangeBox(64,64);
 
         if(isGunActive) {
             getMouseDirectionForGun();
@@ -236,6 +211,39 @@ public class Player extends Component {
             }
         }
 
+        updateCharges(delta);
+
+        switch (state) {
+            case NORMAL:
+                updateExecutableEnemies();
+                updateAmmoHit(entity);
+                updateMovement();
+                updateDash();
+                updateRudiment();
+                updateMeleeAttack();
+                updateRangedAttack();
+                updateOtherInputs(entity, delta);
+                updateDashShadow(delta);
+                updateCurrentCollision(mapManager);
+                updateCollisionWithPortalLayer(mapManager);
+//                updateCollisionWithMapEntities(entity, mapManager);
+                break;
+            case DEATH:
+                currentState = Entity.State.IDLE;
+                break;
+            case FREEZE:
+                if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
+                    stateTime = 0f;
+                    state = State.NORMAL;
+                }
+                break;
+        }
+
+        updateAnimations(delta);
+        mapManager.getCurrentMap().updateGridOjc();
+    }
+
+    private void updateCharges(float delta) {
         //RUDIMENT CHARGE
         if(this.rudimentCharge < 4 && !usingRudiment){
             rudimentCharge += delta;
@@ -250,6 +258,21 @@ public class Player extends Component {
                 notify("", ComponentObserver.ComponentEvent.PLAYER_DASH_UPDATE);
             }
         }
+    }
+
+    private void updateOtherInputs(Entity entity, float delta) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
+            Gdx.app.exit();
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
+            PlayerHUD.toastShort("Pressed T", Toast.Length.SHORT);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+            PlayerHUD.toastShort("Pressed TAB", Toast.Length.SHORT);
+            pdaActive = !pdaActive;
+        }
 
         //EXO OFF
         if(Gdx.input.isKeyPressed(Input.Keys.E) && exoskeletonName != null){
@@ -260,252 +283,6 @@ public class Player extends Component {
                 exoskeletonName = EntityFactory.EntityName.NONE;
                 timer = 0;
             }
-        }
-
-        //INPUT
-//        input(entity);
-
-        //DASH SHADOW
-//        dashShadow(delta);
-
-        //GRAPHICS
-        updateAnimations(delta);
-
-        mapManager.getCurrentMap().updateGridOjc();
-    }
-
-    private void input(Entity entity) {
-        if (true) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
-                Gdx.app.exit();
-            } else if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
-                PlayerHUD.toastShort("Pressed T", Toast.Length.SHORT);
-            }
-
-            if (!PlayerHUD.browserUI.isVisible()) {
-                if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-                    PlayerHUD.toastShort("Pressed TAB", Toast.Length.SHORT);
-                    pdaActive = !pdaActive;
-                }
-            }
-
-            if (!PlayerHUD.pdaUI.isVisible() && !PlayerHUD.browserUI.isVisible()) {
-                if (Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolTopBoundingBox) {
-                    currentState = Entity.State.RUN;
-                    if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolTopBoundingBox) {
-                        currentDirection = Entity.Direction.RIGHT;
-                        currentEntityPosition.y += runVelocityD.y;
-                        currentEntityPosition.x += runVelocityD.x;
-                    } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolTopBoundingBox) {
-                        currentDirection = Entity.Direction.LEFT;
-                        currentEntityPosition.y += runVelocityD.y;
-                        currentEntityPosition.x -= runVelocityD.x;
-                    } else {
-                        currentDirection = Entity.Direction.UP;
-                        currentEntityPosition.y += runVelocity.y;
-                    }
-                } else if (Gdx.input.isKeyPressed(Input.Keys.S) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolBottomBoundingBox) {
-                    currentState = Entity.State.RUN;
-                    if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolBottomBoundingBox) {
-                        currentDirection = Entity.Direction.RIGHT;
-                        currentEntityPosition.y -= runVelocityD.y;
-                        currentEntityPosition.x += runVelocityD.x;
-                    } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolBottomBoundingBox) {
-                        currentDirection = Entity.Direction.LEFT;
-                        currentEntityPosition.y -= runVelocityD.y;
-                        currentEntityPosition.x -= runVelocityD.x;
-                    } else {
-                        currentDirection = Entity.Direction.DOWN;
-                        currentEntityPosition.y -= runVelocity.y;
-                    }
-                } else if (Gdx.input.isKeyPressed(Input.Keys.A) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolLeftBoundingBox) {
-                    currentState = Entity.State.RUN;
-                    currentDirection = Entity.Direction.LEFT;
-                    currentEntityPosition.x -= runVelocity.x;
-                } else if (Gdx.input.isKeyPressed(Input.Keys.D) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolRightBoundingBox) {
-                    currentState = Entity.State.RUN;
-                    currentDirection = Entity.Direction.RIGHT;
-                    currentEntityPosition.x += runVelocity.x;
-                } else if (Gdx.input.isKeyPressed(Input.Keys.W) && !boolTopBoundingBox) {
-                    currentState = Entity.State.WALK;
-                    if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolTopBoundingBox) {
-                        currentDirection = Entity.Direction.RIGHT;
-                        currentEntityPosition.y += walkVelocityD.y;
-                        currentEntityPosition.x += walkVelocityD.x;
-                    } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolTopBoundingBox) {
-                        currentDirection = Entity.Direction.LEFT;
-                        currentEntityPosition.y += walkVelocityD.y;
-                        currentEntityPosition.x -= walkVelocityD.x;
-                    } else {
-                        currentDirection = Entity.Direction.UP;
-                        currentEntityPosition.y += walkVelocity.y;
-                    }
-                } else if (Gdx.input.isKeyPressed(Input.Keys.S) && !boolBottomBoundingBox) {
-                    currentState = Entity.State.WALK;
-                    if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolBottomBoundingBox) {
-                        currentDirection = Entity.Direction.RIGHT;
-                        currentEntityPosition.y -= walkVelocityD.y;
-                        currentEntityPosition.x += walkVelocityD.x;
-                    } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolBottomBoundingBox) {
-                        currentDirection = Entity.Direction.LEFT;
-                        currentEntityPosition.y -= walkVelocityD.y;
-                        currentEntityPosition.x -= walkVelocityD.x;
-                    } else {
-                        currentDirection = Entity.Direction.DOWN;
-                        currentEntityPosition.y -= walkVelocity.y;
-                    }
-                } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolLeftBoundingBox) {
-                    currentState = Entity.State.WALK;
-                    currentDirection = Entity.Direction.LEFT;
-                    currentEntityPosition.x -= walkVelocity.x;
-                } else if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolRightBoundingBox) {
-                    currentState = Entity.State.WALK;
-                    currentDirection = Entity.Direction.RIGHT;
-                    currentEntityPosition.x += walkVelocity.x;
-                } else {
-                    currentState = Entity.State.IDLE;
-                    boolTopBoundingBox = false;
-                    boolBottomBoundingBox = false;
-                    boolLeftBoundingBox = false;
-                    boolRightBoundingBox = false;
-                    isGunActive2 = false;
-                    isGunActive = false;
-                }
-
-                //DASH
-                if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && this.dashCharge >= 1) {
-                    dashCharge-=1;
-                    dashing = true;
-                    stateTime = 0f;
-                    state = State.FREEZE;
-                    currentState = Entity.State.DASH;
-                    getMouseDirection();
-                    doDash();
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            state = State.NORMAL;
-                        }}, 0.38f);
-                    dashing = false; // if active dash shadow does not work
-                    notify("", ComponentObserver.ComponentEvent.PLAYER_DASH);
-                }
-
-                //RUDIMENT
-                if (Gdx.input.isKeyJustPressed(Input.Keys.F) && this.rudimentCharge>=1 && !usingRudiment &&
-                        rudimentSystem.getUniqueRudiment()!=null) {
-                    usingRudiment=true;
-                    currentEntityPosition.x -= 64;
-                    currentEntityPosition.y -= 64;
-                    stateTime = 0f;
-                    state = State.FREEZE;
-                    currentState = Entity.State.USE_RUDIMENT;
-                    rudimentSystem.getUniqueRudiment().activateRudiment(this);
-                    rudimentCharge-=1;
-
-                    PlayerHUD.toastShort("Use Rudiment", Toast.Length.SHORT);
-
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            Rumble.rumble(15f, 0.1f, -1, Rumble.State.SWORD);
-                        }}, 0.5f);
-
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            currentEntityPosition.x += 64;
-                            currentEntityPosition.y += 64;
-                            state = State.NORMAL;
-                        }}, 1.1f);
-                }
-
-                //MELEE ATTACK
-                if (isLeftButtonPressed && weaponSystem.meleeIsActive()) {
-                    isLeftButtonPressed = false;
-
-                    currentTime = System.currentTimeMillis();
-                    if ((currentTime - timeSinceLastAttack) < comboTimer) {
-                        if (attackId == 1)
-                            attackId = 0;
-                        else {
-                            attackId++;
-                        }
-                    } else {
-                        attackId = 0;
-                    }
-                    System.out.println("LMB: Attack " + attackId);
-                    timeSinceLastAttack = System.currentTimeMillis();
-
-                    atkTime = 0f;
-                    state = State.FREEZE;
-                    currentState = Entity.State.MELEE_ATTACK;
-                    getMouseDirection();
-                    meleeAttackMove();
-
-                    if (attackId == 0) {
-                        frameAttack = 0.55f;
-                    } else {
-                        frameAttack = 0.65f;
-                    }
-
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            state = State.NORMAL;
-                        }
-                    }, frameAttack); //0.44
-
-                    updateSwordRangeBox(64, 64);
-                } else {
-                    isLeftButtonPressed = false;
-                }
-
-                //RANGED ATTACK
-                if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive() && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() != 0) {
-                    currentState = Entity.State.RANGED_ATTACK;
-                    isGunActive2 = true;
-                    isGunActive = true;
-
-                    notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() - 1 + ":::" + weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
-
-
-                    state = State.FREEZE;
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            state = State.NORMAL;
-                        }}, weaponSystem.getRangedWeapon().getAttackTime());
-                }
-
-                //RELOAD WEAPON
-                if(Gdx.input.isKeyJustPressed(Input.Keys.R) && weaponSystem.rangedIsActive()) {
-
-                    state = State.FREEZE;
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            weaponSystem.reloadWeapon();
-
-                            reloaded = true;
-
-                            state = State.NORMAL;
-                        }}, 0.5f);
-
-                }
-
-                if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive() && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() == 0) {
-                    notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() + ":::" + weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
-                }
-                if (reloaded) {
-                    reloaded = false;
-                    notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() + ":::" + weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
-                }
-
-            }
-        } else {
-            stateTime = 0f;
-            state = State.DEATH;
-            currentState = Entity.State.DEATH;
         }
     }
 
@@ -530,7 +307,7 @@ public class Player extends Component {
         camera.update();
     }
 
-    public void dashShadow(float delta) {
+    private void updateDashShadow(float delta) {
         //DASH
         if(dashing) {
             if(Gdx.graphics.getFrameId() % (int) ((Gdx.graphics.getFramesPerSecond()*.02f)+1) == 0) {  //def .05f
@@ -575,70 +352,195 @@ public class Player extends Component {
 
     }
 
-    private void enemyExecutionAnimation() {
+    private void updateMovement() {
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolTopBoundingBox) {
+            currentState = Entity.State.RUN;
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolTopBoundingBox) {
+                currentDirection = Entity.Direction.RIGHT;
+                currentEntityPosition.y += runVelocityD.y;
+                currentEntityPosition.x += runVelocityD.x;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolTopBoundingBox) {
+                currentDirection = Entity.Direction.LEFT;
+                currentEntityPosition.y += runVelocityD.y;
+                currentEntityPosition.x -= runVelocityD.x;
+            } else {
+                currentDirection = Entity.Direction.UP;
+                currentEntityPosition.y += runVelocity.y;
+            }
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolBottomBoundingBox) {
+            currentState = Entity.State.RUN;
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolBottomBoundingBox) {
+                currentDirection = Entity.Direction.RIGHT;
+                currentEntityPosition.y -= runVelocityD.y;
+                currentEntityPosition.x += runVelocityD.x;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolBottomBoundingBox) {
+                currentDirection = Entity.Direction.LEFT;
+                currentEntityPosition.y -= runVelocityD.y;
+                currentEntityPosition.x -= runVelocityD.x;
+            } else {
+                currentDirection = Entity.Direction.DOWN;
+                currentEntityPosition.y -= runVelocity.y;
+            }
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolLeftBoundingBox) {
+            currentState = Entity.State.RUN;
+            currentDirection = Entity.Direction.LEFT;
+            currentEntityPosition.x -= runVelocity.x;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolRightBoundingBox) {
+            currentState = Entity.State.RUN;
+            currentDirection = Entity.Direction.RIGHT;
+            currentEntityPosition.x += runVelocity.x;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.W) && !boolTopBoundingBox) {
+            currentState = Entity.State.WALK;
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolTopBoundingBox) {
+                currentDirection = Entity.Direction.RIGHT;
+                currentEntityPosition.y += walkVelocityD.y;
+                currentEntityPosition.x += walkVelocityD.x;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolTopBoundingBox) {
+                currentDirection = Entity.Direction.LEFT;
+                currentEntityPosition.y += walkVelocityD.y;
+                currentEntityPosition.x -= walkVelocityD.x;
+            } else {
+                currentDirection = Entity.Direction.UP;
+                currentEntityPosition.y += walkVelocity.y;
+            }
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && !boolBottomBoundingBox) {
+            currentState = Entity.State.WALK;
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolBottomBoundingBox) {
+                currentDirection = Entity.Direction.RIGHT;
+                currentEntityPosition.y -= walkVelocityD.y;
+                currentEntityPosition.x += walkVelocityD.x;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolBottomBoundingBox) {
+                currentDirection = Entity.Direction.LEFT;
+                currentEntityPosition.y -= walkVelocityD.y;
+                currentEntityPosition.x -= walkVelocityD.x;
+            } else {
+                currentDirection = Entity.Direction.DOWN;
+                currentEntityPosition.y -= walkVelocity.y;
+            }
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolLeftBoundingBox) {
+            currentState = Entity.State.WALK;
+            currentDirection = Entity.Direction.LEFT;
+            currentEntityPosition.x -= walkVelocity.x;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolRightBoundingBox) {
+            currentState = Entity.State.WALK;
+            currentDirection = Entity.Direction.RIGHT;
+            currentEntityPosition.x += walkVelocity.x;
+        } else {
+            currentState = Entity.State.IDLE;
+            boolTopBoundingBox = boolBottomBoundingBox = boolLeftBoundingBox = boolRightBoundingBox = isGunActive2 = isGunActive = false;
+        }
+    }
+
+    private void updateDash() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && this.dashCharge >= 1) {
+            dashCharge-=1;
+            dashing = true;
+            stateTime = 0f;
+            currentState = Entity.State.DASH;
+            getMouseDirection();
+            doDash();
+            animationExecution(0.38f);
+            dashing = false; // if active dash shadow does not work
+            notify("", ComponentObserver.ComponentEvent.PLAYER_DASH);
+        }
+    }
+
+    private void updateRudiment() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F) && this.rudimentCharge>=1 && !usingRudiment && rudimentSystem.getUniqueRudiment()!=null) {
+            usingRudiment=true;
+            currentEntityPosition.x -= 64;
+            currentEntityPosition.y -= 64;
+            stateTime = 0f;
+            state = State.FREEZE;
+            currentState = Entity.State.USE_RUDIMENT;
+            rudimentSystem.getUniqueRudiment().activateRudiment(this);
+            rudimentCharge-=1;
+
+            PlayerHUD.toastShort("Use Rudiment", Toast.Length.SHORT);
+
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    Rumble.rumble(15f, 0.1f, -1, Rumble.State.SWORD);
+                }}, 0.5f);
+
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    currentEntityPosition.x += 64;
+                    currentEntityPosition.y += 64;
+                    state = State.NORMAL;
+                }}, 1.1f);
+        }
+    }
+
+    private void updateMeleeAttack() {
+        if (isLeftButtonPressed && weaponSystem.meleeIsActive()) {
+            isLeftButtonPressed = false;
+
+            currentTime = System.currentTimeMillis();
+            if ((currentTime - timeSinceLastAttack) < comboTimer) {
+                if (attackId == 1)
+                    attackId = 0;
+                else {
+                    attackId++;
+                }
+            } else {
+                attackId = 0;
+            }
+            System.out.println("LMB: Attack " + attackId);
+            timeSinceLastAttack = System.currentTimeMillis();
+
+            atkTime = 0f;
+            currentState = Entity.State.MELEE_ATTACK;
+            getMouseDirection();
+            meleeAttackMove();
+
+            if (attackId == 0) {
+                frameAttack = 0.55f;
+            } else {
+                frameAttack = 0.65f;
+            }
+
+            animationExecution(frameAttack); //0.44
+
+            updateSwordRangeBox(64, 64);
+        } else {
+            isLeftButtonPressed = false;
+        }
+    }
+
+    private void updateRangedAttack() {
+        //RANGED ATTACK
+        if(Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive() && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() != 0) {
+            currentState = Entity.State.RANGED_ATTACK;
+            isGunActive = isGunActive2 = true;
+            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() - 1 + ":::" + weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
+            animationExecution(weaponSystem.getRangedWeapon().getAttackTime());
+        }
+
+        //RELOAD WEAPON
+        if(Gdx.input.isKeyJustPressed(Input.Keys.R) && weaponSystem.rangedIsActive()) {
             state = State.FREEZE;
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
+                    weaponSystem.reloadWeapon();
+                    reloaded = true;
                     state = State.NORMAL;
-                }
-            }, 0.8f);
-    }
+                }}, 0.5f);
+        }
 
-    private void endlessCourageSkill(){
-        if(this.getPlayerSkills().contains(21,true)){
-            int percentOfHealthLost = 100-(this.getHealth()/(this.getMaxHealth()/100));
-            this.setDamageBoost(percentOfHealthLost/3);
+        if (Gdx.input.isButtonPressed(Input.Buttons.RIGHT) && weaponSystem.rangedIsActive() && weaponSystem.getRangedWeapon().getAmmoCountInMagazine() == 0) {
+            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() + ":::" + weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
+        }
+        if (reloaded) {
+            reloaded = false;
+            notify(json.toJson(weaponSystem.getRangedWeapon().getAmmoCountInMagazine() + ":::" + weaponSystem.getAmmoCountFromBag()), ComponentObserver.ComponentEvent.PLAYER_SHOT);
         }
     }
 
-    private void equipExoskeleton(EntityConfig exoskeletonConfig){
-        walkVelocity.set(exoskeletonConfig.getWalkVelocity());
-        walkVelocityD.set(exoskeletonConfig.getWalkVelocityD());
-        runVelocity.set(exoskeletonConfig.getRunVelocity());
-        runVelocityD.set(exoskeletonConfig.getRunVelocityD());
-    }
-
-    private void unEquipExoskeleton(EntityConfig playerConfig) {
-        walkVelocity.set(playerConfig.getWalkVelocity());
-        walkVelocityD.set(playerConfig.getWalkVelocityD());
-        runVelocity.set(playerConfig.getRunVelocity());
-        runVelocityD.set(playerConfig.getRunVelocityD());
-    }
-
-    public Array<Entity> checkForNearbyEnemies(){
-        tempEntities.clear();
-        tempEntities.addAll(mapManager.getCurrentMapEntities());
-        tempEntities.addAll(mapManager.getCurrentMapQuestEntities());
-        Array<Entity> nearbyEnemies = new Array<>();
-        for( Entity mapEntity : tempEntities ) {
-            Rectangle entitySomeBox = mapEntity.getActiveZoneBox();
-            if (boundingBox.overlaps(entitySomeBox)) {
-                nearbyEnemies.add(mapEntity);
-            }
-        }
-        return nearbyEnemies;
-    }
-
-    private void checkForExecutableEnemies(){
-        Array<Entity> nearbyEnemies = checkForNearbyEnemies();
-
-        for( Entity mapEntity : nearbyEnemies ) {
-            if(mapEntity.isLowHP() && mapEntity.isExecutable()){
-                if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
-                    enemyExecutionAnimation();
-                    mapEntity.executeEnemy();
-                    if(this.getPlayerSkills().contains(27,true)) {
-                        startExecutionTimer = true;
-                        executionScore += 1;
-                    }
-                }
-            }
-
-        }
-    }
-
-    private void updateCollisionWithPortalLayer(Entity entity, MapManager mapMgr){
+    private void updateCollisionWithPortalLayer(MapManager mapMgr){
         MapLayer portalLayer = mapMgr.getPortalLayer();
 
         if( portalLayer == null ){
@@ -662,8 +564,58 @@ public class Player extends Component {
         }
     }
 
+    private void updateExecutableEnemies(){
+        Array<Entity> nearbyEnemies = checkForNearbyEnemies();
 
+        for( Entity mapEntity : nearbyEnemies ) {
+            if(mapEntity.isLowHP() && mapEntity.isExecutable()){
+                if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
+                    animationExecution(0.8f);
+                    mapEntity.executeEnemy();
+                    if(this.getPlayerSkills().contains(27,true)) {
+                        startExecutionTimer = true;
+                        executionScore += 1;
+                    }
+                }
+            }
 
+        }
+    }
+
+    private void endlessCourageSkill(){
+        if(this.getPlayerSkills().contains(21,true)){
+            int percentOfHealthLost = 100 - (this.getHealth() / (this.getMaxHealth() / 100));
+            this.setDamageBoost(percentOfHealthLost / 3);
+        }
+    }
+
+    public Array<Entity> checkForNearbyEnemies(){
+        tempEntities.clear();
+        tempEntities.addAll(mapManager.getCurrentMapEntities());
+        tempEntities.addAll(mapManager.getCurrentMapQuestEntities());
+        Array<Entity> nearbyEnemies = new Array<>();
+        for( Entity mapEntity : tempEntities ) {
+            Rectangle entitySomeBox = mapEntity.getActiveZoneBox();
+            if (boundingBox.overlaps(entitySomeBox)) {
+                nearbyEnemies.add(mapEntity);
+            }
+        }
+        return nearbyEnemies;
+    }
+
+    private void equipExoskeleton(EntityConfig exoskeletonConfig){
+        walkVelocity.set(exoskeletonConfig.getWalkVelocity());
+        walkVelocityD.set(exoskeletonConfig.getWalkVelocityD());
+        runVelocity.set(exoskeletonConfig.getRunVelocity());
+        runVelocityD.set(exoskeletonConfig.getRunVelocityD());
+    }
+
+    private void unEquipExoskeleton(EntityConfig playerConfig) {
+        walkVelocity.set(playerConfig.getWalkVelocity());
+        walkVelocityD.set(playerConfig.getWalkVelocityD());
+        runVelocity.set(playerConfig.getRunVelocity());
+        runVelocityD.set(playerConfig.getRunVelocityD());
+    }
 
     @Override
     public void draw(Batch batch, float delta) {
@@ -714,14 +666,16 @@ public class Player extends Component {
         endlessCourageSkill();
     }
 
-
-
-
     @Override
     public void restoreHealth(int heal){
         super.restoreHealth(heal);
         endlessCourageSkill();
     }
+
+
+
+
+
 
     @Override
     public boolean keyDown(int keycode) {

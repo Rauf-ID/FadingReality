@@ -91,7 +91,7 @@
 //    protected boolean pdaActive=false;
 //    protected boolean pdaDeffault=true;
 //
-//    protected ArrayList<Vector3> dashShadow = new ArrayList<>();
+//    protected ArrayList<Vector3> updateDashShadow = new ArrayList<>();
 //    protected boolean dashing = false;
 //    protected float dashTime = 0;
 //    protected int anInt1 = 1;

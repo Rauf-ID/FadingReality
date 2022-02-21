@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.Timer;
 import com.mygdx.game.FadingReality;
 import com.mygdx.game.entity.Entity;
 import com.mygdx.game.entity.EntityFactory;
@@ -1008,6 +1009,17 @@ public abstract class Component extends ComponentSubject implements Message, Inp
             }
         }
     }
+
+    protected void animationExecution(float delaySeconds) {
+        state = State.FREEZE;
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                state = State.NORMAL;
+            }
+        }, delaySeconds);
+    }
+
 
     public void debug(boolean activeGrid, boolean activePath, boolean activeAmmoDebug,
                       boolean activeTopBoundingBox, boolean activeBottomBoundingBox, boolean activeLeftBoundingBox, boolean activeRightBoundingBox,

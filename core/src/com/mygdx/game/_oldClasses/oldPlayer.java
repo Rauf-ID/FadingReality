@@ -186,7 +186,7 @@
 //        //DASH
 //        if(dashing) {
 //            if(Gdx.graphics.getFrameId() % (int) ((Gdx.graphics.getFramesPerSecond()*.02f)+1) == 0) {  //def .05f
-//                dashShadow.add(new Vector3(currentEntityPosition.x, currentEntityPosition.y, 1));
+//                updateDashShadow.add(new Vector3(currentEntityPosition.x, currentEntityPosition.y, 1));
 //                anInt1++;
 //            }
 //            dashTime += delta;
@@ -206,15 +206,15 @@
 //        batch.begin();
 //
 //        //DASH
-//        for(Vector3 shadow : dashShadow) {
+//        for(Vector3 shadow : updateDashShadow) {
 //            batch.setColor(0.05f,0.7f, 0.8f, shadow.z);
 //            batch.draw(currentFrame, shadow.x, shadow.y);
 //            shadow.z -= Gdx.graphics.getDeltaTime()*6;  //def *2
 //        }
 //        batch.setColor(Color.WHITE);
-//        for(int i = 0; i < dashShadow.size(); i++) {
-//            if(dashShadow.get(i).z <= 0) {
-//                dashShadow.remove(i);
+//        for(int i = 0; i < updateDashShadow.size(); i++) {
+//            if(updateDashShadow.get(i).z <= 0) {
+//                updateDashShadow.remove(i);
 //            }
 //        }
 //
