@@ -134,7 +134,7 @@ public class NPC extends Component {
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) debugActive = !debugActive;
         if (debugActive) debug(false,false,false,
                 false,false,false, false,
-                false,true,true,true,false, false);
+                false,false,true,true,false, false);
 
         batch.begin();
         drawDialogueImg(batch, delta);

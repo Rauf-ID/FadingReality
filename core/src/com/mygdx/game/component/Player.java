@@ -227,15 +227,20 @@ public class Player extends Component {
                 updateCurrentCollision(mapManager);
                 updateCollisionWithPortalLayer(mapManager);
 //                updateCollisionWithMapEntities(entity, mapManager);
-                break;
-            case DEATH:
-                currentState = Entity.State.IDLE;
+
+//                if (pdaActive || inventoryActive) {
+//                    state = State.FREEZE;
+//                }
                 break;
             case FREEZE:
+                updateOtherInputs(entity, delta);
                 if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
                     stateTime = 0f;
                     state = State.NORMAL;
                 }
+                break;
+            case DEATH:
+                currentState = Entity.State.IDLE;
                 break;
         }
 
@@ -261,21 +266,56 @@ public class Player extends Component {
     }
 
     private void updateOtherInputs(Entity entity, float delta) {
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
             Gdx.app.exit();
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            if (pdaActive) {
+                pdaActive = false;
+                state = State.NORMAL;
+                currentState = Entity.State.IDLE;
+                notify("", ComponentObserver.ComponentEvent.CLOSE_PDA);
+            }
+            if (inventoryActive) {
+                inventoryActive = false;
+                state = State.NORMAL;
+                currentState = Entity.State.IDLE;
+                notify("", ComponentObserver.ComponentEvent.CLOSE_INVENTORY);
+            }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB) && !inventoryActive) {
+            PlayerHUD.toastShort("Pressed TAB", Toast.Length.SHORT);
+            pdaActive = !pdaActive;
+            if (pdaActive) {
+                notify("", ComponentObserver.ComponentEvent.OPEN_PDA);
+                state = State.FREEZE;
+            } else {
+                notify("", ComponentObserver.ComponentEvent.CLOSE_PDA);
+                state = State.NORMAL;
+            }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Z) && !pdaActive) {
+            PlayerHUD.toastShort("Pressed Z", Toast.Length.SHORT);
+            inventoryActive = !inventoryActive;
+            if (inventoryActive) {
+                notify("", ComponentObserver.ComponentEvent.OPEN_INVENTORY);
+                state = State.FREEZE;
+            } else {
+                notify("", ComponentObserver.ComponentEvent.CLOSE_INVENTORY);
+                state = State.NORMAL;
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
             PlayerHUD.toastShort("Pressed T", Toast.Length.SHORT);
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-            PlayerHUD.toastShort("Pressed TAB", Toast.Length.SHORT);
-            pdaActive = !pdaActive;
-        }
-
         //EXO OFF
-        if(Gdx.input.isKeyPressed(Input.Keys.E) && exoskeletonName != null){
+        if(Gdx.input.isKeyPressed(Input.Keys.E) && exoskeletonName != EntityFactory.EntityName.NONE){
             timer += delta;
             if(timer >= 2){
                 entity.sendMessage(MESSAGE.INIT_CONFIG, json.toJson(entity.getEntityConfig()));
@@ -287,23 +327,40 @@ public class Player extends Component {
     }
 
     private void updateCamera() {
+        Vector2 screenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+        Vector2 normalizedScreen = new Vector2(screenPos.x / Gdx.graphics.getWidth(), screenPos.y / Gdx.graphics.getHeight());
+        float offset = 150;
         if (Rumble.getRumbleTimeLeft() > 0){
             Rumble.tick(Gdx.graphics.getDeltaTime());
             camera.translate(Rumble.getPos());
         } else if (pdaActive) {
-        } else {
-            Vector2 screenPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-            Vector2 normalizedScreen = new Vector2(screenPos.x / Gdx.graphics.getWidth(), screenPos.y / Gdx.graphics.getHeight());
+            if (camera.zoom > 0.25f){
+                camera.zoom -= 0.01f;
+            }
+            normalizedScreen.set(0.8f, 0.5f);
             normalizedScreen.sub(.5f, .5f);
-            float offset = 150;
-            Vector3 cameraMoved = new Vector3(Math.round(currentEntityPosition.x) + normalizedScreen.x * offset+64, Math.round(currentEntityPosition.y) - normalizedScreen.y * offset+64,0);
+            Vector3 cameraMoved = new Vector3(Math.round(currentEntityPosition.x) + normalizedScreen.x * offset + 64, Math.round(currentEntityPosition.y) - normalizedScreen.y * offset + 64,0);
+            camera.position.lerp(cameraMoved, 0.1f);
+        } else if (inventoryActive) {
+        } else {
+            normalizedScreen.sub(.5f, .5f);
+            Vector3 cameraMoved = new Vector3(Math.round(currentEntityPosition.x) + normalizedScreen.x * offset + 64, Math.round(currentEntityPosition.y) - normalizedScreen.y * offset + 64,0);
             if(currentState == Entity.State.USE_RUDIMENT ) {
-                cameraMoved.set(currentEntityPosition.x + normalizedScreen.x * offset+128, currentEntityPosition.y - normalizedScreen.y * offset+128,0);
+                cameraMoved.set(currentEntityPosition.x + normalizedScreen.x * offset + 128, currentEntityPosition.y - normalizedScreen.y * offset + 128,0);
             }
             camera.position.lerp(cameraMoved, 0.1f); //0.05f //delta
 //            camera.position.set(cameraMoved);
 //            camera.position.set(currentEntityPosition.x+64, currentEntityPosition.y+64, 0f);
         }
+
+        //PDA SWITCH
+        if (!pdaActive) {
+            if (camera.zoom < 0.5f){
+                camera.zoom += 0.01f;
+            }
+        }
+
+
         camera.update();
     }
 
@@ -488,8 +545,8 @@ public class Player extends Component {
             } else {
                 attackId = 0;
             }
-            System.out.println("LMB: Attack " + attackId);
             timeSinceLastAttack = System.currentTimeMillis();
+            System.out.println("LMB: Attack " + attackId);
 
             atkTime = 0f;
             currentState = Entity.State.MELEE_ATTACK;
@@ -503,10 +560,7 @@ public class Player extends Component {
             }
 
             animationExecution(frameAttack); //0.44
-
             updateSwordRangeBox(64, 64);
-        } else {
-            isLeftButtonPressed = false;
         }
     }
 
@@ -622,7 +676,7 @@ public class Player extends Component {
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) debugActive = !debugActive;
         if (debugActive) debug(false,false,true,
                 true,true,true, true,
-                true,true,true,false,false, false);
+                true,false,true,false,false, false);
 
         batch.begin();
         //DASH
@@ -705,11 +759,10 @@ public class Player extends Component {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        isLeftButtonPressed = true;
+
         if (button == Input.Buttons.LEFT) {
-            isLeftButtonPressed = true;
-
             if(weaponSystem.meleeIsActive()) {
-
             } else {
                 PlayerHUD.toastShort("Melee Weapon is not Active", Toast.Length.LONG);
             }

@@ -146,10 +146,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected long timeSinceLastAttack = 0;
     protected float frameAttack = 0f;
 
-    protected float ggov = 0.2f;
-    protected float speedCamMove = 15f;
     protected boolean pdaActive = false;
-    protected boolean pdaDeffault = true;
+    protected boolean inventoryActive = false;
 
     protected boolean dashing = false;
     protected float dashTime = 0;

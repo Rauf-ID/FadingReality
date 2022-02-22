@@ -89,10 +89,6 @@ public class GameScreen implements Screen {
             mapRenderer = new OrthogonalTiledMapRendererWithSprites(mapMgr.getCurrentTiledMap(), Map.UNIT_SCALE);
         }
 
-        //CREATE QuestMANAGER
-//            questManager = new QuestManager();
-//            questManager.loadQuest("quest1");
-
         //CREATE ShaderVFXMANAGER
         shaderVFXManager = new ShaderVFXManager();
 
@@ -274,7 +270,7 @@ public class GameScreen implements Screen {
             case PAUSED:
                 if( gameState == GameState.PAUSED ){
                     gameState = GameState.RUNNING;
-                }else if( gameState == GameState.RUNNING ){
+                } else if( gameState == GameState.RUNNING ){
                     gameState = GameState.PAUSED;
                 }
                 break;

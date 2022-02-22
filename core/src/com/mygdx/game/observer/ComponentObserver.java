@@ -14,6 +14,10 @@ public interface ComponentObserver {
         PLAYER_DASH,
         PLAYER_DASH_UPDATE,
         RANGE_WEAPON_UPDATE,
+        OPEN_PDA,
+        CLOSE_PDA,
+        OPEN_INVENTORY,
+        CLOSE_INVENTORY,
         TEST_EVENT,
     }
 

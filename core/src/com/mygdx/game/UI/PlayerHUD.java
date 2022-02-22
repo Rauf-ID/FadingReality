@@ -74,13 +74,11 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
     private static Toast.ToastFactory toastFactory;
 
     public PlayerHUD(GameScreen gameScreen, Entity player, MapManager _mapMgr) {
-        this.player = player;
-        mapMgr = _mapMgr;
-        this.gameScreen = gameScreen;
-
-        toastFactory = new Toast.ToastFactory.Builder().font(FadingReality.font).build();
-
         json = new Json();
+        mapMgr = _mapMgr;
+        this.player = player;
+        this.gameScreen = gameScreen;
+        toastFactory = new Toast.ToastFactory.Builder().font(FadingReality.font).build();
 
         healthBar = new ProgressBarNew(180, 20, 0f,1f, 0.01f, false);
         healthBar.setPosition(Gdx.graphics.getWidth()- 200, Gdx.graphics.getHeight() - 50);
@@ -105,7 +103,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
         inventoryUI.setMovable(true);
         inventoryUI.setVisible(false);
         inventoryUI.setSize(1100,600);
-        inventoryUI.setPosition(0, 100);
+        inventoryUI.setPosition(25, 110);
 
         conversationUI = new ConversationUI(FadingReality.getUiSkin());
         conversationUI.setSize(500,300);
@@ -379,6 +377,18 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             case PLAYER_DASH_UPDATE:
                 progressBar.plusValue(0.25f);
                 break;
+            case OPEN_PDA:
+                pdaUI.setVisible(true);
+                break;
+            case CLOSE_PDA:
+                pdaUI.setVisible(false);
+                break;
+            case OPEN_INVENTORY:
+                inventoryUI.setVisible(true);
+                break;
+            case CLOSE_INVENTORY:
+                inventoryUI.setVisible(false);
+                break;
             case TEST_EVENT:
 //                System.out.println(mapMgr.getCurrentMapEntity().getEntityConfig().getEntityID());
 //                mapMgr.clearCurrentMapEntity();
@@ -506,14 +516,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
 
     public void update() {
         if (!browserUI.isVisible()) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-                pdaUI.setVisible(!pdaUI.isVisible());
-            }
-
-            if(Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
-                inventoryUI.setVisible(!inventoryUI.isVisible());
-            }
-
             if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
                 questUI.setVisible(!questUI.isVisible());
             }
@@ -521,11 +523,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
             if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
                 skillUI.setVisible(!skillUI.isVisible());
             }
-        }
-
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            browserUI.setVisible(false);
-            pdaUI.setVisible(true);
         }
     }
 
