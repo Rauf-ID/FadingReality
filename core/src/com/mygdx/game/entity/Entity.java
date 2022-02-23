@@ -3,6 +3,7 @@ package com.mygdx.game.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -169,12 +170,12 @@ public class Entity implements Comparable<Entity> {
         return component.weaponSystem.getRangedWeapon();
     }
 
-    public WeaponSystem getWeaponSystem() {
-        return component.weaponSystem;
+    public Weapon getMeleeWeapon() {
+        return component.weaponSystem.getMeleeWeapon();
     }
 
-    public Rectangle getCurrentSwordRangeBox() {
-        return component.swordRangeBox;
+    public WeaponSystem getWeaponSystem() {
+        return component.weaponSystem;
     }
 
     public Vector2 getCurrentPosition() {
@@ -247,6 +248,10 @@ public class Entity implements Comparable<Entity> {
 
     public int getRangedDamageBoost() {
         return component.getRangedDamageBoost();
+    }
+
+    public Polygon getSwordPolygon() {
+        return component.swordPolygon;
     }
 
     public void setRangedDamageBoost(int rangedDamageBoost) {

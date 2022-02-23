@@ -110,7 +110,7 @@
 //        //INPUT
 //        activeGotHit(delta);
 //        activeSwordAttackMoveForEnemy(delta);
-//        setSwordRangeBox(new Vector2(10000,10000),0,0);
+//        initSwordRangeBox(new Vector2(10000,10000),0,0);
 //
 //
 //        Rectangle playerBoundingBox = mapManager.getPlayer().getVectorBoundingBox();

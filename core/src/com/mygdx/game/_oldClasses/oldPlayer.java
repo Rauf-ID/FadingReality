@@ -101,7 +101,7 @@
 //        activeDash(delta);
 //        activeSwordAttackMove(delta);
 //        activeGotHit(delta);
-//        setSwordRangeBox(new Vector2(10000,10000), 0,0);
+//        initSwordRangeBox(new Vector2(10000,10000), 0,0);
 //
 //        tempEntities.clear();
 //        tempEntities.addAll(mapManager.getCurrentMapEntities());
@@ -152,50 +152,8 @@
 //        }
 //        camera.updateForPlayer();
 //
-//        //PDA SWITCH
-//        if (pdaActive) {
-//            if (camera.zoom  > ggov){
-//                camera.zoom -= delta * speedCamMove * 0.03f;
-//                camera.translate(1,1);
-//            }
-//        }
-//
-////        if (!pdaActive) {
-////            if (camera.zoom  <= 0.39f){
-////                camera.zoom += delta * speedCamMove * 0.03f;
-////            }
-////        }
-//
-//
-//        if (currentState == Entity.State.RUN){
-//        } else if(currentState == Entity.State.MELEE_ATTACK ) {
-//        } else if(currentState == Entity.State.USE_RUDIMENT ) {
-//        } else{
-//        }
-//
-//        updateBoundingBoxPosition(64,64);
-//        updateEntityRangeBox(64,64);
-//
-//        //GUN ACTIVE
-//        if(boolGunActive) {
-//            getMouseDirectionForGun();
-//        }
 //
 ////        updateSwordRangeBox(64,64);
-//
-//        //DASH
-//        if(dashing) {
-//            if(Gdx.graphics.getFrameId() % (int) ((Gdx.graphics.getFramesPerSecond()*.02f)+1) == 0) {  //def .05f
-//                updateDashShadow.add(new Vector3(currentEntityPosition.x, currentEntityPosition.y, 1));
-//                anInt1++;
-//            }
-//            dashTime += delta;
-//        }
-//        if(dashTime > 0.2f) {  //def .02f
-//            dashTime = 0;
-//            dashing = false;
-//            anInt1 = 1;
-//        }
 //
 //        //GRAPHICS
 //        updateAnimations(delta);
@@ -229,135 +187,6 @@
 //        switch (state) {
 //            case NORMAL:
 //                if (true) {
-//                    if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
-//                        Gdx.app.exit();
-//                    } else if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
-//                        PlayerHUD.toastShort("Pressed T", Toast.Length.SHORT);
-//                        entity.sendMessage(MESSAGE.INTERACTION_WITH_ENTITY);
-//                    }
-//
-//                    if (!PlayerHUD.browserUI.isVisible()) {
-//                        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-//                            PlayerHUD.toastShort("Pressed TAB", Toast.Length.SHORT);
-//                            pdaActive = !pdaActive;
-//                        }
-//                    }
-//
-//                    if (!PlayerHUD.pdaUI.isVisible() && !PlayerHUD.browserUI.isVisible()) {
-//
-//                        if (Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
-//                            currentState = Entity.State.RUN;
-//                            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-//                                currentDirection = Entity.Direction.RIGHT;
-//                                currentEntityPosition.y += runVelocityD.y;
-//                                currentEntityPosition.x += runVelocityD.x;
-//                            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-//                                currentDirection = Entity.Direction.LEFT;
-//                                currentEntityPosition.y += runVelocityD.y;
-//                                currentEntityPosition.x -= runVelocityD.x;
-//                            } else {
-//                                currentDirection = Entity.Direction.UP;
-//                                currentEntityPosition.y += runVelocity.y;
-//                            }
-//                        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
-//                            currentState = Entity.State.RUN;
-//                            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-//                                currentDirection = Entity.Direction.RIGHT;
-//                                currentEntityPosition.y -= runVelocityD.y;
-//                                currentEntityPosition.x += runVelocityD.x;
-//                            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-//                                currentDirection = Entity.Direction.LEFT;
-//                                currentEntityPosition.y -= runVelocityD.y;
-//                                currentEntityPosition.x -= runVelocityD.x;
-//                            } else {
-//                                currentDirection = Entity.Direction.DOWN;
-//                                currentEntityPosition.y -= runVelocity.y;
-//                            }
-//                        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
-//                            currentState = Entity.State.RUN;
-//                            currentDirection = Entity.Direction.LEFT;
-//                            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-//                                currentEntityPosition.x -= runVelocityD.x;
-//                                currentEntityPosition.y += runVelocityD.y;
-//                            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-//                                currentEntityPosition.x -= runVelocityD.x;
-//                                currentEntityPosition.y -= runVelocityD.y;
-//                            } else {
-//                                currentEntityPosition.x -= runVelocity.x;
-//                            }
-//                        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT))) {
-//                            currentState = Entity.State.RUN;
-//                            currentDirection = Entity.Direction.RIGHT;
-//                            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-//                                currentEntityPosition.x += runVelocityD.x;
-//                                currentEntityPosition.y += runVelocityD.y;
-//                            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-//                                currentEntityPosition.x += runVelocityD.x;
-//                                currentEntityPosition.y -= runVelocityD.y;
-//                            } else {
-//                                currentEntityPosition.x += runVelocity.x;
-//                            }
-//
-//                        } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-//                            currentState = Entity.State.WALK;
-//                            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-//                                currentDirection = Entity.Direction.RIGHT;
-//                                currentEntityPosition.y += walkVelocityD.y;
-//                                currentEntityPosition.x += walkVelocityD.x;
-//                            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-//                                currentDirection = Entity.Direction.LEFT;
-//                                currentEntityPosition.y += walkVelocityD.y;
-//                                currentEntityPosition.x -= walkVelocityD.x;
-//                            } else {
-//                                currentDirection = Entity.Direction.UP;
-//                                currentEntityPosition.y += walkVelocity.y;
-//                            }
-//                        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-//                            currentState = Entity.State.WALK;
-//                            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-//                                currentDirection = Entity.Direction.RIGHT;
-//                                currentEntityPosition.y -= walkVelocityD.y;
-//                                currentEntityPosition.x += walkVelocityD.x;
-//                            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-//                                currentDirection = Entity.Direction.LEFT;
-//                                currentEntityPosition.y -= walkVelocityD.y;
-//                                currentEntityPosition.x -= walkVelocityD.x;
-//                            } else {
-//                                currentDirection = Entity.Direction.DOWN;
-//                                currentEntityPosition.y -= walkVelocity.y;
-//                            }
-//                        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-//                            currentState = Entity.State.WALK;
-//                            currentDirection = Entity.Direction.LEFT;
-//                            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-//                                currentEntityPosition.x -= walkVelocityD.x;
-//                                currentEntityPosition.y += walkVelocityD.y;
-//                            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-//                                currentEntityPosition.x -= walkVelocityD.x;
-//                                currentEntityPosition.y -= walkVelocityD.y;
-//                            } else {
-//                                currentEntityPosition.x -= walkVelocity.x;
-//                            }
-//                        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-//                            currentState = Entity.State.WALK;
-//                            currentDirection = Entity.Direction.RIGHT;
-//                            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-//                                currentEntityPosition.x += walkVelocityD.x;
-//                                currentEntityPosition.y += walkVelocityD.y;
-//                            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-//                                currentEntityPosition.x += walkVelocityD.x;
-//                                currentEntityPosition.y -= walkVelocityD.y;
-//                            } else {
-//                                currentEntityPosition.x += walkVelocity.x;
-//                            }
-//                        } else if (Gdx.input.isKeyPressed(Input.Keys.C)) {
-//                            camera.zoom -= 0.0005;
-//                        } else {
-//                            currentState = Entity.State.IDLE;
-//                            boolPissPiss = false;
-//                            boolGunActive = false;
-//                        }
-//
 //                        if (Gdx.input.isKeyJustPressed(Input.Keys.COMMA)) {
 //                            stateTime = 0f;
 //                            state = State.FREEZ;
@@ -485,19 +314,7 @@
 //                                }}, 0.35f);
 //                        }
 //                    }
-//                } else {
-//                    stateTime = 0f;
-//                    state = State.DEATH;
-//                    currentState = Entity.State.DEATH;
 //                }
-//                break;
-//            case FREEZ:
-//                if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
-//                    stateTime = 0f;
-//                    state = State.NORMAL;
-//                }
-//                break;
-//            case DEATH:
 //                break;
 //        }
 //    }

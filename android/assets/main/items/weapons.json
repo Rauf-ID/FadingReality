@@ -4,9 +4,9 @@
 	isRangedWeapon: false,
 	knockback: 100,
 	hitRange: 100,
-	minDamage: 10,
-	maxDamage: 20,
-	critChance: 100,
+	minDamage: 1,
+	maxDamage: 7,
+	critChance: 10,
 	attackTime: 100,
 }
 {

@@ -2,6 +2,7 @@ package com.mygdx.game.component;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -39,7 +40,7 @@ import com.mygdx.game.world.MapManager;
 
 import java.util.HashMap;
 
-public class Player extends Component {
+public class Player extends Component implements InputProcessor {
 
     private boolean isLeftButtonPressed = false;
     private boolean isRightButtonPressed = false;
@@ -104,6 +105,7 @@ public class Player extends Component {
                 initImageBox(entityConfig.getImageBox());
                 initBoundingBox(entityConfig.getBoundingBox());
                 initBorderBoundingBox(entityConfig.getBoundingBox());
+                initSwordRangeBox(new Vector2(50, 10));
 //                setDamageResist(entityConfig.getDamageResist());
                 unEquipExoskeleton(entityConfig);
             } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
@@ -158,7 +160,7 @@ public class Player extends Component {
                     Entity.AnimationType animationType = animationConfig.getAnimationType();
                     Animation.PlayMode playMode = animationConfig.getPlayMode();
 
-                    Animation<Sprite> animation = null;
+                    Animation<Sprite> animation;
                     animation = loadAnimation(frameDuration, atlasType, animationType, playMode);
                     animations.put(animationType, animation);
                 }
@@ -178,10 +180,46 @@ public class Player extends Component {
         updateBoundingBox();
         updateBorderBoundingBox();
         updateShifts(mapManager, delta, 40);
-        setSwordRangeBox(new Vector2(10000,10000), 0,0);
         weaponSystem.updateForPlayer(delta, this);
-//        updateSwordRangeBox(64,64);
+        updateSomeConditions(delta);
+        updateCharges(delta);
 
+        switch (state) {
+            case NORMAL:
+                if (pdaActive || inventoryActive) {
+                    state = State.FREEZE;
+                }
+                updateExecutableEnemies();
+                updateAmmoHit(entity);
+                updateMovement();
+                updateDash();
+                updateRudiment();
+                updateMeleeAttack();
+                updateRangedAttack();
+                updateOtherInputs(entity, delta);
+                updateDashShadow(delta);
+                updateCurrentCollision(mapManager);
+                updateCollisionWithPortalLayer(mapManager);
+//                updateCollisionWithMapEntities(entity, mapManager);
+                break;
+            case FREEZE:
+                if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
+                    stateTime = 0f;
+                    state = State.NORMAL;
+                }
+                updateOtherInputs(entity, delta);
+                break;
+            case DEATH:
+                currentState = Entity.State.IDLE;
+                break;
+        }
+
+        updateSwordBox();
+        updateAnimations(delta);
+        mapManager.getCurrentMap().updateGridOjc();
+    }
+
+    private void updateSomeConditions(float delta) {
         if(isGunActive) {
             getMouseDirectionForGun();
         }
@@ -210,42 +248,6 @@ public class Player extends Component {
                 this.setDamageResist(0);
             }
         }
-
-        updateCharges(delta);
-
-        switch (state) {
-            case NORMAL:
-                updateExecutableEnemies();
-                updateAmmoHit(entity);
-                updateMovement();
-                updateDash();
-                updateRudiment();
-                updateMeleeAttack();
-                updateRangedAttack();
-                updateOtherInputs(entity, delta);
-                updateDashShadow(delta);
-                updateCurrentCollision(mapManager);
-                updateCollisionWithPortalLayer(mapManager);
-//                updateCollisionWithMapEntities(entity, mapManager);
-
-//                if (pdaActive || inventoryActive) {
-//                    state = State.FREEZE;
-//                }
-                break;
-            case FREEZE:
-                updateOtherInputs(entity, delta);
-                if (Gdx.input.isKeyJustPressed(Input.Keys.BACKSPACE)) {
-                    stateTime = 0f;
-                    state = State.NORMAL;
-                }
-                break;
-            case DEATH:
-                currentState = Entity.State.IDLE;
-                break;
-        }
-
-        updateAnimations(delta);
-        mapManager.getCurrentMap().updateGridOjc();
     }
 
     private void updateCharges(float delta) {
@@ -410,13 +412,13 @@ public class Player extends Component {
     }
 
     private void updateMovement() {
-        if (Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolTopBoundingBox) {
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolTopBoundingBox && !isGunActive) {
             currentState = Entity.State.RUN;
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolTopBoundingBox) {
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolTopBoundingBox && !isGunActive) {
                 currentDirection = Entity.Direction.RIGHT;
                 currentEntityPosition.y += runVelocityD.y;
                 currentEntityPosition.x += runVelocityD.x;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolTopBoundingBox) {
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolTopBoundingBox && !isGunActive) {
                 currentDirection = Entity.Direction.LEFT;
                 currentEntityPosition.y += runVelocityD.y;
                 currentEntityPosition.x -= runVelocityD.x;
@@ -424,13 +426,13 @@ public class Player extends Component {
                 currentDirection = Entity.Direction.UP;
                 currentEntityPosition.y += runVelocity.y;
             }
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolBottomBoundingBox) {
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolBottomBoundingBox && !isGunActive) {
             currentState = Entity.State.RUN;
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolBottomBoundingBox) {
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolBottomBoundingBox && !isGunActive) {
                 currentDirection = Entity.Direction.RIGHT;
                 currentEntityPosition.y -= runVelocityD.y;
                 currentEntityPosition.x += runVelocityD.x;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolBottomBoundingBox) {
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolBottomBoundingBox && !isGunActive) {
                 currentDirection = Entity.Direction.LEFT;
                 currentEntityPosition.y -= runVelocityD.y;
                 currentEntityPosition.x -= runVelocityD.x;
@@ -438,21 +440,21 @@ public class Player extends Component {
                 currentDirection = Entity.Direction.DOWN;
                 currentEntityPosition.y -= runVelocity.y;
             }
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolLeftBoundingBox) {
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolLeftBoundingBox && !isGunActive) {
             currentState = Entity.State.RUN;
             currentDirection = Entity.Direction.LEFT;
             currentEntityPosition.x -= runVelocity.x;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolRightBoundingBox) {
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) && !boolRightBoundingBox && !isGunActive) {
             currentState = Entity.State.RUN;
             currentDirection = Entity.Direction.RIGHT;
             currentEntityPosition.x += runVelocity.x;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.W) && !boolTopBoundingBox) {
+        } else if (Gdx.input.isKeyPressed(Input.Keys.W) && !boolTopBoundingBox && !isGunActive) {
             currentState = Entity.State.WALK;
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolTopBoundingBox) {
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolTopBoundingBox && !isGunActive) {
                 currentDirection = Entity.Direction.RIGHT;
                 currentEntityPosition.y += walkVelocityD.y;
                 currentEntityPosition.x += walkVelocityD.x;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolTopBoundingBox) {
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolTopBoundingBox && !isGunActive) {
                 currentDirection = Entity.Direction.LEFT;
                 currentEntityPosition.y += walkVelocityD.y;
                 currentEntityPosition.x -= walkVelocityD.x;
@@ -460,13 +462,13 @@ public class Player extends Component {
                 currentDirection = Entity.Direction.UP;
                 currentEntityPosition.y += walkVelocity.y;
             }
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && !boolBottomBoundingBox) {
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && !boolBottomBoundingBox && !isGunActive) {
             currentState = Entity.State.WALK;
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolBottomBoundingBox) {
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolBottomBoundingBox&& !isGunActive) {
                 currentDirection = Entity.Direction.RIGHT;
                 currentEntityPosition.y -= walkVelocityD.y;
                 currentEntityPosition.x += walkVelocityD.x;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolBottomBoundingBox) {
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolBottomBoundingBox && !isGunActive) {
                 currentDirection = Entity.Direction.LEFT;
                 currentEntityPosition.y -= walkVelocityD.y;
                 currentEntityPosition.x -= walkVelocityD.x;
@@ -474,11 +476,11 @@ public class Player extends Component {
                 currentDirection = Entity.Direction.DOWN;
                 currentEntityPosition.y -= walkVelocity.y;
             }
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolLeftBoundingBox) {
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && !boolLeftBoundingBox && !isGunActive) {
             currentState = Entity.State.WALK;
             currentDirection = Entity.Direction.LEFT;
             currentEntityPosition.x -= walkVelocity.x;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolRightBoundingBox) {
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && !boolRightBoundingBox && !isGunActive) {
             currentState = Entity.State.WALK;
             currentDirection = Entity.Direction.RIGHT;
             currentEntityPosition.x += walkVelocity.x;
@@ -531,6 +533,54 @@ public class Player extends Component {
         }
     }
 
+    private void updateSwordBox() {
+        if (swordActive) {
+            float angles;
+            switch (currentDirection) {
+                case UP:
+                    swordPolygon.setPosition(hitBox.x, hitBox.y + hitBox.height / 2 );
+                    angles = swordPolygon.getRotation();
+                    if (angles > -380) {
+                        swordPolygon.setRotation(angles - 6);
+                        if (angles < -270) {
+                            swordPolygon.setVertices(new float[] {0, 0, 55, 0, 55, 10, 0, 10});
+                        }
+                    }
+                    break;
+                case DOWN:
+                    swordPolygon.setPosition(hitBox.x, hitBox.y + hitBox.height / 2 );
+                    angles = swordPolygon.getRotation();
+                    if (angles > -130) {
+                        swordPolygon.setRotation(angles - 6);
+                        if (angles < -60) {
+                            swordPolygon.setVertices(new float[] {0, 0, 55, 0, 55, 10, 0, 10});
+                        }
+                    }
+                    break;
+                case LEFT:
+                    swordPolygon.setPosition(hitBox.x + hitBox.width, hitBox.y + hitBox.height / 2 + 10);
+                    angles = swordPolygon.getRotation();
+                    if (angles < -70) {
+                        swordPolygon.setRotation(angles + 6);
+                        if (angles > -130) {
+                            swordPolygon.setVertices(new float[] {0, 0, 35, 0, 35, 10, 0, 10});
+                        }
+                    }
+                    break;
+                case RIGHT:
+                    swordPolygon.setPosition(hitBox.x, hitBox.y + hitBox.height / 2 + 10);
+                    angles = swordPolygon.getRotation();
+                    if (angles > -100) {
+                        swordPolygon.setRotation(angles - 6);
+                        if (angles < -30) {
+                            swordPolygon.setVertices(new float[] {0, 0, 30, 0, 30, 10, 0, 10});
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
     private void updateMeleeAttack() {
         if (isLeftButtonPressed && weaponSystem.meleeIsActive()) {
             isLeftButtonPressed = false;
@@ -546,7 +596,7 @@ public class Player extends Component {
                 attackId = 0;
             }
             timeSinceLastAttack = System.currentTimeMillis();
-            System.out.println("LMB: Attack " + attackId);
+//            System.out.println("LMB: Attack " + attackId);
 
             atkTime = 0f;
             currentState = Entity.State.MELEE_ATTACK;
@@ -559,9 +609,48 @@ public class Player extends Component {
                 frameAttack = 0.65f;
             }
 
-            animationExecution(frameAttack); //0.44
-            updateSwordRangeBox(64, 64);
+            switch (currentDirection) {
+                case UP:
+                    if (attackId == 0) {
+                        swordActive = true;
+                        swordPolygon.setRotation(-230);
+                        swordPolygon.setVertices(new float[] {0, 0, 30, 0, 30, 10, 0, 10});
+                    }
+                    break;
+                case DOWN:
+                    if (attackId == 0) {
+                        swordActive = true;
+                        swordPolygon.setRotation(0);
+                        swordPolygon.setVertices(new float[] {0, 0, 30, 0, 30, 10, 0, 10});
+                    }
+                    break;
+                case LEFT:
+                    if (attackId == 0) {
+                        swordActive = true;
+                        swordPolygon.setRotation(-200);
+                        swordPolygon.setVertices(new float[] {0, 0, 60, 0, 60, 10, 0, 10});
+                    }
+                    break;
+                case RIGHT:
+                    if (attackId == 0) {
+                        swordActive = true;
+                        swordPolygon.setRotation(30);
+                        swordPolygon.setVertices(new float[] {0, 0, 55, 0, 55, 10, 0, 10});
+                    }
+                    break;
+            }
+
+            state = State.FREEZE;
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    state = State.NORMAL;
+                    swordActive = false;
+                    swordPolygon.setVertices(new float[] {0, 0, 0, 0, 0, 0, 0, 0});
+                }
+                }, frameAttack);
         }
+
     }
 
     private void updateRangedAttack() {
@@ -674,7 +763,7 @@ public class Player extends Component {
     @Override
     public void draw(Batch batch, float delta) {
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) debugActive = !debugActive;
-        if (debugActive) debug(false,false,true,
+        if (debugActive) debug(false,false,true, true,
                 true,true,true, true,
                 true,false,true,false,false, false);
 
@@ -759,9 +848,9 @@ public class Player extends Component {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        isLeftButtonPressed = true;
+        if (button == Input.Buttons.LEFT && weaponSystem.meleeIsActive() && !pdaActive && !inventoryActive) {
+            isLeftButtonPressed = true;
 
-        if (button == Input.Buttons.LEFT) {
             if(weaponSystem.meleeIsActive()) {
             } else {
                 PlayerHUD.toastShort("Melee Weapon is not Active", Toast.Length.LONG);

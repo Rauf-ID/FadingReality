@@ -45,26 +45,25 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         DEATH,
     }
 
-    protected State state;
+    protected MapManager mapManager;
+    protected OrthographicCamera camera;
 
+    public State state;
     public Entity.State currentState;
     public Entity.Direction currentDirection;
     private Entity.MouseDirection mouseDirection;
 
-    protected OrthographicCamera camera;
-    protected MapManager mapManager;
+    public boolean reloaded = false;
+    public ArrayList<Ammo> activeAmmo;
 
-    protected ControlManager controlManager;
     public WeaponSystem weaponSystem;
     public RudimentSystem rudimentSystem;
-    public boolean reloaded = false;
+    protected ControlManager controlManager;
+
+    protected Array<Entity> tempEntities;
     protected PathFinder pathFinder;
     protected Node startNode;
     protected Node endNode;
-
-    protected Array<Entity> tempEntities;
-
-    protected EntityFactory.EntityName exoskeletonName = EntityFactory.EntityName.NONE;
 
     protected String entityName = "";
     public Vector2 currentEntityPosition;
@@ -86,6 +85,9 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public Rectangle leftBoundingBox;
     public Rectangle rightBoundingBox;
 
+    public Polygon swordPolygon;
+    public boolean swordActive = false;
+
     public boolean boolTopBoundingBox = false;
     public boolean boolBottomBoundingBox = false;
     public boolean boolLeftBoundingBox = false;
@@ -94,28 +96,25 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public String currentIdCollision = "";
 
     private int health;
+    private int dashDist;
     private int maxHealth;
     public int experience;
-    private int damageResist;
+    private int dashSpeed;
     public int dashCharge;
+    private int healAmount;
+    private int critChance;
+    private int damageBoost;
+    private int weaponSpeed;
+    private int damageResist;
     public int maxDashCharges;
     public float rudimentCharge;
     private int meleeDamageBoost;
-    private int rangedDamageBoost;
     private int rudimentCooldown;
-    private int weaponSpeed;
-    private int critChance;
-    private int healAmount;
+    private int rangedDamageBoost;
     private int executionThreshold;
-    private int damageBoost;
-    private int dashSpeed;
-    private int dashDist;
     private boolean executable, lowHP;
     private Array<Integer> playerSkills, availableSkills;
-
-    public ArrayList<Ammo> activeAmmo;
-
-    public Rectangle swordRangeBox;
+    public EntityFactory.EntityName exoskeletonName = EntityFactory.EntityName.NONE;
 
     protected Hashtable<Entity.AnimationType, Animation<Sprite>> animations;
 
@@ -129,7 +128,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected Sprite currentFrame2 = null;
     protected ShapeRenderer shapeRenderer;
     protected ShapeRenderer shapeRenderer2;
-    protected boolean enemyActive = false;
     protected boolean debugActive = true;
 
     protected float angle;
@@ -161,11 +159,10 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         currentState = Entity.State.IDLE;
         currentDirection = Entity.Direction.RIGHT;
         mouseDirection = Entity.MouseDirection.RIGHT;
-
         mouseCoordinates = new Vector3();
 
         currentEntityPosition = new Vector2();
-        tempEntities = new Array<Entity>();
+        tempEntities = new Array<>();
         runVelocity = new Vector2();
         runVelocityD = new Vector2();
         walkVelocity = new  Vector2();
@@ -187,10 +184,9 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         leftBoundingBox = new Rectangle();
         rightBoundingBox = new Rectangle();
 
+        swordPolygon = new Polygon();
+
         activeAmmo = new ArrayList<>();
-
-        swordRangeBox = new Rectangle();
-
         animations = new Hashtable<>();
 
         controlManager = new ControlManager();
@@ -199,166 +195,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         pathFinder = new PathFinder();
     }
 
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public void reduceHealth(int damage) {
-        health -= damage*((100-this.getDamageResist())/100);
-        if(health<=maxHealth*20/100){
-            this.setLowHP(true);
-        }
-    }
-
-    public void restoreHealth(int heal) {
-        health += heal;
-    }
-
-    public int getDamageResist() {
-        return damageResist;
-    }
-
-    public void setDamageResist(int damageResist) {
-        this.damageResist = damageResist;
-    }
-
-    public EntityFactory.EntityName getExoskeletonName() {
-        return exoskeletonName;
-    }
-
-    public void setExoskeletonName(EntityFactory.EntityName exoskeletonName) {
-        this.exoskeletonName = exoskeletonName;
-    }
-
-    public void setDashCharge(int dashCharge){this.dashCharge=dashCharge;}
-
-    public int getDashCharge(){return this.dashCharge;}
-
-    public void setMaxDashCharges(int maxDashCharges){this.maxDashCharges=maxDashCharges;}
-
-    public int getMaxDashCharges(){return this.maxDashCharges;}
-
-    public void setRudimentCharge(float rudimentCharge){this.rudimentCharge=rudimentCharge;}
-
-    public float getRudimentCharge(){return this.rudimentCharge;}
-
-    public int getMaxHealth() {return maxHealth;}
-
-    public void setMaxHealth(int maxHealth) {this.maxHealth = maxHealth;}
-
-    public int getMeleeDamageBoost() {
-        return meleeDamageBoost;
-    }
-
-    public void setMeleeDamageBoost(int meleeDamageBoost) {
-        this.meleeDamageBoost = meleeDamageBoost;
-    }
-
-    public int getRangedDamageBoost() {
-        return rangedDamageBoost;
-    }
-
-    public void setRangedDamageBoost(int rangedDamageBoost) {
-        this.rangedDamageBoost = rangedDamageBoost;
-    }
-
-    public int getRudimentCooldown() {
-        return rudimentCooldown;
-    }
-
-    public void setRudimentCooldown(int rudimentCooldown) {
-        this.rudimentCooldown = rudimentCooldown;
-    }
-
-    public int getWeaponSpeed() {
-        return weaponSpeed;
-    }
-
-    public void setWeaponSpeed(int weaponSpeed) {
-        this.weaponSpeed = weaponSpeed;
-    }
-
-    public int getCritChance() {
-        return critChance;
-    }
-
-    public void setCritChance(int critChance) {
-        this.critChance = critChance;
-    }
-
-    public int getHealAmount() {
-        return healAmount;
-    }
-
-    public void setHealAmount(int healAmount) {
-        this.healAmount = healAmount;
-    }
-
-    public int getExecutionThreshold() {
-        return executionThreshold;
-    }
-
-    public void setExecutionThreshold(int executionThreshold) {
-        this.executionThreshold = executionThreshold;
-    }
-
-    public int getDamageBoost() {
-        return damageBoost;
-    }
-
-    public void setDamageBoost(int damageBoost) {
-        this.damageBoost = damageBoost;
-    }
-
-    public Array<Integer> getPlayerSkills() {return playerSkills;}
-
-    public void setPlayerSkills(Array<Integer> playerSkills) {this.playerSkills = playerSkills;}
-
-    public Array<Integer> getAvailableSkills() {return availableSkills;}
-
-    public void setAvailableSkills(Array<Integer> availableSkills) {this.availableSkills = availableSkills;}
-
-    public int getDashSpeed() {
-        return dashSpeed;
-    }
-
-    public void setDashSpeed(int dashSpeed) {
-        this.dashSpeed = dashSpeed;
-    }
-
-    public int getDashDist() {
-        return dashDist;
-    }
-
-    public void setDashDist(int dashDist) {
-        this.dashDist = dashDist;
-    }
-
-    public boolean isExecutable() {
-        return executable;
-    }
-
-    public void setExecutable(boolean executable) {
-        this.executable = executable;
-    }
-
-    public boolean isLowHP() {
-        return lowHP;
-    }
-
-    public void setLowHP(boolean lowHP) {
-        this.lowHP = lowHP;
-    }
-
-    protected void setCurrentPosition(int x, int y){
-        currentEntityPosition.x = x;
-        currentEntityPosition.y = y;
-//        SplashScreen splashScreen = SplashScreen.getSplashScreen();
-    }
 
     protected void initBorderBoundingBox(Vector2 size){
         topBoundingBox.setSize(size.x, 1);
@@ -395,6 +231,14 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     protected void initVisibilityZoneBox(Vector2 size) {
         visibilityZoneBox.setWidth(size.x);
         visibilityZoneBox.setHeight(size.y);
+    }
+
+    protected void initBoundingBoxForObject(float width, float height){
+        boundingBox.set(currentEntityPosition.x, currentEntityPosition.y, width, height / 2);
+    }
+
+    protected void initSwordRangeBox(Vector2 size) {
+        swordPolygon.setVertices(new float[] {0, 0, size.x, 0, size.x, size.y, 0, size.y});
     }
 
     protected void updateBorderBoundingBox() {
@@ -442,10 +286,6 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         visibilityZoneBox.setCenter(boundingBox.x + middleBoundingBoxWidth, boundingBox.y + middleBoundingBoxHeight);
     }
 
-    protected void initBoundingBoxForObject(float width, float height){
-        boundingBox.set(currentEntityPosition.x, currentEntityPosition.y, width, height / 2);
-    }
-
     protected void updateBoundingBoxForObject() {
         float entityX =  currentEntityPosition.x;
         float entityY =  currentEntityPosition.y;
@@ -462,25 +302,14 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         boundingBox.setPosition(entityX + middleImageWidth - middleBoundingBoxWidth, entityY);
     }
 
-    protected void setSwordRangeBox(Vector2 position, float width, float height) {
-        swordRangeBox.set(position.x, position.y, width,height);
-    }
 
-    protected void updateSwordRangeBox(float width, float height) {
-        switch (currentDirection) {
-            case UP:
-                swordRangeBox.set(currentEntityPosition.x+width-21, currentEntityPosition.y+height+13, 40, 30);
-                break;
-            case DOWN:
-                swordRangeBox.set(currentEntityPosition.x+width-21, currentEntityPosition.y+height-13, 40, 30);
-                break;
-            case LEFT:
-                swordRangeBox.set(currentEntityPosition.x+width-34, currentEntityPosition.y+height-16, 30, 40);
-                break;
-            case RIGHT:
-                swordRangeBox.set(currentEntityPosition.x+width+4, currentEntityPosition.y+height-16, 30, 40);
-                break;
-        }
+
+
+
+    protected void setCurrentPosition(int x, int y){
+        currentEntityPosition.x = x;
+        currentEntityPosition.y = y;
+//        SplashScreen splashScreen = SplashScreen.getSplashScreen();
     }
 
     protected void updateAnimations(float delta){
@@ -1018,8 +847,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
         }, delaySeconds);
     }
 
-
-    public void debug(boolean activeGrid, boolean activePath, boolean activeAmmoDebug,
+    public void debug(boolean activeGrid, boolean activePath, boolean activeAmmoDebug, boolean activeSwordRangeBox,
                       boolean activeTopBoundingBox, boolean activeBottomBoundingBox, boolean activeLeftBoundingBox, boolean activeRightBoundingBox,
                       boolean activeHitBox, boolean activeImageBox, boolean activeBoundingBox,
                       boolean activeActiveZoneBox, boolean activeAttackZoneBox, boolean activeVisibilityZoneBox) {
@@ -1064,6 +892,11 @@ public abstract class Component extends ComponentSubject implements Message, Inp
                 shapeRenderer.setColor(Color.RED);
                 shapeRenderer.polygon(ammoBoundingBox.getTransformedVertices());
             }
+        }
+        if (activeSwordRangeBox) {
+            Polygon ammoBoundingBox = swordPolygon;
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.polygon(ammoBoundingBox.getTransformedVertices());
         }
         if (activeTopBoundingBox) {
             Rectangle rect = topBoundingBox;
@@ -1116,6 +949,165 @@ public abstract class Component extends ComponentSubject implements Message, Inp
             shapeRenderer.rect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
         }
         shapeRenderer.end();
+    }
+
+
+
+
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public void reduceHealth(int damage) {
+        health -= damage * ((100 - this.getDamageResist()) / 100);
+        if(health <= maxHealth * 20 / 100){
+            this.setLowHP(true);
+        }
+    }
+
+    public void restoreHealth(int heal) {
+        health += heal;
+    }
+
+    public int getDamageResist() {
+        return damageResist;
+    }
+
+    public void setDamageResist(int damageResist) {
+        this.damageResist = damageResist;
+    }
+
+    public EntityFactory.EntityName getExoskeletonName() {
+        return exoskeletonName;
+    }
+
+    public void setExoskeletonName(EntityFactory.EntityName exoskeletonName) {
+        this.exoskeletonName = exoskeletonName;
+    }
+
+    public void setDashCharge(int dashCharge){this.dashCharge=dashCharge;}
+
+    public int getDashCharge(){return this.dashCharge;}
+
+    public void setMaxDashCharges(int maxDashCharges){this.maxDashCharges=maxDashCharges;}
+
+    public int getMaxDashCharges(){return this.maxDashCharges;}
+
+    public void setRudimentCharge(float rudimentCharge){this.rudimentCharge=rudimentCharge;}
+
+    public float getRudimentCharge(){return this.rudimentCharge;}
+
+    public int getMaxHealth() {return maxHealth;}
+
+    public void setMaxHealth(int maxHealth) {this.maxHealth = maxHealth;}
+
+    public int getMeleeDamageBoost() {
+        return meleeDamageBoost;
+    }
+
+    public void setMeleeDamageBoost(int meleeDamageBoost) {
+        this.meleeDamageBoost = meleeDamageBoost;
+    }
+
+    public int getRangedDamageBoost() {
+        return rangedDamageBoost;
+    }
+
+    public void setRangedDamageBoost(int rangedDamageBoost) {
+        this.rangedDamageBoost = rangedDamageBoost;
+    }
+
+    public int getRudimentCooldown() {
+        return rudimentCooldown;
+    }
+
+    public void setRudimentCooldown(int rudimentCooldown) {
+        this.rudimentCooldown = rudimentCooldown;
+    }
+
+    public int getWeaponSpeed() {
+        return weaponSpeed;
+    }
+
+    public void setWeaponSpeed(int weaponSpeed) {
+        this.weaponSpeed = weaponSpeed;
+    }
+
+    public int getCritChance() {
+        return critChance;
+    }
+
+    public void setCritChance(int critChance) {
+        this.critChance = critChance;
+    }
+
+    public int getHealAmount() {
+        return healAmount;
+    }
+
+    public void setHealAmount(int healAmount) {
+        this.healAmount = healAmount;
+    }
+
+    public int getExecutionThreshold() {
+        return executionThreshold;
+    }
+
+    public void setExecutionThreshold(int executionThreshold) {
+        this.executionThreshold = executionThreshold;
+    }
+
+    public int getDamageBoost() {
+        return damageBoost;
+    }
+
+    public void setDamageBoost(int damageBoost) {
+        this.damageBoost = damageBoost;
+    }
+
+    public Array<Integer> getPlayerSkills() {return playerSkills;}
+
+    public void setPlayerSkills(Array<Integer> playerSkills) {this.playerSkills = playerSkills;}
+
+    public Array<Integer> getAvailableSkills() {return availableSkills;}
+
+    public void setAvailableSkills(Array<Integer> availableSkills) {this.availableSkills = availableSkills;}
+
+    public int getDashSpeed() {
+        return dashSpeed;
+    }
+
+    public void setDashSpeed(int dashSpeed) {
+        this.dashSpeed = dashSpeed;
+    }
+
+    public int getDashDist() {
+        return dashDist;
+    }
+
+    public void setDashDist(int dashDist) {
+        this.dashDist = dashDist;
+    }
+
+    public boolean isExecutable() {
+        return executable;
+    }
+
+    public void setExecutable(boolean executable) {
+        this.executable = executable;
+    }
+
+    public boolean isLowHP() {
+        return lowHP;
+    }
+
+    public void setLowHP(boolean lowHP) {
+        this.lowHP = lowHP;
     }
 
     public abstract void update(Entity entity, MapManager mapManager, Batch batch, float delta);

@@ -2,12 +2,10 @@ package com.mygdx.game.component;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -81,7 +79,7 @@ public class NPC extends Component {
                     Entity.AnimationType animationType = animationConfig.getAnimationType();
                     Animation.PlayMode playMode = animationConfig.getPlayMode();
 
-                    Animation<Sprite> animation = null;
+                    Animation<Sprite> animation;
                     animation = loadAnimation(frameDuration, atlasType, animationType, playMode);
                     animations.put(animationType, animation);
                 }
@@ -91,37 +89,36 @@ public class NPC extends Component {
 
     @Override
     public void update(Entity entity, MapManager mapManager, Batch batch, float delta) {
+        this.mapManager = mapManager;
         this.camera = mapManager.getCamera();
 
         updateImageBox();
         updateBoundingBox();
         updateActiveZoneBox();
 
-
-        Entity player = mapManager.getPlayer();
-        Rectangle playerBoundingBox = player.getBoundingBox();
-
-//        currentEntityPosition.x += Math.random();
-
-        if (playerBoundingBox.overlaps(activeZoneBox)) {
-            mapManager.setCurrentMapEntity(entity); // Задать текущего персонажа на карте
-            playerInActiveZone = true;
-            if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-                notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.LOAD_CONVERSATION);
-//                playerInActiveZone2 = false;
-            }
-        } else {
-//            notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.HIDE_CONVERSATION);
-            playerInActiveZone = false;
-            playerInActiveZone2 = true;
-        }
-
         switch (state) {
             case NORMAL:
+                Entity player = mapManager.getPlayer();
+                Rectangle playerBoundingBox = player.getBoundingBox();
+//                currentEntityPosition.x += Math.random();
+
+                if (activeZoneBox.overlaps(playerBoundingBox)) {
+                    mapManager.setCurrentMapEntity(entity); // Задать текущего персонажа на карте
+                    playerInActiveZone = true;
+                    if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+                        notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.LOAD_CONVERSATION);
+//                        playerInActiveZone2 = false;
+                    }
+                } else {
+//                    notify(json.toJson(entity.getEntityConfig()), ComponentObserver.ComponentEvent.HIDE_CONVERSATION);
+                    playerInActiveZone = false;
+                    playerInActiveZone2 = true;
+                }
                 break;
             case FREEZE:
                 break;
             case DEATH:
+                currentState = Entity.State.IDLE;
                 break;
         }
 
@@ -132,7 +129,7 @@ public class NPC extends Component {
     @Override
     public void draw(Batch batch, float delta) {
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) debugActive = !debugActive;
-        if (debugActive) debug(false,false,false,
+        if (debugActive) debug(false,false,false, false,
                 false,false,false, false,
                 false,false,true,true,false, false);
 
@@ -162,19 +159,10 @@ public class NPC extends Component {
         }
     }
 
-    @Override
-    protected boolean isCollisionWithMapEntities(Entity entity, MapManager mapMgr){
-        //Test against player
-        if( isCollision(entity, mapMgr.getPlayer()) ) {
-            return true;
-        }
 
-        if( super.isCollisionWithMapEntities(entity, mapMgr) ){
-            return true;
-        }
 
-        return false;
-    }
+
+
 
     @Override
     public boolean keyDown(int keycode) {

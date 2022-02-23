@@ -2,11 +2,9 @@ package com.mygdx.game.component;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
@@ -29,7 +27,6 @@ public class Enemy extends Component {
         state = State.NORMAL;
         this.setExecutable(true);
         this.setLowHP(false);
-
     }
 
     @Override
@@ -116,17 +113,15 @@ public class Enemy extends Component {
         updateAttackZoneBox();
         updateVisibilityZoneBox();
         updateShifts(mapManager, delta, 10);
-        setSwordRangeBox(new Vector2(10000,10000),0,0);
 
         switch (state) {
             case NORMAL:
                 Entity player = mapManager.getPlayer();
                 Rectangle playerBoundingBox = player.getBoundingBox();
 
-
                 if (activeZoneBox.overlaps(playerBoundingBox)) {
                     if (isLowHP()) {
-                        System.out.println(entity.getEntityConfig().getEntityID() + " LOW HP");
+//                        System.out.println(entity.getEntityConfig().getEntityID() + " LOW HP");
                     }
                 } else if (attackZoneBox.overlaps(playerBoundingBox)) {
                     currentState = Entity.State.RANGED_ATTACK;
@@ -144,14 +139,14 @@ public class Enemy extends Component {
                 }
 
                 updateAmmoHit(player);
+                updateSwordHit(player);
                 updateHealth(entity, player);
                 weaponSystem.updateForEnemy(delta,this, player);
                 break;
+            case FREEZE:
+                break;
             case DEATH:
                 currentState = Entity.State.IDLE;
-//                currentState = Entity.State.DEATH;
-                break;
-            case FREEZE:
                 break;
         }
 
@@ -214,10 +209,24 @@ public class Enemy extends Component {
             Polygon enemyHitBox = new Polygon(new float[] { 0, 0, hitBox.width, 0, hitBox.width, hitBox.height, 0, hitBox.height });
             enemyHitBox.setPosition(hitBox.x, hitBox.y);
             if (Intersector.overlapConvexPolygons(enemyHitBox, playerAmmoBoundingBox)) {
-//                      gotHit();
-                reduceHealth(weapon.getRandomDamage() + player.getRangedDamageBoost() + player.getDamageBoost());
+                gotHit();
                 ammo.setRemove(true);
+                reduceHealth(weapon.getRandomDamage() + player.getRangedDamageBoost() + player.getDamageBoost());
             }
+        }
+    }
+
+    private void updateSwordHit(Entity player) {
+        Weapon weapon = player.getMeleeWeapon();
+
+        Polygon playerSwordBoundingBox = player.getSwordPolygon();
+        Polygon enemyHitBox = new Polygon(new float[] { 0, 0, hitBox.width, 0, hitBox.width, hitBox.height, 0, hitBox.height });
+        enemyHitBox.setPosition(hitBox.x, hitBox.y);
+        if (Intersector.overlapConvexPolygons(enemyHitBox, playerSwordBoundingBox)) {
+            gotHit();
+            reduceHealth(weapon.getRandomDamage() + player.getDamageBoost());
+            System.out.println("HIT");
+            System.out.println(getHealth());
         }
     }
 
@@ -230,13 +239,10 @@ public class Enemy extends Component {
         }
     }
 
-
-
-
     @Override
     public void draw(Batch batch, float delta) {
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_4)) debugActive = !debugActive;
-        if (debugActive) debug(false,false,false,
+        if (debugActive) debug(false,false,false, false,
                 false,false,false, false,
                 true,false,true,true,true, true);
 

@@ -327,7 +327,7 @@
 //        entityRangeBox.setCenter(currentEntityPosition.x+width, currentEntityPosition.y+height+10);
 //    }
 //
-//    protected void setSwordRangeBox(Vector2 position, float width, float height) {
+//    protected void initSwordRangeBox(Vector2 position, float width, float height) {
 //        swordRangeBox.set(position.x, position.y, width,height);
 //    }
 //

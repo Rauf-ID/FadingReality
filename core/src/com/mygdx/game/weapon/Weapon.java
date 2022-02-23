@@ -127,8 +127,8 @@ public class Weapon {
     }
 
     public int tryToCrit(int damage){
-        if(this.getCritChance()/100.0 > 0.0 && Math.random() <= this.getCritChance()/100.0){
-            damage*=2;
+        if(this.getCritChance() / 100.0 > 0.0 && Math.random() <= this.getCritChance() / 100.0){
+            damage *= 2;
         }
         return damage;
     }

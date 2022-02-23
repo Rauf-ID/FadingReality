@@ -135,7 +135,6 @@ public class Ammo {
 
     }
 
-
     public Polygon getPolygon() {
         return polygon;
     }
