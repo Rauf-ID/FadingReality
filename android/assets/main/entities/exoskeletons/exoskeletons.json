@@ -5,6 +5,7 @@
 "conversationConfigPath" : "",
 "questConfigPath": "",
 "currentQuestID": "",
+"damageResist": 10,
 "itemTypeID": "NONE",
 "hitBox": { "x": 0, "y": 0 },
 "imageBox": { "x": 128, "y": 128 },

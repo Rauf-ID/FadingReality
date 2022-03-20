@@ -24,6 +24,8 @@ import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.item.Item;
 import com.mygdx.game.item.Item.ItemID;
 import com.mygdx.game.observer.ComponentObserver;
+import com.mygdx.game.profile.PlayerConfig;
+import com.mygdx.game.profile.ProfileManager;
 import com.mygdx.game.rudiment.Rudiment;
 import com.mygdx.game.rudiment.RudimentFactory;
 import com.mygdx.game.rudiment.UniqueRudiment;
@@ -80,6 +82,7 @@ public class Player extends Component implements InputProcessor {
             } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_DIRECTION.toString())) {
                 currentDirection = json.fromJson(Entity.Direction.class, string[1]);
             } else if(string[0].equalsIgnoreCase(MESSAGE.SET_EXOSKELETON.toString())){
+                unEquipExoskeleton(Entity.getEntityConfig(ResourceManager.PLAYER_CONFIG));
                 setExoskeletonName(json.fromJson(EntityFactory.EntityName.class, string[1]));
                 Entity exoskeleton = EntityFactory.getInstance().getExoskeletonByName(getExoskeletonName());
                 EntityConfig exoskeletonEntityConfig = exoskeleton.getEntityConfig();
@@ -106,7 +109,6 @@ public class Player extends Component implements InputProcessor {
                 initBoundingBox(entityConfig.getBoundingBox());
                 initBorderBoundingBox(entityConfig.getBoundingBox());
                 initSwordRangeBox(new Vector2(50, 10));
-//                setDamageResist(entityConfig.getDamageResist());
                 unEquipExoskeleton(entityConfig);
             } else if(string[0].equalsIgnoreCase(MESSAGE.INIT_ALL_AMMO_COUNT.toString())) {
                 java.util.Map<String, Integer> allAmmoCount = json.fromJson(HashMap.class, string[1]);
@@ -322,7 +324,7 @@ public class Player extends Component implements InputProcessor {
             if(timer >= 2){
                 entity.sendMessage(MESSAGE.INIT_CONFIG, json.toJson(entity.getEntityConfig()));
                 entity.sendMessage(MESSAGE.INIT_ANIMATIONS, json.toJson(entity.getEntityConfig()));
-                exoskeletonName = EntityFactory.EntityName.NONE;
+                unEquipExoskeleton(Entity.getEntityConfig(ResourceManager.PLAYER_CONFIG));
                 timer = 0;
             }
         }
@@ -492,6 +494,7 @@ public class Player extends Component implements InputProcessor {
 
     private void updateDash() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && this.dashCharge >= 1) {
+            System.out.println(getDashSpeed());
             dashCharge-=1;
             dashing = true;
             stateTime = 0f;
@@ -751,13 +754,18 @@ public class Player extends Component implements InputProcessor {
         walkVelocityD.set(exoskeletonConfig.getWalkVelocityD());
         runVelocity.set(exoskeletonConfig.getRunVelocity());
         runVelocityD.set(exoskeletonConfig.getRunVelocityD());
+        setDashSpeedMult(exoskeletonConfig.getDashSpeedMult());
+        setDamageResist(getDamageResist() + exoskeletonConfig.getDamageResist());
     }
 
     private void unEquipExoskeleton(EntityConfig playerConfig) {
+        setExoskeletonName(EntityFactory.EntityName.NONE);
         walkVelocity.set(playerConfig.getWalkVelocity());
         walkVelocityD.set(playerConfig.getWalkVelocityD());
         runVelocity.set(playerConfig.getRunVelocity());
         runVelocityD.set(playerConfig.getRunVelocityD());
+        setDashSpeedMult(1);
+        setDamageResist(playerConfig.getDamageResist());
     }
 
     @Override

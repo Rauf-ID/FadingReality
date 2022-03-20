@@ -259,7 +259,6 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                     player.setExperience(profileManager.getPlayerConfig().getExperience());
                     player.setDashDist(profileManager.getPlayerConfig().getDashDist());
                     player.setDashSpeed(profileManager.getPlayerConfig().getDashSpeed());
-
                     questUI.setQuests(profileManager.getPlayerConfig().getQuests());
                     progressBar.setValue(profileManager.getPlayerConfig().getDashCharges());
                     browserUI.setShopItems(profileManager.getPlayerConfig().getShopItems());
@@ -304,7 +303,7 @@ public class PlayerHUD extends Stage implements ProfileObserver, ComponentObserv
                 profileManager.getPlayerConfig().setMeleeDamageBoost(player.getMeleeDamageBoost());
                 profileManager.getPlayerConfig().setRangedDamageBoost(player.getRangedDamageBoost());
                 profileManager.getPlayerConfig().setExecutionThreshold(player.getExecutionThreshold());
-
+                profileManager.getPlayerConfig().setExoskeletonName(player.getExoskeletonName());
                 profileManager.getPlayerConfig().setCoins(pdaUI.getCoins());
                 profileManager.getPlayerConfig().setShopItems(browserUI.getShopItems());
                 break;

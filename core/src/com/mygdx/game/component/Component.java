@@ -113,6 +113,7 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     private int rangedDamageBoost;
     private int executionThreshold;
     private boolean executable, lowHP;
+    private float dashSpeedMult;
     private Array<Integer> playerSkills, availableSkills;
     public EntityFactory.EntityName exoskeletonName = EntityFactory.EntityName.NONE;
 
@@ -564,8 +565,8 @@ public abstract class Component extends ComponentSubject implements Message, Inp
 
     protected void updateShifts(MapManager mapManager, float delta, float repulsionDistance) {
         if(activeDash){
-            float dx = (delta * vector.x) * (500+dashSpeed);
-            float dy = (delta * vector.y) * (500+dashSpeed);
+            float dx = (delta * vector.x) * (500+(dashSpeed*getDashSpeedMult()));
+            float dy = (delta * vector.y) * (500+dashSpeed*getDashSpeedMult());
             float dx2 = currentEntityPosition.x + dx;
             float dy2 = currentEntityPosition.y + dy;
 
@@ -1109,6 +1110,10 @@ public abstract class Component extends ComponentSubject implements Message, Inp
     public void setLowHP(boolean lowHP) {
         this.lowHP = lowHP;
     }
+
+    public float getDashSpeedMult() {return dashSpeedMult;}
+
+    public void setDashSpeedMult(float dashSpeedMult) {this.dashSpeedMult = dashSpeedMult;}
 
     public abstract void update(Entity entity, MapManager mapManager, Batch batch, float delta);
 

@@ -39,6 +39,7 @@ public class EntityConfig {
     private int health;
     private int maxHealth;
     private int damageResist;
+    private float dashSpeedMult;
 
     EntityConfig() {
         inventory = new Array<>();
@@ -99,6 +100,7 @@ public class EntityConfig {
         maxHealth = config.getMaxHealth();
 
         damageResist = config.getDamageResist();
+        dashSpeedMult = config.getDashSpeedMult();
     }
 
 
@@ -310,6 +312,10 @@ public class EntityConfig {
     public void setDamageResist(int damageResist){
         this.damageResist = damageResist;
     }
+
+    public float getDashSpeedMult(){return dashSpeedMult;}
+
+    public void setDashSpeedMult(float dashSpeedMult){ this.dashSpeedMult = dashSpeedMult;}
 
     static public class AnimationConfig {
 

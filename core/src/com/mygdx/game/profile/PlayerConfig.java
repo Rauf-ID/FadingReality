@@ -3,6 +3,7 @@ package com.mygdx.game.profile;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.entity.Entity;
+import com.mygdx.game.entity.EntityConfig;
 import com.mygdx.game.entity.EntityFactory;
 import com.mygdx.game.item.Item;
 import com.mygdx.game.quest.QuestGraph;
